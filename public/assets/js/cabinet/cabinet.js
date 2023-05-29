@@ -1,0 +1,173 @@
+console.warn = () => { };
+$(window).on("load", function () {
+  $(".preloader").fadeOut();
+  if (localStorage.getItem('action') == null) {
+    localStorage.setItem('action', 'noname');
+    $(".popupWrapper").fadeIn();
+    $(`.popupItem[data-class="action"]`).fadeIn();
+  }
+  if ($('.pageItem[data-storage="tab"]').length > 0) {
+    if (localStorage.getItem('tab') !== null) {
+      $('.pageItem[data-storage="tab"]').removeClass('_tabOpen');
+      $('.pageItem[data-storage="tab"]').children('.tabPageItem').addClass('_hidden');
+    }
+  }
+});
+
+$(document).ready(function () {
+  // Бургер
+  $('.burgerButton').click(function (e) { 
+    e.preventDefault();
+    $(this).toggleClass('_active');
+    $('.sidebar').toggleClass('_active');
+  });
+  $(document).mouseup(function (e) {
+    let select = $(".sidebar, .header");
+    if (!select.is(e.target) &&
+      select.has(e.target).length === 0) {
+        $('.burgerButton').removeClass('_active');
+        $('.sidebar').removeClass('_active');
+    }
+  });
+  $(document).mouseup(function (e) {
+    let select = $(".userHeader");
+    if (!select.is(e.target) &&
+      select.has(e.target).length === 0) {
+        $('.userMenu').removeClass('_active');
+    }
+  });
+  // Табы блоки
+  $('.titleIcon').click(function (e) { 
+    e.preventDefault();
+    if ($(this).parent().parent().hasClass('_tabOpen')) {
+      localStorage.setItem('tab', '1');
+    }else{
+      localStorage.removeItem('tab');
+    }
+    $(this).parent().parent().toggleClass('_tabOpen');
+    $(this).parent().parent().children('.tabPageItem').slideToggle();
+  });
+  // Меню юзера в шапке
+  $(".userName, .userHeaderIcon").click(function (e) {
+    e.preventDefault();
+    $(".userMenu").toggleClass("_active");
+  });
+  // Открытие сабменю сайдбара
+  $(".sidebarOpener").click(function (e) {
+    e.preventDefault();
+    $(this).parent().toggleClass("_active");
+    $(this).next(".sidebarSubWrapper").slideToggle();
+  });
+  // Кабинет табы
+  $(".pageTab").click(function (e) {
+    e.preventDefault();
+    let tab = $(this).attr("data-tab");
+    $(".pageTab").removeClass("_active");
+    $(this).addClass("_active");
+    $(".tabItem").removeClass("_active");
+    $(`.tabItem[data-tab=${tab}]`).addClass("_active");
+  });
+  // Попап инструкция
+  $('.instructorLink').click(function (e) {
+    e.preventDefault();
+    let name = $(this).attr("data-name");
+    let popup = $(this).attr("data-popup");
+    $(".popupWrapper").fadeIn();
+    $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
+    $(`.popupItem[data-popup=${popup}]`).fadeIn();
+  });
+  // Закрытие попапов
+  $(".popupBg, .popupClose").click(function (e) {
+    e.preventDefault();
+    $(".popupWrapper").fadeOut();
+    $(".popupItem").fadeOut();
+    if ($('.popupItem[data-class="guid"]').length > 0) {
+      $.each($(".videoGuid"), function (indexInArray, valueOfElement) {
+        valueOfElement.pause();
+        let play = $(valueOfElement)
+          .next()
+          .children(".togglePlay")
+          .children(".play");
+        let stop = $(valueOfElement)
+          .next()
+          .children(".togglePlay")
+          .children(".stop");
+        stop.hide();
+        play.show();
+      });
+    }
+  });
+  // Открытие гайдов в попап
+  $(".guidLink").click(function (e) {
+    e.preventDefault();
+    let name = $(this).attr("data-name");
+    let popup = $(this).attr("data-popup");
+    $(".popupWrapper").fadeIn();
+    $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
+    $(`.popupItem[data-popup=${popup}]`).fadeIn();
+  });
+  // Копирование ссылки
+  $("a.partnerItemBtn").click(function (e) {
+    e.preventDefault();
+    let btn = $(this);
+    btn.addClass("_copied");
+    let text = $(this).prev().text();
+    let input = $("<input>");
+    $("body").append(input);
+    input.val(text).select();
+    document.execCommand("copy");
+    input.remove();
+    let message;
+    if ($(this).parent().hasClass('_promocode')) {
+      message = "<p class='fixedMessage'>Промокод скопирован!</p>";
+    } else {
+      message = "<p class='fixedMessage'>Ссылка успешно скопирована!</p>";
+    }
+    $("body").append(message);
+    $(".fixedMessage").fadeIn();
+    setTimeout(function () {
+      $(".fixedMessage").fadeOut();
+      btn.removeClass("_copied");
+    }, 3000);
+    setTimeout(function () {
+      $(".fixedMessage").remove();
+    }, 4000);
+  });
+  // Кастомный селект
+  $('.selectHeader').click(function (e) {
+    e.preventDefault();
+    $(this).children('.selectArrow').toggleClass('_active');
+    $(this).next().slideToggle();
+  });
+  $('.selectItem').click(function (e) {
+    e.preventDefault();
+    $('.selectItem').removeClass('_active');
+    $(this).addClass('_active');
+    let name = $(this).children('._name').text();
+    let id = $(this).attr('data-id');
+    $(this).parent().prev().children('p').html(name);
+    $(this).parent().prev().prev().val(id);
+    $(this).parent().prev().children('.selectArrow').removeClass('_active');
+    if ($(this).attr('data-type') !== 'undefined') {
+      if ($(this).attr('data-type') == 'group') {
+        if ($('.tabPageGroup').length > 0) {
+          $('.tabPageGroup').css({"display":"flex"});
+        }
+      }else{
+        if ($('.tabPageGroup').length > 0) {
+          $('.tabPageGroup').css({"display":"none"});
+        }
+      }
+      $('input[name="accType"]').val($(this).attr('data-type'));
+    }
+    $(this).parent().slideUp();
+  });
+  $(document).mouseup(function (e) {
+    let select = $(".formSelect");
+    if (!select.is(e.target) &&
+      select.has(e.target).length === 0) {
+      $('.selectFlow').slideUp();
+      $('.selectArrow').removeClass('_active');
+    }
+  });
+});

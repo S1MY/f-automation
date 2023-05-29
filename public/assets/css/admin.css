@@ -1,0 +1,172 @@
+.adminFlex{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.adminItem{
+    background: #101010;
+    border-radius: 6px;
+    padding: 16px;
+    width: calc(50% - 10px);
+    margin-top: 20px;
+}
+.adminItem:nth-child(1), .adminItem:nth-child(2){
+    margin-top: 0 !important;
+}
+.adminStat{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    line-height: 20px;
+    padding-bottom: 12px;
+}
+.adminStat:nth-last-child(1){
+    padding-bottom: 0;
+}
+.adminStat span{
+    color: #FF5437;    
+}
+.financeColumn{
+    width: calc(50% - 10px);
+}
+.adminFinance{
+    background: #101010;
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 20px;
+}
+.adminFinance span{
+    padding: 6px 12px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #FF5437;
+}
+.adminFinance._last{
+    background: #FF5437;
+}
+._type0 ._sum,
+._type1 ._sum{
+    padding: 4px 8px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    color: #FF5437;
+    font-weight: 600;
+}
+._type1 ._sum{
+    color: #2980B9;
+}
+._type1 a{
+    color: #2980B9;
+}
+.offerItem{
+    width: calc(50% - 10px);
+    margin-right: 0;
+}
+.offerItem .formInput{
+    background: #202020;
+    width: 100%;
+    margin-top: 12px;
+}
+.offerBtns{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.offerBtns .offerBtn{
+    width: calc(50% - 6px);
+}
+.offerBtn._no{
+    background: #FF5437;
+}
+.accountName{
+    font-size: 18px;
+}
+.accountAvatar{
+    width: 48px;
+    height: 48px;
+}
+.subCheckPrice{
+    font-size: 16px !important;
+}
+.financeColumn .adminFinance:nth-child(1){
+    margin-top: 0 !important;
+}
+.offerItem:nth-child(1), .offerItem:nth-child(2){
+    margin-top: 0;
+}
+.promoForm{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.promoForm .tabPageInput:nth-child(1), .promoForm .tabPageInput:nth-child(2){
+    margin-top: 0;
+}
+/* Адаптив */
+@media (max-width: 900px) {
+    .adminItem{
+        width: 100%;
+    }
+    .adminItem:nth-child(2){
+        margin-top: 20px !important;
+    }
+    .financeColumn{
+        width: 100%;
+    }
+    .offerItem{
+        width: 100%;
+    }
+    .offerItem:nth-child(2){
+        margin-top: 20px;
+    }
+    .financeColumn:not(:nth-child(1)) .adminFinance:nth-child(1){
+        margin-top: 20px !important;
+    }
+}
+@media (max-width: 640px) {
+    .promoForm .tabPageInput:nth-child(2){
+        margin-top: 20px;
+    }
+}
+@media (max-width: 480px) {
+    .financeColumn:not(:nth-child(1)) .adminFinance:nth-child(1){
+        margin-top: 16px !important;
+    }
+    .promoForm .tabPageInput:nth-child(2){
+        margin-top: 16px;
+    }
+    .adminItem{
+        margin-top: 16px;
+    }
+    .adminItem:nth-child(2){
+        margin-top: 16px !important;
+    }
+    .adminFinance{
+        margin-top: 16px;
+        font-size: 14px;
+    }
+    .adminStat{
+        font-size: 14px;
+    }
+    .offerItem{
+        margin-top: 16px !important;
+    }
+    .offerItem:nth-child(1){
+        margin-top: 0 !important;
+    }
+}
+@media (max-width: 414px) {
+    .offerBtns .offerBtn{
+        width: 100%;
+    }
+}

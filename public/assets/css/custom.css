@@ -1,0 +1,16 @@
+input[type=radio]{
+    display: none;
+}
+.offerBtns label{
+    width: 50%;
+}
+.offerBtns label .offerBtn{
+    width: calc(100% - 6px);
+    cursor: pointer;
+}
+.offerResult{
+    text-align: center;
+}
+.offerYes.offerProggres{
+    background: #6a6a6a;
+}
