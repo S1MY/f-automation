@@ -49,7 +49,7 @@
         <h3 class="popupTitle"></h3>
         <div class="videoWrapper">
             <video controls class="videoGuid" data-index="0" preload="metadata" poster="/files/guids/posters/streamcreate.png">
-              <source src="/files/guids/vkauth.mp4" type="video/mp4"></source>
+              <source src="/files/guids/vkauth.mp4" type="video/mp4" />
             </video>
             <div class="videoContoller">
               <p class="togglePlay">
@@ -187,7 +187,7 @@
         <h3 class="popupTitle"></h3>
         <div class="videoWrapper">
             <video controls class="videoGuid" data-index="0" preload="metadata" poster="/files/guids/posters/tgauth.png">
-              <source src="/files/guids/vkauth.mp4" type="video/mp4"></source>
+              <source src="/files/guids/vkauth.mp4" type="video/mp4" />
             </video>
             <div class="videoContoller">
               <p class="togglePlay">
@@ -264,8 +264,7 @@
         <div class="videoWrapper">
             <video controls class="videoGuid" data-index="0" preload="metadata"
                 poster="/files/guids/posters/subscribeconstruct.png">
-                <source src="/files/guids/vkauth.mp4" type="video/mp4">
-                </source>
+                <source src="/files/guids/vkauth.mp4" type="video/mp4" />
             </video>
             <div class="videoContoller">
                 <p class="togglePlay">
