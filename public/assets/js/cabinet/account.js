@@ -10,7 +10,8 @@ $(document).ready(function () {
     e.preventDefault();
     const accountId = $(this).attr('data-accountId');
     const ajaxUrl = $(this).attr('data-action');
-    let formData = `accountId=${accountId}`;
+    let formData = {};
+    formData.accountId = accountId;
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -31,6 +32,7 @@ $(document).ready(function () {
         }, 5000);
       },
       error: function (response) {
+        console.log(response)
         const error = $('.popupWrapper .popupItem[data-popup="error"]');
         error.show()
         error.children('.popupTitle').html(response.title);
