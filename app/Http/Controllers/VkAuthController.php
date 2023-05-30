@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\VkAccount;
 
 use App\Models\Stream;
