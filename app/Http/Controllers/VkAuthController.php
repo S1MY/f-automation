@@ -131,7 +131,10 @@ class VkAuthController extends Controller
         $userId = Auth::user()->id;
         $accountId = $request->accountId;
         if (is_numeric($accountId)) {
-            $searchAccount = VkAccount::where(['id', '=', $accountId], ['uid', '=', $userId])->first();
+            $searchAccount = VkAccount::where([
+                ['id', '=', $accountId],
+                ['uid', '=', $userId]
+            ])->first();
             if($searchAccount){
                 $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
                 foreach ($searchStreams as $stream) {
