@@ -35,7 +35,7 @@ class VkAuthController extends Controller
             $tokenGet = $client->request('GET', '/access_token', [
                 'query' => $tokenParams
             ]);
-        } catch () {
+        } catch (RequestException $e) {
             $error = true;
         }
         if ($error || !$tokenGet->getBody()) {
@@ -66,7 +66,7 @@ class VkAuthController extends Controller
             $usersGet = $client->request('GET', '/users.get', [
                 'query' => $usersParams
             ]);
-        } catch () {
+        } catch (RequestException $e) {
             $error = true;
         }
         if ($error || !$usersGet->getBody()) {
