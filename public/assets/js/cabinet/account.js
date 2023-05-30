@@ -42,6 +42,7 @@ $(document).ready(function () {
   });
   $('.popupItem').submit(function (e) { 
     let ajaxUrl = $(this).attr('action');
+    let formData = $(this).serialize();
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
