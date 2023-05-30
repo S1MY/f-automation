@@ -185,7 +185,6 @@ return [
         /*
          * Package Service Providers...
          */
-        GuzzleHttp\GuzzleServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -210,7 +209,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'Guzzle' => GuzzleHttp\Client::class,
     ])->toArray(),
 
 ];

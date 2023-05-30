@@ -12,6 +12,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\VkAuthController;
+
 /*
  *
  * Главные страницы сайта
@@ -72,6 +74,10 @@ Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('doSu
 
 Route::post('/set-offers', [OfferController::class, 'setOffer'])->name('setOffer');
 Route::post('/get-vote', [OfferController::class, 'getVote'])->name('getVotes');
+
+// Вконтакте
+Route::post('/vk-user-auth', [VkAuthController::class, 'vkUserAuth'])->name('vkUserAuth');
+Route::post('/vk-user-remove', [VkAuthController::class, 'vkUserRemove'])->name('vkUserRemove');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

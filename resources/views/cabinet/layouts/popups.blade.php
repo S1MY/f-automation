@@ -130,10 +130,9 @@
             <a href="#" class="popupBtn popupClose">Закрыть</a>
         </div>
     </div>
-    <form class="popupItem" data-class="standard" data-popup="addAccount">
-        <h3 class="popupTitle">Привязка аккаунта или группы</h3>
+    <form class="popupItem" action="{{ route('vkUserAuth') }}" data-class="standard" data-popup="addAccount">
+        <h3 class="popupTitle">Привязка аккаунта ВК</h3>
         <input type="text" name="link" class="formInput" required placeholder="Вставьте адресс сайта, открывшейся страницы">
-        <input type="hidden" name="type" value="">
         <button class="formBtn">Привязать аккаунт</button>
     </form>
     <div class="popupItem" data-class="guid" data-popup="vkAuth">

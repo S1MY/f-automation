@@ -41,32 +41,49 @@ $(document).ready(function () {
     // $('.popupItem[data-popup="error"]').fadeIn();
   });
   $('.popupItem').submit(function (e) { 
+    let ajaxUrl = $(this).attr('action');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     e.preventDefault();
     let popupName = $(this).attr("data-popup");
     $('.popupItem').fadeOut();
     $('.popupCenter').show();
     $('.popupWrapper').removeClass('_notClose');
     if (popupName == 'addAccount') {
-        // Типо здесь идёт отправка и ответ
-        $('.popupItem').hide();
-        // Успешный
-        let title = "Всё прошло круто";
-        let message =
-          "Аккаунт - <span>Фамилия Имя</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.";
-        $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-        $('.popupItem[data-popup="success"]')
-          .children(".popupText")
-          .html(message);
-        $('.popupItem[data-popup="success"]').fadeIn();
-        setTimeout(() => {
-          location.reload();
-        }, 5000);
-        // Хуёвый
-        // let title = "Пах-пах на губах";
-        // let message = "Не удалось привязать аккаунт.<br> Скорее всего ссылка недействительна или неверно скопирована.";
-        // $('.popupItem[data-popup="error"]').children(".popupTitle").html(title);
-        // $('.popupItem[data-popup="error"]').children(".popupText").html(message);
-        // $('.popupItem[data-popup="error"]').fadeIn();
+      $('.popupItem').hide();
+        $.ajax({
+            url: ajaxUrl,
+            method: 'POST',
+            data: formData,
+            success: function(response){
+                console.log(response);
+                const success = $('.popupWrapper .popupItem[data-popup="success"]');
+                success.show()
+                success.children('.popupTitle').html(response.title);
+                success.children('.popupText').html(response.message);
+                success.fadeIn();
+                setTimeout(() => {
+                  location.reload();
+                }, 5000);
+                let title = "Всё прошло круто";
+                let message = "Аккаунт - <span>Фамилия Имя</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.";
+            },
+            error: function (response) {
+                console.log(response);
+                const error = $('.popupWrapper .popupItem[data-popup="error"]');
+                error.show()
+                error.children('.popupTitle').html(response.title);
+                error.children('.popupText').html(response.message);
+                error.fadeIn();
+                let title = "Пах-пах на губах";
+                let message = "Не удалось привязать аккаунт.<br> Скорее всего ссылка недействительна или неверно скопирована.";
+                
+            }
+        });
     }
   });
 });
