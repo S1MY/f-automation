@@ -79,7 +79,7 @@ class VkAuthController extends Controller
                 'message' => 'При отправке запроса на сервер ВК произошла ошибка'
                 ]);
         }
-        $usersContent = $response->getBody()->getContents();
+        $usersContent = $usersGet->getBody()->getContents();
         $usersJSON = json_decode($usersContent);
 
         if (isset($usersJSON->error)) {
