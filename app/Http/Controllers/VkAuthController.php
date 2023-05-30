@@ -105,7 +105,7 @@ class VkAuthController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'title' => 'Всё прошло успешно',
-                    'message' => 'Аккаунт - <span>'+ $accountName +'</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.'
+                    'message' => 'Аккаунт - <span>'. $accountName .'</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.'
                 ]);
             }else{
                 $searchAccount->uid = $userId;
