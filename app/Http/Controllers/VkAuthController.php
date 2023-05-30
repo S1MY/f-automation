@@ -122,7 +122,7 @@ class VkAuthController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'title' => 'Аккаунт перепривязан',
-                    'message' => 'Аккаунт - <span>'+ $accountName +'</span> - перепривязан.<br> Вся информация очищена.'
+                    'message' => 'Аккаунт - <span>'. $accountName .'</span> - перепривязан.<br> Вся информация очищена.'
                 ]);
             }
         }
