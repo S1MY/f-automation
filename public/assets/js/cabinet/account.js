@@ -10,21 +10,16 @@ $(document).ready(function () {
     e.preventDefault();
     const accountId = $(this).attr('data-accountId');
     const ajaxUrl = $(this).attr('data-action');
-    let formData = new FormData();
-    formData.append('accountId', accountId);
+    let formData = `accountId=${accountId}`;
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     $.ajax({
-      method: 'POST',
       url: ajaxUrl,
-      contentType: false,
-      processData: false,
-      cache: false,
+      method: 'POST',
       data: formData,
-      dataType: "json",
       success: function (response) {
         const success = $('.popupWrapper .popupItem[data-popup="success"]');
         success.show()
