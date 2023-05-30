@@ -9,7 +9,7 @@ $(document).ready(function () {
   $('.removeAccount').click(function (e) {
     e.preventDefault();
     const accountId = $(this).attr('data-accountId');
-    const ajaxUrl = $(this).attr('action');
+    const ajaxUrl = $(this).attr('data-action');
     let formData = new FormData();
     formData.append('accountId', accountId);
     $.ajaxSetup({

@@ -44,7 +44,7 @@
                                             <div class="accountAvatar" style="background: url({{ $vkAccount->avatar }}), #FFFFFF;"></div>
                                             <p class="accountName">{{ $vkAccount->name }}</p>
                                         </a>
-                                        <a href="#" class="manageBtn removeAccount" data-accountId = "{{ $vkAccount->id }}" action="{{ route('vkUserRemove') }}">Удалить</a>
+                                        <a href="#" class="manageBtn removeAccount" data-accountId = "{{ $vkAccount->id }}" data-action="{{ route('vkUserRemove') }}">Удалить</a>
                                     </div>
                                     @endforeach
                                 @endif
