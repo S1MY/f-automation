@@ -17,6 +17,7 @@ $(document).ready(function () {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+    $(".popupWrapper").fadeIn();
     $.ajax({
       url: ajaxUrl,
       method: 'POST',
