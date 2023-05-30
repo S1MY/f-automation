@@ -26,7 +26,7 @@ class VkAuthController extends Controller
             'base_uri' => 'https://oauth.vk.com',
         ]);
         $authClient = new Client([
-            'base_uri' => 'https://api.vk.com/method',
+            'base_uri' => 'https://api.vk.com',
         ]);
         $tokenParams = [
             'client_id'     => '51661029',
@@ -66,7 +66,7 @@ class VkAuthController extends Controller
             'fields'       => 'first_name, last_name, photo_200_orig'
         ];
         try {
-            $usersGet = $authClient->request('GET', '/users.get', [
+            $usersGet = $authClient->request('GET', '/method/users.get', [
                 'query' => $usersParams
             ]);
         } catch (RequestException $e) {
