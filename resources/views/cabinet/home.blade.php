@@ -6,7 +6,9 @@
 
     <div class="pageFlex">
     @if(Auth::check() && Auth::user()->VkAccount)
-    <p>Идентификатор аккаунта ВКонтакте: {{ Auth::user()->VkAccount->id }}</p>
+    @foreach (Auth::user()->VkAccount as $account)
+    <p>Идентификатор аккаунта ВКонтакте: {{ $account->id }}</p>
+    @endforeach
 @endif
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')

@@ -48,7 +48,7 @@ class User extends Authenticatable
         return $this->hasOne(UserInfo::class, 'uid', 'id');
     }
     public function VkAccount(){
-        return $this->hasOne(VkAccount::class, 'uid', 'id');
+        return $this->hasMany(VkAccount::class, 'uid', 'id');
     }
 
 }
