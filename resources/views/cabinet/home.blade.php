@@ -11,7 +11,7 @@
             @include('cabinet.layouts.sidebar')
         </div>
         <div class="pageWrapper">
-            @if (Auth::user()->VkAccount)
+            @if (count(Auth::user()->VkAccount) > 0)
                 <div class="pageItems">
                     <div class="pageItem">
                         <div class="pageTabs">
