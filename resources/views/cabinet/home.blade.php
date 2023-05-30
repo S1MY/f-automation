@@ -5,6 +5,9 @@
 @section('cabinet-content')
 
     <div class="pageFlex">
+    @if(Auth::check() && Auth::user()->VkAccount)
+    <p>Идентификатор аккаунта ВКонтакте: {{ Auth::user()->VkAccount->id }}</p>
+@endif
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')
         </div>
