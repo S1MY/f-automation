@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class VkAccount extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'uid',
+        'name',
+        'link',
+        'avatar',
+        'token',
+    ];
 }
