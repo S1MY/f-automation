@@ -21,7 +21,7 @@ class VkAuthController extends Controller
     public function vkUserAuth(Request $request)
     {
         $type = $request->type;
-        if($type !== 'add' || $type !== 'update'){
+        if($type != 'add' || $type != 'update'){
             return response()->json([
             'status' => 'error',
             'title' => 'Неизвестный тип',
@@ -115,7 +115,7 @@ class VkAuthController extends Controller
                 $searchAccount->avatar = $accountAvatar;
                 $searchAccount->token = $token;
                 $searchAccount->save();
-                if($type === 'add'){
+                if($type == 'add'){
                     $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
                     foreach ($searchStreams as $stream) {
                         StreamComments::where('stream_id', '=', $stream->id)->delete();
