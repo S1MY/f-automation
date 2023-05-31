@@ -731,6 +731,7 @@ body{
 .removeAccount, .updateAccount{
     width: 36px;
     justify-content: center;
+    padding: 0;
 }
 .removeAccount svg, .updateAccount svg{
     margin: 0;
