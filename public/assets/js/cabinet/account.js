@@ -26,9 +26,7 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         let groupsItems = ``;
-        console.log(Object.keys(response.message).length)
-        if(response.message.length > 0){
-          console.log(response.message)
+        if(Object.keys(response.message).length > 0){
           for(const item of response.message){
             console.log(item)
             groupsItems+= `<div class="groupSelect">
