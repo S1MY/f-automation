@@ -735,6 +735,8 @@ body{
 }
 .removeAccount svg, .updateAccount svg{
     margin: 0;
+    width: 20px;
+    height: 20px;
 }
 .updateAccount{
     background: #2980B9;
