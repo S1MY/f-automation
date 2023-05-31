@@ -50,5 +50,11 @@ class User extends Authenticatable
     public function VkAccount(){
         return $this->hasMany(VkAccount::class, 'uid', 'id');
     }
+    public function VkGroup(){
+        return $this->hasMany(VkGroup::class, 'uid', 'id');
+    }
+    public function VkGroupParent($accountId){
+        return $this->hasOne(VkAccount::class, 'id', $accountId);
+    }
 
 }
