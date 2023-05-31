@@ -118,11 +118,17 @@ class VkAuthController extends Controller
                             Storage::delete($stream->link);
                             Stream::where('id', '=', $stream->id)->delete();
                         }
+                        return response()->json([
+                            'status' => 'success',
+                            'title' => 'Аккаунт обновлён',
+                            'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.<br> Вся информация очищена.'
+                        ]);
                     }
+                    
                     return response()->json([
                         'status' => 'success',
                         'title' => 'Аккаунт обновлён',
-                        'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.<br> Вся информация очищена.'
+                        'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.'
                     ]);
                 }
             }
@@ -130,7 +136,7 @@ class VkAuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'title' => 'Неизвестный тип',
-                'message' => 'Не пытайтесь лезть в код элемента ;)'.$type
+                'message' => 'Не пытайтесь лезть в код элемента ;)'
             ]);
         }
     }
