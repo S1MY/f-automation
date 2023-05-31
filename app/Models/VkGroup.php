@@ -15,7 +15,4 @@ class VkGroup extends Model
         'name',
         'avatar',
     ];
-    public function VkAccount(){
-        return $this->belongsTo(VkAccount::class, 'id', 'account_id');
-    }
 }

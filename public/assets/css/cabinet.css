@@ -664,7 +664,6 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 20px;
 }
 .tabFlex .videoWrapper{
     width: calc(50% - 10px);
