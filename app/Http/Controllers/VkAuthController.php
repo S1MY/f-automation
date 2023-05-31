@@ -20,6 +20,14 @@ class VkAuthController extends Controller
 {
     public function vkUserAuth(Request $request)
     {
+        $type = $request->type;
+        if($type !== 'add' || $type !== 'update'){
+            return response()->json([
+            'status' => 'error',
+            'title' => 'Неизвестный тип',
+            'message' => 'Не пытайтесь лезть в код элемента ;)'
+            ]);
+        }
         $tokenGet = null;
         $usersGet = null;
         $code = explode("=", $request->link);
@@ -102,20 +110,25 @@ class VkAuthController extends Controller
                 ]);
             }else{
                 $searchAccount->uid = $userId;
+                $searchAccount->name = $accountName;
+                $searchAccount->link = $accountLink;
+                $searchAccount->avatar = $accountAvatar;
+                $searchAccount->token = $token;
                 $searchAccount->save();
-
-                $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
-                foreach ($searchStreams as $stream) {
-                    StreamComments::where('stream_id', '=', $stream->id)->delete();
-                    StreamStory::where('stream_id', '=', $stream->id)->delete();
-                    StreamSettings::where('stream_id', '=', $stream->id)->delete();
-                    Storage::delete($stream->link);
-                    Stream::where('id', '=', $stream->id)->delete();
+                if($type === 'add'){
+                    $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
+                    foreach ($searchStreams as $stream) {
+                        StreamComments::where('stream_id', '=', $stream->id)->delete();
+                        StreamStory::where('stream_id', '=', $stream->id)->delete();
+                        StreamSettings::where('stream_id', '=', $stream->id)->delete();
+                        Storage::delete($stream->link);
+                        Stream::where('id', '=', $stream->id)->delete();
+                    }
                 }
                 return response()->json([
                     'status' => 'success',
-                    'title' => 'Аккаунт перепривязан',
-                    'message' => 'Аккаунт - <span>'. $accountName .'</span> - перепривязан.<br> Вся информация очищена.'
+                    'title' => 'Аккаунт обновлён',
+                    'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.<br> Вся информация очищена.'
                 ]);
             }
         }
