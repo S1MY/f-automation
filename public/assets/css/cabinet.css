@@ -1248,6 +1248,9 @@ a.tableItem:hover{
     width: calc(50% - 10px);
     margin-top: 20px;
 }
+.groupSelect .accountName{
+    font-size: 14px;
+}
 .groupSelectInfo{
     display: flex;
     align-items: center;
@@ -1261,6 +1264,7 @@ a.tableItem:hover{
     opacity: 0;
     width: 100%;
     height: 100%;
+    display: block !important;
 }
 .groupSelectRadio:checked + .groupSelectInfo {
     background: #FF5437;
