@@ -181,7 +181,7 @@ class VkAuthController extends Controller
                 ]);
                 $groupsParams = array(
                     'v' => '5.131',
-                    'access_token' => $token,
+                    'access_token' => $searchAccount->token,
                     'extended' => 1,
                     'filter' => 'admin',
                     'fields' => 'id,name,photo_100',
