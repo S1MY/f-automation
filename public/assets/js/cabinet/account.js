@@ -33,7 +33,7 @@ $(document).ready(function () {
             <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
             <div class="groupSelectInfo">
                 <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
-                <p class="accountName">${(name.length > 12) ? name.substring(0,9)+'...' : name}</p>
+                <p class="accountName">${(name.length > 14) ? name.substring(0,11)+'...' : name}</p>
             </div>
         </div>`
           }
