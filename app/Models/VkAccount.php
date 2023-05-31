@@ -15,8 +15,8 @@ class VkAccount extends Model
         'avatar',
         'token',
     ];
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function User(){
+        return $this->belongsTo(User::class, 'id', 'uid');
     }
     public function VkGroup(){
         return $this->hasMany(VkGroup::class, 'account_id', 'id');
