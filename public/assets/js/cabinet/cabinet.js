@@ -168,9 +168,23 @@ $(document).ready(function () {
           method: 'POST',
           data: formData,
           success: function (response) {
-            console.log(response);
+            let groupsItems = ``;
+            if(Object.keys(response.message).length > 0){
+              for(const item of Object.values(response.message)){
+                const name = item.name
+                groupsItems+= `<div class="groupSelect">
+                <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
+                <div class="groupSelectInfo">
+                    <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
+                    <p class="accountName">${(name.length > 12) ? name.substring(0,9)+'...' : name}</p>
+                </div>
+            </div>`
+              }
+            }
+            $('.groupSelectItems').html(groupsItems)
           },
           error: function (response) {
+            console.log(response);
             $('.popupItem').fadeOut();
             const error = $('.popupItem[data-popup="error"]');
             error.show()

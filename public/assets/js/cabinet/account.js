@@ -124,11 +124,10 @@ $(document).ready(function () {
       }
     });
     const popupName = $(this).attr("data-popup");
-    $('.popupItem').fadeOut();
     $('.popupCenter').show();
     $('.popupWrapper').removeClass('_notClose');
     if (popupName == 'addAccount') {
-      $('.popupItem').hide();
+      $('.popupItem').fadeOut();
       $.ajax({
         url: ajaxUrl,
         method: 'POST',
@@ -152,7 +151,37 @@ $(document).ready(function () {
         }
       });
     }else if (popupName == 'addGroup') {
-      console.log(formData)
+      if(formData.indexOf('groupId') >= 0){
+        $.ajax({
+          url: ajaxUrl,
+          method: 'POST',
+          data: formData,
+          success: function (response) {
+            const success = $('.popupItem[data-popup="success"]');
+            success.show()
+            success.children('.popupTitle').html(response.title);
+            success.children('.popupText').html(response.message);
+            success.fadeIn();
+            setTimeout(() => {
+              location.reload();
+            }, 5000);
+          },
+          error: function (response) {
+            const error = $('.popupItem[data-popup="error"]');
+            error.show()
+            error.children('.popupTitle').html(response.title);
+            error.children('.popupText').html(response.message);
+            error.fadeIn();
+          }
+        });
+      }else{
+        const message = "<p class='fixedMessage _error'>Выберите группу!</p>";
+        $("body").append(message);
+        $(".fixedMessage").fadeIn();
+        setTimeout(function () {
+          $(".fixedMessage").remove();
+        }, 3000);
+      }
     }
   });
 });

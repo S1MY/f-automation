@@ -136,7 +136,7 @@
         <button class="formBtn">Привязать аккаунт</button>
     </form>
     @if(Auth::user()->VkAccount)
-    <form class="popupItem" action="{{ route('vkGroupList') }}" data-class="standard" data-popup="addGroup">
+    <form class="popupItem" action="{{ route('vkGroupAuth') }}" data-class="standard" data-popup="addGroup">
         <h3 class="popupTitle">Привязка группы ВК</h3>
         <div class="formSelect addGroupSelect" data-action="{{ route('vkGroupList') }}">
             @foreach (Auth::user()->VkAccount as $key => $vkAccount)
