@@ -218,23 +218,23 @@ class VkAuthController extends Controller
                             'screen_name' => $groupItem->screen_name,
                         ];
                     }
-                    return response()->json([
-                        'status' => 'success',
-                        'title' => 'Список подгружен',
-                        'message' => $groupsResponse
-                    ]);
                 }
+                return response()->json([
+                    'status' => 'success',
+                    'title' => 'Список подгружен',
+                    'message' => $groupsResponse
+                ]);
             }else{
                 return response()->json([
                     'status' => 'error',
-                    'title' => 'Ошибка удаления',
+                    'title' => 'Ошибка запроса',
                     'message' => 'Данный акаунт не был найден, либо вы не являетесь его владельцем'
                 ]);
             }
         }else{
             return response()->json([
                 'status' => 'error',
-                'title' => 'Ошибка удаления',
+                'title' => 'Ошибка запроса',
                 'message' => 'Неопределённое поле accountId'
             ]);
         }

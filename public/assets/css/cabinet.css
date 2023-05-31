@@ -1234,6 +1234,9 @@ a.tableItem:hover{
 .checkInput:checked + ._check{
     background: #FF5437;
 }
+.addGroupSelect{
+    width: 100% !important;
+}
 /* Инпут файл */
 .myFile{
     display: flex;
