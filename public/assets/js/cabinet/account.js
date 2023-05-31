@@ -28,6 +28,7 @@ $(document).ready(function () {
         console.log(response);
       },
       error: function (response) {
+        console.log(response);
         $('.popupItem').fadeOut();
         const error = $('.popupItem[data-popup="error"]');
         error.show()
