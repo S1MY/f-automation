@@ -27,8 +27,7 @@ $(document).ready(function () {
       success: function (response) {
         let groupsItems = ``;
         if(Object.keys(response.message).length > 0){
-          for(const item of response.message){
-            console.log(item)
+          for(const item of Object.values(response.message)){
             groupsItems+= `<div class="groupSelect">
             <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
             <div class="groupSelectInfo">
@@ -38,7 +37,6 @@ $(document).ready(function () {
         </div>`
           }
         }
-        console.log(groupsItems)
         $('.groupSelectItems').html(groupsItems)
       },
       error: function (response) {
