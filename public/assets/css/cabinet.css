@@ -723,6 +723,21 @@ body{
 .manageBtn svg{
     margin-left: 8px;
 }
+.accountEdits{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.removeAccount, .updateAccount{
+    width: 36px;
+    justify-content: center;
+}
+.removeAccount svg, .updateAccount svg{
+    margin: 0;
+}
+.updateAccount{
+    background: #2980B9;
+}
 .firstAddAccount{
     background: #FF5437;
     font-size: 18px;

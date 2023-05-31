@@ -47,7 +47,21 @@
                                             <div class="accountAvatar" style="background: url({{ $vkAccount->avatar }}), #FFFFFF;"></div>
                                             <p class="accountName">{{ $vkAccount->name }}</p>
                                         </a>
-                                        <a href="#" class="manageBtn removeAccount" data-accountId = "{{ $vkAccount->id }}" data-action="{{ route('vkUserRemove') }}">Удалить</a>
+                                        <div class="accountEdits">
+                                            <a href="#" class="manageBtn updateAccount" data-accountId = "{{ $vkAccount->id }}" data-action="{{ route('vkUserRemove') }}" title="Обновить аккаунт">
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M3.33301 3H11.1108C11.5233 3 11.919 3.15051 12.2107 3.41842C12.5025 3.68633 12.6663 4.0497 12.6663 4.42858V9.42863" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M12.6663 13H4.88856C4.476 13 4.08034 12.8495 3.78862 12.5816C3.4969 12.3137 3.33301 11.9503 3.33301 11.5715V6.57141" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M10.333 7.28577L12.6663 9.42864L14.9997 7.28577" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M5.66667 8.71429L3.33333 6.57141L1 8.71429" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </a>
+                                            <a href="#" class="manageBtn removeAccount" data-accountId = "{{ $vkAccount->id }}" data-action="{{ route('vkUserRemove') }}" title="Удалить аккаунт">
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.76157 14.914C3.76157 14.914 3.9999 16 5.22661 16H10.7733C12 16 12.2383 14.914 12.2383 14.914L13.3333 4.26669H2.66662L3.76157 14.914ZM10.1333 5.86671C10.1333 5.57213 10.372 5.33339 10.6666 5.33339C10.9612 5.33339 11.2 5.57213 11.2 5.86671L10.6666 13.8667C10.6666 14.1613 10.4278 14.4 10.1333 14.4C9.83878 14.4 9.59998 14.1612 9.59998 13.8667L10.1333 5.86671ZM7.46663 5.86671C7.46663 5.57213 7.70543 5.33339 7.99996 5.33339C8.29454 5.33339 8.53328 5.57213 8.53328 5.86671V13.8667C8.53328 14.1613 8.29454 14.4 7.99996 14.4C7.70537 14.4 7.46663 14.1612 7.46663 13.8667V5.86671ZM5.33329 5.33333C5.62787 5.33333 5.86661 5.57207 5.86661 5.86665L6.39999 13.8667C6.39999 14.1612 6.16119 14.4 5.86661 14.4C5.57209 14.4 5.33329 14.1612 5.33329 13.8667L4.79997 5.86671C4.79997 5.57213 5.03877 5.33333 5.33329 5.33333ZM13.0133 2.13418H10.6666V1.0667C10.6666 0.257572 10.4049 0 9.59998 0H6.39993C5.6616 0 5.33329 0.357633 5.33329 1.0667V2.13424H2.98665C2.51501 2.13424 2.1333 2.49223 2.1333 2.93461C2.1333 3.37705 2.51501 3.73504 2.98665 3.73504H13.0133C13.4849 3.73504 13.8666 3.37705 13.8666 2.93461C13.8666 2.49223 13.4849 2.13418 13.0133 2.13418ZM9.59998 2.13418H6.39999L6.40005 1.06664H9.60004V2.13418H9.59998Z" fill="white"/>
+                                                </svg>
+                                            </a>
+                                        </div>
                                     </div>
                                     @endforeach
                                 @endif
