@@ -37,10 +37,10 @@ $(document).ready(function () {
             </div>
         </div>`
           }
-          $('.popupItem[data-popup="addGroup"]').children('.formBtn').fadeIn()
+          $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "flex" });
         } else {
           groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены группы!</p>`
-          $('.popupItem[data-popup="addGroup"]').children('.formBtn').fadeOut()
+          $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "none" });
         }
         $('.groupSelectItems').html(groupsItems)
       },
