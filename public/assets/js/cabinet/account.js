@@ -28,11 +28,12 @@ $(document).ready(function () {
         let groupsItems = ``;
         if(Object.keys(response.message).length > 0){
           for(const item of Object.values(response.message)){
+            const name = item.name
             groupsItems+= `<div class="groupSelect">
             <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
             <div class="groupSelectInfo">
                 <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
-                <p class="accountName">${item.name}</p>
+                <p class="accountName">${(name.length > 16) ? name.substring(0,13)+'...' : name}</p>
             </div>
         </div>`
           }

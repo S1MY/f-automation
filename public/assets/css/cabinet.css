@@ -1241,7 +1241,7 @@ a.tableItem:hover{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-direction: column;
+    flex-wrap: wrap;
 }
 .groupSelect{
     position: relative;
