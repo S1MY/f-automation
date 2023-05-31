@@ -72,15 +72,24 @@
                         @if(Auth::user()->VkAccount)
                         <div class="tabItem" data-tab="vkg">
                             <div class="tabFlex">
-                                @foreach (Auth::user()->VkGroup as $VkGroup)
+                                @foreach (Auth::user()->VkAccount as $vkAccount)
+                                <div class="accountItemFulled">
                                     <div class="accountItem">
-                                        <div class="accountInfo">
-                                            <div class="accountAvatar" style="background: url({{Auth::user()->VkGroupParent($VkGroup->account_id)->avatar}}), #FFFFFF;"></div>
-                                            <div class="accountAvatar" style="background: url({{$VkGroup->avatar}}), #FFFFFF;"></div>
-                                            <p class="accountName">{{$VkGroup->name}}</p>
-                                        </div>
-                                        <a href="#" class="manageBtn removeGroup" data-groupId = "{{ $VkGroup->id }}">Удалить</a>
+                                        <a class="accountInfo" href="{{ $vkAccount->link }}" target="_blank">
+                                            <div class="accountAvatar" style="background: url({{ $vkAccount->avatar }}), #FFFFFF;"></div>
+                                            <p class="accountName">{{ $vkAccount->name }}</p>
+                                        </a>
                                     </div>
+                                </div>
+                                    @foreach (Auth::user()->VkAccount->VkGroup as $VkGroup)
+                                        <div class="accountItem">
+                                            <div class="accountInfo">
+                                                <div class="accountAvatar" style="background: url({{$VkGroup->avatar}}), #FFFFFF;"></div>
+                                                <p class="accountName">{{$VkGroup->name}}</p>
+                                            </div>
+                                            <a href="#" class="manageBtn removeGroup" data-groupId = "{{ $VkGroup->id }}">Удалить</a>
+                                        </div>
+                                    @endforeach
                                 @endforeach
                                 @if (count(Auth::user()->VkGroup) >= $vkGroupPlaces)
                                 <div class="accountItem centerItem">

@@ -15,4 +15,8 @@ class VkAccount extends Model
         'avatar',
         'token',
     ];
+    
+    public function VkGroup(){
+        return $this->hasMany(VkGroup::class, 'account_id', 'id');
+    }
 }

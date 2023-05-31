@@ -53,8 +53,4 @@ class User extends Authenticatable
     public function VkGroup(){
         return $this->hasMany(VkGroup::class, 'uid', 'id');
     }
-    public function VkGroupParent($accountId){
-        return VkAccount::where('uid', $this->id)->where('id', $accountId)->first();
-    }
-
 }
