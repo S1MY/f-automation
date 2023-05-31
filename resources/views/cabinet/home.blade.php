@@ -87,7 +87,7 @@
                                                 <div class="accountAvatar" style="background: url({{$VkGroup->avatar}}), #FFFFFF;"></div>
                                                 <p class="accountName">{{$VkGroup->name}}</p>
                                             </div>
-                                            <a href="#" class="manageBtn removeGroup" data-groupId = "{{ $VkGroup->id }}" data-action="{{('vkGroupRemoveroute')}}">Удалить</a>
+                                            <a href="#" class="manageBtn removeGroup" data-groupId = "{{ $VkGroup->id }}" data-action="{{route('vkGroupRemove')}}">Удалить</a>
                                         </div>
                                     @endforeach
                                 @endforeach
