@@ -117,6 +117,7 @@ class VkAuthController extends Controller
                             StreamSettings::where('stream_id', '=', $stream->id)->delete();
                             Storage::delete($stream->link);
                             Stream::where('id', '=', $stream->id)->delete();
+                            VkGroup::where('account_id', '=', $searchAccount->id)->delete();
                         }
                         return response()->json([
                             'status' => 'success',
