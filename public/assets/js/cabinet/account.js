@@ -7,6 +7,7 @@ $(document).ready(function () {
     $('.popupItem[data-popup="addAccount"]').fadeIn();
   });
   $('.addGroup').click(function (e) {
+    e.preventDefault();
     $('.popupItem').fadeOut();
     $(".popupWrapper").fadeIn();
     $('.popupItem[data-popup="addGroup"]').fadeIn();
