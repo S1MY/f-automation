@@ -26,7 +26,7 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         let groupsItems = ``;
-        console.log(response.message)
+        console.log(Object.keys(response.message).length)
         if(response.message.length > 0){
           console.log(response.message)
           for(const item of response.message){
