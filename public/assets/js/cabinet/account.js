@@ -45,7 +45,6 @@ $(document).ready(function () {
         $('.groupSelectItems').html(groupsItems)
       },
       error: function (response) {
-        console.log(response);
         $('.popupItem').fadeOut();
         const error = $('.popupItem[data-popup="error"]');
         error.show()
@@ -82,7 +81,41 @@ $(document).ready(function () {
         }, 5000);
       },
       error: function (response) {
-        console.log(response)
+        const error = $('.popupItem[data-popup="error"]');
+        error.show()
+        error.children('.popupTitle').html(response.title);
+        error.children('.popupText').html(response.message);
+        error.fadeIn();
+      }
+    });
+  });
+  $('.removeGroup').click(function (e) {
+    e.preventDefault();
+    const groupId = $(this).attr('data-groupId');
+    const ajaxUrl = $(this).attr('data-action');
+    let formData = {};
+    formData.groupId = groupId;
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $(".popupWrapper").fadeIn();
+    $.ajax({
+      url: ajaxUrl,
+      method: 'POST',
+      data: formData,
+      success: function (response) {
+        const success = $('.popupItem[data-popup="success"]');
+        success.show()
+        success.children('.popupTitle').html(response.title);
+        success.children('.popupText').html(response.message);
+        success.fadeIn();
+        setTimeout(() => {
+          location.reload();
+        }, 5000);
+      },
+      error: function (response) {
         const error = $('.popupItem[data-popup="error"]');
         error.show()
         error.children('.popupTitle').html(response.title);

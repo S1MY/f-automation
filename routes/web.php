@@ -80,6 +80,7 @@ Route::post('/vk-user-auth', [VkAuthController::class, 'vkUserAuth'])->name('vkU
 Route::post('/vk-user-remove', [VkAuthController::class, 'vkUserRemove'])->name('vkUserRemove');
 Route::post('/vk-group-list', [VkAuthController::class, 'vkGroupList'])->name('vkGroupList');
 Route::post('/vk-group-auth', [VkAuthController::class, 'vkGroupAuth'])->name('vkGroupAuth');
+Route::post('/vk-group-remove', [VkAuthController::class, 'vkGroupRemove'])->name('vkGroupRemove');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

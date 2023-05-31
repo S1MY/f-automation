@@ -320,4 +320,41 @@ class VkAuthController extends Controller
             ]);
         }
     }
+    public function vkGroupRemove(Request $request){
+        $userId = Auth::user()->id;
+        $groupId = $request->groupId;
+        if (is_numeric($groupId)) {
+            $searchGroup = VkGroup::where('id', '=', $groupId)
+                          ->where('uid', '=', $userId)
+                          ->first();
+            if($searchGroup){
+                $searchStreams = Stream::where('group_id', '=', $searchGroup->id)->get();
+                foreach ($searchStreams as $stream) {
+                    StreamComments::where('stream_id', '=', $stream->id)->delete();
+                    StreamStory::where('stream_id', '=', $stream->id)->delete();
+                    StreamSettings::where('stream_id', '=', $stream->id)->delete();
+                    Storage::delete($stream->link);
+                    Stream::where('id', '=', $stream->id)->delete();
+                }
+                VkGroup::where('id', '=', $groupId)->delete();
+                return response()->json([
+                    'status' => 'success',
+                    'title' => 'Всё прошло успешно',
+                    'message' => 'Группа была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.'
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка удаления',
+                    'message' => 'Данная группа не была найдена, либо вы не являетесь её владельцем'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'status' => 'error',
+                'title' => 'Ошибка удаления',
+                'message' => 'Неопределённое поле groupId'
+            ]);
+        }
+    }
 }
