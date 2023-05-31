@@ -446,8 +446,6 @@ body{
     border-radius: 12px;
     padding: 24px;
     width: 480px;
-    max-height: 96vh;
-    overflow-y: auto;
     display: none;
 }
 .popupItem .formInput{
@@ -459,9 +457,13 @@ body{
 }
 .popupItem[data-class="guid"]{
     width: 568px;
+    max-height: 96vh;
+    overflow-y: auto;
 }
 .popupItem[data-class="action"]{
     width: 640px;
+    max-height: 96vh;
+    overflow-y: auto;
 }
 .popupIcon{
     width: 60px;
