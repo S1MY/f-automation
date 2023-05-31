@@ -134,12 +134,12 @@ $(document).ready(function () {
     }, 4000);
   });
   // Кастомный селект
-  $('.selectHeader').click(function (e) {
+  $(document).on('click', '.selectHeader', function(e) {
     e.preventDefault();
     $(this).children('.selectArrow').toggleClass('_active');
     $(this).next().slideToggle();
   });
-  $('.selectItem').click(function (e) {
+  $(document).on('click', '.selectItem', function(e) {
     e.preventDefault();
     $('.selectItem').removeClass('_active');
     $(this).addClass('_active');
@@ -153,6 +153,32 @@ $(document).ready(function () {
         if ($('.tabPageGroup').length > 0) {
           $('.tabPageGroup').css({"display":"flex"});
         }
+      }else if($(this).attr('data-type') == 'addVkGroup'){
+        const accountId = $('.addGroupSelect').children('input[name="accountId"]').val()
+        const ajaxUrl = $('.addGroupSelect').attr('data-action')
+        let formData = {};
+        formData.accountId = accountId;
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          url: ajaxUrl,
+          method: 'POST',
+          data: formData,
+          success: function (response) {
+            console.log(response);
+          },
+          error: function (response) {
+            $('.popupItem').fadeOut();
+            const error = $('.popupItem[data-popup="error"]');
+            error.show()
+            error.children('.popupTitle').html(response.title);
+            error.children('.popupText').html(response.message);
+            error.fadeIn();
+          }
+        });
       }else{
         if ($('.tabPageGroup').length > 0) {
           $('.tabPageGroup').css({"display":"none"});

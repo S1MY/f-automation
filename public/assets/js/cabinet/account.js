@@ -6,6 +6,36 @@ $(document).ready(function () {
     $(".popupWrapper").fadeIn();
     $('.popupItem[data-popup="addAccount"]').fadeIn();
   });
+  $('.addGroup').click(function (e) {
+    $('.popupItem').fadeOut();
+    $(".popupWrapper").fadeIn();
+    $('.popupItem[data-popup="addGroup"]').fadeIn();
+    const accountId = $('.addGroupSelect').children('input[name="accountId"]').val()
+    const ajaxUrl = $('.addGroupSelect').attr('data-action')
+    let formData = {};
+    formData.accountId = accountId;
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url: ajaxUrl,
+      method: 'POST',
+      data: formData,
+      success: function (response) {
+        console.log(response);
+      },
+      error: function (response) {
+        $('.popupItem').fadeOut();
+        const error = $('.popupItem[data-popup="error"]');
+        error.show()
+        error.children('.popupTitle').html(response.title);
+        error.children('.popupText').html(response.message);
+        error.fadeIn();
+      }
+    });
+  });
   $('.removeAccount').click(function (e) {
     e.preventDefault();
     const accountId = $(this).attr('data-accountId');
@@ -23,7 +53,7 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
-        const success = $('.popupWrapper .popupItem[data-popup="success"]');
+        const success = $('.popupItem[data-popup="success"]');
         success.show()
         success.children('.popupTitle').html(response.title);
         success.children('.popupText').html(response.message);
@@ -34,7 +64,7 @@ $(document).ready(function () {
       },
       error: function (response) {
         console.log(response)
-        const error = $('.popupWrapper .popupItem[data-popup="error"]');
+        const error = $('.popupItem[data-popup="error"]');
         error.show()
         error.children('.popupTitle').html(response.title);
         error.children('.popupText').html(response.message);
@@ -89,7 +119,7 @@ $(document).ready(function () {
         method: 'POST',
         data: formData,
         success: function (response) {
-          const success = $('.popupWrapper .popupItem[data-popup="success"]');
+          const success = $('.popupItem[data-popup="success"]');
           success.show()
           success.children('.popupTitle').html(response.title);
           success.children('.popupText').html(response.message);
@@ -99,7 +129,7 @@ $(document).ready(function () {
           }, 5000);
         },
         error: function (response) {
-          const error = $('.popupWrapper .popupItem[data-popup="error"]');
+          const error = $('.popupItem[data-popup="error"]');
           error.show()
           error.children('.popupTitle').html(response.title);
           error.children('.popupText').html(response.message);

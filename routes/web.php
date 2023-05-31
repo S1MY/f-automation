@@ -78,6 +78,7 @@ Route::post('/get-vote', [OfferController::class, 'getVote'])->name('getVotes');
 // Вконтакте
 Route::post('/vk-user-auth', [VkAuthController::class, 'vkUserAuth'])->name('vkUserAuth');
 Route::post('/vk-user-remove', [VkAuthController::class, 'vkUserRemove'])->name('vkUserRemove');
+Route::post('/vk-group-list', [VkAuthController::class, 'vkGroupList'])->name('vkGroupList');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');
