@@ -37,6 +37,7 @@ $(document).ready(function () {
         </div>`
           }
         }
+        console.log(groupsItems)
         $('.groupSelectItems').html(groupsItems)
       },
       error: function (response) {
