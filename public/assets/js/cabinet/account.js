@@ -1,7 +1,7 @@
 $(document).ready(function () {
   // Добавление аккаунта
   $('.addAccount, .updateAccount').click(function (e) {
-    const type = ($(this).hasClass('updateAccount')) ? update : add;
+    const type = ($(this).hasClass('updateAccount')) ? 'update' : 'add';
     $('.popupItem[data-popup="addAccount"]').children('input[name="type"]').val(type);
     $('.popupItem').fadeOut();
     $(".popupWrapper").addClass('_notClose');
