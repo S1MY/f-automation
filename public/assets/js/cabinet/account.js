@@ -27,7 +27,9 @@ $(document).ready(function () {
       success: function (response) {
         let groupsItems = ``;
         if(response.message.length > 0){
+          console.log(response.message)
           for(const item of response.message){
+            console.log(item)
             groupsItems+= `<div class="groupSelect">
             <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
             <div class="groupSelectInfo">
