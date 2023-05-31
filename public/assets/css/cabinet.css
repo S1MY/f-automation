@@ -1276,6 +1276,10 @@ a.tableItem:hover{
 .groupSelectRadio:checked + .groupSelectInfo {
     background: #FF5437;
 }
+.groupEmpty{
+    color: #FF5437;
+    text-align: center;
+}
 /* Инпут файл */
 .myFile{
     display: flex;

@@ -26,17 +26,19 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         let groupsItems = ``;
-        if(Object.keys(response.message).length > 0){
-          for(const item of Object.values(response.message)){
+        if (Object.keys(response.message).length > 0) {
+          for (const item of Object.values(response.message)) {
             const name = item.name
-            groupsItems+= `<div class="groupSelect">
+            groupsItems += `<div class="groupSelect">
             <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
             <div class="groupSelectInfo">
                 <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
-                <p class="accountName">${(name.length > 14) ? name.substring(0,11)+'...' : name}</p>
+                <p class="accountName">${(name.length > 14) ? name.substring(0, 11) + '...' : name}</p>
             </div>
         </div>`
           }
+        } else {
+          groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены группы!</p>`
         }
         $('.groupSelectItems').html(groupsItems)
       },
@@ -150,8 +152,8 @@ $(document).ready(function () {
           error.fadeIn();
         }
       });
-    }else if (popupName == 'addGroup') {
-      if(formData.indexOf('groupId') >= 0){
+    } else if (popupName == 'addGroup') {
+      if (formData.indexOf('groupId') >= 0) {
         $.ajax({
           url: ajaxUrl,
           method: 'POST',
@@ -174,7 +176,7 @@ $(document).ready(function () {
             error.fadeIn();
           }
         });
-      }else{
+      } else {
         const message = "<p class='fixedMessage _error'>Выберите группу!</p>";
         $("body").append(message);
         $(".fixedMessage").fadeIn();

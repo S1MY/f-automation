@@ -16,7 +16,7 @@ $(window).on("load", function () {
 
 $(document).ready(function () {
   // Бургер
-  $('.burgerButton').click(function (e) { 
+  $('.burgerButton').click(function (e) {
     e.preventDefault();
     $(this).toggleClass('_active');
     $('.sidebar').toggleClass('_active');
@@ -25,23 +25,23 @@ $(document).ready(function () {
     let select = $(".sidebar, .header");
     if (!select.is(e.target) &&
       select.has(e.target).length === 0) {
-        $('.burgerButton').removeClass('_active');
-        $('.sidebar').removeClass('_active');
+      $('.burgerButton').removeClass('_active');
+      $('.sidebar').removeClass('_active');
     }
   });
   $(document).mouseup(function (e) {
     let select = $(".userHeader");
     if (!select.is(e.target) &&
       select.has(e.target).length === 0) {
-        $('.userMenu').removeClass('_active');
+      $('.userMenu').removeClass('_active');
     }
   });
   // Табы блоки
-  $('.titleIcon').click(function (e) { 
+  $('.titleIcon').click(function (e) {
     e.preventDefault();
     if ($(this).parent().parent().hasClass('_tabOpen')) {
       localStorage.setItem('tab', '1');
-    }else{
+    } else {
       localStorage.removeItem('tab');
     }
     $(this).parent().parent().toggleClass('_tabOpen');
@@ -134,12 +134,12 @@ $(document).ready(function () {
     }, 4000);
   });
   // Кастомный селект
-  $(document).on('click', '.selectHeader', function(e) {
+  $(document).on('click', '.selectHeader', function (e) {
     e.preventDefault();
     $(this).children('.selectArrow').toggleClass('_active');
     $(this).next().slideToggle();
   });
-  $(document).on('click', '.selectItem', function(e) {
+  $(document).on('click', '.selectItem', function (e) {
     e.preventDefault();
     $('.selectItem').removeClass('_active');
     $(this).addClass('_active');
@@ -151,9 +151,9 @@ $(document).ready(function () {
     if ($(this).attr('data-type') !== 'undefined') {
       if ($(this).attr('data-type') == 'group') {
         if ($('.tabPageGroup').length > 0) {
-          $('.tabPageGroup').css({"display":"flex"});
+          $('.tabPageGroup').css({ "display": "flex" });
         }
-      }else if($(this).attr('data-type') == 'addVkGroup'){
+      } else if ($(this).attr('data-type') == 'addVkGroup') {
         const accountId = $('.addGroupSelect').children('input[name="accountId"]').val()
         const ajaxUrl = $('.addGroupSelect').attr('data-action')
         let formData = {};
@@ -169,17 +169,19 @@ $(document).ready(function () {
           data: formData,
           success: function (response) {
             let groupsItems = ``;
-            if(Object.keys(response.message).length > 0){
-              for(const item of Object.values(response.message)){
+            if (Object.keys(response.message).length > 0) {
+              for (const item of Object.values(response.message)) {
                 const name = item.name
-                groupsItems+= `<div class="groupSelect">
+                groupsItems += `<div class="groupSelect">
                 <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
                 <div class="groupSelectInfo">
                     <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
-                    <p class="accountName">${(name.length > 12) ? name.substring(0,9)+'...' : name}</p>
+                    <p class="accountName">${(name.length > 12) ? name.substring(0, 9) + '...' : name}</p>
                 </div>
             </div>`
               }
+            } else {
+              groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены группы!</p>`
             }
             $('.groupSelectItems').html(groupsItems)
           },
@@ -193,9 +195,9 @@ $(document).ready(function () {
             error.fadeIn();
           }
         });
-      }else{
+      } else {
         if ($('.tabPageGroup').length > 0) {
-          $('.tabPageGroup').css({"display":"none"});
+          $('.tabPageGroup').css({ "display": "none" });
         }
       }
       $('input[name="accType"]').val($(this).attr('data-type'));
