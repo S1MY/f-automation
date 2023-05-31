@@ -81,7 +81,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                    @foreach (Auth::user()->VkAccount->VkGroup as $VkGroup)
+                                    @foreach ($vkAccount->VkGroup as $VkGroup)
                                         <div class="accountItem">
                                             <div class="accountInfo">
                                                 <div class="accountAvatar" style="background: url({{$VkGroup->avatar}}), #FFFFFF;"></div>
