@@ -151,6 +151,8 @@ $(document).ready(function () {
           error.fadeIn();
         }
       });
+    }else if (popupName == 'addGroup') {
+      console.log(formData)
     }
   });
 });
