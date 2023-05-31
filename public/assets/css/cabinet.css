@@ -79,17 +79,17 @@ body{
     font-weight: 400;
     position: relative;
 }
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
     width: 5px;
     height: 5px;
 }
 
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
     background: #FFFFFF;
     border: none;
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background: #FF5437;
     border-radius: 2px;
     border: none;
@@ -1420,22 +1420,6 @@ a.tableItem:hover{
     background: #FF5437;
     cursor: default;
     pointer-events: none;
-}
-.selectFlow::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-.selectFlow::-webkit-scrollbar-track {
-    background: #FFFFFF;
-    border: none;
-    border-radius: 6px;
-}
-
-.selectFlow::-webkit-scrollbar-thumb {
-    background: #FF5437;
-    border-radius: 6px;
-    border: none;
 }
 /* Трансляции */
 .streamTypes{
