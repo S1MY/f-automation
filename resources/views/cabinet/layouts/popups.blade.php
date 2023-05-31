@@ -160,6 +160,9 @@
                 @endforeach
             </div>
         </div>
+        <div class="groupSelectItems">
+            
+        </div>
         <button class="formBtn">Привязать группу</button>
     </form>
     @endif

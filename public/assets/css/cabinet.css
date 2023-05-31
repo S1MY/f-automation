@@ -1237,6 +1237,34 @@ a.tableItem:hover{
 .addGroupSelect{
     width: 100% !important;
 }
+.groupSelectItems{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.groupSelect{
+    position: relative;
+    width: calc(50% - 10px);
+    margin-top: 20px;
+}
+.groupSelectInfo{
+    display: flex;
+    align-items: center;
+    background: #101010;
+    border-radius: 6px;
+    padding: 8px 16px;
+}
+.groupSelectRadio{
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+.groupSelectRadio:checked + .groupSelectInfo {
+    background: #FF5437;
+}
 /* Инпут файл */
 .myFile{
     display: flex;

@@ -25,7 +25,19 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
-        console.log(response);
+        let groupsItems = ``;
+        if(response.message.length > 0){
+          for(const item of response.message){
+            groupsItems+= `<div class="groupSelect">
+            <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
+            <div class="groupSelectInfo">
+                <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
+                <p class="accountName">${item.name}</p>
+            </div>
+        </div>`
+          }
+        }
+        $('.groupSelectItems').html(groupsItems)
       },
       error: function (response) {
         console.log(response);
