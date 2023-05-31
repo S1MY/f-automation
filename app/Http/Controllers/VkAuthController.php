@@ -21,116 +21,117 @@ class VkAuthController extends Controller
     public function vkUserAuth(Request $request)
     {
         $type = $request->type;
-        if($type != 'add' || $type != 'update'){
-            return response()->json([
-            'status' => 'error',
-            'title' => 'Неизвестный тип',
-            'message' => 'Не пытайтесь лезть в код элемента ;)'
+        if($type == 'add' || $type == 'update'){
+            $tokenGet = null;
+            $usersGet = null;
+            $code = explode("=", $request->link);
+            $client = new Client([
+                'base_uri' => 'https://oauth.vk.com',
             ]);
-        }
-        $tokenGet = null;
-        $usersGet = null;
-        $code = explode("=", $request->link);
-        $client = new Client([
-            'base_uri' => 'https://oauth.vk.com',
-        ]);
-        $authClient = new Client([
-            'base_uri' => 'https://api.vk.com',
-        ]);
-        $tokenParams = [
-            'client_id'     => '51661029',
-            'client_secret' => 'jy1p89O8SPpXOMg2JwEe',
-            'code'          => $code[1],
-            'redirect_uri'  => 'https://api.vk.com/blank.html',
-        ];
-        $tokenGet = $client->request('GET', '/access_token', [
-            'query' => $tokenParams
-        ]);
-        if ($tokenGet->getStatusCode() !== 200 || !$tokenGet->getBody()) {
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка запроса',
-                'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                ]);
-        }
-        $tokenContent = $tokenGet->getBody()->getContents();
-        $tokenJSON = json_decode($tokenContent);
-        if (isset($tokenJSON->error)) {
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка получения токена',
-                'message' => 'При получении токена доступа произошла ошибка'
-                ]);
-        }
-        $token = $tokenJSON->access_token;
-        $userId = $tokenJSON->user_id;
-        $usersParams = [
-            'v'            => '5.131',
-            'access_token' => $token,
-            'user_ids'     => $userId,
-            'fields'       => 'first_name, last_name, photo_200_orig'
-        ];
-        $usersGet = $authClient->request('GET', '/method/users.get', [
-            'query' => $usersParams
-        ]);
-        if ($usersGet->getStatusCode() !== 200 || !$usersGet->getBody()) {
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка запроса',
-                'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                ]);
-        }
-        $usersContent = $usersGet->getBody()->getContents();
-        $usersJSON = json_decode($usersContent);
-
-        if (isset($usersJSON->error)) {
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка запроса',
-                'message' => 'При получении данных пользователя возникла ошибка'
-                ]);
-        }else{
-            $userId = Auth::user()->id;
-            $accountName = $usersJSON->response[0]->first_name.' '.$usersJSON->response[0]->last_name;
-            $accountLink = 'https://vk.com/id'.$usersJSON->response[0]->id;
-            $accountAvatar = $usersJSON->response[0]->photo_200_orig;
-            $searchAccount = VkAccount::where('link', '=', $accountLink)->first();
-            if (!$searchAccount) {
-                VkAccount::create([
-                    'uid' => $userId,
-                    'name' => $accountName,
-                    'link' => $accountLink,
-                    'avatar' => $accountAvatar,
-                    'token' => $token
-                ]); 
+            $authClient = new Client([
+                'base_uri' => 'https://api.vk.com',
+            ]);
+            $tokenParams = [
+                'client_id'     => '51661029',
+                'client_secret' => 'jy1p89O8SPpXOMg2JwEe',
+                'code'          => $code[1],
+                'redirect_uri'  => 'https://api.vk.com/blank.html',
+            ];
+            $tokenGet = $client->request('GET', '/access_token', [
+                'query' => $tokenParams
+            ]);
+            if ($tokenGet->getStatusCode() !== 200 || !$tokenGet->getBody()) {
                 return response()->json([
-                    'status' => 'success',
-                    'title' => 'Всё прошло успешно',
-                    'message' => 'Аккаунт - <span>'. $accountName .'</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.'
-                ]);
-            }else{
-                $searchAccount->uid = $userId;
-                $searchAccount->name = $accountName;
-                $searchAccount->link = $accountLink;
-                $searchAccount->avatar = $accountAvatar;
-                $searchAccount->token = $token;
-                $searchAccount->save();
-                if($type == 'add'){
-                    $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
-                    foreach ($searchStreams as $stream) {
-                        StreamComments::where('stream_id', '=', $stream->id)->delete();
-                        StreamStory::where('stream_id', '=', $stream->id)->delete();
-                        StreamSettings::where('stream_id', '=', $stream->id)->delete();
-                        Storage::delete($stream->link);
-                        Stream::where('id', '=', $stream->id)->delete();
-                    }
-                }
-                return response()->json([
-                    'status' => 'success',
-                    'title' => 'Аккаунт обновлён',
-                    'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.<br> Вся информация очищена.'
-                ]);
+                    'status' => 'error',
+                    'title' => 'Ошибка запроса',
+                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
+                    ]);
             }
+            $tokenContent = $tokenGet->getBody()->getContents();
+            $tokenJSON = json_decode($tokenContent);
+            if (isset($tokenJSON->error)) {
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка получения токена',
+                    'message' => 'При получении токена доступа произошла ошибка'
+                    ]);
+            }
+            $token = $tokenJSON->access_token;
+            $userId = $tokenJSON->user_id;
+            $usersParams = [
+                'v'            => '5.131',
+                'access_token' => $token,
+                'user_ids'     => $userId,
+                'fields'       => 'first_name, last_name, photo_200_orig'
+            ];
+            $usersGet = $authClient->request('GET', '/method/users.get', [
+                'query' => $usersParams
+            ]);
+            if ($usersGet->getStatusCode() !== 200 || !$usersGet->getBody()) {
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка запроса',
+                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
+                    ]);
+            }
+            $usersContent = $usersGet->getBody()->getContents();
+            $usersJSON = json_decode($usersContent);
+    
+            if (isset($usersJSON->error)) {
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка запроса',
+                    'message' => 'При получении данных пользователя возникла ошибка'
+                    ]);
+            }else{
+                $userId = Auth::user()->id;
+                $accountName = $usersJSON->response[0]->first_name.' '.$usersJSON->response[0]->last_name;
+                $accountLink = 'https://vk.com/id'.$usersJSON->response[0]->id;
+                $accountAvatar = $usersJSON->response[0]->photo_200_orig;
+                $searchAccount = VkAccount::where('link', '=', $accountLink)->first();
+                if (!$searchAccount) {
+                    VkAccount::create([
+                        'uid' => $userId,
+                        'name' => $accountName,
+                        'link' => $accountLink,
+                        'avatar' => $accountAvatar,
+                        'token' => $token
+                    ]); 
+                    return response()->json([
+                        'status' => 'success',
+                        'title' => 'Всё прошло успешно',
+                        'message' => 'Аккаунт - <span>'. $accountName .'</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.'
+                    ]);
+                }else{
+                    $searchAccount->uid = $userId;
+                    $searchAccount->name = $accountName;
+                    $searchAccount->link = $accountLink;
+                    $searchAccount->avatar = $accountAvatar;
+                    $searchAccount->token = $token;
+                    $searchAccount->save();
+                    if($type == 'add'){
+                        $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
+                        foreach ($searchStreams as $stream) {
+                            StreamComments::where('stream_id', '=', $stream->id)->delete();
+                            StreamStory::where('stream_id', '=', $stream->id)->delete();
+                            StreamSettings::where('stream_id', '=', $stream->id)->delete();
+                            Storage::delete($stream->link);
+                            Stream::where('id', '=', $stream->id)->delete();
+                        }
+                    }
+                    return response()->json([
+                        'status' => 'success',
+                        'title' => 'Аккаунт обновлён',
+                        'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.<br> Вся информация очищена.'
+                    ]);
+                }
+            }
+        }else{
+            return response()->json([
+                'status' => 'error',
+                'title' => 'Неизвестный тип',
+                'message' => 'Не пытайтесь лезть в код элемента ;)'.$type
+            ]);
         }
     }
     public function vkUserRemove(Request $request){
