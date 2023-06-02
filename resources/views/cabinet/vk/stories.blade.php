@@ -25,7 +25,7 @@
                             <div class="tabPageInput" data-name="name">
                                 <input type="text" name="name" class="formInput" placeholder="Название истории">
                             </div>
-                            <div class="tabPageInput" data-name="account">
+                            <div class="tabPageInput tabPageSelect" data-name="account">
                                 <div class="formSelect">
                                     <input type="hidden" name="accountId" value="15">
                                     <div class="selectHeader">
@@ -46,7 +46,7 @@
                                 <div class="tabPageInput" data-name="linkUrl">
                                     <input type="text" name="linkUrl" class="formInput" placeholder="Адрес ссылки">
                                 </div>
-                                <div class="tabPageInput" data-name="linkText">
+                                <div class="tabPageInput tabPageSelect" data-name="linkText">
                                     <div class="formSelect">
                                         <input type="hidden" name="linkText" value="learn_more">
                                         <div class="selectHeader">

@@ -1139,6 +1139,9 @@ a.tableItem:hover{
     overflow: hidden;
     margin-top: 20px;
 }
+.tabPageInput.tabPageSelect{
+    overflow: unset;
+}
 .tabPageInput .errorInput{
     position: absolute;
     left: 0;
