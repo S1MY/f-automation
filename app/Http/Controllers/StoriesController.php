@@ -104,6 +104,7 @@ class StoriesController extends Controller
                 'query' => $uploadParams
             ]);
             if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
+                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка запроса',
@@ -113,6 +114,7 @@ class StoriesController extends Controller
             $uploadContent = $uploadGet->getBody()->getContents();
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
+                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка получения токена',
@@ -130,6 +132,7 @@ class StoriesController extends Controller
                 ]
             ]);
             if ($sendStoriesPost->getStatusCode() !== 200 || !$sendStoriesPost->getBody()) {
+                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка загрузки',
@@ -139,6 +142,7 @@ class StoriesController extends Controller
             $sendStoriesContent = $sendStoriesPost->getBody()->getContents();
             $sendStoriesJSON = json_decode($sendStoriesContent);
             if (isset($sendStoriesJSON->error)) {
+                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка получения токена',
