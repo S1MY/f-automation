@@ -49,7 +49,7 @@ class StoriesController extends Controller
                 'message' => $errors[$firstErrorKey][0]
             ]);
         }
-        if($validatedData['accType'] == 'group'){
+        if($validatedData->accType == 'group'){
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('group_id', '=', $groupId)->first();
             if(!$searchGroup){
