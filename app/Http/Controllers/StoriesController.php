@@ -80,11 +80,13 @@ class StoriesController extends Controller
             if($fileType == 'video/mp4' || $fileType == 'video/avi'){
                 $fileTypeDB = 'video';
                 $extension = 'mp4';
-                $method = '/stories.getPhotoUploadServer';
+                $method = '/stories.getVideoUploadServer';
+                $sendType = 'video_file';
             }else{
                 $fileTypeDB = 'image';
                 $extension = 'jpg';
-                $method = '/stories.getVideoUploadServer';
+                $method = '/stories.getPhotoUploadServer';
+                $sendType = 'file';
             }
             $fileName = 'stories-' . date("Y-m-d-H-i-s") . ".".$extension;
             $userName = Auth::user()->login;
@@ -116,10 +118,28 @@ class StoriesController extends Controller
                     'message' => 'При получении групп возникла ошибка'
                 ]);
             }
+            $sendClient = new Client();
+            $sendStoriesPost = $sendClient->request('POST', $uploadJSON->response->upload_url, [
+                'multipart' => [
+                    [
+                        'name' => $sendType,
+                        'contents' => fopen('/storage/files/users/'.$userName.'/stories/'.$fileName, 'r'),
+                    ]
+                ]
+            ]);
+            if ($sendStoriesPost->getStatusCode() !== 200 || !$sendStoriesPost->getBody()) {
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка загрузки',
+                    'message' => 'Ошибка при загрузке файла на ВК сервер'
+                ]);
+            }
+            $sendStoriesContent = $sendStoriesPost->getBody()->getContents();
+            $sendStoriesJSON = json_decode($sendStoriesContent);
             return response()->json([
                 'status' => 'success',
                 'title' => 'Крутяк',
-                'message' => $uploadJSON->response->upload_url
+                'message' => $sendStoriesJSON->response->upload_result
             ]);
             // Stories::create([
             //     'account_id' => $userId,
