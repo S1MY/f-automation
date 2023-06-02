@@ -51,14 +51,14 @@ class StoriesController extends Controller
         if($fileSize <= 83886080){
             if($fileType == 'video/mp4' || $fileType == 'video/avi'){
                 $fileTypeDB = 'video';
-                $fileName = 'stories' . date("Y-m-d-H-i-s") . ".mp4";
+                $extension = 'mp4';
             }else{
                 $fileTypeDB = 'image';
-                $fileName = 'stories' . date("Y-m-d-H-i-s") . ".jpg";
+                $extension = 'jpg';
             }
+            $fileName = 'stories-' . date("Y-m-d-H-i-s") . ".".$extension;
             $userName = Auth::user()->login;
-            $storiesFile->originalName = $fileName;
-            Storage::disk('local')->putFile('files/'.$userName.'/stories', $storiesFile);
+            Storage::disk('public')->putFileAs('files/users/'.$userName.'/stories', $storiesFile, $fileName);
         }else{
             return response()->json([
                 'status' => 'input',
