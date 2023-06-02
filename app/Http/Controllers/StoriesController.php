@@ -141,11 +141,7 @@ class StoriesController extends Controller
             ]);
             if ($sendStoriesPost->getStatusCode() !== 200 || !$sendStoriesPost->getBody()) {
                 Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка загрузки',
-                    'message' => $sendStoriesPost
-                ]);
+                return response()->json($sendStoriesPost);
             }
             $sendStoriesContent = $sendStoriesPost->getBody()->getContents();
             $sendStoriesJSON = json_decode($sendStoriesContent);
