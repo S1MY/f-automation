@@ -45,7 +45,7 @@ class StoriesController extends Controller
             ]);
         }
         $validatedData = $validator->validated();
-        $storiesFile = $validatedData->file;
+        $storiesFile = $validatedData['file'];
         $fileSize = $storiesFile->getSize();
         $fileType = $storiesFile->getMimeType();
         if($fileSize <= 83886080){
