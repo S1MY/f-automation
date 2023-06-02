@@ -30,11 +30,20 @@ class StoriesController extends Controller
             'duration.required' => 'Файл является обязательным',
             'duration.integer' => 'Ошибка длительности видео',
         ];
-        $validatedData = $request->validate($rules, $messages);
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return response()->json([
+                'status' => 'error',
+                'title' => 'Ошибка валидации',
+                'message' => $error
+            ]);
+        }
+        $validatedData = $validator->validated();
         return response()->json([
             'status' => 'success',
             'title' => 'Крутяк',
-            'message' => $validatedData->duration
-            ]);
+            'message' => $validatedData['duration']
+        ]);
     }
 }
