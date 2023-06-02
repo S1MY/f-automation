@@ -212,7 +212,7 @@ class StoriesController extends Controller
             return response()->json([
                 'status' => 'success',
                 'title' => 'Всё прошло успешно',
-                'message' => 'История успешно создана и выгружена'
+                'message' => $storiesJSON
             ]);
         }else{
             return response()->json([
