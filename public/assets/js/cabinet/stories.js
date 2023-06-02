@@ -108,6 +108,11 @@ $(document).ready(function () {
         $('.popupItem').fadeOut();
         $('.popupItem[data-popup="loader"]').fadeIn();
         $(".popupWrapper").addClass('_notClose');
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
         $.ajax({
           type: "POST",
           url: ajaxUrl,
