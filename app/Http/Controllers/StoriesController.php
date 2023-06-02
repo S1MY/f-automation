@@ -157,11 +157,11 @@ class StoriesController extends Controller
                     'message' => 'Ошибка при загрузке файла на ВК сервер'
                 ]);
             }
-            // return response()->json([
-            //     'status' => 'success',
-            //     'title' => 'Крутяк',
-            //     'message' => $sendStoriesJSON->response->upload_result
-            // ]);
+            return response()->json([
+                'status' => 'success',
+                'title' => 'Крутяк',
+                'message' => $sendStoriesCode->response->upload_result
+            ]);
             // Stories::create([
             //     'account_id' => $userId,
             //     'name' => $accountName,
