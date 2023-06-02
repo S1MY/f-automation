@@ -33,7 +33,7 @@ $(document).ready(function () {
               $('input[name="duration"]').val(this.duration);
             };
         }else{
-            $('input[name="duration"]').val(15);
+            $('input[name="duration"]').val(14.99);
         }
         $('.fileName').html(file.name);
         let newSize = size / 1048576;
