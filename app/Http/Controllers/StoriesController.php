@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Support\Facades\Auth;
 
 class StoriesController extends Controller
 {
@@ -13,7 +16,7 @@ class StoriesController extends Controller
             'name' => 'required|string|max:20',
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
-            'file' => 'required',
+            'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
             'duration' => 'required|integer'
         ];
         $messages = [
@@ -26,6 +29,8 @@ class StoriesController extends Controller
             'accountId.required' => 'Обязательное поле',
             'accountId.integer' => 'Не является числом',
             'file.required' => 'Файл является обязательным',
+            'file.file' => 'Файл не является файлом',
+            'file.mimetypes' => 'Доступны только avi, mp4, jpg, png',
             'duration.required' => 'Файл является обязательным',
             'duration.float' => 'Ошибка длительности видео',
         ];
@@ -40,13 +45,31 @@ class StoriesController extends Controller
             ]);
         }
         $validatedData = $validator->validated();
-
-        $fileType = $request->file->getMimeType();
-        $fileSize = $request->file->getSize();
+        $storiesFile = $validatedData->file;
+        $fileSize = $storiesFile->getSize();
+        $fileType = $storiesFile->getMimeType();
+        if($fileSize <= 83886080){
+            if($fileType == 'video/mp4' || $fileType == 'video/avi'){
+                $fileTypeDB = 'video';
+                $fileName = 'stories' . date("Y-m-d-H-i-s") . ".mp4";
+            }else{
+                $fileTypeDB = 'image';
+                $fileName = 'stories' . date("Y-m-d-H-i-s") . ".jpg";
+            }
+            $userName = Auth::user()->login;
+            $storiesFile->originalName = $fileName;
+            Storage::disk('local')->putFile('files/'.$userName.'/stories', $storiesFile);
+        }else{
+            return response()->json([
+                'status' => 'input',
+                'name' => 'file',
+                'message' => 'Максимальный размер файла 10МБ'
+            ]);
+        }
         return response()->json([
             'status' => 'success',
             'title' => 'Крутяк',
-            'message' => $fileType.'|'.$fileSize
+            'message' => 'Проверь сохранился ли файл'
         ]);
     }
 }
