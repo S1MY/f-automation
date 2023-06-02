@@ -128,6 +128,7 @@ class StoriesController extends Controller
                     [
                         'name' => $sendType,
                         'contents' => $fileSend,
+                        'filename' => $sendType.'.'.$extension
                     ]
                 ]
             ]);
