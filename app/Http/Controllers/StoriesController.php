@@ -33,11 +33,12 @@ class StoriesController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
-            $error = $validator->errors()->first();
+            $errors = $validator->getMessageBag()->toArray();
+            $firstErrorKey = array_key_first($errors);
             return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка валидации',
-                'message' => $error
+                'status' => 'input',
+                'title' => $firstErrorKey,
+                'message' => $errors[$firstErrorKey][0]
             ]);
         }
         $validatedData = $validator->validated();
