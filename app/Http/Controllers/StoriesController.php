@@ -127,12 +127,12 @@ class StoriesController extends Controller
                     'message' => 'При получении групп возникла ошибка'
                 ]);
             }
-            $sendClient = new Client();
+            // $sendClient = new Client();
             $fileSend = storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName);
             
             $sendStoriesPost = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $sendStoriesPost->response->upload_url,
+            curl_setopt_array($sendStoriesPost, array(
+                CURLOPT_URL => $uploadJSON->response->upload_url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => array(
