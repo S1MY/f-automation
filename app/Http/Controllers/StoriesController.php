@@ -23,7 +23,7 @@ class StoriesController extends Controller
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
-            'duration' => 'required|float'
+            'duration' => 'required|decimal'
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
@@ -38,7 +38,7 @@ class StoriesController extends Controller
             'file.file' => 'Файл не является файлом',
             'file.mimetypes' => 'Доступны только avi, mp4, jpg, png',
             'duration.required' => 'Файл является обязательным',
-            'duration.float' => 'Ошибка длительности видео',
+            'duration.decimal' => 'Ошибка длительности видео',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
