@@ -20,7 +20,7 @@
                     </h1>
                     <p class="pageText _mt12">Созданная история обновляется ежедневно во время своего создания. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
                     <div class="tabPageItem">
-                        <form class="tabPageForm" action="{{storiesCreate}}">
+                        <form class="tabPageForm" action="{{ route('storiesCreate') }}">
                             <input type="hidden" name="accType" value="user">
                             <div class="tabPageInput" data-name="name">
                                 <input type="text" name="name" class="formInput" placeholder="Название истории">
