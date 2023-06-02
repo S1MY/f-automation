@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\File;
 use CURLFile;
 
 use Illuminate\Support\Facades\Auth;
@@ -80,12 +79,10 @@ class StoriesController extends Controller
         $fileType = $storiesFile->getMimeType();
         if($fileSize <= 83886080){
             if($fileType == 'video/mp4' || $fileType == 'video/avi'){
-                $fileTypeDB = 'video';
                 $extension = 'mp4';
                 $method = '/stories.getVideoUploadServer';
                 $sendType = 'video_file';
             }elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
-                $fileTypeDB = 'image';
                 $extension = 'jpg';
                 $method = '/stories.getPhotoUploadServer';
                 $sendType = 'file';
@@ -110,8 +107,9 @@ class StoriesController extends Controller
             $uploadGet = $getUpload->request('GET', '/method'.$method, [
                 'query' => $uploadParams
             ]);
+            $fileLoadUrl = 'files/users/'.$userName.'/stories/';
             if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
-                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
+                Storage::disk('public')->delete($fileLoadUrl.$fileName);
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка запроса',
@@ -121,14 +119,14 @@ class StoriesController extends Controller
             $uploadContent = $uploadGet->getBody()->getContents();
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
-                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
+                Storage::disk('public')->delete($fileLoadUrl.$fileName);
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка получения токена',
                     'message' => 'При получении групп возникла ошибка'
                 ]);
             }
-            $fileSend = storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName);
+            $fileSend = storage_path('app/public/'.$fileLoadUrl.$fileName);
             // Эта хуйня работает только с курлом ХЗ почему
             $sendStoriesPost = curl_init();
             if($sendType == 'file'){
@@ -151,25 +149,27 @@ class StoriesController extends Controller
             curl_close($sendStoriesPost);
             $sendStoriesCode = curl_getinfo($sendStoriesPost, CURLINFO_HTTP_CODE);
             if ($sendStoriesCode != 200 || isset($sendStoriesJSON->error)) {
-                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
+                Storage::disk('public')->delete($fileLoadUrl.$fileName);
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка получения токена',
                     'message' => 'Ошибка при загрузке файла на ВК сервер'
                 ]);
             }
+            Stories::create([
+                'account_id' => $accountId,
+                'group_id' => $groupId,
+                'title' => $validatedData['name'],
+                'filetype' => $extension,
+                'link' => $fileLoadUrl.$fileName,
+                'upload_result' => $sendStoriesJSON->response->upload_result,
+                'active' => 0
+            ]); 
             return response()->json([
                 'status' => 'success',
-                'title' => 'Крутяк',
-                'message' => $sendStoriesJSON->response->upload_result
+                'title' => 'Всё прошло успешно',
+                'message' => 'История успешно создана и выгружена'
             ]);
-            // Stories::create([
-            //     'account_id' => $userId,
-            //     'name' => $accountName,
-            //     'link' => $accountLink,
-            //     'avatar' => $accountAvatar,
-            //     'token' => $token
-            // ]); 
         }else{
             return response()->json([
                 'status' => 'input',
