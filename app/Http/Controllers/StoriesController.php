@@ -187,34 +187,28 @@ class StoriesController extends Controller
                     'message' => 'При отправке запроса на сервер ВК произошла ошибка'
                 ]);
             }
-            Storage::disk('public')->delete($fileLoadUrl.$fileName);
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Прошло',
-                'message' => $storiesJSON
+            $storiesCreate = Stories::create([
+                'account_id' => $accountId,
+                'group_id' => $groupId,
+                'title' => $validatedData['name'],
+                'filetype' => $extension,
+                'link' => $fileLoadUrl.$fileName,
+                'upload_result' => $sendStoriesJSON->response->upload_result,
+                'active' => 0
             ]);
-            // $storiesCreate = Stories::create([
-            //     'account_id' => $accountId,
-            //     'group_id' => $groupId,
-            //     'title' => $validatedData['name'],
-            //     'filetype' => $extension,
-            //     'link' => $fileLoadUrl.$fileName,
-            //     'upload_result' => $sendStoriesJSON->response->upload_result,
-            //     'active' => 0
-            // ]);
-            // StoriesSettings::create([
-            //     'stories_id' => $storiesCreate->id,
-            //     'link_text' => 0,
-            //     'link_url' => 0,
-            //     'to_news' => 0,
-            // ]);
-            // StoriesStory::create([
-            //     'stories_id' => $storiesCreate->id,
-            //     'stories_did' => 0,
-            //     'viewes' => 0,
-            //     'open_link' => 0,
-            //     'subscribers' => 0,
-            // ]);
+            StoriesSettings::create([
+                'stories_id' => $storiesCreate->id,
+                'link_text' => 0,
+                'link_url' => 0,
+                'to_news' => 0,
+            ]);
+            StoriesStory::create([
+                'stories_id' => $storiesCreate->id,
+                'stories_did' => $storiesJSON->response->items[0]->id,
+                'viewes' => 0,
+                'open_link' => 0,
+                'subscribers' => 0,
+            ]);
             return response()->json([
                 'status' => 'success',
                 'title' => 'Всё прошло успешно',
