@@ -160,7 +160,7 @@ class StoriesController extends Controller
             return response()->json([
                 'status' => 'success',
                 'title' => 'Крутяк',
-                'message' => $sendStoriesCode->response->upload_result
+                'message' => $sendStoriesCode
             ]);
             // Stories::create([
             //     'account_id' => $userId,
