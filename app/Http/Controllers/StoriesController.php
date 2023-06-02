@@ -49,7 +49,8 @@ class StoriesController extends Controller
                 'message' => $errors[$firstErrorKey][0]
             ]);
         }
-        if($validatedData->accType == 'group'){
+        $validatedData = $validator->validated();
+        if($validatedData['accType'] == 'group'){
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('group_id', '=', $groupId)->first();
             if(!$searchGroup){
@@ -72,7 +73,6 @@ class StoriesController extends Controller
                 'message' => 'Аккаунт не найден'
             ]);
         }
-        $validatedData = $validator->validated();
         $storiesFile = $validatedData['file'];
         $fileSize = $storiesFile->getSize();
         $fileType = $storiesFile->getMimeType();
