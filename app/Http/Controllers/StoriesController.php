@@ -13,6 +13,8 @@ use App\Models\VkAccount;
 use App\Models\VkGroup;
 
 use App\Models\Stories;
+use App\Models\StoriesSettings;
+use App\Models\StoriesStory;
 
 class StoriesController extends Controller
 {
@@ -122,8 +124,8 @@ class StoriesController extends Controller
                 Storage::disk('public')->delete($fileLoadUrl.$fileName);
                 return response()->json([
                     'status' => 'error',
-                    'title' => 'Ошибка получения токена',
-                    'message' => 'При получении групп возникла ошибка'
+                    'title' => 'Ошибка запроса',
+                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
                 ]);
             }
             $fileSend = storage_path('app/public/'.$fileLoadUrl.$fileName);
@@ -156,15 +158,63 @@ class StoriesController extends Controller
                     'message' => 'Ошибка при загрузке файла на ВК сервер'
                 ]);
             }
-            Stories::create([
-                'account_id' => $accountId,
-                'group_id' => $groupId,
-                'title' => $validatedData['name'],
-                'filetype' => $extension,
-                'link' => $fileLoadUrl.$fileName,
-                'upload_result' => $sendStoriesJSON->response->upload_result,
-                'active' => 0
-            ]); 
+            $storiesSave = new Client([
+                'base_uri' => 'https://api.vk.com',
+            ]);
+            $storiesParams = array(
+                'v' => '5.131',
+                'access_token' => $searchAccount->token,
+                'upload_results' => $sendStoriesJSON->response->upload_result,
+            );
+            $storiesGet = $storiesSave->request('GET', '/method/stories.save', [
+                'query' => $storiesParams
+            ]);
+            if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
+                Storage::disk('public')->delete($fileLoadUrl.$fileName);
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка запроса',
+                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
+                ]);
+            }
+            $storiesContent = $storiesGet->getBody()->getContents();
+            $storiesJSON = json_decode($storiesContent);
+            if (isset($storiesJSON->error)) {
+                Storage::disk('public')->delete($fileLoadUrl.$fileName);
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка запроса',
+                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
+                ]);
+            }
+            Storage::disk('public')->delete($fileLoadUrl.$fileName);
+            return response()->json([
+                'status' => 'error',
+                'title' => 'Прошло',
+                'message' => $storiesJSON
+            ]);
+            // $storiesCreate = Stories::create([
+            //     'account_id' => $accountId,
+            //     'group_id' => $groupId,
+            //     'title' => $validatedData['name'],
+            //     'filetype' => $extension,
+            //     'link' => $fileLoadUrl.$fileName,
+            //     'upload_result' => $sendStoriesJSON->response->upload_result,
+            //     'active' => 0
+            // ]);
+            // StoriesSettings::create([
+            //     'stories_id' => $storiesCreate->id,
+            //     'link_text' => 0,
+            //     'link_url' => 0,
+            //     'to_news' => 0,
+            // ]);
+            // StoriesStory::create([
+            //     'stories_id' => $storiesCreate->id,
+            //     'stories_did' => 0,
+            //     'viewes' => 0,
+            //     'open_link' => 0,
+            //     'subscribers' => 0,
+            // ]);
             return response()->json([
                 'status' => 'success',
                 'title' => 'Всё прошло успешно',

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class StoriesStory extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'stories_id',
+        'stories_did',
+        'viewes',
+        'open_link',
+        'subscribers',
+    ];
 }
