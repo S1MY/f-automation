@@ -121,9 +121,17 @@ class StoriesController extends Controller
             }
             $sendClient = new Client();
             $fileSend = new File(storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName));
+            return response()->json([
+                'status' => 'error',
+                'title' => 'Ошибка загрузки',
+                'message' => $fileSend
+            ]);
             $sendStoriesPost = $sendClient->request('POST', $uploadJSON->response->upload_url, [
                 'multipart' => [
-                        $sendType => $fileSend,
+                    [
+                        'name' => $sendType,
+                        'contents' => $fileSend,
+                    ]
                 ]
             ]);
             if ($sendStoriesPost->getStatusCode() !== 200 || !$sendStoriesPost->getBody()) {
