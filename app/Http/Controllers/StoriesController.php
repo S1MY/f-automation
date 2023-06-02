@@ -128,7 +128,6 @@ class StoriesController extends Controller
                     'message' => 'При получении групп возникла ошибка'
                 ]);
             }
-            // $sendClient = new Client();
             $fileSend = storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName);
             
             $sendStoriesPost = curl_init();
@@ -137,43 +136,19 @@ class StoriesController extends Controller
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => array(
-                    'file' => new CURLFile($fileSend)
+                    $sendType => new CURLFile($fileSend)
                 ),
             ));
             $sendStoriesContent = curl_exec($sendStoriesPost);
             curl_close($sendStoriesPost);
-            // $sendStoriesPost = $sendClient->request('POST', $uploadJSON->response->upload_url, [
-            //     'multipart' => [
-            //         [
-            //             'name' => $sendType,
-            //             'contents' => $fileSend,
-            //             'filename' => $sendType.'.'.$extension
-            //         ]
-            //     ]
-            // ]);
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка загрузки',
-                'message' => $sendStoriesContent
-            ]);
-            // if ($sendStoriesPost->getStatusCode() !== 200 || !$sendStoriesPost->getBody()) {
-            //     Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
-            //     return response()->json([
-            //         'status' => 'error',
-            //         'title' => 'Ошибка загрузки',
-            //         'message' => $sendStoriesPost->getStatusCode()
-            //     ]);
-            // }
-            // $sendStoriesContent = $sendStoriesPost->getBody()->getContents();
-            // $sendStoriesJSON = json_decode($sendStoriesContent);
-            // if (isset($sendStoriesJSON->error)) {
-            //     Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
-            //     return response()->json([
-            //         'status' => 'error',
-            //         'title' => 'Ошибка получения токена',
-            //         'message' => 'Ошибка при загрузке файла на ВК сервер'
-            //     ]);
-            // }
+            if (isset($sendStoriesContent->error)) {
+                Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка получения токена',
+                    'message' => 'Ошибка при загрузке файла на ВК сервер'
+                ]);
+            }
             // return response()->json([
             //     'status' => 'success',
             //     'title' => 'Крутяк',
