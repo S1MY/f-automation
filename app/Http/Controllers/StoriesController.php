@@ -131,17 +131,25 @@ class StoriesController extends Controller
             $fileSend = storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName);
             
             $sendStoriesPost = curl_init();
-            curl_setopt_array($sendStoriesPost, array(
+            if($sendType == 'file'){
+                $postFields = [
+                    'file' => new CURLFile($fileSend)
+                ];
+            }else{
+                $postFields = [
+                    'video_file' => new CURLFile($fileSend)
+                ];
+            }
+            curl_setopt_array($sendStoriesPost, [
                 CURLOPT_URL => $uploadJSON->response->upload_url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => array(
-                    $sendType => new CURLFile($fileSend)
-                ),
-            ));
+                CURLOPT_POSTFIELDS => $postFields,
+            ]);
             $sendStoriesContent = curl_exec($sendStoriesPost);
             curl_close($sendStoriesPost);
-            if (isset($sendStoriesContent->error)) {
+            $sendStoriesCode = curl_getinfo($sendStoriesPost, CURLINFO_HTTP_CODE);
+            if ($sendStoriesCode != 200 || isset($sendStoriesContent->error)) {
                 Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
                 return response()->json([
                     'status' => 'error',
