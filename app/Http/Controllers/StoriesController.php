@@ -13,7 +13,7 @@ class StoriesController extends Controller
             'name' => 'required|string|max:20',
             'accType' => 'required|string|max:5',
             'accountId' => 'required|integer',
-            'file' => 'required|file|size:10240',
+            'file' => 'required',
             'duration' => 'required|integer'
         ];
         $messages = [
@@ -26,8 +26,6 @@ class StoriesController extends Controller
             'accountId.required' => 'Обязательное поле',
             'accountId.integer' => 'Не является числом',
             'file.required' => 'Файл является обязательным',
-            'file.file' => 'Файл не является файлом',
-            'file.size' => 'Максимальный вес файла 10МБ',
             'duration.required' => 'Файл является обязательным',
             'duration.integer' => 'Ошибка длительности видео',
         ];
