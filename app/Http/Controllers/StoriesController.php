@@ -83,11 +83,17 @@ class StoriesController extends Controller
                 $extension = 'mp4';
                 $method = '/stories.getVideoUploadServer';
                 $sendType = 'video_file';
-            }else{
+            }elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
                 $fileTypeDB = 'image';
                 $extension = 'jpg';
                 $method = '/stories.getPhotoUploadServer';
                 $sendType = 'file';
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка запроса',
+                    'message' => 'Неизвестный тип файла'
+                ]);
             }
             $fileName = 'stories-' . date("Y-m-d-H-i-s") . ".".$extension;
             $userName = Auth::user()->login;
@@ -148,7 +154,7 @@ class StoriesController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка получения токена',
-                    'message' => 'Ошибка при загрузке файла на ВК сервер'.$sendStoriesJSON->error
+                    'message' => 'Ошибка при загрузке файла на ВК сервер'.$sendStoriesJSON->error->error_code
                 ]);
             }
             return response()->json([
