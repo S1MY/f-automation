@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\File;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\VkAccount;
@@ -119,11 +120,12 @@ class StoriesController extends Controller
                 ]);
             }
             $sendClient = new Client();
+            $fileSend = new File('/storage/files/users/'.$userName.'/stories/'.$fileName);
             $sendStoriesPost = $sendClient->request('POST', $uploadJSON->response->upload_url, [
                 'multipart' => [
                     [
                         'name' => $sendType,
-                        'contents' => fopen('/storage/files/users/'.$userName.'/stories/'.$fileName, 'r'),
+                        'contents' => $fileSend,
                     ]
                 ]
             ]);
