@@ -123,10 +123,7 @@ class StoriesController extends Controller
             $fileSend = new File(storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName));
             $sendStoriesPost = $sendClient->request('POST', $uploadJSON->response->upload_url, [
                 'multipart' => [
-                    [
-                        'name' => $sendType,
-                        'contents' => $fileSend,
-                    ]
+                        $sendType => $fileSend,
                 ]
             ]);
             if ($sendStoriesPost->getStatusCode() !== 200 || !$sendStoriesPost->getBody()) {
@@ -138,10 +135,17 @@ class StoriesController extends Controller
             }
             $sendStoriesContent = $sendStoriesPost->getBody()->getContents();
             $sendStoriesJSON = json_decode($sendStoriesContent);
+            if (isset($sendStoriesJSON->error)) {
+                return response()->json([
+                    'status' => 'error',
+                    'title' => 'Ошибка получения токена',
+                    'message' => 'Ошибка при загрузке файла на ВК сервер'
+                ]);
+            }
             return response()->json([
                 'status' => 'success',
                 'title' => 'Крутяк',
-                'message' => $sendStoriesJSON
+                'message' => $sendStoriesJSON->response->upload_result
             ]);
             // Stories::create([
             //     'account_id' => $userId,
