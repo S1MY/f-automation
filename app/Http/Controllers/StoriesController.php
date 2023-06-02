@@ -11,7 +11,7 @@ class StoriesController extends Controller
     {   
         $rules = [
             'name' => 'required|string|max:20',
-            'accType' => 'required|string|max:5',
+            'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
             'file' => 'required',
             'duration' => 'required|integer'
@@ -22,7 +22,7 @@ class StoriesController extends Controller
             'name.max' => 'Максимум :max символов',
             'accType.required' => 'Неопределённый аккаунт',
             'accType.string' => 'Неопределённый аккаунт',
-            'accType.max' => 'Неопределённый аккаунт',
+            'accType.in' => 'Неопределённый тип',
             'accountId.required' => 'Обязательное поле',
             'accountId.integer' => 'Не является числом',
             'file.required' => 'Файл является обязательным',
@@ -40,10 +40,13 @@ class StoriesController extends Controller
             ]);
         }
         $validatedData = $validator->validated();
+
+        $fileType = $request->file->getMimeType();
+        $fileSize = $request->file->getSize();
         return response()->json([
             'status' => 'success',
             'title' => 'Крутяк',
-            'message' => $validatedData['duration']
+            'message' => $fileType.'|'.$fileSize
         ]);
     }
 }
