@@ -120,7 +120,7 @@ class StoriesController extends Controller
                 ]);
             }
             $sendClient = new Client();
-            $fileSend = new File(storage_path('app/files/users/'.$userName.'/stories/'.$fileName));
+            $fileSend = new File(storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName));
             $sendStoriesPost = $sendClient->request('POST', $uploadJSON->response->upload_url, [
                 'multipart' => [
                     [
