@@ -154,7 +154,7 @@ class StoriesController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'title' => 'Ошибка получения токена',
-                    'message' => 'Ошибка при загрузке файла на ВК сервер'.$sendStoriesJSON->error->error_code
+                    'message' => $sendStoriesJSON->error->error_code
                 ]);
             }
             return response()->json([
