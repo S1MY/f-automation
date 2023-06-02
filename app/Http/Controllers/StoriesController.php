@@ -129,7 +129,7 @@ class StoriesController extends Controller
                 ]);
             }
             $fileSend = storage_path('app/public/files/users/'.$userName.'/stories/'.$fileName);
-            
+            // Эта хуйня работает только с курлом ХЗ почему
             $sendStoriesPost = curl_init();
             if($sendType == 'file'){
                 $postFields = [
@@ -147,9 +147,10 @@ class StoriesController extends Controller
                 CURLOPT_POSTFIELDS => $postFields,
             ]);
             $sendStoriesContent = curl_exec($sendStoriesPost);
+            $sendStoriesJSON = json_decode($sendStoriesContent);            
             curl_close($sendStoriesPost);
             $sendStoriesCode = curl_getinfo($sendStoriesPost, CURLINFO_HTTP_CODE);
-            if ($sendStoriesCode != 200 || isset($sendStoriesContent->error)) {
+            if ($sendStoriesCode != 200 || isset($sendStoriesJSON->error)) {
                 Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
                 return response()->json([
                     'status' => 'error',
@@ -160,7 +161,7 @@ class StoriesController extends Controller
             return response()->json([
                 'status' => 'success',
                 'title' => 'Крутяк',
-                'message' => $sendStoriesContent
+                'message' => $sendStoriesJSON->response->upload_result
             ]);
             // Stories::create([
             //     'account_id' => $userId,
