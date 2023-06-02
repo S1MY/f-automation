@@ -98,7 +98,7 @@ class StoriesController extends Controller
                 'add_to_news' => 0,
             );
             $uploadGet = $getUpload->request('GET', '/method'.$method, [
-                'query' => $groupsParams
+                'query' => $uploadParams
             ]);
             if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
                 return response()->json([
