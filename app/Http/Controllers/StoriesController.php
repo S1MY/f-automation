@@ -23,7 +23,7 @@ class StoriesController extends Controller
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
-            'duration' => 'required|decimal:2'
+            'duration' => 'required|decimal:2,10'
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
