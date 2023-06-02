@@ -136,8 +136,7 @@ class StoriesController extends Controller
                         'contents' => $fileSend,
                         'filename' => $sendType.'.'.$extension
                     ]
-                ],
-                'allow_redirects' => false
+                ]
             ]);
             if ($sendStoriesPost->getStatusCode() !== 200 || !$sendStoriesPost->getBody()) {
                 Storage::disk('public')->delete('files/users/'.$userName.'/stories/'.$fileName);
