@@ -11,7 +11,7 @@ class StoriesController extends Controller
         $request->validate([
             'name' => 'required|string|max:20',
             'accType' => 'required|string|max:5',
-            'accountId' => 'required|number',
+            'accountId' => 'required|integer',
             'file' => 'required|file|size:10240|mimetypes:video/avi,video/mp4|mimes:jpg,jpeg'
         ]);
         return response()->json([
