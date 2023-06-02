@@ -37,7 +37,7 @@ class StoriesController extends Controller
             $firstErrorKey = array_key_first($errors);
             return response()->json([
                 'status' => 'input',
-                'title' => $firstErrorKey,
+                'name' => $firstErrorKey,
                 'message' => $errors[$firstErrorKey][0]
             ]);
         }
