@@ -11,7 +11,7 @@ class StoriesController extends Controller
         return response()->json([
             'status' => 'success',
             'title' => 'Крутяк',
-            'message' => $request->name
+            'message' => $request->file
             ]);
     }
 }
