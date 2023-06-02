@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\File;
+use CURLFile;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\VkAccount;
