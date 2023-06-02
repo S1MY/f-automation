@@ -92,7 +92,7 @@ $(document).ready(function () {
     }
     $(".tabPageForm").submit(function (e) {
       e.preventDefault();
-      let action = $(this).attr('data-action');
+      const ajaxUrl = $(this).attr('action');
       if (detector == false) {
         let message = "<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>";
         createMessage(message);
@@ -110,7 +110,7 @@ $(document).ready(function () {
         $(".popupWrapper").addClass('_notClose');
         $.ajax({
           type: "POST",
-          url: action,
+          url: ajaxUrl,
           contentType: false,
           processData: false,
           cache: false,
@@ -118,38 +118,31 @@ $(document).ready(function () {
           dataType: "json",
           success: function (response) {
             $('.popupWrapper').removeClass('_notClose');
-            if(response.result == "success"){
-              // Успешный
-              let title = "Вай вай вай";
-              let message = "История успешно создана.<br> Сейчас обновится страница для применения изменений.";
-              $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-              $('.popupItem[data-popup="success"]')
-                .children(".popupText")
-                .html(message);
-              $('.popupItem[data-popup="success"]').fadeIn();
-              setTimeout(() => {
-                location.reload();
-              }, 5000);
-            }else if(response.result == "inputs"){
-              // Клиентские ошибки
-              $.each(response.errors, function (key, value) {
-                $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-                $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">Название ошибки</span>');
-              });
-              $('.errorInput').fadeOut(3000);
-              setTimeout(() => {
-                $('.errorInput').remove();
-              }, 3500);
-              $(".popupWrapper").fadeOut();
-              $('.popupItem').fadeOut();
-            }else{
-              // Серверные ошибки
-              let title = "ОЙ ОЙ ОЙ";
-              let message = "Андрюха по коням. Походу криминал.";
-              $('.popupItem[data-popup="error"]').children(".popupTitle").html(title);
-              $('.popupItem[data-popup="error"]').children(".popupText").html(message);
-              $('.popupItem[data-popup="error"]').fadeIn();
-            }
+            $('.popupItem').fadeOut();
+            console.log(response)
+            // if(response.result == "success"){
+              
+            // }else if(response.result == "inputs"){
+            //   $.each(response.errors, function (key, value) {
+            //     $(`.tabPageInput[data-name=${key}]`).addClass('_error');
+            //     $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">Название ошибки</span>');
+            //   });
+            //   $('.errorInput').fadeOut(3000);
+            //   setTimeout(() => {
+            //     $('.errorInput').remove();
+            //   }, 3500);
+            //   $(".popupWrapper").fadeOut();
+            //   $('.popupItem').fadeOut();
+            // }
+          },
+          error: function (response) {
+            $('.popupWrapper').removeClass('_notClose');
+            $('.popupItem').fadeOut();
+            const error = $('.popupItem[data-popup="error"]');
+            error.show()
+            error.children('.popupTitle').html(response.title);
+            error.children('.popupText').html(response.message);
+            error.fadeIn();
           }
         });
       }

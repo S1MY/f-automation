@@ -42,7 +42,7 @@
         <div class="popupIcon">
             <span class="popupLoader"></span>
         </div>
-        <h3 class="popupTitle">Видеоролик обрабатывается</h3>
+        <h3 class="popupTitle">Файл обрабатывается</h3>
         <p class="popupText _center">Пожалуйста дождитесь завершения обработки</p>
     </div>
     <div class="popupItem" data-class="guid" data-popup="streamStart">

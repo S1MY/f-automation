@@ -13,6 +13,7 @@ use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\VkAuthController;
+use App\Http\Controllers\StoriesController;
 
 /*
  *
@@ -81,6 +82,8 @@ Route::post('/vk-user-remove', [VkAuthController::class, 'vkUserRemove'])->name(
 Route::post('/vk-group-list', [VkAuthController::class, 'vkGroupList'])->name('vkGroupList');
 Route::post('/vk-group-auth', [VkAuthController::class, 'vkGroupAuth'])->name('vkGroupAuth');
 Route::post('/vk-group-remove', [VkAuthController::class, 'vkGroupRemove'])->name('vkGroupRemove');
+
+Route::post('/vk-stories-reate', [StoriesController::class, 'storiesCreate'])->name('storiesCreate');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 
 class StoriesController extends Controller
 {
-    public function storiesAdd(Request $request)
+    public function storiesCreate(Request $request)
     {
-        
+        return response()->json([
+            'status' => 'success',
+            'title' => 'Крутяк',
+            'message' => $request
+            ]);
     }
 }
