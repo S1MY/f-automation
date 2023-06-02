@@ -143,11 +143,12 @@ $(document).ready(function () {
           error: function (response) {
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
-            const error = $('.popupItem[data-popup="error"]');
-            error.show()
-            error.children('.popupTitle').html(response.title);
-            error.children('.popupText').html(response.message);
-            error.fadeIn();
+            console.log(response)
+            // const error = $('.popupItem[data-popup="error"]');
+            // error.show()
+            // error.children('.popupTitle').html(response.title);
+            // error.children('.popupText').html(response.message);
+            // error.fadeIn();
           }
         });
       }
