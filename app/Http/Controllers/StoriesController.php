@@ -8,16 +8,33 @@ class StoriesController extends Controller
 {
     public function storiesCreate(Request $request)
     {   
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:20',
             'accType' => 'required|string|max:5',
             'accountId' => 'required|integer',
-            'file' => 'required|file|size:10240|mimetypes:video/avi,video/mp4|mimes:jpg,jpeg'
-        ]);
+            'file' => 'required|file|size:10240',
+            'duration' => 'required|integer'
+        ];
+        $messages = [
+            'name.required' => 'Обязательное поле',
+            'name.string' => 'Не является строкой',
+            'name.max' => 'Максимум :max символов',
+            'accType.required' => 'Неопределённый аккаунт',
+            'accType.string' => 'Неопределённый аккаунт',
+            'accType.max' => 'Неопределённый аккаунт',
+            'accountId.required' => 'Обязательное поле',
+            'accountId.integer' => 'Не является числом',
+            'file.required' => 'Файл является обязательным',
+            'file.file' => 'Файл не является файлом',
+            'file.size' => 'Максимальный вес файла 10МБ',
+            'duration.required' => 'Файл является обязательным',
+            'duration.integer' => 'Ошибка длительности видео',
+        ];
+        $validatedData = $request->validate($rules, $messages);
         return response()->json([
             'status' => 'success',
             'title' => 'Крутяк',
-            'message' => $request->file
+            'message' => $validatedData->duration
             ]);
     }
 }
