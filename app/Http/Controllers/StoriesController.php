@@ -27,7 +27,7 @@ class StoriesController extends Controller
             'accountId.integer' => 'Не является числом',
             'file.required' => 'Файл является обязательным',
             'duration.required' => 'Файл является обязательным',
-            'duration.integer' => 'Ошибка длительности видео',
+            'duration.float' => 'Ошибка длительности видео',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
