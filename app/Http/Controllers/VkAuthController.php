@@ -41,12 +41,12 @@ class VkAuthController extends Controller
                 'query' => $tokenParams
             ]);
             if ($tokenGet->getStatusCode() !== 200 || !$tokenGet->getBody()) {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $tokenContent = $tokenGet->getBody()->getContents();
             $tokenJSON = json_decode($tokenContent);
             if (isset($tokenJSON->error)) {
-                return $this->generateJsonResponse('error', 'Ошибка получения токена', 'При получении токена доступа произошла ошибка');
+                $this->generateJsonResponse('error', 'Ошибка получения токена', 'При получении токена доступа произошла ошибка');
             }
             $token = $tokenJSON->access_token;
             $userId = $tokenJSON->user_id;
@@ -60,13 +60,13 @@ class VkAuthController extends Controller
                 'query' => $usersParams
             ]);
             if ($usersGet->getStatusCode() !== 200 || !$usersGet->getBody()) {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $usersContent = $usersGet->getBody()->getContents();
             $usersJSON = json_decode($usersContent);
 
             if (isset($usersJSON->error)) {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При получении данных пользователя возникла ошибка');
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При получении данных пользователя возникла ошибка');
             } else {
                 $userId = Auth::user()->id;
                 $accountName = $usersJSON->response[0]->first_name . ' ' . $usersJSON->response[0]->last_name;
@@ -81,7 +81,7 @@ class VkAuthController extends Controller
                         'avatar' => $accountAvatar,
                         'token' => $token
                     ]);
-                    return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $accountName . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                    $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $accountName . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
                 } else {
                     $searchAccount->uid = $userId;
                     $searchAccount->name = $accountName;
@@ -99,13 +99,13 @@ class VkAuthController extends Controller
                             Stream::where('id', '=', $stream->id)->delete();
                             VkGroup::where('account_id', '=', $searchAccount->id)->delete();
                         }
-                        return $this->generateJsonResponse('success', 'Аккаунт обновлён', 'Аккаунт - <span>' . $accountName . '</span> - обновлён.<br> Вся информация очищена.');
+                        $this->generateJsonResponse('success', 'Аккаунт обновлён', 'Аккаунт - <span>' . $accountName . '</span> - обновлён.<br> Вся информация очищена.');
                     }
-                    return $this->generateJsonResponse('success', 'Аккаунт обновлён', 'Аккаунт - <span>' . $accountName . '</span> - обновлён.');
+                    $this->generateJsonResponse('success', 'Аккаунт обновлён', 'Аккаунт - <span>' . $accountName . '</span> - обновлён.');
                 }
             }
         } else {
-            return $this->generateJsonResponse('error', 'Неизвестный тип', 'Не пытайтесь лезть в код элемента ;)');
+            $this->generateJsonResponse('error', 'Неизвестный тип', 'Не пытайтесь лезть в код элемента ;)');
         }
     }
     public function vkUserRemove(Request $request)
@@ -126,12 +126,12 @@ class VkAuthController extends Controller
                     Stream::where('id', '=', $stream->id)->delete();
                 }
                 VkAccount::where('id', '=', $accountId)->delete();
-                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
             } else {
-                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
+                $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
             }
         } else {
-            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле accountId');
+            $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле accountId');
         }
     }
     public function vkGroupList(Request $request)
@@ -159,12 +159,12 @@ class VkAuthController extends Controller
                     'query' => $groupsParams
                 ]);
                 if ($groupsGet->getStatusCode() !== 200 || !$groupsGet->getBody()) {
-                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 $groupsContent = $groupsGet->getBody()->getContents();
                 $groupsJSON = json_decode($groupsContent);
                 if (isset($groupsJSON->error)) {
-                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 foreach ($groupsJSON->response->items as $groupItem) {
                     $searchGroup = VkGroup::where('group_id', '=', $groupItem->id)->first();
@@ -177,12 +177,12 @@ class VkAuthController extends Controller
                         ];
                     }
                 }
-                return $this->generateJsonResponse('success', 'Список подгружен', $groupsResponse);
+                $this->generateJsonResponse('success', 'Список подгружен', $groupsResponse);
             } else {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
             }
         } else {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId');
+            $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId');
         }
     }
     public function vkGroupAuth(Request $request)
@@ -210,12 +210,12 @@ class VkAuthController extends Controller
                     'query' => $groupsParams
                 ]);
                 if ($groupsGet->getStatusCode() !== 200 || !$groupsGet->getBody()) {
-                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 $groupsContent = $groupsGet->getBody()->getContents();
                 $groupsJSON = json_decode($groupsContent);
                 if (isset($groupsJSON->error)) {
-                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 $searchGroup = VkGroup::where('group_id', '=', $groupId)->first();
                 if (!$searchGroup) {
@@ -235,18 +235,18 @@ class VkAuthController extends Controller
                         }
                     }
                     if ($groupNext) {
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа - <span>' . $groupName . '</span> - успешно привязана.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                        $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа - <span>' . $groupName . '</span> - успешно привязана.<br> Страница автоматически перегрузится, чтобы изменения применились.');
                     } else {
-                        return $this->generateJsonResponse('error', 'Ошибка запроса', 'Вы не являетесь администратором группы!');
+                        $this->generateJsonResponse('error', 'Ошибка запроса', 'Вы не являетесь администратором группы!');
                     }
                 } else {
-                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'Данная группа уже есть в базе данных');
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'Данная группа уже есть в базе данных');
                 }
             } else {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
             }
         } else {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId или groupId');
+            $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId или groupId');
         }
     }
     public function vkGroupRemove(Request $request)
@@ -267,12 +267,12 @@ class VkAuthController extends Controller
                     Stream::where('id', '=', $stream->id)->delete();
                 }
                 VkGroup::where('id', '=', $groupId)->delete();
-                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
             } else {
-                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная группа не была найдена, либо вы не являетесь её владельцем');
+                $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная группа не была найдена, либо вы не являетесь её владельцем');
             }
         } else {
-            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле groupId');
+            $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле groupId');
         }
     }
     private function generateJsonResponse($type, $title, $message)
