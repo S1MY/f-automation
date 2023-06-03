@@ -25,7 +25,7 @@ class StoriesController extends Controller
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
-            'duration' => 'required|numeric|min:10|max:20',
+            'duration' => 'required|numeric|between:10,20',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
         ];
         $messages = [
@@ -42,8 +42,7 @@ class StoriesController extends Controller
             'file.mimetypes' => 'Доступны только avi, mp4, jpg, png',
             'duration.required' => 'Файл является обязательным',
             'duration.numeric' => 'Ошибка длительности видео',
-            'duration.min' => 'Ошибка длительности видео',
-            'duration.max' => 'Ошибка длительности видео',
+            'duration.between' => 'Ошибка длительности видео',
             'linkText.string' => 'Не является строкой',
             'linkText.in' => 'Неопределённый тип кнопки'
         ];
