@@ -145,7 +145,7 @@
                                     @if ($Stories->filetype == 'mp4')
                                     <div class="videoWrapper">
                                         <video controls class="videoGuid" data-index="0" preload="metadata">
-                                        <source src="{{$Stories->link}}" type="video/mp4"/>
+                                        <source src="/storage/{{$Stories->link}}" type="video/mp4"/>
                                         </video>
                                         <div class="videoContoller">
                                         <p class="togglePlay">
@@ -190,7 +190,7 @@
                                     </div>
                                     @else
                                     <div class="imageWrapper">
-                                        <img src="{{$Stories->link}}" alt="image">
+                                        <img src="/storage/{{$Stories->link}}" alt="image">
                                     </div>
                                     @endif
                                     <div class="cardInformation">
@@ -228,7 +228,7 @@
                                         @if ($Stories->filetype == 'mp4')
                                         <div class="videoWrapper">
                                             <video controls class="videoGuid" data-index="0" preload="metadata">
-                                            <source src="{{$Stories->link}}" type="video/mp4"/>
+                                            <source src="/storage/{{$Stories->link}}" type="video/mp4"/>
                                             </video>
                                             <div class="videoContoller">
                                             <p class="togglePlay">
@@ -273,7 +273,7 @@
                                         </div>
                                         @else
                                         <div class="imageWrapper">
-                                            <img src="{{$Stories->link}}" alt="image">
+                                            <img src="/storage/{{$Stories->link}}" alt="image">
                                         </div>
                                         @endif
                                         <div class="cardInformation">
@@ -364,7 +364,7 @@
                                     @if ($Stories->filetype == 'mp4')
                                     <div class="videoWrapper">
                                         <video controls class="videoGuid" data-index="0" preload="metadata">
-                                        <source src="{{$Stories->link}}" type="video/mp4"/>
+                                        <source src="/storage/{{$Stories->link}}" type="video/mp4"/>
                                         </video>
                                         <div class="videoContoller">
                                         <p class="togglePlay">
@@ -409,7 +409,7 @@
                                     </div>
                                     @else
                                     <div class="imageWrapper">
-                                        <img src="{{$Stories->link}}" alt="image">
+                                        <img src="/storage/{{$Stories->link}}" alt="image">
                                     </div>
                                     @endif
                                     <div class="cardInformation">
@@ -464,7 +464,7 @@
                                         @if ($Stories->filetype == 'mp4')
                                         <div class="videoWrapper">
                                             <video controls class="videoGuid" data-index="0" preload="metadata">
-                                            <source src="{{$Stories->link}}" type="video/mp4"/>
+                                            <source src="/storage/{{$Stories->link}}" type="video/mp4"/>
                                             </video>
                                             <div class="videoContoller">
                                             <p class="togglePlay">
@@ -509,7 +509,7 @@
                                         </div>
                                         @else
                                         <div class="imageWrapper">
-                                            <img src="{{$Stories->link}}" alt="image">
+                                            <img src="/storage/{{$Stories->link}}" alt="image">
                                         </div>
                                         @endif
                                         <div class="cardInformation">
