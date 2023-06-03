@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tabPageGroup">
+                            <div class="tabPageGroup" style="display: flex;">
                                 <div class="tabPageInput" data-name="linkUrl">
                                     <input type="text" name="linkUrl" class="formInput" placeholder="Адрес ссылки">
                                 </div>

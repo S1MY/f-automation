@@ -25,7 +25,7 @@ class StoriesController extends Controller
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
-            'duration' => 'required|numeric|regex:/^\d+(\.\d{1,8})?$/|between:5,20',
+            'duration' => 'required|numeric|regex:/^\d+(\.\d{1,8})?$/',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
         ];
         $messages = [
@@ -43,7 +43,6 @@ class StoriesController extends Controller
             'duration.required' => 'Файл является обязательным',
             'duration.numeric' => 'Длительность не numeric',
             'duration.regex' => 'Ошибка длительности видео',
-            'duration.between' => 'Длительность от 5 до 20 секунд',
             'linkText.string' => 'Не является строкой',
             'linkText.in' => 'Неопределённый тип кнопки'
         ];
@@ -57,7 +56,6 @@ class StoriesController extends Controller
 
         $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
         $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : 'Ссылка на нас';
-
         if ($validatedData['accType'] == 'group') {
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('id', '=', $groupId)->first();
@@ -73,6 +71,11 @@ class StoriesController extends Controller
         $searchAccount = VkAccount::where('id', '=', $accountId)->first();
         if (!$searchAccount) {
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
+        }
+        // Сколько секунд может загрузить чел
+        $maxSeconds = 15;
+        if($validatedData['duration'] > $maxSeconds){
+            return $this->generateJsonResponse('input', 'file', 'Максимальная длительность '.$maxSeconds.' секунд');
         }
         $storiesFile = $validatedData['file'];
         $fileSize = $storiesFile->getSize();
@@ -95,19 +98,15 @@ class StoriesController extends Controller
             $getUpload = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
+            $uploadParams = [
+                'v' => '5.131',
+                'access_token' => $searchAccount->token,
+                'add_to_news' => 1,
+                'link_text' => $linkText,
+                'link_url' => $linkUrl,
+            ];
             if ($validatedData['accType'] == 'group') {
-                $uploadParams = [
-                    'v' => '5.131',
-                    'access_token' => $searchAccount->token,
-                    'add_to_news' => 1,
-                    'group_id' => $groupSendId
-                ];
-            }else{
-                $uploadParams = [
-                    'v' => '5.131',
-                    'access_token' => $searchAccount->token,
-                    'add_to_news' => 1
-                ];
+                $uploadParams['group_id'] = $groupSendId;
             }
             $uploadGet = $getUpload->request('GET', '/method' . $method, [
                 'query' => $uploadParams
@@ -170,28 +169,30 @@ class StoriesController extends Controller
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
                 return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
-            $storiesCreate = Stories::create([
-                'account_id' => $accountId,
-                'group_id' => $groupId,
-                'title' => $validatedData['name'],
-                'filetype' => $extension,
-                'link' => $fileLoadUrl . $fileName,
-                'upload_result' => $sendStoriesJSON->response->upload_result,
-                'active' => 0
-            ]);
+            Storage::disk('public')->delete($fileLoadUrl . $fileName);
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', $storiesJSON->response->items);
+            // $storiesCreate = Stories::create([
+            //     'account_id' => $accountId,
+            //     'group_id' => $groupId,
+            //     'title' => $validatedData['name'],
+            //     'filetype' => $extension,
+            //     'link' => $fileLoadUrl . $fileName,
+            //     'upload_result' => $sendStoriesJSON->response->upload_result,
+            //     'active' => 0
+            // ]);
 
-            StoriesSettings::create([
-                'stories_id' => $storiesCreate->id,
-                'link_text' => $linkText,
-                'link_url' => $linkUrl,
-            ]);
-            StoriesStory::create([
-                'stories_id' => $storiesCreate->id,
-                'stories_did' => $storiesJSON->response->items[0]->id,
-                'viewes' => 0,
-                'open_link' => 0,
-                'subscribers' => 0,
-            ]);
+            // StoriesSettings::create([
+            //     'stories_id' => $storiesCreate->id,
+            //     'link_text' => $linkText,
+            //     'link_url' => $linkUrl,
+            // ]);
+            // StoriesStory::create([
+            //     'stories_id' => $storiesCreate->id,
+            //     'stories_did' => $storiesJSON->response->items[0]->id,
+            //     'viewes' => 0,
+            //     'open_link' => 0,
+            //     'subscribers' => 0,
+            // ]);
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
         } else {
             return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');

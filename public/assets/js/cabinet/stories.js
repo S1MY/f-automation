@@ -122,6 +122,7 @@ $(document).ready(function () {
           data: formData,
           dataType: "json",
           success: function (response) {
+            console.log(response)
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
             if(response.status == "success"){
@@ -129,9 +130,9 @@ $(document).ready(function () {
               success.children('.popupTitle').html(response.title);
               success.children('.popupText').html(response.message);
               success.fadeIn();
-              setTimeout(() => {
-                location.reload();
-              }, 5000);
+              // setTimeout(() => {
+              //   location.reload();
+              // }, 5000);
             }else if(response.status == "input"){
               $('.popupWrapper').fadeOut();
               let inputName = response.title;
