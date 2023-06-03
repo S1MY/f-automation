@@ -41,8 +41,8 @@ class StoriesController extends Controller
             'file.file' => 'Файл не является файлом',
             'file.mimetypes' => 'Доступны только avi, mp4, jpg, png',
             'duration.required' => 'Файл является обязательным',
-            'duration.regex' => 'Ошибка длительности видео',
-            'duration.between' => 'Ошибка длительности видео',
+            'duration.regex' => 'Ошибка длительности видео 1',
+            'duration.between' => 'Ошибка длительности видео 2',
             'linkText.string' => 'Не является строкой',
             'linkText.in' => 'Неопределённый тип кнопки'
         ];
