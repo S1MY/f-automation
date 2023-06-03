@@ -15,4 +15,7 @@ class VkGroup extends Model
         'name',
         'avatar',
     ];
+    public function StoriesGroup(){
+        return $this->hasMany(Stories::class, 'group_id', 'id');
+    }
 }

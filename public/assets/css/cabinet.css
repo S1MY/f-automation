@@ -2148,6 +2148,7 @@ a.accountInfo:hover{
     justify-content: center;
     flex-direction: column;
     text-align: center;
+    margin-top: 16px;
 }
 .cardEmpty svg{
     margin-bottom: 16px;
