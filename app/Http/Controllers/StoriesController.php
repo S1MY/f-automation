@@ -27,7 +27,7 @@ class StoriesController extends Controller
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
             'duration' => 'required|numeric|min:10|max:20',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
-            'linkUrl' => 'url'
+            'linkUrl' => 'string|url'
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
