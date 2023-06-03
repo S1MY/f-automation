@@ -25,7 +25,7 @@ class StoriesController extends Controller
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
-            'duration' => 'required|regex:/^\d+(\.\d{1,2})?$/|between:10,20',
+            'duration' => 'required|regex:/^\d+(\.\d{1,8})?$/|between:10,20',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
         ];
         $messages = [
