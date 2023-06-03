@@ -73,7 +73,7 @@ class StoriesController extends Controller
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
         // Сколько секунд может загрузить чел
-        $maxSeconds = 15;
+        $maxSeconds = 60;
         if($validatedData['duration'] > $maxSeconds){
             return $this->generateJsonResponse('input', 'file', 'Максимальная длительность '.$maxSeconds.' секунд');
         }
