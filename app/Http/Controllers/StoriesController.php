@@ -75,7 +75,8 @@ class StoriesController extends Controller
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
         // Сколько секунд может загрузить чел
-        $maxSeconds = 60;
+        // Надо будет делать функцию нарезки длинного видоса
+        $maxSeconds = 15;
         if($validatedData['duration'] > $maxSeconds){
             return $this->generateJsonResponse('input', 'file', 'Максимальная длительность '.$maxSeconds.' секунд');
         }
@@ -122,7 +123,7 @@ class StoriesController extends Controller
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', $uploadJSON);
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2');
             }
             $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
