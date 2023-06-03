@@ -2141,6 +2141,17 @@ a.accountInfo:hover{
     height: 20px;
     margin-right: 8px;
 }
+.cardEmpty{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.cardEmpty svg{
+    margin-bottom: 16px;
+}
 /* Адаптив */
 @media (max-width: 1480px) {
     .footer{
