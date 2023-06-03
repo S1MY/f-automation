@@ -49,11 +49,7 @@ class StoriesController extends Controller
         if ($validator->fails()) {
             $errors = $validator->getMessageBag()->toArray();
             $firstErrorKey = array_key_first($errors);
-            return response()->json([
-                'status' => 'input',
-                'title' => $firstErrorKey,
-                'message' => $errors[$firstErrorKey][0]
-            ]);
+            return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
 

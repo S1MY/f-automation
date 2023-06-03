@@ -122,6 +122,7 @@ $(document).ready(function () {
           data: formData,
           dataType: "json",
           success: function (response) {
+            console.log(response);
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
             if(response.result == "success"){
@@ -150,7 +151,6 @@ $(document).ready(function () {
             }
           },
           error: function (response) {
-            console.log(response);
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
             const error = $('.popupItem[data-popup="error"]');
