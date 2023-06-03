@@ -54,7 +54,7 @@
                             </div>
                             <div class="tabPageGroup">
                                 <div class="tabPageInput" data-name="linkUrl">
-                                    <input type="text" name="linkUrl" class="formInput" placeholder="Адрес ссылки" value="">
+                                    <input type="text" name="linkUrl" class="formInput" placeholder="Адрес ссылки">
                                 </div>
                                 <div class="tabPageInput tabPageSelect" data-name="linkText">
                                     <div class="formSelect">
