@@ -64,7 +64,7 @@ class StoriesController extends Controller
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('group_id', '=', $groupId)->first();
             if (!$searchGroup) {
-                $this->generateJsonResponse('input', 'account', 'Группа не найдена');
+                return $this->generateJsonResponse('input', 'account', 'Группа не найдена');
             }
             $accountId = $searchGroup->account_id;
         } else {
@@ -73,7 +73,7 @@ class StoriesController extends Controller
         }
         $searchAccount = VkAccount::where('id', '=', $accountId)->first();
         if (!$searchAccount) {
-            $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
+            return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
         $storiesFile = $validatedData['file'];
         $fileSize = $storiesFile->getSize();
@@ -88,7 +88,7 @@ class StoriesController extends Controller
                 $method = '/stories.getPhotoUploadServer';
                 $sendType = 'file';
             } else {
-                $this->generateJsonResponse('input', 'file', 'Неизвестный тип файла');
+                return $this->generateJsonResponse('input', 'file', 'Неизвестный тип файла');
             }
             $fileName = 'stories-' . date("Y-m-d-H-i-s") . "." . $extension;
             $userName = Auth::user()->login;
@@ -107,13 +107,13 @@ class StoriesController extends Controller
             $fileLoadUrl = 'files/users/' . $userName . '/stories/';
             if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $uploadContent = $uploadGet->getBody()->getContents();
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
@@ -139,7 +139,7 @@ class StoriesController extends Controller
             $sendStoriesCode = curl_getinfo($sendStoriesPost, CURLINFO_HTTP_CODE);
             if ($sendStoriesCode != 200 || isset($sendStoriesJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                $this->generateJsonResponse('error', 'Ошибка запроса', 'Ошибка при загрузке файла на ВК сервер');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Ошибка при загрузке файла на ВК сервер');
             }
             $storiesSave = new Client([
                 'base_uri' => 'https://api.vk.com',
@@ -154,13 +154,13 @@ class StoriesController extends Controller
             ]);
             if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $storiesContent = $storiesGet->getBody()->getContents();
             $storiesJSON = json_decode($storiesContent);
             if (isset($storiesJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $storiesCreate = Stories::create([
                 'account_id' => $accountId,
@@ -184,9 +184,9 @@ class StoriesController extends Controller
                 'open_link' => 0,
                 'subscribers' => 0,
             ]);
-            $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
         } else {
-            $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');
+            return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');
         }
     }
     private function generateJsonResponse($type, $title, $message)
