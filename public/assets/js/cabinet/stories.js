@@ -142,7 +142,6 @@ $(document).ready(function () {
               }else if(response.title == 'duration'){
                 inputName = 'file'
               }
-              console.log(response)
               $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
               $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
               $('.errorInput').fadeOut(3000);
