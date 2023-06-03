@@ -27,6 +27,7 @@ class StoriesController extends Controller
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
             'duration' => 'required|numeric|regex:/^\d+(\.\d{1,8})?$/',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
+            'linkUrl' => 'url',
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
@@ -44,7 +45,8 @@ class StoriesController extends Controller
             'duration.numeric' => 'Длительность не numeric',
             'duration.regex' => 'Ошибка длительности видео',
             'linkText.string' => 'Не является строкой',
-            'linkText.in' => 'Неопределённый тип кнопки'
+            'linkText.in' => 'Неопределённый тип кнопки',
+            'linkUrl.url' => 'Не является ссылкой'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -101,12 +103,12 @@ class StoriesController extends Controller
             $uploadParams = [
                 'v' => '5.131',
                 'access_token' => $searchAccount->token,
-                'add_to_news' => 1
+                'add_to_news' => 1,
+                'link_text' => $linkText,
+                'link_url' => $linkUrl,
             ];
             if ($validatedData['accType'] == 'group') {
                 $uploadParams['group_id'] = $groupSendId;
-                $uploadParams['link_text'] = $linkText;
-                $uploadParams['link_url'] = $linkUrl;
             }
             $uploadGet = $getUpload->request('GET', '/method' . $method, [
                 'query' => $uploadParams
