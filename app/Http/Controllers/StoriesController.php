@@ -27,7 +27,6 @@ class StoriesController extends Controller
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
             'duration' => 'required|numeric|min:10|max:20',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
-            'linkUrl' => 'string'
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
@@ -44,14 +43,17 @@ class StoriesController extends Controller
             'duration.required' => 'Файл является обязательным',
             'duration.decimal' => 'Ошибка длительности видео',
             'linkText.string' => 'Не является строкой',
-            'linkText.in' => 'Неопределённый тип кнопки',
-            'linkUrl.string' => 'Не является строкой',
+            'linkText.in' => 'Неопределённый тип кнопки'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             $errors = $validator->getMessageBag()->toArray();
             $firstErrorKey = array_key_first($errors);
-            $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
+            return response()->json([
+                'status' => 'input',
+                'title' => $firstErrorKey,
+                'message' => $errors[$firstErrorKey][0]
+            ]);
         }
         $validatedData = $validator->validated();
 

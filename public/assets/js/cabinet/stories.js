@@ -140,7 +140,7 @@ $(document).ready(function () {
               inputName = (inputName === 'accountId') ? 'account' : 'accountId'
               inputName = (inputName === 'duration') ? 'file' : 'duration'
               $(`.tabPageInput[data-name=${inputName}]`).addClass('_error');
-              $(`.tabPageInput[data-name=${inputName}]`).append('<span class="errorInput">Название ошибки</span>');
+              $(`.tabPageInput[data-name=${inputName}]`).append(`<span class="errorInput">${response.message}</span>`);
               $('.errorInput').fadeOut(3000);
               setTimeout(() => {
                 $('.errorInput').remove();
