@@ -57,7 +57,7 @@ class StoriesController extends Controller
         $validatedData = $validator->validated();
 
         $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
-        $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : 'Ссылка на нас';
+        $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : 'https://f-automation.v-devo.ru/';
         if ($validatedData['accType'] == 'group') {
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('id', '=', $groupId)->first();
@@ -103,12 +103,12 @@ class StoriesController extends Controller
             $uploadParams = [
                 'v' => '5.131',
                 'access_token' => $searchAccount->token,
-                'add_to_news' => 1,
-                'link_text' => $linkText,
-                'link_url' => $linkUrl,
+                'add_to_news' => 1
             ];
             if ($validatedData['accType'] == 'group') {
                 $uploadParams['group_id'] = $groupSendId;
+                $uploadParams['link_text'] = $linkText;
+                $uploadParams['link_url'] = $linkUrl;
             }
             $uploadGet = $getUpload->request('GET', '/method' . $method, [
                 'query' => $uploadParams
