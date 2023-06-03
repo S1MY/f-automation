@@ -135,13 +135,15 @@ $(document).ready(function () {
             }else if(response.status == "input"){
               $('.popupWrapper').fadeOut();
               let inputName = response.title;
-              inputName = (inputName == 'accType') ? 'account' : 'accType';
-              inputName = (inputName == 'accountId') ? 'account' : 'accountId';
-              inputName = (inputName == 'accountId') ? 'account' : 'accountId';
-              inputName = (inputName == 'duration') ? 'file' : 'duration';
-              console.log(inputName)
+              if(response.title == 'accType'){
+                inputName = 'account'
+              }else if(response.title == 'accountId'){
+                inputName = 'account'
+              }else if(response.title == 'duration'){
+                inputName = 'file'
+              }
+              console.log(response)
               $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
-              console.log($(`.tabPageInput[data-name='${inputName}']`))
               $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
               $('.errorInput').fadeOut(3000);
               setTimeout(() => {
