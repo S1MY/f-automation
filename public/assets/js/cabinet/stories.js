@@ -150,6 +150,7 @@ $(document).ready(function () {
             }
           },
           error: function (response) {
+            console.log(response);
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
             const error = $('.popupItem[data-popup="error"]');
