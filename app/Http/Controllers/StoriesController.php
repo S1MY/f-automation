@@ -27,7 +27,7 @@ class StoriesController extends Controller
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
             'duration' => 'required|numeric|regex:/^\d+(\.\d{1,8})?$/',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
-            'linkUrl' => 'url',
+            'linkUrl' => 'sometimes|nullable|url',
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
@@ -75,7 +75,7 @@ class StoriesController extends Controller
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
         // Сколько секунд может загрузить чел
-        // Надо будет делать функцию нарезки длинного видоса
+        // Надо будет делать функцию нарезки длинного видоса и отписание поочерёдной загрузки (ебано)
         $maxSeconds = 15;
         if($validatedData['duration'] > $maxSeconds){
             return $this->generateJsonResponse('input', 'file', 'Максимальная длительность '.$maxSeconds.' секунд');
@@ -172,31 +172,29 @@ class StoriesController extends Controller
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
                 return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F4');
             }
-            Storage::disk('public')->delete($fileLoadUrl . $fileName);
-            return $this->generateJsonResponse('success', 'Всё прошло успешно', $storiesJSON->response->items);
-            // $storiesCreate = Stories::create([
-            //     'account_id' => $accountId,
-            //     'group_id' => $groupId,
-            //     'title' => $validatedData['name'],
-            //     'filetype' => $extension,
-            //     'link' => $fileLoadUrl . $fileName,
-            //     'upload_result' => $sendStoriesJSON->response->upload_result,
-            //     'active' => 0
-            // ]);
+            $storiesCreate = Stories::create([
+                'account_id' => $accountId,
+                'group_id' => $groupId,
+                'title' => $validatedData['name'],
+                'filetype' => $extension,
+                'link' => $fileLoadUrl . $fileName,
+                'upload_result' => $sendStoriesJSON->response->upload_result,
+                'active' => 0
+            ]);
 
-            // StoriesSettings::create([
-            //     'stories_id' => $storiesCreate->id,
-            //     'link_text' => $linkText,
-            //     'link_url' => $linkUrl,
-            // ]);
-            // StoriesStory::create([
-            //     'stories_id' => $storiesCreate->id,
-            //     'stories_did' => $storiesJSON->response->items[0]->id,
-            //     'viewes' => 0,
-            //     'open_link' => 0,
-            //     'subscribers' => 0,
-            // ]);
-            // return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
+            StoriesSettings::create([
+                'stories_id' => $storiesCreate->id,
+                'link_text' => $linkText,
+                'link_url' => $linkUrl,
+            ]);
+            StoriesStory::create([
+                'stories_id' => $storiesCreate->id,
+                'stories_did' => $storiesJSON->response->items[0]->id,
+                'viewes' => 0,
+                'open_link' => 0,
+                'subscribers' => 0,
+            ]);
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
         } else {
             return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');
         }
