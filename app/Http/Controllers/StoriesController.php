@@ -55,8 +55,8 @@ class StoriesController extends Controller
         }
         $validatedData = $validator->validated();
 
-        $linkText = $validatedData['linkText'] ? $validatedData['linkText'] : null;
-        $linkUrl = $validatedData['linkUrl'] ? $validatedData['linkUrl'] : null;
+        $linkText = $validatedData['linkText'] ? $validatedData['linkText'] : 'learn_more';
+        $linkUrl = $validatedData['linkUrl'] ? $validatedData['linkUrl'] : 'Ссылка на нас';
 
         if ($validatedData['accType'] == 'group') {
             $groupId = $validatedData['accountId'];
