@@ -19,13 +19,15 @@ use App\Models\StoriesStory;
 class StoriesController extends Controller
 {
     public function storiesCreate(Request $request)
-    {   
+    {
         $rules = [
             'name' => 'required|string|max:20',
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
             'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
-            'duration' => 'required|decimal:2,10'
+            'duration' => 'required|numeric|min:10|max:20',
+            'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
+            'linkUrl' => 'url'
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
@@ -41,101 +43,84 @@ class StoriesController extends Controller
             'file.mimetypes' => 'Доступны только avi, mp4, jpg, png',
             'duration.required' => 'Файл является обязательным',
             'duration.decimal' => 'Ошибка длительности видео',
+            'linkText.string' => 'Не является строкой',
+            'linkText.in' => 'Неопределённый тип кнопки',
+            'linkUrl.url' => 'Должно быть ссылкой',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             $errors = $validator->getMessageBag()->toArray();
             $firstErrorKey = array_key_first($errors);
-            return response()->json([
-                'status' => 'input',
-                'name' => $firstErrorKey,
-                'message' => $errors[$firstErrorKey][0]
-            ]);
+            $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
-        if($validatedData['accType'] == 'group'){
+
+        $linkText = $validatedData['linkText'] ? $validatedData['linkText'] : null;
+        $linkUrl = $validatedData['linkUrl'] ? $validatedData['linkUrl'] : null;
+
+        if ($validatedData['accType'] == 'group') {
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('group_id', '=', $groupId)->first();
-            if(!$searchGroup){
-                return response()->json([
-                    'status' => 'success',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'Группа не найдена'
-                ]);
+            if (!$searchGroup) {
+                $this->generateJsonResponse('input', 'account', 'Группа не найдена');
             }
             $accountId = $searchGroup->account_id;
-        }else{
+        } else {
             $accountId = $validatedData['accountId'];
             $groupId = 0;
         }
         $searchAccount = VkAccount::where('id', '=', $accountId)->first();
-        if(!$searchAccount){
-            return response()->json([
-                'status' => 'success',
-                'title' => 'Ошибка запроса',
-                'message' => 'Аккаунт не найден'
-            ]);
+        if (!$searchAccount) {
+            $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
         $storiesFile = $validatedData['file'];
         $fileSize = $storiesFile->getSize();
         $fileType = $storiesFile->getMimeType();
-        if($fileSize <= 83886080){
-            if($fileType == 'video/mp4' || $fileType == 'video/avi'){
+        if ($fileSize <= 83886080) {
+            if ($fileType == 'video/mp4' || $fileType == 'video/avi') {
                 $extension = 'mp4';
                 $method = '/stories.getVideoUploadServer';
                 $sendType = 'video_file';
-            }elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
+            } elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
                 $extension = 'jpg';
                 $method = '/stories.getPhotoUploadServer';
                 $sendType = 'file';
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'Неизвестный тип файла'
-                ]);
+            } else {
+                $this->generateJsonResponse('input', 'file', 'Неизвестный тип файла');
             }
-            $fileName = 'stories-' . date("Y-m-d-H-i-s") . ".".$extension;
+            $fileName = 'stories-' . date("Y-m-d-H-i-s") . "." . $extension;
             $userName = Auth::user()->login;
-            Storage::disk('public')->putFileAs('files/users/'.$userName.'/stories', $storiesFile, $fileName);
+            Storage::disk('public')->putFileAs('files/users/' . $userName . '/stories', $storiesFile, $fileName);
             $getUpload = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
-            $uploadParams = array(
+            $uploadParams = [
                 'v' => '5.131',
                 'access_token' => $searchAccount->token,
-                'add_to_news' => 0,
-            );
-            $uploadGet = $getUpload->request('GET', '/method'.$method, [
+                'add_to_news' => 1,
+            ];
+            $uploadGet = $getUpload->request('GET', '/method' . $method, [
                 'query' => $uploadParams
             ]);
-            $fileLoadUrl = 'files/users/'.$userName.'/stories/';
+            $fileLoadUrl = 'files/users/' . $userName . '/stories/';
             if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
-                Storage::disk('public')->delete($fileLoadUrl.$fileName);
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                ]);
+                Storage::disk('public')->delete($fileLoadUrl . $fileName);
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $uploadContent = $uploadGet->getBody()->getContents();
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
-                Storage::disk('public')->delete($fileLoadUrl.$fileName);
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                ]);
+                Storage::disk('public')->delete($fileLoadUrl . $fileName);
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
-            $fileSend = storage_path('app/public/'.$fileLoadUrl.$fileName);
+            $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
             $sendStoriesPost = curl_init();
-            if($sendType == 'file'){
+            if ($sendType == 'file') {
                 $postFields = [
                     'file' => new CURLFile($fileSend)
                 ];
-            }else{
+            } else {
                 $postFields = [
                     'video_file' => new CURLFile($fileSend)
                 ];
@@ -147,60 +132,48 @@ class StoriesController extends Controller
                 CURLOPT_POSTFIELDS => $postFields,
             ]);
             $sendStoriesContent = curl_exec($sendStoriesPost);
-            $sendStoriesJSON = json_decode($sendStoriesContent);            
+            $sendStoriesJSON = json_decode($sendStoriesContent);
             curl_close($sendStoriesPost);
             $sendStoriesCode = curl_getinfo($sendStoriesPost, CURLINFO_HTTP_CODE);
             if ($sendStoriesCode != 200 || isset($sendStoriesJSON->error)) {
-                Storage::disk('public')->delete($fileLoadUrl.$fileName);
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка получения токена',
-                    'message' => 'Ошибка при загрузке файла на ВК сервер'
-                ]);
+                Storage::disk('public')->delete($fileLoadUrl . $fileName);
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'Ошибка при загрузке файла на ВК сервер');
             }
             $storiesSave = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
-            $storiesParams = array(
+            $storiesParams = [
                 'v' => '5.131',
                 'access_token' => $searchAccount->token,
                 'upload_results' => $sendStoriesJSON->response->upload_result,
-            );
+            ];
             $storiesGet = $storiesSave->request('GET', '/method/stories.save', [
                 'query' => $storiesParams
             ]);
             if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
-                Storage::disk('public')->delete($fileLoadUrl.$fileName);
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                ]);
+                Storage::disk('public')->delete($fileLoadUrl . $fileName);
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $storiesContent = $storiesGet->getBody()->getContents();
             $storiesJSON = json_decode($storiesContent);
             if (isset($storiesJSON->error)) {
-                Storage::disk('public')->delete($fileLoadUrl.$fileName);
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                ]);
+                Storage::disk('public')->delete($fileLoadUrl . $fileName);
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $storiesCreate = Stories::create([
                 'account_id' => $accountId,
                 'group_id' => $groupId,
                 'title' => $validatedData['name'],
                 'filetype' => $extension,
-                'link' => $fileLoadUrl.$fileName,
+                'link' => $fileLoadUrl . $fileName,
                 'upload_result' => $sendStoriesJSON->response->upload_result,
                 'active' => 0
             ]);
+
             StoriesSettings::create([
                 'stories_id' => $storiesCreate->id,
-                'link_text' => 0,
-                'link_url' => 0,
-                'to_news' => 0,
+                'link_text' => $linkText,
+                'link_url' => $linkUrl,
             ]);
             StoriesStory::create([
                 'stories_id' => $storiesCreate->id,
@@ -209,17 +182,17 @@ class StoriesController extends Controller
                 'open_link' => 0,
                 'subscribers' => 0,
             ]);
-            return response()->json([
-                'status' => 'success',
-                'title' => 'Всё прошло успешно',
-                'message' => $storiesJSON
-            ]);
-        }else{
-            return response()->json([
-                'status' => 'input',
-                'name' => 'file',
-                'message' => 'Максимальный размер файла 10МБ'
-            ]);
+            $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
+        } else {
+            $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');
         }
+    }
+    private function generateJsonResponse($type, $title, $message)
+    {
+        return response()->json([
+            'status' => $type,
+            'title' => $title,
+            'message' => $message
+        ]);
     }
 }

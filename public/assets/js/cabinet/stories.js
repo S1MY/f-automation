@@ -124,31 +124,39 @@ $(document).ready(function () {
           success: function (response) {
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
-            console.log(response)
-            // if(response.result == "success"){
-              
-            // }else if(response.result == "inputs"){
-            //   $.each(response.errors, function (key, value) {
-            //     $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-            //     $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">Название ошибки</span>');
-            //   });
-            //   $('.errorInput').fadeOut(3000);
-            //   setTimeout(() => {
-            //     $('.errorInput').remove();
-            //   }, 3500);
-            //   $(".popupWrapper").fadeOut();
-            //   $('.popupItem').fadeOut();
-            // }
+            if(response.result == "success"){
+              const success = $('.popupItem[data-popup="success"]');
+              success.show()
+              success.children('.popupTitle').html(response.title);
+              success.children('.popupText').html(response.message);
+              success.fadeIn();
+              setTimeout(() => {
+                location.reload();
+              }, 5000);
+            }else if(response.result == "input"){
+              let inputName = response.title;
+              inputName = (inputName === 'accType') ? 'account' : 'accType'
+              inputName = (inputName === 'accountId') ? 'account' : 'accountId'
+              inputName = (inputName === 'accountId') ? 'account' : 'accountId'
+              inputName = (inputName === 'duration') ? 'file' : 'duration'
+              $(`.tabPageInput[data-name=${inputName}]`).addClass('_error');
+              $(`.tabPageInput[data-name=${inputName}]`).append('<span class="errorInput">Название ошибки</span>');
+              $('.errorInput').fadeOut(3000);
+              setTimeout(() => {
+                $('.errorInput').remove();
+              }, 3500);
+              $(".popupWrapper").fadeOut();
+              $('.popupItem').fadeOut();
+            }
           },
           error: function (response) {
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
-            console.log(response)
-            // const error = $('.popupItem[data-popup="error"]');
-            // error.show()
-            // error.children('.popupTitle').html(response.title);
-            // error.children('.popupText').html(response.message);
-            // error.fadeIn();
+            const error = $('.popupItem[data-popup="error"]');
+            error.show()
+            error.children('.popupTitle').html(response.title);
+            error.children('.popupText').html(response.message);
+            error.fadeIn();
           }
         });
       }

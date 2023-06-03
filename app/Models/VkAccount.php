@@ -18,4 +18,7 @@ class VkAccount extends Model
     public function VkGroup(){
         return $this->hasMany(VkGroup::class, 'account_id', 'id');
     }
+    public function Stories(){
+        return $this->hasMany(Stories::class, 'account_id', 'id');
+    }
 }

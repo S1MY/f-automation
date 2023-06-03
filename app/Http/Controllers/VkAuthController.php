@@ -21,7 +21,7 @@ class VkAuthController extends Controller
     public function vkUserAuth(Request $request)
     {
         $type = $request->type;
-        if($type == 'add' || $type == 'update'){
+        if ($type == 'add' || $type == 'update') {
             $tokenGet = null;
             $usersGet = null;
             $code = explode("=", $request->link);
@@ -32,61 +32,45 @@ class VkAuthController extends Controller
                 'base_uri' => 'https://api.vk.com',
             ]);
             $tokenParams = [
-                'client_id'     => '51661029',
+                'client_id' => '51661029',
                 'client_secret' => 'jy1p89O8SPpXOMg2JwEe',
-                'code'          => $code[1],
-                'redirect_uri'  => 'https://api.vk.com/blank.html',
+                'code' => $code[1],
+                'redirect_uri' => 'https://api.vk.com/blank.html',
             ];
             $tokenGet = $client->request('GET', '/access_token', [
                 'query' => $tokenParams
             ]);
             if ($tokenGet->getStatusCode() !== 200 || !$tokenGet->getBody()) {
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                    ]);
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $tokenContent = $tokenGet->getBody()->getContents();
             $tokenJSON = json_decode($tokenContent);
             if (isset($tokenJSON->error)) {
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка получения токена',
-                    'message' => 'При получении токена доступа произошла ошибка'
-                    ]);
+                $this->generateJsonResponse('error', 'Ошибка получения токена', 'При получении токена доступа произошла ошибка');
             }
             $token = $tokenJSON->access_token;
             $userId = $tokenJSON->user_id;
             $usersParams = [
-                'v'            => '5.131',
+                'v' => '5.131',
                 'access_token' => $token,
-                'user_ids'     => $userId,
-                'fields'       => 'first_name, last_name, photo_200_orig'
+                'user_ids' => $userId,
+                'fields' => 'first_name, last_name, photo_200_orig'
             ];
             $usersGet = $authClient->request('GET', '/method/users.get', [
                 'query' => $usersParams
             ]);
             if ($usersGet->getStatusCode() !== 200 || !$usersGet->getBody()) {
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                    ]);
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
             }
             $usersContent = $usersGet->getBody()->getContents();
             $usersJSON = json_decode($usersContent);
-    
+
             if (isset($usersJSON->error)) {
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'При получении данных пользователя возникла ошибка'
-                    ]);
-            }else{
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'При получении данных пользователя возникла ошибка');
+            } else {
                 $userId = Auth::user()->id;
-                $accountName = $usersJSON->response[0]->first_name.' '.$usersJSON->response[0]->last_name;
-                $accountLink = 'https://vk.com/id'.$usersJSON->response[0]->id;
+                $accountName = $usersJSON->response[0]->first_name . ' ' . $usersJSON->response[0]->last_name;
+                $accountLink = 'https://vk.com/id' . $usersJSON->response[0]->id;
                 $accountAvatar = $usersJSON->response[0]->photo_200_orig;
                 $searchAccount = VkAccount::where('link', '=', $accountLink)->first();
                 if (!$searchAccount) {
@@ -96,20 +80,16 @@ class VkAuthController extends Controller
                         'link' => $accountLink,
                         'avatar' => $accountAvatar,
                         'token' => $token
-                    ]); 
-                    return response()->json([
-                        'status' => 'success',
-                        'title' => 'Всё прошло успешно',
-                        'message' => 'Аккаунт - <span>'. $accountName .'</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.'
                     ]);
-                }else{
+                    $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $accountName . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                } else {
                     $searchAccount->uid = $userId;
                     $searchAccount->name = $accountName;
                     $searchAccount->link = $accountLink;
                     $searchAccount->avatar = $accountAvatar;
                     $searchAccount->token = $token;
                     $searchAccount->save();
-                    if($type == 'add'){
+                    if ($type == 'add') {
                         $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
                         foreach ($searchStreams as $stream) {
                             StreamComments::where('stream_id', '=', $stream->id)->delete();
@@ -119,36 +99,24 @@ class VkAuthController extends Controller
                             Stream::where('id', '=', $stream->id)->delete();
                             VkGroup::where('account_id', '=', $searchAccount->id)->delete();
                         }
-                        return response()->json([
-                            'status' => 'success',
-                            'title' => 'Аккаунт обновлён',
-                            'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.<br> Вся информация очищена.'
-                        ]);
+                        $this->generateJsonResponse('success', 'Аккаунт обновлён', 'Аккаунт - <span>' . $accountName . '</span> - обновлён.<br> Вся информация очищена.');
                     }
-                    
-                    return response()->json([
-                        'status' => 'success',
-                        'title' => 'Аккаунт обновлён',
-                        'message' => 'Аккаунт - <span>'. $accountName .'</span> - обновлён.'
-                    ]);
+                    $this->generateJsonResponse('success', 'Аккаунт обновлён', 'Аккаунт - <span>' . $accountName . '</span> - обновлён.');
                 }
             }
-        }else{
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Неизвестный тип',
-                'message' => 'Не пытайтесь лезть в код элемента ;)'
-            ]);
+        } else {
+            $this->generateJsonResponse('error', 'Неизвестный тип', 'Не пытайтесь лезть в код элемента ;)');
         }
     }
-    public function vkUserRemove(Request $request){
+    public function vkUserRemove(Request $request)
+    {
         $userId = Auth::user()->id;
         $accountId = $request->accountId;
         if (is_numeric($accountId)) {
             $searchAccount = VkAccount::where('id', '=', $accountId)
-                          ->where('uid', '=', $userId)
-                          ->first();
-            if($searchAccount){
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchAccount) {
                 $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
                 foreach ($searchStreams as $stream) {
                     StreamComments::where('stream_id', '=', $stream->id)->delete();
@@ -158,24 +126,12 @@ class VkAuthController extends Controller
                     Stream::where('id', '=', $stream->id)->delete();
                 }
                 VkAccount::where('id', '=', $accountId)->delete();
-                return response()->json([
-                    'status' => 'success',
-                    'title' => 'Всё прошло успешно',
-                    'message' => 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.'
-                ]);
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка удаления',
-                    'message' => 'Данный аккаунт не был найден, либо вы не являетесь его владельцем'
-                ]);
+                $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+            } else {
+                $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
             }
-        }else{
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка удаления',
-                'message' => 'Неопределённое поле accountId'
-            ]);
+        } else {
+            $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле accountId');
         }
     }
     public function vkGroupList(Request $request)
@@ -186,41 +142,33 @@ class VkAuthController extends Controller
         $accountId = $request->accountId;
         if (is_numeric($accountId)) {
             $searchAccount = VkAccount::where('id', '=', $accountId)
-                          ->where('uid', '=', $userId)
-                          ->first();
-            if($searchAccount){
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchAccount) {
                 $authClient = new Client([
                     'base_uri' => 'https://api.vk.com',
                 ]);
-                $groupsParams = array(
+                $groupsParams = [
                     'v' => '5.131',
                     'access_token' => $searchAccount->token,
                     'extended' => 1,
                     'filter' => 'admin',
                     'fields' => 'id,name,photo_100',
-                );
+                ];
                 $groupsGet = $authClient->request('GET', '/method/groups.get', [
                     'query' => $groupsParams
                 ]);
                 if ($groupsGet->getStatusCode() !== 200 || !$groupsGet->getBody()) {
-                    return response()->json([
-                        'status' => 'error',
-                        'title' => 'Ошибка запроса',
-                        'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                    ]);
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 $groupsContent = $groupsGet->getBody()->getContents();
                 $groupsJSON = json_decode($groupsContent);
                 if (isset($groupsJSON->error)) {
-                    return response()->json([
-                        'status' => 'error',
-                        'title' => 'Ошибка получения токена',
-                        'message' => 'При получении групп возникла ошибка'
-                    ]);
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 foreach ($groupsJSON->response->items as $groupItem) {
                     $searchGroup = VkGroup::where('group_id', '=', $groupItem->id)->first();
-                    if(!$searchGroup){
+                    if (!$searchGroup) {
                         $groupsResponse[$groupItem->screen_name] = [
                             'id' => $groupItem->id,
                             'name' => $groupItem->name,
@@ -229,24 +177,12 @@ class VkAuthController extends Controller
                         ];
                     }
                 }
-                return response()->json([
-                    'status' => 'success',
-                    'title' => 'Список подгружен',
-                    'message' => $groupsResponse
-                ]);
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'Данный аккаунт не был найден, либо вы не являетесь его владельцем'
-                ]);
+                $this->generateJsonResponse('success', 'Список подгружен', $groupsResponse);
+            } else {
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
             }
-        }else{
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка запроса',
-                'message' => 'Неопределённое поле accountId'
-            ]);
+        } else {
+            $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId');
         }
     }
     public function vkGroupAuth(Request $request)
@@ -257,44 +193,36 @@ class VkAuthController extends Controller
         $groupId = $request->groupId;
         if (is_numeric($accountId) && is_numeric($groupId)) {
             $searchAccount = VkAccount::where('id', '=', $accountId)
-                          ->where('uid', '=', $userId)
-                          ->first();
-            if($searchAccount){
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchAccount) {
                 $authClient = new Client([
                     'base_uri' => 'https://api.vk.com',
                 ]);
-                $groupsParams = array(
+                $groupsParams = [
                     'v' => '5.131',
                     'access_token' => $searchAccount->token,
                     'extended' => 1,
                     'filter' => 'admin',
                     'fields' => 'id,name,photo_100',
-                );
+                ];
                 $groupsGet = $authClient->request('GET', '/method/groups.get', [
                     'query' => $groupsParams
                 ]);
                 if ($groupsGet->getStatusCode() !== 200 || !$groupsGet->getBody()) {
-                    return response()->json([
-                        'status' => 'error',
-                        'title' => 'Ошибка запроса',
-                        'message' => 'При отправке запроса на сервер ВК произошла ошибка'
-                    ]);
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 $groupsContent = $groupsGet->getBody()->getContents();
                 $groupsJSON = json_decode($groupsContent);
                 if (isset($groupsJSON->error)) {
-                    return response()->json([
-                        'status' => 'error',
-                        'title' => 'Ошибка получения токена',
-                        'message' => 'При получении групп возникла ошибка'
-                    ]);
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
                 }
                 $searchGroup = VkGroup::where('group_id', '=', $groupId)->first();
-                if(!$searchGroup){
+                if (!$searchGroup) {
                     $groupNext = false;
-                    $groupName;
+                    $groupName = '';
                     foreach ($groupsJSON->response->items as $groupItem) {
-                        if($groupItem->id == $groupId){
+                        if ($groupItem->id == $groupId) {
                             VkGroup::create([
                                 'uid' => $userId,
                                 'account_id' => $accountId,
@@ -306,49 +234,30 @@ class VkAuthController extends Controller
                             $groupName = $groupItem->name;
                         }
                     }
-                    if($groupNext){
-                        return response()->json([
-                            'status' => 'success',
-                            'title' => 'Всё прошло успешно',
-                            'message' => 'Группа - <span>'. $groupName .'</span> - успешно привязана.<br> Страница автоматически перегрузится, чтобы изменения применились.'
-                        ]);
-                    }else{
-                        return response()->json([
-                            'status' => 'error',
-                            'title' => 'Ошибка запроса',
-                            'message' => 'Вы не являетесь администратором группы!'
-                        ]);
+                    if ($groupNext) {
+                        $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа - <span>' . $groupName . '</span> - успешно привязана.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                    } else {
+                        $this->generateJsonResponse('error', 'Ошибка запроса', 'Вы не являетесь администратором группы!');
                     }
-                }else{
-                    return response()->json([
-                        'status' => 'error',
-                        'title' => 'Ошибка запроса',
-                        'message' => 'Данный группа уже есть в базе данных'
-                    ]);
+                } else {
+                    $this->generateJsonResponse('error', 'Ошибка запроса', 'Данная группа уже есть в базе данных');
                 }
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка запроса',
-                    'message' => 'Данный аккаунт не был найден, либо вы не являетесь его владельцем'
-                ]);
-            }              
-        }else{
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка запроса',
-                'message' => 'Неопределённое поле accountId или groupId'
-            ]);
+            } else {
+                $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
+            }
+        } else {
+            $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId или groupId');
         }
     }
-    public function vkGroupRemove(Request $request){
+    public function vkGroupRemove(Request $request)
+    {
         $userId = Auth::user()->id;
         $groupId = $request->groupId;
         if (is_numeric($groupId)) {
             $searchGroup = VkGroup::where('id', '=', $groupId)
-                          ->where('uid', '=', $userId)
-                          ->first();
-            if($searchGroup){
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchGroup) {
                 $searchStreams = Stream::where('group_id', '=', $searchGroup->id)->get();
                 foreach ($searchStreams as $stream) {
                     StreamComments::where('stream_id', '=', $stream->id)->delete();
@@ -358,24 +267,20 @@ class VkAuthController extends Controller
                     Stream::where('id', '=', $stream->id)->delete();
                 }
                 VkGroup::where('id', '=', $groupId)->delete();
-                return response()->json([
-                    'status' => 'success',
-                    'title' => 'Всё прошло успешно',
-                    'message' => 'Группа была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.'
-                ]);
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'title' => 'Ошибка удаления',
-                    'message' => 'Данная группа не была найдена, либо вы не являетесь её владельцем'
-                ]);
+                $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+            } else {
+                $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная группа не была найдена, либо вы не являетесь её владельцем');
             }
-        }else{
-            return response()->json([
-                'status' => 'error',
-                'title' => 'Ошибка удаления',
-                'message' => 'Неопределённое поле groupId'
-            ]);
+        } else {
+            $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле groupId');
         }
+    }
+    private function generateJsonResponse($type, $title, $message)
+    {
+        return response()->json([
+            'status' => $type,
+            'title' => $title,
+            'message' => $message
+        ]);
     }
 }

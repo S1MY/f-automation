@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('stories_id')->nullable();
             $table->string('link_text')->nullable();
             $table->string('link_url')->nullable();
-            $table->integer('to_news')->nullable();
             $table->timestamps();
         });
     }
