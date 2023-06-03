@@ -60,11 +60,12 @@ class StoriesController extends Controller
 
         if ($validatedData['accType'] == 'group') {
             $groupId = $validatedData['accountId'];
-            $searchGroup = VkGroup::where('group_id', '=', $groupId)->first();
+            $searchGroup = VkGroup::where('id', '=', $groupId)->first();
             if (!$searchGroup) {
                 return $this->generateJsonResponse('input', 'account', 'Группа не найдена');
             }
             $accountId = $searchGroup->account_id;
+            $groupSendId = $searchGroup->group_id;
         } else {
             $accountId = $validatedData['accountId'];
             $groupId = 0;
@@ -99,7 +100,7 @@ class StoriesController extends Controller
                     'v' => '5.131',
                     'access_token' => $searchAccount->token,
                     'add_to_news' => 1,
-                    'group_id' => $groupId
+                    'group_id' => $groupSendId
                 ];
             }else{
                 $uploadParams = [
