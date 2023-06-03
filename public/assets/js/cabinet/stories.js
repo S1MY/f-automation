@@ -160,12 +160,11 @@ $(document).ready(function () {
             }
           },
           error: function (response) {
-            console.log(response)
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
             const error = $('.popupItem[data-popup="error"]');
-            error.children('.popupTitle').html(response.title);
-            error.children('.popupText').html(response.message);
+            error.children('.popupTitle').html('Возникла ошибка');
+            error.children('.popupText').html('Возможно требуется обратиться к администратору');
             error.fadeIn();
           }
         });
