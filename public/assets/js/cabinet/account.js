@@ -74,7 +74,6 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         const success = $('.popupItem[data-popup="success"]');
-        success.show()
         success.children('.popupTitle').html(response.title);
         success.children('.popupText').html(response.message);
         success.fadeIn();
@@ -84,7 +83,6 @@ $(document).ready(function () {
       },
       error: function (response) {
         const error = $('.popupItem[data-popup="error"]');
-        error.show()
         error.children('.popupTitle').html(response.title);
         error.children('.popupText').html(response.message);
         error.fadeIn();
@@ -109,7 +107,6 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         const success = $('.popupItem[data-popup="success"]');
-        success.show()
         success.children('.popupTitle').html(response.title);
         success.children('.popupText').html(response.message);
         success.fadeIn();
@@ -119,7 +116,6 @@ $(document).ready(function () {
       },
       error: function (response) {
         const error = $('.popupItem[data-popup="error"]');
-        error.show()
         error.children('.popupTitle').html(response.title);
         error.children('.popupText').html(response.message);
         error.fadeIn();
@@ -173,7 +169,6 @@ $(document).ready(function () {
         data: formData,
         success: function (response) {
           const success = $('.popupItem[data-popup="success"]');
-          success.show()
           success.children('.popupTitle').html(response.title);
           success.children('.popupText').html(response.message);
           success.fadeIn();
@@ -183,7 +178,6 @@ $(document).ready(function () {
         },
         error: function (response) {
           const error = $('.popupItem[data-popup="error"]');
-          error.show()
           error.children('.popupTitle').html(response.title);
           error.children('.popupText').html(response.message);
           error.fadeIn();
@@ -197,7 +191,6 @@ $(document).ready(function () {
           data: formData,
           success: function (response) {
             const success = $('.popupItem[data-popup="success"]');
-            success.show()
             success.children('.popupTitle').html(response.title);
             success.children('.popupText').html(response.message);
             success.fadeIn();
@@ -207,7 +200,6 @@ $(document).ready(function () {
           },
           error: function (response) {
             const error = $('.popupItem[data-popup="error"]');
-            error.show()
             error.children('.popupTitle').html(response.title);
             error.children('.popupText').html(response.message);
             error.fadeIn();

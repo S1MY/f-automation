@@ -122,19 +122,18 @@ $(document).ready(function () {
           data: formData,
           dataType: "json",
           success: function (response) {
-            console.log(response);
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
-            if(response.result == "success"){
+            if(response.status == "success"){
               const success = $('.popupItem[data-popup="success"]');
-              success.show()
               success.children('.popupTitle').html(response.title);
               success.children('.popupText').html(response.message);
               success.fadeIn();
               setTimeout(() => {
                 location.reload();
               }, 5000);
-            }else if(response.result == "input"){
+            }else if(response.status == "input"){
+              $('.popupWrapper').fadeOut();
               let inputName = response.title;
               inputName = (inputName === 'accType') ? 'account' : 'accType'
               inputName = (inputName === 'accountId') ? 'account' : 'accountId'
@@ -154,7 +153,6 @@ $(document).ready(function () {
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
             const error = $('.popupItem[data-popup="error"]');
-            error.show()
             error.children('.popupTitle').html(response.title);
             error.children('.popupText').html(response.message);
             error.fadeIn();
