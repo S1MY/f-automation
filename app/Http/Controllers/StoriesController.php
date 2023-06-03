@@ -94,11 +94,20 @@ class StoriesController extends Controller
             $getUpload = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
-            $uploadParams = [
-                'v' => '5.131',
-                'access_token' => $searchAccount->token,
-                'add_to_news' => 1,
-            ];
+            if ($validatedData['accType'] == 'group') {
+                $uploadParams = [
+                    'v' => '5.131',
+                    'access_token' => $searchAccount->token,
+                    'add_to_news' => 1,
+                    'group_id' => $groupId
+                ];
+            }else{
+                $uploadParams = [
+                    'v' => '5.131',
+                    'access_token' => $searchAccount->token,
+                    'add_to_news' => 1
+                ];
+            }
             $uploadGet = $getUpload->request('GET', '/method' . $method, [
                 'query' => $uploadParams
             ]);
