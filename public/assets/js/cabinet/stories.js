@@ -122,6 +122,7 @@ $(document).ready(function () {
           data: formData,
           dataType: "json",
           success: function (response) {
+            console.log(response.status)
             $('.popupWrapper').removeClass('_notClose');
             $('.popupItem').fadeOut();
             if(response.status == "success"){
