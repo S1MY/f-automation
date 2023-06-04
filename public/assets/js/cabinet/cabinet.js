@@ -93,9 +93,6 @@ $(document).ready(function () {
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
                 $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
               }
-              if($('.videoGuid').length > 0){
-                const player = new Plyr('.videoGuid');
-              }
           }
       });
     }else if(groupId){
@@ -112,9 +109,6 @@ $(document).ready(function () {
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${groupId}]`)) {
                 $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
               }
-              if($('.videoGuid').length > 0){
-                const player = new Plyr('.videoGuid');
-              }
           }
       });
     }
@@ -122,6 +116,9 @@ $(document).ready(function () {
     $(this).addClass("_active");
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
+    if($('.videoGuid').length > 0){
+      const player = new Plyr('.videoGuid');
+    }
   });
   // Попап инструкция
   $('.instructorLink').click(function (e) {
@@ -131,6 +128,9 @@ $(document).ready(function () {
     $(".popupWrapper").fadeIn();
     $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
     $(`.popupItem[data-popup=${popup}]`).fadeIn();
+    if($('.videoGuid').length > 0){
+      const player = new Plyr('.videoGuid');
+    }
   });
   // Закрытие попапов
   $(".popupBg, .popupClose").click(function (e) {
