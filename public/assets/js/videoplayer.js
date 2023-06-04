@@ -163,7 +163,7 @@
     let value = $(this).val();
     let min = $(this).attr('min');
     let max = $(this).attr('max');
-    $(this).css('background-size', (curr * 100) / max + '% 100%');
+    $(this).css('background-size', (value * 100) / max + '% 100%');
     let video = $(this).parent().parent().prev().get(0);
     video.volume = value;
     $(this).val(value);
@@ -173,7 +173,7 @@
     let value = $(this).val();
     let min = $(this).attr('min');
     let max = $(this).attr('max');
-    $(this).css('background-size', (curr * 100) / max + '% 100%');
+    $(this).css('background-size', (value * 100) / max + '% 100%');
     let video = $(this).parent().parent().prev().get(0);
     video.currentTime = value;
     $(this).val(value);
