@@ -84,8 +84,8 @@ $(document).ready(function () {
           data: formData,
           dataType: "json",
           complete: function (response) {
-              if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
-                $(`.pageTab[data-accountId=${accountId}]`).children('.rowFlex').html(response.responseText);
+              if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-tab=${accountId}]`)) {
+                $(`.pageTab[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
               }
               console.log(response)
           }
