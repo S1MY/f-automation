@@ -3,9 +3,12 @@
 @section('title', 'Истории Вконтакте')
 
 @section('cabinet-content')
-    @if (count($allStories) > 0)
-    {{ dd($allStories)}}
+    @if ( $allStories->count() == 0 )
+        <p class="empty">Предложений ещё не нет, будьте первым!</p>
     @endif
+    <div class="allOfferLoadWrapper">
+        @include('load.all-stories-load')
+    </div>
     <div class="pageFlex">
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')

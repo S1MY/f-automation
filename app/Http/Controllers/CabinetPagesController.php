@@ -66,6 +66,9 @@ class CabinetPagesController extends Controller
 
     public function stories(){
         $user = Auth::user();
+
+        $curentPage = route('vk/stories');
+
         $VkAccounts = VkAccount::where('uid', $user->id)
             ->get();
         $VkGroups = VkGroup::where('uid', $user->id)
@@ -89,13 +92,12 @@ class CabinetPagesController extends Controller
         })
         ->select([
             'stories.*',
-            'vk_accounts.id as vk_account_id',
             'vk_accounts.name as vk_account_name',
             'vk_groups.group_id as vk_group_id',
             'vk_groups.name as vk_group_name'
         ])
-        ->get();
-        return view('cabinet.vk.stories', compact('user', 'allStories'));
+        ->paginate(1, ['*'], 'all-stories');
+        return view('cabinet.vk.stories', compact('user', 'allStories', 'curentPage'));
     }
 
     public function storiesInfo(){

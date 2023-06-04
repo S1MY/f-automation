@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offers;
-use App\Models\VkAccount;
 use App\Models\Promocodes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\VkAccount;
+use App\Models\VkGroup;
+use App\Models\Stories;
 
 class PaginateController extends Controller
 {
@@ -57,11 +60,38 @@ class PaginateController extends Controller
 
             case 'all-stories':
 
-                $allStories = VkAccount::join('users as u', 'vk_accounts.uid', '=', 'u.id')
-                            ->select('vk_accounts.id');  
+
+                $VkAccounts = VkAccount::where('uid', Auth::user()->id)
+                ->get();
+                $VkGroups = VkGroup::where('uid', Auth::user()->id)
+                    ->get();
+                $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
+                ->leftJoin('vk_groups', function ($join) {
+                    $join->on('stories.group_id', '=', 'vk_groups.id')
+                        ->on('stories.account_id', '=', 'vk_groups.account_id');
+                })
+                ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
+                ->orWhere(function ($query) use ($VkGroups) {
+                    foreach ($VkGroups as $group) {
+                        $query->orWhere(function ($subquery) use ($group) {
+                            $subquery->where('stories.account_id', $group->account_id)
+                                ->where(function ($q) use ($group) {
+                                    $q->where('stories.group_id', $group->group_id)
+                                        ->orWhere('stories.group_id', 0);
+                                });
+                        });
+                    }
+                })
+                ->select([
+                    'stories.*',
+                    'vk_accounts.name as vk_account_name',
+                    'vk_groups.group_id as vk_group_id',
+                    'vk_groups.name as vk_group_name'
+                ])
+                ->paginate(1, ['*'], 'all-stories');
                             
-                $allStories = route('vk/stories');
-                // return view('load.all-stories-load', compact('allStories', 1));
+                $curentPage = route('vk/stories');
+                return view('load.all-stories-load', compact('allStories', 'curentPage'));
 
                 break;
 
