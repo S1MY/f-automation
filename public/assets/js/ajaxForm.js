@@ -156,6 +156,7 @@ $(function () {
             const parentType = ($(this).parents('.tabItem').attr('data-type')) ? $(this).parents('.tabItem').attr('data-type') : null
             let accountId = 0;
             let groupId = 0;
+            let formData = new FormData();
             if(parentType){
                 if(parentType === 'account'){
                     accountId = $(this).parents('.tabItem').attr('data-tab');
@@ -165,7 +166,6 @@ $(function () {
                     formData.append('groupId', groupId);
                 }
             }
-            var formData = new FormData();
             formData.append('page', page);
 
             $.ajaxSetup({
