@@ -173,8 +173,10 @@ $(function () {
             dataType: "json",
             success: function (result) {
 
-                if( window.location.pathname == '/cabinet/offers' && $('.pageTabs .pageTab[data-tab=all]').hasClass('_active') ){
+                if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
                     $('.offerLoadWrapper').html(result.responseText);
+                }else if(window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')){
+                    $('.paginationWrapper').html(result.responseText);
                 }else{
                     $('.tableWrapper').html(result.responseText);
                 }
@@ -182,7 +184,7 @@ $(function () {
             },
             error: function (result) {
 
-                if( window.location.pathname == '/cabinet/offers' && $('.pageTabs .pageTab[data-tab=all]').hasClass('_active') ){
+                if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
                     $('.offerLoadWrapper').html(result.responseText);
                 }else{
                     $('.tableWrapper').html(result.responseText);

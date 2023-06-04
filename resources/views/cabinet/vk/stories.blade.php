@@ -6,7 +6,7 @@
     @if ( $allStories->count() == 0 )
         <p class="empty">Предложений ещё не нет, будьте первым!</p>
     @endif
-    <div class="allOfferLoadWrapper">
+    <div class="paginationWrapper">
         @include('load.all-stories-load')
     </div>
     <div class="pageFlex">
