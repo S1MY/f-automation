@@ -141,11 +141,12 @@ $(document).ready(function () {
   // Закрытие попапов
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();
-    if ($('.plyr').length > 0) {
-      const players = Plyr.setup('.plyr');
-      players.forEach(function(player) {
-        player.pause();
-      });
+    if ($('.videoGuid').length > 0) {
+      console.log(1)
+      // const players = Plyr.setup('.videoGuid');
+      // players.forEach(function(player) {
+      //   player.pause();
+      // });
     }
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
