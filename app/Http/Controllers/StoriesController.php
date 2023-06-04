@@ -203,27 +203,7 @@ class StoriesController extends Controller
     public function storiesRemove(Request $request)
     {
         $userId = Auth::user()->id;
-        $autoStart = $request->autoStart;
-        if (is_numeric($autoStart)) {
-            $searchStories = Stories::where('id', '=', $autoStart)
-                ->where('uid', '=', $userId)
-                ->first();
-            if ($searchStories) {
-                $newActive = ($searchStories->active == 1) ? 0 : 1;
-                $searchStories->active = $newActive;
-                $searchStories->save();
-                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История готова к запуску');
-            }else{
-                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данная история не найдена');
-            }
-        }else{
-            return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
-        }
-    }
-    public function storiesActivator(Request $request)
-    {
-        $userId = Auth::user()->id;
-        $removeId = $request->removeId;
+        $removeId = $request->autoStart;
         if (is_numeric($removeId)) {
             $searchStories = Stories::where('id', '=', $removeId)
                 ->where('uid', '=', $userId)
@@ -239,6 +219,26 @@ class StoriesController extends Controller
             }
         }else{
             return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле storiesId');
+        }
+    }
+    public function storiesActivator(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $autoStart = $request->autoStart;
+        if (is_numeric($autoStart)) {
+            $searchStories = Stories::where('id', '=', $autoStart)
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchStories) {
+                $newActive = ($searchStories->active == 1) ? 0 : 1;
+                $searchStories->active = $newActive;
+                $searchStories->save();
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История запустится через минуту');
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данная история не найдена');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
         }
     }
     private function generateJsonResponse($type, $title, $message)

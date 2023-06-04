@@ -218,6 +218,8 @@ $(document).ready(function () {
     let formData = new FormData();
     if ($(this).hasClass('_remove')) {
       formData.append('removeId', $(this).attr('data-removeId'));
+    }else if($(this).hasClass('_autostart')){
+      formData.append('autoStart', $(this).attr('data-autoStart'));
     }
     $.ajax({
       type: "POST",
