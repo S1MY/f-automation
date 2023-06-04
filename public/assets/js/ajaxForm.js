@@ -166,6 +166,7 @@ $(function () {
                     formData.append('groupId', groupId);
                 }
             }
+            console.log(accountId)
             formData.append('page', page);
 
             $.ajaxSetup({
