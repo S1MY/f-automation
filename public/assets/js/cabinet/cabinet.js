@@ -141,14 +141,14 @@ $(document).ready(function () {
   // Закрытие попапов
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();
-    $(".popupWrapper").fadeOut();
-    $(".popupItem").fadeOut();
     if ($('.videoGuid').length > 0) {
       const players = Plyr.setup('.videoGuid');
       players.forEach(function(player) {
-        player.pause();
+        player.stop();
       });
     }
+    $(".popupWrapper").fadeOut();
+    $(".popupItem").fadeOut();
   });
   // Открытие гайдов в попап
   $(".guidLink").click(function (e) {
