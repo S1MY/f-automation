@@ -4,9 +4,7 @@
 
 @section('cabinet-content')
     @if (count($allStories) > 0)
-        @foreach ($allStories as $stories)
-            {{ dd($stories)}}
-        @endforeach
+    {{ dd($allStories)}}
     @endif
     <div class="pageFlex">
         <div class="sidebar">
