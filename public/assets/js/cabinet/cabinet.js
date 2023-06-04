@@ -142,11 +142,10 @@ $(document).ready(function () {
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();
     if ($('.videoGuid').length > 0) {
-      console.log(1)
-      // const players = Plyr.setup('.videoGuid');
-      // players.forEach(function(player) {
-      //   player.pause();
-      // });
+      $('.videoGuid').each(function () {
+        const player = Plyr.setup(this);
+        player.pause();
+      })
     }
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
