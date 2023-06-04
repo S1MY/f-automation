@@ -1605,7 +1605,7 @@ a.tableItem:hover{
 .cardButton:hover, .commentBtn:hover{
     opacity: 0.8;
 }
-.cardButton._on,.cardButton._off{
+.cardButton._autostart{
     background: #27AE60;
 }
 .cardButton._edit{

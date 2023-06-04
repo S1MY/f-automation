@@ -321,7 +321,7 @@
                                         <p class="cardLine _nextStart">Следующий стрим: <span>20.11.2023 в 21:49 (МСК)</span></p>
                                     </div>
                                     <div class="cardControls">
-                                        <a href="#" class="cardButton _on" data-stream="1" title="Выключить автозапуск">
+                                        <a href="#" class="cardButton _autostart" data-stream="1" title="Выключить автозапуск">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5.33333 22C4.41667 22 3.63222 21.6738 2.98 21.0217C2.32667 20.3683 2 19.5833 2 18.6667V5.33333C2 4.41667 2.32667 3.63222 2.98 2.98C3.63222 2.32667 4.41667 2 5.33333 2H18.6667C19.5833 2 20.3683 2.32667 21.0217 2.98C21.6738 3.63222 22 4.41667 22 5.33333V18.6667C22 19.5833 21.6738 20.3683 21.0217 21.0217C20.3683 21.6738 19.5833 22 18.6667 22H5.33333Z" fill="white"/>
                                             </svg>
@@ -397,7 +397,7 @@
                                         <p class="cardLine _nextStart">Следующий стрим: <span>20.11.2023 в 21:49 (МСК)</span></p>
                                     </div>
                                     <div class="cardControls">
-                                        <a href="#" class="cardButton _on" data-stream="1" title="Выключить автозапуск">
+                                        <a href="#" class="cardButton _autostart" data-stream="1" title="Выключить автозапуск">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5.33333 22C4.41667 22 3.63222 21.6738 2.98 21.0217C2.32667 20.3683 2 19.5833 2 18.6667V5.33333C2 4.41667 2.32667 3.63222 2.98 2.98C3.63222 2.32667 4.41667 2 5.33333 2H18.6667C19.5833 2 20.3683 2.32667 21.0217 2.98C21.6738 3.63222 22 4.41667 22 5.33333V18.6667C22 19.5833 21.6738 20.3683 21.0217 21.0217C20.3683 21.6738 19.5833 22 18.6667 22H5.33333Z" fill="white"/>
                                             </svg>
@@ -473,7 +473,7 @@
                                         <p class="cardLine _nextStart">Следующий стрим: <span>20.11.2023 в 21:49 (МСК)</span></p>
                                     </div>
                                     <div class="cardControls">
-                                        <a href="#" class="cardButton _on" data-stream="1" title="Выключить автозапуск">
+                                        <a href="#" class="cardButton _autostart" data-stream="1" title="Выключить автозапуск">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5.33333 22C4.41667 22 3.63222 21.6738 2.98 21.0217C2.32667 20.3683 2 19.5833 2 18.6667V5.33333C2 4.41667 2.32667 3.63222 2.98 2.98C3.63222 2.32667 4.41667 2 5.33333 2H18.6667C19.5833 2 20.3683 2.32667 21.0217 2.98C21.6738 3.63222 22 4.41667 22 5.33333V18.6667C22 19.5833 21.6738 20.3683 21.0217 21.0217C20.3683 21.6738 19.5833 22 18.6667 22H5.33333Z" fill="white"/>
                                             </svg>

@@ -17,8 +17,7 @@ $(document).ready(function () {
             if(response.result == "success"){
                 $(this).after('<p class="offerYes">Вы уже голосовали!</p>');
                 $(this).remove();
-                let message = "<p class='fixedMessage'>Вы успешно проголосовали</p>";
-                createMessage(message);
+                createMessage("<p class='fixedMessage'>Вы успешно проголосовали</p>");
             }else{
               // Серверные ошибки
               let title = "ОЙ ОЙ ОЙ";
@@ -30,14 +29,4 @@ $(document).ready(function () {
           }
         });
     });
-    function createMessage(message) {
-      $("body").append(message);
-      $(".fixedMessage").fadeIn();
-      setTimeout(function () {
-        $(".fixedMessage").fadeOut();
-      }, 3000);
-      setTimeout(function () {
-        $(".fixedMessage").remove();
-      }, 4000);
-    }
 });

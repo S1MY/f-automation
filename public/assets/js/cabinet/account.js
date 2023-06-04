@@ -206,12 +206,7 @@ $(document).ready(function () {
           }
         });
       } else {
-        const message = "<p class='fixedMessage _error'>Выберите группу!</p>";
-        $("body").append(message);
-        $(".fixedMessage").fadeIn();
-        setTimeout(function () {
-          $(".fixedMessage").remove();
-        }, 3000);
+        createMessage("<p class='fixedMessage _error'>Выберите группу!</p>")
       }
     }
   });

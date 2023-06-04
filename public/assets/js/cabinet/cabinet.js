@@ -20,13 +20,7 @@ $(document).ready(function () {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-  let players = []
-  if ($('.videoGuid').length > 0) {
-    $('.videoGuid').each(function () {
-      const player = new Plyr(this);
-      players.push(player);
-    });
-  }
+  playerSearch()
   // Бургер
   $('.burgerButton').click(function (e) {
     e.preventDefault();
@@ -76,15 +70,17 @@ $(document).ready(function () {
     let tab = $(this).attr("data-tab");
     const accountId = ($(this).attr("data-accountId")) ? $(this).attr("data-accountId") : null
     const groupId = ($(this).attr("data-groupId")) ? $(this).attr("data-groupId") : null
-    let action, type, formData;
     if (accountId || groupId) {
-      action = $(this).attr('data-action');
-      type = $(this).attr('data-type');
-      formData = new FormData();
+      const action = $(this).attr('data-action');
+      const type = $(this).attr('data-type');
+      let formData = new FormData();
       formData.append('type', type);
-    }
-    if (accountId) {
-      formData.append('account_id', accountId);
+      const itemId = (accountId) ? accountId : groupId;
+      if (accountId) {
+        formData.append('account_id', accountId);
+      } else if (groupId) {
+        formData.append('group_id', groupId);
+      }
       $.ajax({
         type: "POST",
         url: action,
@@ -94,24 +90,8 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         complete: function (response) {
-          if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
-            $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
-          }
-        }
-      });
-    } else if (groupId) {
-      formData.append('group_id', groupId);
-      $.ajax({
-        type: "POST",
-        url: action,
-        contentType: false,
-        processData: false,
-        cache: false,
-        data: formData,
-        dataType: "json",
-        complete: function (response) {
-          if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${groupId}]`)) {
-            $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
+          if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${itemId}]`)) {
+            $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
           }
         }
       });
@@ -120,13 +100,7 @@ $(document).ready(function () {
     $(this).addClass("_active");
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
-    players = []
-    if ($('.videoGuid').length > 0) {
-      $('.videoGuid').each(function () {
-        const player = new Plyr(this);
-        players.push(player);
-      });
-    }
+    playerSearch()
   });
   // Попап инструкция
   $('.instructorLink').click(function (e) {
@@ -136,22 +110,12 @@ $(document).ready(function () {
     $(".popupWrapper").fadeIn();
     $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
     $(`.popupItem[data-popup=${popup}]`).fadeIn();
-    players = []
-    if ($('.videoGuid').length > 0) {
-      $('.videoGuid').each(function () {
-        const player = new Plyr(this);
-        players.push(player);
-      });
-    }
+    playerSearch()
   });
   // Закрытие попапов
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();
-    if ($('.videoGuid').length > 0) {
-      players.forEach(function (player) {
-        player.pause();
-      });
-    }
+    playerPause()
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
   });
@@ -177,19 +141,10 @@ $(document).ready(function () {
     input.remove();
     let message;
     if ($(this).parent().hasClass('_promocode')) {
-      message = "<p class='fixedMessage'>Промокод скопирован!</p>";
+      createMessage("<p class='fixedMessage'>Промокод скопирован!</p>")
     } else {
-      message = "<p class='fixedMessage'>Ссылка успешно скопирована!</p>";
+      createMessage("<p class='fixedMessage'>Ссылка успешно скопирована!</p>")
     }
-    $("body").append(message);
-    $(".fixedMessage").fadeIn();
-    setTimeout(function () {
-      $(".fixedMessage").fadeOut();
-      btn.removeClass("_copied");
-    }, 3000);
-    setTimeout(function () {
-      $(".fixedMessage").remove();
-    }, 4000);
   });
   // Кастомный селект
   $(document).on('click', '.selectHeader', function (e) {

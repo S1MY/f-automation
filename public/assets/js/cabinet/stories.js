@@ -25,11 +25,9 @@ $(document).ready(function () {
         .children("button")
         .addClass("_disabled");
     }
-    if (size > 209715200) {
+    if (size > 83886080) {
       $("#file").val("");
-      let message =
-        "<p class='fixedMessage _error'>Максимальный размер видео-файла 200МБ</p>";
-      createMessage(message);
+      createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 10МБ</p>");
     } else {
       if (file.type == 'video/mp4') {
         let url = URL.createObjectURL(file);
@@ -69,38 +67,23 @@ $(document).ready(function () {
     $("._status").removeClass("_loader");
     $("._status").addClass("_complete");
     $("._status").html("Файл загружен");
-    let message = "<p class='fixedMessage'>Файл успешно загружен!</p>";
-    createMessage(message);
+    createMessage("<p class='fixedMessage'>Файл успешно загружен!</p>");
     detector = true;
   }
   const errorOperation = (event) => {
     $("#file").val("");
     let message =
-      "<p class='fixedMessage _error'>При загрузке возникла ошибка!</p>";
-    createMessage(message);
+    createMessage("<p class='fixedMessage _error'>При загрузке возникла ошибка!</p>");
   }
   const abortOperation = (event) => {
     $("#file").val("");
-    let message =
-      "<p class='fixedMessage _error'>Не удалось загрузить файл!</p>";
-    createMessage(message);
-  }
-  const createMessage = (message) => {
-    $("body").append(message);
-    $(".fixedMessage").fadeIn();
-    setTimeout(function () {
-      $(".fixedMessage").fadeOut();
-    }, 3000);
-    setTimeout(function () {
-      $(".fixedMessage").remove();
-    }, 4000);
+    createMessage("<p class='fixedMessage _error'>Не удалось загрузить файл!</p>");
   }
   $(".tabPageForm").submit(function (e) {
     e.preventDefault();
     const ajaxUrl = $(this).attr('action');
     if (detector == false) {
-      let message = "<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>";
-      createMessage(message);
+      createMessage("<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>");
     } else {
       let formData = new FormData();
       let serialize = $(this).serializeArray();

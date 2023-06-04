@@ -33,9 +33,7 @@ $(document).ready(function () {
     }
     if (size > 209715200) {
       $("#file").val("");
-      let message =
-        "<p class='fixedMessage _error'>Максимальный размер видео-файла 200МБ</p>";
-      createMessage(message);
+      createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 200МБ</p>");
     } else {
       let url = URL.createObjectURL(file);
       video.src = url;
@@ -71,31 +69,16 @@ $(document).ready(function () {
     $("._status").removeClass("_loader");
     $("._status").addClass("_complete");
     $("._status").html("Файл загружен");
-    let message = "<p class='fixedMessage'>Файл успешно загружен!</p>";
-    createMessage(message);
+    createMessage("<p class='fixedMessage'>Файл успешно загружен!</p>");
     detector = true;
   }
   function errorOperation(event) {
     $("#file").val("");
-    let message =
-      "<p class='fixedMessage _error'>При загрузке возникла ошибка!</p>";
-    createMessage(message);
+    createMessage("<p class='fixedMessage _error'>При загрузке возникла ошибка!</p>");
   }
   function abortOperation(event) {
     $("#file").val("");
-    let message =
-      "<p class='fixedMessage _error'>Не удалось загрузить файл!</p>";
-    createMessage(message);
-  }
-  function createMessage(message) {
-    $("body").append(message);
-    $(".fixedMessage").fadeIn();
-    setTimeout(function () {
-      $(".fixedMessage").fadeOut();
-    }, 3000);
-    setTimeout(function () {
-      $(".fixedMessage").remove();
-    }, 4000);
+    createMessage("<p class='fixedMessage _error'>Не удалось загрузить файл!</p>");
   }
   $('.cardButton').click(function (e) { 
     e.preventDefault();
@@ -257,8 +240,7 @@ $(document).ready(function () {
     e.preventDefault();
     let action = $(this).attr('data-action');
     if (detector == false) {
-      let message = "<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>";
-      createMessage(message);
+      createMessage("<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>");
     }else{
       let formData = new FormData();
       let serialize = $(this).serializeArray();

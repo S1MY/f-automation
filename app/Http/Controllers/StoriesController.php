@@ -209,7 +209,7 @@ class StoriesController extends Controller
                 ->where('uid', '=', $userId)
                 ->first();
             if ($searchStories) {
-                $newActive = !$searchStories->active;
+                $newActive = ($searchStories->active == 1) ? 0 : 1;
                 $searchStories->active = $newActive;
                 $searchStories->save();
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История готова к запуску');

@@ -19,8 +19,7 @@ $(document).ready(function () {
             $('.popupWrapper').removeClass('_notClose');
             if(response.result == "success"){
               // Успешный
-              let message = "<p class='fixedMessage'>Настройка изменена!</p>";
-              createMessage(message);
+              createMessage("<p class='fixedMessage'>Настройка изменена!</p>");
                 $(this).get(0).reset();
             }else if(response.result == "inputs"){
               // Клиентские ошибки
@@ -36,20 +35,9 @@ $(document).ready(function () {
               $('.popupItem').fadeOut();
             }else{
               // Серверные ошибки
-              let message = "<p class='fixedMessage _error'>Андрюха по коням. Походу криминал</p>";
-              createMessage(message);
+              createMessage("<p class='fixedMessage _error'>Андрюха по коням. Походу криминал</p>");
             }
           }
         });
     });
-    function createMessage(message) {
-      $("body").append(message);
-      $(".fixedMessage").fadeIn();
-      setTimeout(function () {
-        $(".fixedMessage").fadeOut();
-      }, 3000);
-      setTimeout(function () {
-        $(".fixedMessage").remove();
-      }, 4000);
-    }
 });
