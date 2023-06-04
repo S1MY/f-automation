@@ -101,10 +101,8 @@ class PaginateController extends Controller
                 break;
 
             case 'account-stories':
-                $VkAccounts = VkAccount::where('id', $accountId)
-                    ->get();
                 $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
-                    ->where('stories.account_id', '=', $VkAccounts->pluck('id'))
+                    ->where('stories.account_id', '=', $accountId)
                     ->where('stories.group_id', '=', 0)
                     ->select([
                         'stories.*',
@@ -117,10 +115,7 @@ class PaginateController extends Controller
                 break;
 
             case 'group-stories':
-                $VkGroups = VkGroup::where('group_id', $groupId)
-                    ->get();
                 $allStories = Stories::join('vk_groups', 'stories.group_id', '=', 'vk_groups.group_id')
-                    ->where('stories.account_id', '=', $VkGroups->pluck('account_id'))
                     ->where('stories.group_id', '=', $groupId)
                     ->select([
                         'stories.*',
