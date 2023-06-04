@@ -1724,7 +1724,7 @@ a.tableItem:hover{
     justify-content: center;
 }
 /* Трансляции */
-.rowFlex{
+.rowFlex, .storiesAllWrapper{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
