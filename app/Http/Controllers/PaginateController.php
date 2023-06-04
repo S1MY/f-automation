@@ -77,7 +77,8 @@ class PaginateController extends Controller
                             ->on('stories.account_id', '=', 'vk_groups.account_id');
                     })
                     ->leftJoin('stories_settings', function ($join) {
-                        $join->on('stories.id', '=', 'stories_settings.stories_id');
+                        $join->on('stories.id', '=', 'stories_settings.stories_id')
+                        ->where('stories.group_id', '<>', 0);
                     })
                     ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
                     ->orWhere(function ($query) use ($VkGroups) {
