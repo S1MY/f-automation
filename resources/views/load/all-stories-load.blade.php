@@ -29,7 +29,7 @@
             {{-- <video controls class="videoGuid" data-index="0" preload="metadata">
                 <source src="/storage/{{$stories->link}}" type="video/mp4"/>
                 </video> --}}
-            <video id="player" playsinline controls preload="metadata">
+            <video class="videoGuid" playsinline controls preload="metadata">
                 <source src="/storage/{{$stories->link}}" type="video/mp4"/>
             </video>
             {{-- <video controls class="videoGuid" data-index="0" preload="metadata">
