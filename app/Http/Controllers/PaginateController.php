@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offers;
+use App\Models\VkAccount;
 use App\Models\Promocodes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,14 @@ class PaginateController extends Controller
                 $curentPage = route('offers');
 
                 return view('load.all-offers-load', compact('likedOffers', 'curentPage'));
+
+                break;
+
+            case 'all-stories':
+
+                $allStories = VkAccount::join('users as u', 'vk_accounts.uid', '=', 'u.id')
+                            ->select('vk_accounts.id');
+                return $allStories;
 
                 break;
 

@@ -3,6 +3,7 @@
 @section('title', 'Истории Вконтакте')
 
 @section('cabinet-content')
+    {{ dd($allStories) }}
     <div class="pageFlex">
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')
@@ -136,7 +137,6 @@
                                     $allStoriesCount = 0;
                                 @endphp
                                 @foreach (Auth::user()->VkAccount as $vkAccount)
-                                {{ dd($vkAccount->StoriesAccount)}}
                                 @if (count($vkAccount->StoriesAccount) > 0)
                                     @php
                                         $allStoriesCount+=count($vkAccount->StoriesAccount);

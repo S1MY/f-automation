@@ -19,6 +19,6 @@ class VkAccount extends Model
         return $this->hasMany(VkGroup::class, 'account_id', 'id');
     }
     public function StoriesAccount(){
-        return $this->hasMany(Stories::class, 'account_id', 'id')->where('group_id', 0)->paginate(1);
+        return $this->hasMany(Stories::class, 'account_id', 'id')->where('group_id', 0);
     }
 }
