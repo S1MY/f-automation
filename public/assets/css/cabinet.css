@@ -874,13 +874,14 @@ a.tableItem:hover{
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    gap: 16px;
 }
 .paginationItem{
     background: #101010;
     border-radius: 6px;
     width: 44px;
     height: 44px;
-    margin: 0 8px;
     display: flex;
     align-items: center;
     justify-content: center;

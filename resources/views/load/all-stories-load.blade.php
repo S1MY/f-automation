@@ -83,7 +83,6 @@
             </div>
         </div>
     </div>
-    {{$stories->id}}
 @endforeach
 
 {{ $allStories->links('layouts.paginate', ['curentPage' => $curentPage]) }}
