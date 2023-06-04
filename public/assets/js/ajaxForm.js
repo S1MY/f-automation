@@ -160,10 +160,10 @@ $(function () {
             if(parentType){
                 if(parentType === 'account'){
                     accountId = $(this).parents('.tabItem').attr('data-tab');
-                    formData.append('accountId', accountId);
+                    formData.append('account_id', accountId);
                 }else if(parentType === 'group'){
                     groupId = $(this).parents('.tabItem').attr('data-tab');
-                    formData.append('groupId', groupId);
+                    formData.append('group_id', groupId);
                 }
             }
             formData.append('page', page);
@@ -173,7 +173,6 @@ $(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            console.log(accountId)
             $.ajax({
                 type: "POST",
                 url: action,
