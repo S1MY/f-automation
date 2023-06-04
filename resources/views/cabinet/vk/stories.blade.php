@@ -122,7 +122,7 @@
                     <p class="pageText _mt12">Все истории, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления</p>
                     <div class="pageTabs" data-name="classic">
                         <p class="pageTab _active" data-tab="all">Все истории</p>
-                        @if(Auth::user()->VkAccount)
+                        @if(count(Auth::user()->VkAccount) > 0)
                             @foreach (Auth::user()->VkAccount as $vkAccount)
                                     <p class="pageTab" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}" data-type="account-stories">{{$vkAccount->name}}</p>
                                 @foreach ($vkAccount->VkGroup as $VkGroup)
@@ -136,7 +136,7 @@
                             @include('load.all-stories-load')
                         </div>
                     </div>
-                    @if(Auth::user()->VkAccount)
+                    @if(count(Auth::user()->VkAccount) > 0)
                         @foreach (Auth::user()->VkAccount as $vkAccount)
                             <div class="tabItem" data-tab="{{$vkAccount->id}}" data-type="account">
                                 <div class="rowFlex">
