@@ -3,7 +3,7 @@
 @section('title', 'Истории Вконтакте')
 
 @section('cabinet-content')
-    {{ dd($allStories) }}
+    {{ @dd($allStories) }}
     <div class="pageFlex">
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')
