@@ -58,8 +58,10 @@ class PaginateController extends Controller
             case 'all-stories':
 
                 $allStories = VkAccount::join('users as u', 'vk_accounts.uid', '=', 'u.id')
-                            ->select('vk_accounts.id');
-                return $allStories;
+                            ->select('vk_accounts.id');  
+                            
+                $allStories = route('vk/stories');
+                return view('load.all-stories-load', compact('allStories', 1));
 
                 break;
 
