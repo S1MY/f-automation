@@ -147,7 +147,7 @@ $(document).ready(function () {
     e.preventDefault();
     if ($('.videoGuid').length > 0) {
       players.forEach(function(player) {
-        player.stop();
+        player.pause();
       });
     }
     $(".popupWrapper").fadeOut();
