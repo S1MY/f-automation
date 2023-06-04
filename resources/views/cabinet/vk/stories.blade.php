@@ -3,7 +3,11 @@
 @section('title', 'Истории Вконтакте')
 
 @section('cabinet-content')
-    {{ dd($allStories) }}
+    @if (count($allStories) > 0)
+        @foreach ($allStories as $stories)
+            {{dd($stories)}}
+        @endforeach
+    @endif
     <div class="pageFlex">
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')
