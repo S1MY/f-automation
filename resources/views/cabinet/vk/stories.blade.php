@@ -19,8 +19,8 @@
                         </div>
                     </h1>
                     <p class="pageText _mt12">Созданная история обновляется ежедневно во время своего создания. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
+                    @if(Auth::user()->VkAccount)
                     <div class="tabPageItem">
-                        @if(Auth::user()->VkAccount)
                         <form class="tabPageForm" action="{{ route('storiesCreate') }}" enctype='multipart/form-data'>
                             <input type="hidden" name="accType" value="user">
                             <div class="tabPageInput" data-name="name">
@@ -114,8 +114,8 @@
                             <input type="hidden" name="duration" value="">
                             <button class="formBtn _full _disabled">Создать историю</button>
                         </form>
-                        @endif
                     </div>
+                    @endif
                 </div>
                 <div class="pageItem">
                     <h2 class="pageTitle">Ваши истории</h2>
