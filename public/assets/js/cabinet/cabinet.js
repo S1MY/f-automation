@@ -143,7 +143,7 @@ $(document).ready(function () {
     e.preventDefault();
     if ($('.videoGuid').length > 0) {
       $('.videoGuid').each(function () {
-        const player = Plyr.setup(this);
+        const player = Plyr(this);
         player.pause();
       })
     }
