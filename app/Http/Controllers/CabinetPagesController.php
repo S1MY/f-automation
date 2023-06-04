@@ -65,7 +65,7 @@ class CabinetPagesController extends Controller
 
     public function stories(){
         $user = Auth::user();
-        $allStories = VkAccount::leftJoin('vk_groups', 'vk_accounts.id', '=', 'vk_groups.account_id')
+        $allStories = VkAccount::join('vk_groups', 'vk_accounts.id', '=', 'vk_groups.account_id')
             ->where('vk_accounts.uid', $user->id)
             ->select('vk_accounts.id as account_id', 'vk_accounts.name as account_name', 'vk_groups.id as group_id', 'vk_groups.name as group_name', 'vk_groups.group_id')
             ->get();
