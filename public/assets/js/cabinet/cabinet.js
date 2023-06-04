@@ -85,6 +85,7 @@ $(document).ready(function () {
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
                 $(`.pageTab[data-accountId=${accountId}]`).children('.rowFlex').html(response.responseText);
               }
+              console.log(response)
           }
       });
     }
