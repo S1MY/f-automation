@@ -239,7 +239,7 @@ $(document).ready(function () {
         }
       },
       error: function (response) {
-        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+        errorHandler('Возникла ошибка', response)
       }
     });
   });
