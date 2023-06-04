@@ -16,7 +16,9 @@ $(window).on("load", function () {
 
 $(document).ready(function () {
   if($('.videoGuid').length > 0){
-    const player = new Plyr('.videoGuid');
+    $('.videoGuid').each(function() {
+      const player = new Plyr(this);
+    });
   }
   // Бургер
   $('.burgerButton').click(function (e) {
@@ -117,7 +119,9 @@ $(document).ready(function () {
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
     if($('.videoGuid').length > 0){
-      const player = new Plyr('.videoGuid');
+      $('.videoGuid').each(function() {
+        const player = new Plyr(this);
+      });
     }
   });
   // Попап инструкция
@@ -129,7 +133,9 @@ $(document).ready(function () {
     $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
     $(`.popupItem[data-popup=${popup}]`).fadeIn();
     if($('.videoGuid').length > 0){
-      const player = new Plyr('.videoGuid');
+      $('.videoGuid').each(function() {
+        const player = new Plyr(this);
+      });
     }
   });
   // Закрытие попапов
