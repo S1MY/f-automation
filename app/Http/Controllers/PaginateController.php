@@ -88,7 +88,7 @@ class PaginateController extends Controller
                     'vk_groups.group_id as vk_group_id',
                     'vk_groups.name as vk_group_name'
                 ])
-                ->paginate(1, ['*'], 'all-stories-page');
+                ->paginate(1, ['*'], 'all-stories-page', $page_num);
                             
                 $curentPage = route('stories');
                 return view('load.all-stories-load', compact('allStories', 'curentPage'));
