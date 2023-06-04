@@ -15,9 +15,11 @@ $(window).on("load", function () {
 });
 
 $(document).ready(function () {
+  let players =[]
   if ($('.videoGuid').length > 0) {
-    $('.videoGuid').each(function () {
+    $('.videoGuid').each(function() {
       const player = new Plyr(this);
+      players.push(player);
     });
   }
   // Бургер
@@ -119,8 +121,9 @@ $(document).ready(function () {
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
     if ($('.videoGuid').length > 0) {
-      $('.videoGuid').each(function () {
+      $('.videoGuid').each(function() {
         const player = new Plyr(this);
+        players.push(player);
       });
     }
   });
@@ -133,8 +136,9 @@ $(document).ready(function () {
     $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
     $(`.popupItem[data-popup=${popup}]`).fadeIn();
     if ($('.videoGuid').length > 0) {
-      $('.videoGuid').each(function () {
+      $('.videoGuid').each(function() {
         const player = new Plyr(this);
+        players.push(player);
       });
     }
   });
@@ -142,10 +146,9 @@ $(document).ready(function () {
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();
     if ($('.videoGuid').length > 0) {
-      $('.videoGuid').each(function () {
-        const player = Plyr(this);
-        player.pause();
-      })
+      players.forEach(function(player) {
+        player.stop();
+      });
     }
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
