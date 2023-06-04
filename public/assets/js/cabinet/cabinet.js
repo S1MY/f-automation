@@ -63,17 +63,21 @@ $(document).ready(function () {
     e.preventDefault();
     let tab = $(this).attr("data-tab");
     const accountId = ($(this).attr("data-accountId")) ? $(this).attr("data-accountId") : null
+    const groupId = ($(this).attr("data-groupId")) ? $(this).attr("data-groupId") : null
     $.ajaxSetup({
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    if(accountId){
-      const action = $(this).attr('data-action');
-      const type = $(this).attr('data-type');
-      let formData = new FormData();
-      formData.append('account_id', accountId);
+    let action, type, formData;
+    if(accountId || groupId){
+      action = $(this).attr('data-action');
+      type = $(this).attr('data-type');
+      formData = new FormData();
       formData.append('type', type);
+    }
+    if(accountId){
+      formData.append('account_id', accountId);
       $.ajax({
           type: "POST",
           url: action,
@@ -86,7 +90,22 @@ $(document).ready(function () {
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
                 $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
               }
-              console.log(response)
+          }
+      });
+    }else if(groupId){
+      formData.append('group_id', groupId);
+      $.ajax({
+          type: "POST",
+          url: action,
+          contentType: false,
+          processData: false,
+          cache: false,
+          data: formData,
+          dataType: "json",
+          complete: function (response) {
+              if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${groupId}]`)) {
+                $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
+              }
           }
       });
     }
