@@ -1,5 +1,5 @@
 $(function () {
-    $('.ajaxFormController').submit(function(e){
+    $('.ajaxFormController').submit(function (e) {
         e.preventDefault();
         let ajaxUrl = $(this).attr('action');
         let formData = $(this).serialize();
@@ -14,15 +14,15 @@ $(function () {
             url: ajaxUrl,
             method: 'post',
             data: formData,
-            success: function(result){
+            success: function (result) {
 
                 console.log(result);
 
                 let from = result.from;
 
-                if( from == 'register' ){
+                if (from == 'register') {
                     window.location.href = '/confirm';
-                }else if( from == 'confirm'){
+                } else if (from == 'confirm') {
                     let success = $('.popupWrapper .popupItem[data-popup="success"]');
 
                     $('.popupWrapper').show();
@@ -35,9 +35,9 @@ $(function () {
                     success.children('.popupText').append(result.message);
 
                     window.location.href = '/cabinet';
-                }else if( from == 'login' ){
+                } else if (from == 'login') {
                     window.location.href = '/cabinet';
-                }else if( from == 'offers' ){
+                } else if (from == 'offers') {
                     let success = $('.popupWrapper .popupItem[data-popup="success"]');
 
                     $('.popupWrapper').show();
@@ -60,10 +60,10 @@ $(function () {
             error: function (result) {
                 console.log(result);
 
-                $.each(result.responseJSON.errors, function(key,value) {
+                $.each(result.responseJSON.errors, function (key, value) {
                     console.log(key);
 
-                    if( key == 'not found' ){
+                    if (key == 'not found') {
                         let error = $('.popupWrapper .popupItem[data-popup="error"]');
 
                         error.children('.popupTitle').html('');
@@ -77,21 +77,21 @@ $(function () {
                     }
 
                     $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-                    $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">'+ value +'</span>');
+                    $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
                 });
 
                 $('.errorInput').fadeOut(3000);
                 setTimeout(() => {
-                  $('.errorInput').remove();
+                    $('.errorInput').remove();
                 }, 3500);
             }
         });
     });
 
     // Проголосовать
-    $(document).on('click', '.offerBtn' , function(e) {
+    $(document).on('click', '.offerBtn', function (e) {
         e.preventDefault();
-        if( !$(this).hasClass('offerYes') ){
+        if (!$(this).hasClass('offerYes')) {
             let ajaxUrl = $(this).attr('data-action');
             let offerId = $(this).attr('data-offer');
 
@@ -104,22 +104,22 @@ $(function () {
             $.ajax({
                 url: ajaxUrl,
                 method: 'post',
-                data: {offerId: offerId},
-                success: function(result){
+                data: { offerId: offerId },
+                success: function (result) {
 
                     console.log(result);
-                    $('.offerBtn[data-offer='+result.offer_id+']').prev().children().children().html(result.now);
-                    $('.offerBtn[data-offer='+result.offer_id+']').addClass('offerYes');
-                    $('.offerBtn[data-offer='+result.offer_id+']').html('Вы уже голосовали!');
+                    $('.offerBtn[data-offer=' + result.offer_id + ']').prev().children().children().html(result.now);
+                    $('.offerBtn[data-offer=' + result.offer_id + ']').addClass('offerYes');
+                    $('.offerBtn[data-offer=' + result.offer_id + ']').html('Вы уже голосовали!');
 
                 },
                 error: function (result) {
                     console.log(result);
 
-                    $.each(result.responseJSON.errors, function(key,value) {
+                    $.each(result.responseJSON.errors, function (key, value) {
                         console.log(key);
 
-                        if( key == 'not found' ){
+                        if (key == 'not found') {
                             let error = $('.popupWrapper .popupItem[data-popup="error"]');
 
                             error.children('.popupTitle').html('');
@@ -133,12 +133,12 @@ $(function () {
                         }
 
                         $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-                        $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">'+ value +'</span>');
+                        $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
                     });
 
                     $('.errorInput').fadeOut(3000);
                     setTimeout(() => {
-                    $('.errorInput').remove();
+                        $('.errorInput').remove();
                     }, 3500);
                 }
             });
@@ -148,14 +148,14 @@ $(function () {
     });
 
     // Пагинация
-    $(document).on('click', '.paginationItem' , function(e) {
+    $(document).on('click', '.paginationItem', function (e) {
         e.preventDefault();
-        if( !$(this).hasClass('_disabled') ){
+        if (!$(this).hasClass('_disabled')) {
             let action = $(this).attr('data-action');
             let page = $(this).attr('href');
 
             var form = new FormData();
-            form.append('page',page);
+            form.append('page', page);
 
             $.ajaxSetup({
                 headers: {
@@ -164,35 +164,32 @@ $(function () {
             });
 
             $.ajax({
-            type: "POST",
-            url: action,
-            contentType: false,
-            processData: false,
-            cache: false,
-            data: form,
-            dataType: "json",
-            success: function (response) {
-                console.log(response)
-                console.log(window.location.pathname)
-                if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
-                    $('.offerLoadWrapper').html(response.responseText);
-                }else if(window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')){
-                    $('.paginationWrapper').html(response.responseText);
-                }else{
-                    $('.tableWrapper').html(response.responseText);
-                }
+                type: "POST",
+                url: action,
+                contentType: false,
+                processData: false,
+                cache: false,
+                data: form,
+                dataType: "json",
+                success: function (response) {
+                    if (window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                        $('.offerLoadWrapper').html(response.responseText);
+                    } else if (window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                        $('.paginationWrapper').html(response.responseText);
+                    } else {
+                        $('.tableWrapper').html(response.responseText);
+                    }
 
-            },
-            error: function (response) {
-                console.log(response)
-                console.log(window.location.pathname)
-                if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
-                    $('.offerLoadWrapper').html(response.responseText);
-                }else{
-                    $('.tableWrapper').html(response.responseText);
+                },
+                error: function (response) {
+                    if (window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                        $('.offerLoadWrapper').html(response.responseText);
+                    } else if (window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                        $('.paginationWrapper').html(response.responseText);
+                    } else {
+                        $('.tableWrapper').html(response.responseText);
+                    }
                 }
-
-            }
             });
         }
 
