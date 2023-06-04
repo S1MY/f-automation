@@ -175,7 +175,7 @@ $(function () {
                 console.log(response)
                 if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
                     $('.offerLoadWrapper').html(response.responseText);
-                }else if(window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')){
+                }else if(window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')){
                     $('.paginationWrapper').html(response.responseText);
                 }else{
                     $('.tableWrapper').html(response.responseText);
