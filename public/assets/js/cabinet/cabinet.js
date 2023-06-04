@@ -15,9 +15,14 @@ $(window).on("load", function () {
 });
 
 $(document).ready(function () {
-  let players =[]
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  let players = []
   if ($('.videoGuid').length > 0) {
-    $('.videoGuid').each(function() {
+    $('.videoGuid').each(function () {
       const player = new Plyr(this);
       players.push(player);
     });
@@ -71,11 +76,6 @@ $(document).ready(function () {
     let tab = $(this).attr("data-tab");
     const accountId = ($(this).attr("data-accountId")) ? $(this).attr("data-accountId") : null
     const groupId = ($(this).attr("data-groupId")) ? $(this).attr("data-groupId") : null
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
     let action, type, formData;
     if (accountId || groupId) {
       action = $(this).attr('data-action');
@@ -120,8 +120,9 @@ $(document).ready(function () {
     $(this).addClass("_active");
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
+    players = []
     if ($('.videoGuid').length > 0) {
-      $('.videoGuid').each(function() {
+      $('.videoGuid').each(function () {
         const player = new Plyr(this);
         players.push(player);
       });
@@ -135,8 +136,9 @@ $(document).ready(function () {
     $(".popupWrapper").fadeIn();
     $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
     $(`.popupItem[data-popup=${popup}]`).fadeIn();
+    players = []
     if ($('.videoGuid').length > 0) {
-      $('.videoGuid').each(function() {
+      $('.videoGuid').each(function () {
         const player = new Plyr(this);
         players.push(player);
       });
@@ -146,7 +148,7 @@ $(document).ready(function () {
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();
     if ($('.videoGuid').length > 0) {
-      players.forEach(function(player) {
+      players.forEach(function (player) {
         player.pause();
       });
     }
@@ -214,43 +216,36 @@ $(document).ready(function () {
         const ajaxUrl = $('.addGroupSelect').attr('data-action')
         let formData = {};
         formData.accountId = accountId;
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        });
         $.ajax({
           url: ajaxUrl,
           method: 'POST',
           data: formData,
           success: function (response) {
             let groupsItems = ``;
-            if (Object.keys(response.message).length > 0) {
-              for (const item of Object.values(response.message)) {
-                const name = item.name
-                groupsItems += `<div class="groupSelect">
-                <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
-                <div class="groupSelectInfo">
-                    <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
-                    <p class="accountName">${(name.length > 12) ? name.substring(0, 9) + '...' : name}</p>
-                </div>
-            </div>`
+            if (response.status == "success") {
+              if (Object.keys(response.message).length > 0) {
+                for (const item of Object.values(response.message)) {
+                  const name = item.name
+                  groupsItems += `<div class="groupSelect">
+                  <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
+                  <div class="groupSelectInfo">
+                      <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
+                      <p class="accountName">${(name.length > 12) ? name.substring(0, 9) + '...' : name}</p>
+                  </div>
+              </div>`
+                }
+                $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "flex" });
+              } else {
+                groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены группы!</p>`
+                $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "none" });
               }
-              $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "flex" });
+              $('.groupSelectItems').html(groupsItems)
             } else {
-              groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены группы!</p>`
-              $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "none" });
+              errorHandler(response.title, response.message)
             }
-            $('.groupSelectItems').html(groupsItems)
           },
           error: function (response) {
-            console.log(response);
-            $('.popupItem').fadeOut();
-            const error = $('.popupItem[data-popup="error"]');
-            error.show()
-            error.children('.popupTitle').html(response.title);
-            error.children('.popupText').html(response.message);
-            error.fadeIn();
+            errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
           }
         });
       } else {
@@ -262,6 +257,35 @@ $(document).ready(function () {
     }
     $(this).parent().slideUp();
   });
+  $(document).on('click', '.cardButton', function (e) {
+    e.preventDefault();
+    const ajaxUrl = $(this).attr('data-action');
+    let formData = new FormData();
+    if ($(this).hasClass('_remove')) {
+      formData.append('removeId', $(this).attr('data-removeId'));
+    }
+    $.ajax({
+      type: "POST",
+      url: ajaxUrl,
+      contentType: false,
+      processData: false,
+      cache: false,
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        $('.popupWrapper').fadeIn();
+        $('.popupItem').fadeOut();
+        if (response.status == "success") {
+          successHandler(response.title, response.message)
+        } else {
+          errorHandler(response.title, response.message)
+        }
+      },
+      error: function (response) {
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+      }
+    });
+  });
   $(document).mouseup(function (e) {
     let select = $(".formSelect");
     if (!select.is(e.target) &&
@@ -271,3 +295,23 @@ $(document).ready(function () {
     }
   });
 });
+const successHandler = (title, message) => {
+  $('.popupWrapper').fadeIn();
+  $('.popupItem').fadeOut();
+  const success = $('.popupItem[data-popup="success"]');
+  success.children('.popupTitle').html(title);
+  success.children('.popupText').html(message);
+  success.fadeIn();
+  setTimeout(() => {
+    location.reload();
+  }, 5000);
+}
+
+const errorHandler = (title, message) => {
+  $('.popupWrapper').fadeIn();
+  $('.popupItem').fadeOut();
+  const error = $('.popupItem[data-popup="error"]');
+  error.children('.popupTitle').html(title);
+  error.children('.popupText').html(message);
+  error.fadeIn();
+}

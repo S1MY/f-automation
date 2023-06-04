@@ -199,6 +199,48 @@ class StoriesController extends Controller
             return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');
         }
     }
+
+    public function storiesRemove(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $autoStart = $request->autoStart;
+        if (is_numeric($autoStart)) {
+            $searchStories = Stories::where('id', '=', $autoStart)
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchStories) {
+                $newActive = !$searchStories->active;
+                $searchStories->active = $newActive;
+                $searchStories->save();
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История готова к запуску');
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данная история не найдена');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
+        }
+    }
+    public function storiesActivator(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $removeId = $request->removeId;
+        if (is_numeric($removeId)) {
+            $searchStories = Stories::where('id', '=', $removeId)
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchStories) {
+                StoriesStory::where('stories_id', '=', $removeId)->delete();
+                StoriesSettings::where('stories_id', '=', $removeId)->delete();
+                Storage::delete($searchStories->link);
+                Stories::where('id', '=', $removeId)->delete();
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная история не найдена');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле storiesId');
+        }
+    }
     private function generateJsonResponse($type, $title, $message)
     {
         return response()->json([

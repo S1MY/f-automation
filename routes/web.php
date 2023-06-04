@@ -84,6 +84,7 @@ Route::post('/vk-group-auth', [VkAuthController::class, 'vkGroupAuth'])->name('v
 Route::post('/vk-group-remove', [VkAuthController::class, 'vkGroupRemove'])->name('vkGroupRemove');
 
 Route::post('/vk-stories-create', [StoriesController::class, 'storiesCreate'])->name('storiesCreate');
+Route::post('/vk-stories-remove', [VkAuthController::class, 'storiesRemove'])->name('storiesRemove');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');
