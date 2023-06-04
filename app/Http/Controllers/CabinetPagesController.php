@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\VkAccount;
+
 class CabinetPagesController extends Controller
 {
     public function settings(){
@@ -106,8 +108,10 @@ class CabinetPagesController extends Controller
                             ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
                             ->where('uid', '=', Auth::user()->id)
                             ->paginate(6);
+        $allStories = VkAccount::join('users as u', 'vk_accounts.uid', '=', 'u.id')
+                            ->select('vk_accounts.id');  
 
-        return view('cabinet.offers', compact('user', 'allOffers', 'meOffers', 'likedOffers', 'curentPage'));
+        return view('cabinet.offers', compact('user', 'allOffers', 'meOffers', 'allStories', 'likedOffers', 'curentPage'));
     }
 
     public function admin(Request $request){

@@ -61,7 +61,7 @@ class PaginateController extends Controller
                             ->select('vk_accounts.id');  
                             
                 $allStories = route('vk/stories');
-                return view('load.all-stories-load', compact('allStories', 1));
+                // return view('load.all-stories-load', compact('allStories', 1));
 
                 break;
 
