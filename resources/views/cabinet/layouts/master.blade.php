@@ -7,6 +7,7 @@
     <link rel="apple-touch-icon" href="/files/favicons/apple.png">
     <link rel="manifest" href="/manifest.webmanifest">
     <title>F-Кабинет: @yield('title')</title>
+    <link rel="stylesheet" href="/assets/css/videoplayer.css">
     <link rel="stylesheet" href="/assets/css/preloader.css">
     <link rel="stylesheet" href="/assets/css/cabinet.css">
     <link rel="stylesheet" href="/assets/css/custom.css">

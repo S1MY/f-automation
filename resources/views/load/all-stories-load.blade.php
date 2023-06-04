@@ -26,7 +26,13 @@
     <div class="cardItem">
         @if ($stories->filetype == 'mp4')
         <div class="videoWrapper">
-            <video controls class="videoGuid" data-index="0" preload="metadata">
+            {{-- <video controls class="videoGuid" data-index="0" preload="metadata">
+                <source src="/storage/{{$stories->link}}" type="video/mp4"/>
+                </video> --}}
+            <video id="player" playsinline controls preload="metadata">
+                <source src="/storage/{{$stories->link}}" type="video/mp4"/>
+            </video>
+            {{-- <video controls class="videoGuid" data-index="0" preload="metadata">
             <source src="/storage/{{$stories->link}}" type="video/mp4"/>
             </video>
             <div class="videoContoller">
@@ -68,7 +74,7 @@
                     <rect width="32" height="32" fill="white" transform="translate(16 16)"/>
                 </svg>
             </div>
-            <div class="videoShadow"></div>
+            <div class="videoShadow"></div> --}}
         </div>
         @else
         <div class="imageWrapper">
