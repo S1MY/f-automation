@@ -173,6 +173,7 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 console.log(response)
+                console.log(window.location.pathname)
                 if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
                     $('.offerLoadWrapper').html(response.responseText);
                 }else if(window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')){
