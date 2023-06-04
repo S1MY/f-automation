@@ -206,16 +206,24 @@ class StoriesController extends Controller
         $removeId = $request->autoStart;
         if (is_numeric($removeId)) {
             $searchStories = Stories::where('id', '=', $removeId)
-                ->where('uid', '=', $userId)
                 ->first();
-            if ($searchStories) {
-                StoriesStory::where('stories_id', '=', $removeId)->delete();
-                StoriesSettings::where('stories_id', '=', $removeId)->delete();
-                Storage::delete($searchStories->link);
-                Stories::where('id', '=', $removeId)->delete();
-                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+            $searchAccount = VkAccount::where('id', '=', $searchStories->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchStories) {
+                        StoriesStory::where('stories_id', '=', $removeId)->delete();
+                        StoriesSettings::where('stories_id', '=', $removeId)->delete();
+                        Storage::delete($searchStories->link);
+                        Stories::where('id', '=', $removeId)->delete();
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная история не найдена');
+                    }  
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная история вам не принадлежит');
+                } 
             }else{
-                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная история не найдена');
+                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Не найден родительский аккаунт');
             }
         }else{
             return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле storiesId');
@@ -227,15 +235,23 @@ class StoriesController extends Controller
         $autoStart = $request->autoStart;
         if (is_numeric($autoStart)) {
             $searchStories = Stories::where('id', '=', $autoStart)
-                ->where('uid', '=', $userId)
                 ->first();
-            if ($searchStories) {
-                $newActive = ($searchStories->active == 1) ? 0 : 1;
-                $searchStories->active = $newActive;
-                $searchStories->save();
-                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История запустится через минуту');
+            $searchAccount = VkAccount::where('id', '=', $searchStories->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchStories) {
+                        $newActive = ($searchStories->active == 1) ? 0 : 1;
+                        $searchStories->active = $newActive;
+                        $searchStories->save();
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История запустится через минуту');
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данная история не найдена');
+                    }
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данная история вам не принадлежит');
+                }
             }else{
-                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данная история не найдена');
+                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Не найден родительский аккаунт');
             }
         }else{
             return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
