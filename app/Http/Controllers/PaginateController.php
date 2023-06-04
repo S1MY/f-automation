@@ -72,7 +72,7 @@ class PaginateController extends Controller
                 $VkGroups = VkGroup::where('uid', Auth::user()->id)
                     ->get();
                 $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
-                    ->join('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
+                    ->leftJoin('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
                     ->leftJoin('vk_groups', function ($join) {
                         $join->on('stories.group_id', '=', 'vk_groups.group_id')
                             ->on('stories.account_id', '=', 'vk_groups.account_id');
@@ -123,7 +123,7 @@ class PaginateController extends Controller
                 $VkGroups = VkGroup::where('group_id', $groupId)
                     ->get();
                 $allStories = Stories::join('vk_groups', 'stories.group_id', '=', 'vk_groups.group_id')
-                    ->join('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
+                    ->leftJoin('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
                     ->where('stories.account_id', '=', $VkGroups->pluck('account_id'))
                     ->where('stories.group_id', '=', $VkGroups->pluck('group_id'))
                     ->select([
