@@ -65,10 +65,11 @@ class CabinetPagesController extends Controller
     public function stories(){
         $user = Auth::user();
         $allStories = VkAccount::join('users as u', 'vk_accounts.uid', '=', 'u.id')
-                            ->join('vk_groups', 'vk_groups.account_id', '=', 'vk_accounts.id')
-                            ->select('vk_accounts.id', 'vk_accounts.name', 'vk_groups.id', 'vk_groups.group_id', 'vk_groups.name')
-                            ->distinct()
-                            ->get();  
+                        ->where('u.id', '=', Auth::user()->id)
+                        ->join('vk_groups', 'vk_groups.account_id', '=', 'vk_accounts.id')
+                        ->select('vk_accounts.id', 'vk_accounts.name', 'vk_groups.id', 'vk_groups.group_id', 'vk_groups.name')
+                        ->distinct()
+                        ->get();
         return view('cabinet.vk.stories', compact('user', 'allStories'));
     }
 
