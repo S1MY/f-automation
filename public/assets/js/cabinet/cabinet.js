@@ -101,6 +101,7 @@ $(document).ready(function () {
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
     playerSearch()
+    console.log(players)
   });
   // Попап инструкция
   $('.instructorLink').click(function (e) {

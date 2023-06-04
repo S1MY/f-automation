@@ -243,7 +243,11 @@ class StoriesController extends Controller
                         $newActive = ($searchStories->active == 1) ? 0 : 1;
                         $searchStories->active = $newActive;
                         $searchStories->save();
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История запустится через минуту');
+                        if($newActive == 1){
+                            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. История запустится через минуту');
+                        }else{
+                            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск выключен. История не будет запускаться');
+                        }
                     }else{
                         return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данная история не найдена');
                     }
