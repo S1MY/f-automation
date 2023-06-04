@@ -65,6 +65,9 @@
                     </span>
                 </p>
                 <p class="cardLine">Автозапуск: <span>Активен</span></p>
+                @if ($stories->group_id > 0)
+                    <p class="cardLine">Текст: <span>{{$stories->link_text}}</span></p>
+                @endif
                 <p class="cardLine _nextStart">Запуск ежедневно: <span>в {{date('H:i', strtotime($stories->updated_at))}} (МСК)</span></p>
             </div>
             <div class="cardControls _stories">
