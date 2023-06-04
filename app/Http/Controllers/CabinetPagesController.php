@@ -65,7 +65,8 @@ class CabinetPagesController extends Controller
     public function stories(){
         $user = Auth::user();
         $allStories = VkAccount::join('users as u', 'vk_accounts.uid', '=', 'u.id')
-                            ->select('vk_accounts.id');  
+                            ->select('vk_accounts.id')
+                            ->get();  
         return view('cabinet.vk.stories', compact('user', 'allStories'));
     }
 
