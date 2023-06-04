@@ -72,7 +72,6 @@ $(document).ready(function () {
       const action = $(this).attr('data-action');
       const type = $(this).attr('data-type');
       let formData = new FormData();
-      formData.append('page', 1);
       formData.append('account_id', accountId);
       formData.append('type', type);
       $.ajax({

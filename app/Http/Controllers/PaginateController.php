@@ -14,12 +14,12 @@ use App\Models\Stories;
 class PaginateController extends Controller
 {
     public function paginate(Request $request){
-        if(is_numeric($request->page)){
-            $page_id = $request->type;
-            $page_num = $request->page;
-        }else{
+        if(isset($request->page)){
             $page_id = explode('-page=',explode('?', $request->page)[1])[0];
             $page_num = explode('=', $request->page)[1];
+        }else{
+            $page_id = $request->type;
+            $page_num = 1;
         }
         $accountId = (isset($request->account_id) ? $request->account_id : '');
 
