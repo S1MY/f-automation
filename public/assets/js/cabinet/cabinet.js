@@ -15,11 +15,21 @@ $(window).on("load", function () {
 });
 
 $(document).ready(function () {
-  if($('.videoGuid').length > 0){
-    $('.videoGuid').each(function() {
+  if ($('.videoGuid').length > 0) {
+    $('.videoGuid').each(function () {
       const player = new Plyr(this);
     });
   }
+  const players = Plyr.setup('.videoGuid');
+  players.forEach(function (player) {
+    player.on('play', function (event) {
+      players.forEach(function (otherPlayer) {
+        if (otherPlayer !== player && !otherPlayer.paused()) {
+          otherPlayer.pause();
+        }
+      });
+    });
+  });
   // Бургер
   $('.burgerButton').click(function (e) {
     e.preventDefault();
@@ -64,62 +74,62 @@ $(document).ready(function () {
     $(this).next(".sidebarSubWrapper").slideToggle();
   });
   // Кабинет табы
-    $(document).on('click', '.pageTab', function (e) {
+  $(document).on('click', '.pageTab', function (e) {
     e.preventDefault();
     let tab = $(this).attr("data-tab");
     const accountId = ($(this).attr("data-accountId")) ? $(this).attr("data-accountId") : null
     const groupId = ($(this).attr("data-groupId")) ? $(this).attr("data-groupId") : null
     $.ajaxSetup({
       headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
     });
     let action, type, formData;
-    if(accountId || groupId){
+    if (accountId || groupId) {
       action = $(this).attr('data-action');
       type = $(this).attr('data-type');
       formData = new FormData();
       formData.append('type', type);
     }
-    if(accountId){
+    if (accountId) {
       formData.append('account_id', accountId);
       $.ajax({
-          type: "POST",
-          url: action,
-          contentType: false,
-          processData: false,
-          cache: false,
-          data: formData,
-          dataType: "json",
-          complete: function (response) {
-              if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
-                $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
-              }
+        type: "POST",
+        url: action,
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: formData,
+        dataType: "json",
+        complete: function (response) {
+          if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
+            $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
           }
+        }
       });
-    }else if(groupId){
+    } else if (groupId) {
       formData.append('group_id', groupId);
       $.ajax({
-          type: "POST",
-          url: action,
-          contentType: false,
-          processData: false,
-          cache: false,
-          data: formData,
-          dataType: "json",
-          complete: function (response) {
-              if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${groupId}]`)) {
-                $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
-              }
+        type: "POST",
+        url: action,
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: formData,
+        dataType: "json",
+        complete: function (response) {
+          if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${groupId}]`)) {
+            $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
           }
+        }
       });
     }
     $(".pageTab").removeClass("_active");
     $(this).addClass("_active");
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
-    if($('.videoGuid').length > 0){
-      $('.videoGuid').each(function() {
+    if ($('.videoGuid').length > 0) {
+      $('.videoGuid').each(function () {
         const player = new Plyr(this);
       });
     }
@@ -132,8 +142,8 @@ $(document).ready(function () {
     $(".popupWrapper").fadeIn();
     $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
     $(`.popupItem[data-popup=${popup}]`).fadeIn();
-    if($('.videoGuid').length > 0){
-      $('.videoGuid').each(function() {
+    if ($('.videoGuid').length > 0) {
+      $('.videoGuid').each(function () {
         const player = new Plyr(this);
       });
     }
@@ -143,10 +153,10 @@ $(document).ready(function () {
     e.preventDefault();
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
-    if($('.videoGuid').length > 0){
+    if ($('.videoGuid').length > 0) {
       const videoElements = $('.videoGuid');
       const players = [];
-      videoElements.each(function() {
+      videoElements.each(function () {
         players.push(new Plyr($(this)[0]));
       });
       players.forEach((player) => player.destroy());
