@@ -171,23 +171,23 @@ $(function () {
             cache: false,
             data: form,
             dataType: "json",
-            success: function (result) {
-
+            success: function (response) {
+                console.log(response)
                 if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
-                    $('.offerLoadWrapper').html(result.responseText);
+                    $('.offerLoadWrapper').html(response.responseText);
                 }else if(window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')){
-                    $('.paginationWrapper').html(result.responseText);
+                    $('.paginationWrapper').html(response.responseText);
                 }else{
-                    $('.tableWrapper').html(result.responseText);
+                    $('.tableWrapper').html(response.responseText);
                 }
 
             },
-            error: function (result) {
-
+            error: function (response) {
+                console.log(response)
                 if( window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active') ){
-                    $('.offerLoadWrapper').html(result.responseText);
+                    $('.offerLoadWrapper').html(response.responseText);
                 }else{
-                    $('.tableWrapper').html(result.responseText);
+                    $('.tableWrapper').html(response.responseText);
                 }
 
             }
