@@ -55,9 +55,13 @@ class StoriesController extends Controller
             return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
-
-        $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
-        $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : 'https://f-automation.v-devo.ru/';
+        if ($validatedData['accType'] == 'group') {
+            $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
+            $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : route('main');
+        }else{
+            $linkText = null;
+            $linkUrl = null;
+        }
         if ($validatedData['accType'] == 'group') {
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('id', '=', $groupId)->first();
@@ -203,7 +207,7 @@ class StoriesController extends Controller
     public function storiesRemove(Request $request)
     {
         $userId = Auth::user()->id;
-        $removeId = $request->autoStart;
+        $removeId = $request->removeId;
         if (is_numeric($removeId)) {
             $searchStories = Stories::where('id', '=', $removeId)
                 ->first();
@@ -226,7 +230,7 @@ class StoriesController extends Controller
                 return $this->generateJsonResponse('error', 'Ошибка удаления', 'Не найден родительский аккаунт');
             }
         }else{
-            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле storiesId');
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле removeId');
         }
     }
     public function storiesActivator(Request $request)
