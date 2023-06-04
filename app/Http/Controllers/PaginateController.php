@@ -104,8 +104,8 @@ class PaginateController extends Controller
                 $VkAccounts = VkAccount::where('id', $accountId)
                     ->get();
                 $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
-                    ->where('stories.account_id', '=', $VkAccounts->pluck('id'))
-                    ->where('stories.group_id', '=', 0)
+                    ->where('stories.account_id', '=', $VkAccounts->pluck('id')->first())
+                    ->where('stories.group_id', '=', '0')
                     ->select([
                         'stories.*',
                         'vk_accounts.name as vk_account_name'
