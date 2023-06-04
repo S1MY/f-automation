@@ -146,7 +146,7 @@ $(document).ready(function () {
     if ($('.videoGuid').length > 0) {
       const players = Plyr.setup('.videoGuid');
       players.forEach(function(player) {
-        player.destroy();
+        player.pause();
       });
     }
   });
