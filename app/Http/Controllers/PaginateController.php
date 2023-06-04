@@ -17,6 +17,7 @@ class PaginateController extends Controller
 
         $page_id = explode('-page=',explode('?', $request->page)[1])[0];
         $page_num = explode('=', $request->page)[1];
+        $accountId = (isset($request->account_id) ? $request->account_id : '');
 
         switch ($page_id) {
             case 'promo':
@@ -60,7 +61,6 @@ class PaginateController extends Controller
 
             case 'all-stories':
 
-
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
                 ->get();
                 $VkGroups = VkGroup::where('uid', Auth::user()->id)
@@ -94,6 +94,20 @@ class PaginateController extends Controller
 
                 break;
 
+            case 'account-stories':
+                $VkAccounts = VkAccount::where('id', $accountId)
+                ->get();
+                $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
+                ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
+                ->select([
+                    'stories.*',
+                    'vk_accounts.name as vk_account_name'
+                ])
+                ->paginate(1, ['*'], 'all-stories-page', $page_num);
+                $curentPage = route('stories');
+                return view('load.all-stories-load', compact('allStories', 'curentPage'));
+
+                break;
             default:
 
                 return response()->json([

@@ -59,9 +59,35 @@ $(document).ready(function () {
     $(this).next(".sidebarSubWrapper").slideToggle();
   });
   // Кабинет табы
-  $(".pageTab").click(function (e) {
+    $(document).on('click', '.pageTab', function (e) {
     e.preventDefault();
     let tab = $(this).attr("data-tab");
+    const accountId = ($(this).attr("data-accountId")) ? $(this).attr("data-accountId") : null
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    if(accountId){
+      const action = $(this).attr('data-action');
+      let formData = new FormData();
+      formData.append('page', 1);
+      formData.append('account_id', 1);
+      $.ajax({
+          type: "POST",
+          url: action,
+          contentType: false,
+          processData: false,
+          cache: false,
+          data: formData,
+          dataType: "json",
+          complete: function (response) {
+              if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
+                $(`.pageTab[data-accountId=${accountId}]`).children('.rowFlex').html(response.responseText);
+              }
+          }
+      });
+    }
     $(".pageTab").removeClass("_active");
     $(this).addClass("_active");
     $(".tabItem").removeClass("_active");

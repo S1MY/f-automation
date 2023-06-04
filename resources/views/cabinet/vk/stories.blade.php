@@ -154,9 +154,9 @@
                     </div>
                     @if(Auth::user()->VkAccount)
                         @foreach (Auth::user()->VkAccount as $vkAccount)
-                            <div class="tabItem" data-tab="{{$vkAccount->id}}">
+                            <div class="tabItem" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginator')}}">
                                 <div class="rowFlex">
-                                    @if (count($vkAccount->StoriesAccount) > 0)
+                                    {{-- @if (count($vkAccount->StoriesAccount) > 0)
                                     @foreach ($vkAccount->StoriesAccount as $Stories)
                                     <div class="cardItem">
                                     @if ($Stories->filetype == 'mp4')
@@ -250,13 +250,13 @@
                                             </svg>
                                         <p class="cardEmptyText">На этом аккаунте нет историй</p>
                                     </div>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </div>
                             @foreach ($vkAccount->VkGroup as $VkGroup)
                                 <div class="tabItem" data-tab="{{$VkGroup->group_id}}">
                                     <div class="rowFlex">
-                                        @if (count($VkGroup->StoriesGroup) > 0)
+                                        {{-- @if (count($VkGroup->StoriesGroup) > 0)
                                         @foreach ($VkGroup->StoriesGroup as $Stories)
                                         <div class="cardItem">
                                         @if ($Stories->filetype == 'mp4')
@@ -350,7 +350,7 @@
                                                 </svg>
                                             <p class="cardEmptyText">На этой группе нет историй</p>
                                         </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                             @endforeach
