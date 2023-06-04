@@ -144,7 +144,7 @@ $(document).ready(function () {
     if ($('.videoGuid').length > 0) {
       const players = Plyr.setup('.videoGuid');
       players.forEach(function(player) {
-        player.stop();
+        player.pause();
       });
     }
     $(".popupWrapper").fadeOut();
