@@ -153,9 +153,20 @@ $(function () {
         if (!$(this).hasClass('_disabled')) {
             let action = $(this).attr('data-action');
             let page = $(this).attr('href');
-
-            var form = new FormData();
-            form.append('page', page);
+            const parentType = ($(this).parents('.tabItem').attr('data-type')) ? $(this).parents('.tabItem').attr('data-type') : null
+            let accountId = 0;
+            let groupId = 0;
+            if(parentType){
+                if(parentType === 'account'){
+                    accountId = $(this).parents('.tabItem').attr('data-tab');
+                    formData.append('accountId', accountId);
+                }else if(parentType === 'group'){
+                    groupId = $(this).parents('.tabItem').attr('data-tab');
+                    formData.append('groupId', groupId);
+                }
+            }
+            var formData = new FormData();
+            formData.append('page', page);
 
             $.ajaxSetup({
                 headers: {
@@ -169,26 +180,23 @@ $(function () {
                 contentType: false,
                 processData: false,
                 cache: false,
-                data: form,
+                data: formData,
                 dataType: "json",
-                success: function (response) {
+                complete: function (response) {
                     if (window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
                     } else if (window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storiesAllWrapper').html(response.responseText);
                     } else {
-                        $('.tableWrapper').html(response.responseText);
+                        if(accountId > 0){
+                            $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
+                        }else if(groupId > 0){
+                            $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
+                        }else{
+                            $('.tableWrapper').html(response.responseText);
+                        }
                     }
 
-                },
-                error: function (response) {
-                    if (window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
-                        $('.offerLoadWrapper').html(response.responseText);
-                    } else if (window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
-                        $('.storiesAllWrapper').html(response.responseText);
-                    } else {
-                        $('.tableWrapper').html(response.responseText);
-                    }
                 }
             });
         }

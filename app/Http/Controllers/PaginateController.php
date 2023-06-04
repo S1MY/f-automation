@@ -103,11 +103,12 @@ class PaginateController extends Controller
                 ->get();
                 $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
                 ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
+                ->whereIn('stories.group_id', 0)
                 ->select([
                     'stories.*',
                     'vk_accounts.name as vk_account_name'
                 ])
-                ->paginate(1, ['*'], 'all-stories-page', $page_num);
+                ->paginate(1, ['*'], 'account-stories-page', $page_num);
                 $curentPage = route('stories');
                 return view('load.all-stories-load', compact('allStories', 'curentPage'));
 
