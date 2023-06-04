@@ -71,11 +71,10 @@ class PaginateController extends Controller
                     ->get();
                 $VkGroups = VkGroup::where('uid', Auth::user()->id)
                     ->get();
-                $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
-                    ->leftJoin('vk_groups', function ($join) {
-                        $join->on('stories.group_id', '=', 'vk_groups.group_id')
-                            ->on('stories.account_id', '=', 'vk_groups.account_id');
-                    })
+                    $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
+                    ->leftJoin('vk_groups')
+                    ->on('stories.group_id', '=', 'vk_groups.group_id')
+                    ->on('stories.account_id', '=', 'vk_groups.account_id')
                     ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
                     ->orWhere(function ($query) use ($VkGroups) {
                         foreach ($VkGroups as $group) {
@@ -120,11 +119,14 @@ class PaginateController extends Controller
                 $VkGroups = VkGroup::where('group_id', $groupId)
                     ->get();
                 $allStories = Stories::join('vk_groups', 'stories.group_id', '=', 'vk_groups.group_id')
+                    ->join('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
                     ->where('stories.account_id', '=', $VkGroups->pluck('account_id'))
                     ->where('stories.group_id', '=', $VkGroups->pluck('group_id'))
                     ->select([
                         'stories.*',
-                        'vk_groups.name as vk_group_name'
+                        'vk_groups.name as vk_group_name',
+                        'stories_settings.link_text as seetings_link_text',
+                        'stories_settings.link_url as seetings_link_url'
                     ])
                     ->paginate(1, ['*'], 'group-stories-page', $page_num);
                 $curentPage = route('stories');
