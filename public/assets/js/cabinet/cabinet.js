@@ -239,7 +239,8 @@ $(document).ready(function () {
         }
       },
       error: function (response) {
-        errorHandler('Возникла ошибка', response)
+        console.log(response)
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       }
     });
   });
