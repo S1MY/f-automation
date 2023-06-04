@@ -136,6 +136,7 @@
                                     $allStoriesCount = 0;
                                 @endphp
                                 @foreach (Auth::user()->VkAccount as $vkAccount)
+                                {{ @dd($vkAccount->StoriesAccount)}}
                                 @if (count($vkAccount->StoriesAccount) > 0)
                                     @php
                                         $allStoriesCount+=count($vkAccount->StoriesAccount);
