@@ -81,12 +81,18 @@ $(document).ready(function () {
           cache: false,
           data: formData,
           dataType: "json",
-          complete: function (response) {
+          success: function (response) {
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
                 $(`.pageTab[data-accountId=${accountId}]`).children('.rowFlex').html(response.responseText);
               }
               console.log(response)
-          }
+          },
+          error: function (response) {
+            if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
+              $(`.pageTab[data-accountId=${accountId}]`).children('.rowFlex').html(response.responseText);
+            }
+            console.log(response)
+        }
       });
     }
     $(".pageTab").removeClass("_active");
