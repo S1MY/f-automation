@@ -89,10 +89,10 @@ class CabinetPagesController extends Controller
         })
         ->select([
             'stories.*',
-            'vk_accounts.id as account_id',
-            'vk_accounts.name as account_name',
-            'vk_groups.id as group_id',
-            'vk_groups.name as group_name'
+            'vk_accounts.id as vk_account_id',
+            'vk_accounts.name as vk_account_name',
+            'vk_groups.group_id as vk_group_id',
+            'vk_groups.name as vk_group_name'
         ])
         ->get();
         return view('cabinet.vk.stories', compact('user', 'allStories'));
