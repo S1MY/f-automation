@@ -173,7 +173,7 @@ $(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            console.log(accountId)
             $.ajax({
                 type: "POST",
                 url: action,
