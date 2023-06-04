@@ -154,7 +154,7 @@
                     </div>
                     @if(Auth::user()->VkAccount)
                         @foreach (Auth::user()->VkAccount as $vkAccount)
-                            <div class="tabItem" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginator')}}">
+                            <div class="tabItem" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}">
                                 <div class="rowFlex">
                                     {{-- @if (count($vkAccount->StoriesAccount) > 0)
                                     @foreach ($vkAccount->StoriesAccount as $Stories)
