@@ -15,6 +15,9 @@ $(window).on("load", function () {
 });
 
 $(document).ready(function () {
+  if($('.videoGuid').length > 0){
+    const player = new Plyr('.videoGuid');
+  }
   // Бургер
   $('.burgerButton').click(function (e) {
     e.preventDefault();
@@ -129,19 +132,19 @@ $(document).ready(function () {
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
     if ($('.popupItem[data-class="guid"]').length > 0) {
-      $.each($(".videoGuid"), function (indexInArray, valueOfElement) {
-        valueOfElement.pause();
-        let play = $(valueOfElement)
-          .next()
-          .children(".togglePlay")
-          .children(".play");
-        let stop = $(valueOfElement)
-          .next()
-          .children(".togglePlay")
-          .children(".stop");
-        stop.hide();
-        play.show();
-      });
+      // $.each($(".videoGuid"), function (indexInArray, valueOfElement) {
+      //   valueOfElement.pause();
+      //   let play = $(valueOfElement)
+      //     .next()
+      //     .children(".togglePlay")
+      //     .children(".play");
+      //   let stop = $(valueOfElement)
+      //     .next()
+      //     .children(".togglePlay")
+      //     .children(".stop");
+      //   stop.hide();
+      //   play.show();
+      // });
     }
   });
   // Открытие гайдов в попап

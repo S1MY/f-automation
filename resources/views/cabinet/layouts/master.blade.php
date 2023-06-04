@@ -114,11 +114,10 @@
     </div>
 
     @include('cabinet.layouts.popups')
-
+    <script src="/assets/js/videoplayer.js"></script>
     <script src="/assets/js/cabinet/cabinet.js"></script>
     <script src="/assets/js/cabinet/account.js"></script>
     <script src="/assets/js/ajaxForm.js"></script>
-    <script src="/assets/js/videoplayer.js"></script>
 </body>
 
 </html>
