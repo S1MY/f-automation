@@ -20,16 +20,6 @@ $(document).ready(function () {
       const player = new Plyr(this);
     });
   }
-  const players = Plyr.setup('.videoGuid');
-  players.forEach(function (player) {
-    player.on('play', function (event) {
-      players.forEach(function (otherPlayer) {
-        if (otherPlayer !== player && !otherPlayer.paused()) {
-          otherPlayer.pause();
-        }
-      });
-    });
-  });
   // Бургер
   $('.burgerButton').click(function (e) {
     e.preventDefault();
@@ -154,12 +144,10 @@ $(document).ready(function () {
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
     if ($('.videoGuid').length > 0) {
-      const videoElements = $('.videoGuid');
-      const players = [];
-      videoElements.each(function () {
-        players.push(new Plyr($(this)[0]));
+      const players = Plyr.setup('.videoGuid');
+      players.forEach(function(player) {
+        player.destroy();
       });
-      players.forEach((player) => player.destroy());
     }
   });
   // Открытие гайдов в попап
