@@ -72,9 +72,8 @@ class PaginateController extends Controller
                 $VkGroups = VkGroup::where('uid', Auth::user()->id)
                     ->get();
                     $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
-                    ->leftJoin('vk_groups')
+                    ->leftJoin('vk_groups', 'stories.account_id', '=', 'vk_groups.account_id')
                     ->on('stories.group_id', '=', 'vk_groups.group_id')
-                    ->on('stories.account_id', '=', 'vk_groups.account_id')
                     ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
                     ->orWhere(function ($query) use ($VkGroups) {
                         foreach ($VkGroups as $group) {
