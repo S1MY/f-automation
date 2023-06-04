@@ -93,6 +93,7 @@ $(document).ready(function () {
           if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${itemId}]`)) {
             $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
           }
+          playerSearch()
         }
       });
     }
@@ -100,8 +101,6 @@ $(document).ready(function () {
     $(this).addClass("_active");
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
-    playerSearch()
-    console.log(players)
   });
   // Попап инструкция
   $('.instructorLink').click(function (e) {
