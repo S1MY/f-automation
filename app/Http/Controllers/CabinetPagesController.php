@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\VkAccount;
 
 class CabinetPagesController extends Controller
@@ -66,7 +67,7 @@ class CabinetPagesController extends Controller
         $user = Auth::user();
         $allStories = VkAccount::join('vk_groups', 'vk_accounts.id', '=', 'vk_groups.account_id')
         ->where('vk_accounts.uid', $user->id)
-        ->select('vk_accounts.*', 'vk_groups.*')
+        ->select('vk_accounts.*', DB::raw('vk_groups.name as group_name'), 'vk_groups.id as group_id')
         ->get();
         return view('cabinet.vk.stories', compact('user', 'allStories'));
     }
