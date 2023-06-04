@@ -87,6 +87,7 @@ $(document).ready(function () {
           data: formData,
           dataType: "json",
           complete: function (response) {
+            console.log(response)
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
                 $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
               }
@@ -103,6 +104,7 @@ $(document).ready(function () {
           data: formData,
           dataType: "json",
           complete: function (response) {
+            console.log(response)
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${groupId}]`)) {
                 $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
               }

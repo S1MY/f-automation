@@ -103,7 +103,8 @@ class PaginateController extends Controller
             case 'account-stories':
                 $VkAccounts = VkAccount::where('id', $accountId)
                     ->get();
-                $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', $accountId)
+                $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
+                    ->where('stories.account_id', '=', $VkAccounts->pluck('id'))
                     ->where('stories.group_id', '=', 0)
                     ->select([
                         'stories.*',
@@ -118,11 +119,12 @@ class PaginateController extends Controller
             case 'group-stories':
                 $VkGroups = VkGroup::where('group_id', $groupId)
                     ->get();
-                $allStories = Stories::join('vk_groups', 'stories.account_id', '=', $VkGroups->account_id)
+                $allStories = Stories::join('vk_groups', 'stories.group_id', '=', 'vk_groups.group_id')
+                    ->where('stories.account_id', '=', $VkGroups->pluck('account_id'))
                     ->where('stories.group_id', '=', $groupId)
                     ->select([
                         'stories.*',
-                        'vk_groups.name vk_group_name'
+                        'vk_groups.name as vk_group_name'
                     ])
                     ->paginate(1, ['*'], 'group-stories-page', $page_num);
                 $curentPage = route('stories');
