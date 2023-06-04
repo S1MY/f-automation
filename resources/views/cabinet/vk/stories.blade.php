@@ -122,7 +122,7 @@
                         <p class="pageTab _active" data-tab="all">Все истории</p>
                         @if(Auth::user()->VkAccount)
                             @foreach (Auth::user()->VkAccount as $vkAccount)
-                                    <p class="pageTab" data-tab="{{$vkAccount->id}}">{{$vkAccount->name}}</p>
+                                    <p class="pageTab" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}">{{$vkAccount->name}}</p>
                                 @foreach ($vkAccount->VkGroup as $VkGroup)
                                     <p class="pageTab" data-tab="{{$VkGroup->group_id}}">{{$VkGroup->name}}</p>
                                 @endforeach
@@ -154,7 +154,7 @@
                     </div>
                     @if(Auth::user()->VkAccount)
                         @foreach (Auth::user()->VkAccount as $vkAccount)
-                            <div class="tabItem" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}">
+                            <div class="tabItem" data-tab="{{$vkAccount->id}}">
                                 <div class="rowFlex">
                                     {{-- @if (count($vkAccount->StoriesAccount) > 0)
                                     @foreach ($vkAccount->StoriesAccount as $Stories)

@@ -68,7 +68,6 @@ $(document).ready(function () {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    console.log(accountId)
     if(accountId){
       const action = $(this).attr('data-action');
       let formData = new FormData();
