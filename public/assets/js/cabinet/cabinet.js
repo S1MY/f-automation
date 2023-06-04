@@ -138,14 +138,11 @@ $(document).ready(function () {
       });
     }
   });
-  let players;
-  if ($('.videoGuid').length > 0) {
-    players = Plyr.setup('.videoGuid');
-  }
   // Закрытие попапов
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();
-    if ($('.videoGuid').length > 0) {
+    if ($('.plyr').length > 0) {
+      const players = Plyr.setup('.plyr');
       players.forEach(function(player) {
         player.pause();
       });
