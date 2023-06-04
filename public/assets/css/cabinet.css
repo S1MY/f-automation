@@ -1956,6 +1956,9 @@ a.accountInfo:hover{
     flex-direction: column;
     text-align: center;
     margin-top: 16px;
+    background: #101010;
+    border-radius: 12px;
+    padding: 24px 16px;
 }
 .cardEmpty svg{
     margin-bottom: 16px;
