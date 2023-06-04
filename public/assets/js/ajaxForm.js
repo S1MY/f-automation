@@ -182,7 +182,6 @@ $(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
-                    console.log(response)
                     if (window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
                     } else if (window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
@@ -196,7 +195,9 @@ $(function () {
                             $('.tableWrapper').html(response.responseText);
                         }
                     }
-
+                    if($('.videoGuid').length > 0){
+                      const player = new Plyr('.videoGuid');
+                    }
                 }
             });
         }

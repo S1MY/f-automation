@@ -93,6 +93,9 @@ $(document).ready(function () {
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${accountId}]`)) {
                 $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
               }
+              if($('.videoGuid').length > 0){
+                const player = new Plyr('.videoGuid');
+              }
           }
       });
     }else if(groupId){
@@ -108,6 +111,9 @@ $(document).ready(function () {
           complete: function (response) {
               if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${groupId}]`)) {
                 $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
+              }
+              if($('.videoGuid').length > 0){
+                const player = new Plyr('.videoGuid');
               }
           }
       });
@@ -131,20 +137,13 @@ $(document).ready(function () {
     e.preventDefault();
     $(".popupWrapper").fadeOut();
     $(".popupItem").fadeOut();
-    if ($('.popupItem[data-class="guid"]').length > 0) {
-      // $.each($(".videoGuid"), function (indexInArray, valueOfElement) {
-      //   valueOfElement.pause();
-      //   let play = $(valueOfElement)
-      //     .next()
-      //     .children(".togglePlay")
-      //     .children(".play");
-      //   let stop = $(valueOfElement)
-      //     .next()
-      //     .children(".togglePlay")
-      //     .children(".stop");
-      //   stop.hide();
-      //   play.show();
-      // });
+    if($('.videoGuid').length > 0){
+      const videoElements = $('.videoGuid');
+      const players = [];
+      videoElements.each(function() {
+        players.push(new Plyr($(this)[0]));
+      });
+      players.forEach((player) => player.destroy());
     }
   });
   // Открытие гайдов в попап
