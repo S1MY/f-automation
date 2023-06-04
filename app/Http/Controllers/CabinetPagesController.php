@@ -72,7 +72,7 @@ class CabinetPagesController extends Controller
             ->get();
         $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
         ->leftJoin('vk_groups', function ($join) {
-            $join->on('stories.group_id', '=', 'vk_groups.group_id')
+            $join->on('stories.group_id', '=', 'vk_groups.id')
                 ->on('stories.account_id', '=', 'vk_groups.account_id');
         })
         ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
