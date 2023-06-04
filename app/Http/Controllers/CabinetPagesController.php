@@ -10,8 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Support\Facades\DB;
 use App\Models\VkAccount;
+use App\Models\VkGroup;
+use App\Models\Stories;
 
 class CabinetPagesController extends Controller
 {
@@ -65,8 +66,35 @@ class CabinetPagesController extends Controller
 
     public function stories(){
         $user = Auth::user();
-        $allStories = VkAccount::where('uid', $user->id)
+        $VkAccounts = VkAccount::where('uid', $user->id)
             ->get();
+        $VkGroups = VkGroup::where('uid', $user->id)
+            ->get();
+        $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
+        ->leftJoin('vk_groups', function ($join) {
+            $join->on('stories.group_id', '=', 'vk_groups.group_id')
+                ->on('stories.account_id', '=', 'vk_groups.account_id');
+        })
+        ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
+        ->orWhere(function ($query) use ($VkGroups) {
+            foreach ($VkGroups as $group) {
+                $query->orWhere(function ($subquery) use ($group) {
+                    $subquery->where('stories.account_id', $group->account_id)
+                        ->where(function ($q) use ($group) {
+                            $q->where('stories.group_id', $group->group_id)
+                                ->orWhere('stories.group_id', 0);
+                        });
+                });
+            }
+        })
+        ->select([
+            'stories.*',
+            'vk_accounts.id as account_id',
+            'vk_accounts.name as account_name',
+            'vk_groups.id as group_id',
+            'vk_groups.name as group_name'
+        ])
+        ->get();
         return view('cabinet.vk.stories', compact('user', 'allStories'));
     }
 
