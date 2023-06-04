@@ -1,10 +1,16 @@
-// $(document).ready(function () {
+
   // Константа дял проверки поддержки видеоформата
   const videoWorks = !!document.createElement("video").canPlayType;
   let counter = 0;
   if (videoWorks) {
     creator();
   }
+  $(document).ready(function () {
+    const videoWorks = !!document.createElement("video").canPlayType;
+    if (videoWorks) {
+      creator();
+    }
+  });
   // Данная функция должна работать при пагинации с видеороликами
   function creator(){
     $.each($(".videoGuid"), function (indexInArray, valueOfElement) {
@@ -208,4 +214,4 @@
       seconds: result.substr(6, 2),
     };
   }
-// });
+  

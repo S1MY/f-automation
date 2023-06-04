@@ -1,4 +1,27 @@
-
+@php
+    $linkTextArray = [
+        'learn_more' => 'Подробнее',
+        'to_store' => 'В магазин',
+        'more' => 'Ещё',
+        'vote' => 'Голосовать',
+        'book' => 'Забронировать',
+        'order' => 'Заказать',
+        'enroll' => 'Записаться',
+        'fill' => 'Заполнить',
+        'signup' => 'Зарегистрироваться',
+        'buy' => 'Купить',
+        'ticket' => 'Купить билет',
+        'write' => 'Написать',
+        'open' => 'Открыть',
+        'view' => 'Посмотреть',
+        'go_to' => 'Перейти',
+        'contact' => 'Связаться',
+        'watch' => 'Смотреть',
+        'play' => 'Слушать',
+        'install' => 'Установить',
+        'read' => 'Читать'
+    ]
+@endphp
 @foreach ($allStories as $stories)
     <div class="cardItem">
         @if ($stories->filetype == 'mp4')
@@ -66,7 +89,7 @@
                 </p>
                 <p class="cardLine">Автозапуск: <span>Активен</span></p>
                 @if ($stories->group_id > 0)
-                    <p class="cardLine">Текст: <span>{{$stories->seetings_link_text}}</span></p>
+                    <p class="cardLine">Текст: <span>{{$linkTextArray[$stories->seetings_link_text]}}</span></p>
                     <p class="cardLine">Ссылка: <span>{{$stories->seetings_link_url}}</span></p>
                 @endif
                 <p class="cardLine _nextStart">Запуск ежедневно: <span>в {{date('H:i', strtotime($stories->updated_at))}} (МСК)</span></p>
