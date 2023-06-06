@@ -1,10 +1,6 @@
 @extends('cabinet.layouts.master')
 
-@php
-    $storytesttitle = 'Название истории';
-@endphp
-
-@section('title', 'Информация об истории "'.$storytesttitle.'"')
+@section('title', 'Информация об истории "'.$stories->title.'"')
 
 @section('cabinet-content')
     <div class="pageFlex">
@@ -14,7 +10,7 @@
         <div class="pageWrapper">
             <div class="pageItems">
                 <div class="pageItem">
-                    <h2 class="pageTitle">История "Название истории"</h2>
+                    <h2 class="pageTitle">История "{{ $stories->title}}"</h2>
                     <div class="streamStory">
                         <div class="streamStoryItem">
                             <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 18:14</span></p>

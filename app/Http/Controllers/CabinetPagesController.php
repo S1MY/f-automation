@@ -99,9 +99,9 @@ class CabinetPagesController extends Controller
         return view('cabinet.vk.stories', compact('user', 'allStories', 'curentPage'));
     }
 
-    public function storiesInfo(){
+    public function storiesInfo($stories_id){
         $user = Auth::user();
-
+        $stories = Stories::find($stories_id);
         return view('cabinet.vk.stories-info', compact('user'));
     }
 

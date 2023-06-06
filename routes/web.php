@@ -44,8 +44,10 @@ Route::group(['prefix' => 'cabinet', 'middleware' => ['auth', 'confirmed']], fun
         Route::get('/stream-info', [CabinetPagesController::class, 'streamInfo'])->name('streamInfo');
         Route::get('/stream-comments', [CabinetPagesController::class, 'streamComments'])->name('streamComments');
         Route::get('/posts', [CabinetPagesController::class, 'posts'])->name('posts');
-        Route::get('/stories', [CabinetPagesController::class, 'stories'])->name('stories');
-        Route::get('/stories-info', [CabinetPagesController::class, 'storiesInfo'])->name('storiesInfo');
+        Route::prefix('/stories')->group(function () {
+            Route::get('/', [CabinetPagesController::class, 'stories'])->name('stories');
+            Route::get('/{stories_id}', [CabinetPagesController::class, 'storiesInfo'])->name('storiesInfo');
+        });
     });
 
     Route::group(['prefix' => 'telegram'], function(){
