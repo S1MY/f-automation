@@ -137,7 +137,8 @@ $(document).ready(function () {
         code += $(this).val();
       }
     });
-  
+    console.log(confirmCount)
+    console.log(code)
     if (confirmCount === $('.confirmInput').length) {
       $.ajaxSetup({
         headers: {
