@@ -102,7 +102,12 @@ class CabinetPagesController extends Controller
     public function storiesInfo($stories_id){
         $user = Auth::user();
         $stories = Stories::find($stories_id);
-        return view('cabinet.vk.stories-info', compact('user', 'stories'));
+        $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stories->account_id)->get();
+        if(count($VkAccount) == 1){
+            return view('cabinet.vk.stories-info', compact('user', 'stories'));
+        }else{
+            return view('cabinet.home', compact('user'));
+        }
     }
 
     public function partners(){
