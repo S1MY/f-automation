@@ -166,7 +166,7 @@
                 <h1 class="pageTitle">Привязка аккаунта</h1>
                 <div class="tabItem _active" data-tab="vk">
                     <p class="accountComment">После привязки аккаунта <span>VK</span> Мы получаем доступ к общей информации об аккаунте и доступ ко всем функциям, связанными с автоматизацией.</p>
-                    <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends&display=popup&response_type=code&v=5.131" class="firstAddAccount addAccount">Привязать аккаунт</a>
+                    <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends&display=page&response_type=code&v=5.131" class="firstAddAccount addAccount">Привязать аккаунт</a>
                     <a href="#" class="guidLink" data-name="Как привязать аккаунт ВК" data-popup="vkAuth">Посмотреть инструкцию</a>
                 </div>
                 <div class="tabItem" data-tab="tg">
