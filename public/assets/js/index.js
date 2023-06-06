@@ -102,7 +102,9 @@ $(document).ready(function () {
   let code = '';
   $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
-    
+    if(confirmCount > $('.confirmInput').length){
+      return false;
+    }
     const currValue = $(this).val();
     const currLength = currValue.length;
     const currIndex = parseInt($(this).attr('tabindex'));
@@ -138,8 +140,6 @@ $(document).ready(function () {
         code = '';
       }
     });
-    console.log(confirmCount)
-    console.log(code)
     if (confirmCount === $('.confirmInput').length) {
       $.ajaxSetup({
         headers: {
