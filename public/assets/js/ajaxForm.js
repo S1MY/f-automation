@@ -110,7 +110,6 @@ $(document).ready(function () {
                 }
             }
             formData.append('page', page);
-            console.log(window.location.pathname)
             $.ajax({
                 type: "POST",
                 url: action,
@@ -120,9 +119,11 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
-                    if (window.location.pathname == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    const cuurentPath = window.location.pathname;
+                    console.log(response);
+                    if (cuurentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
-                    } else if (window.location.pathname == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    } else if (cuurentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storiesAllWrapper').html(response.responseText);
                     } else {
                         if(accountId > 0){
