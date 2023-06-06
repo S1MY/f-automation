@@ -116,6 +116,7 @@ $(document).ready(function () {
                 formData.append('page_id', pageId);
             }
             formData.append('page', page);
+            console.log(page)
             $.ajax({
                 type: "POST",
                 url: action,
