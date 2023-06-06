@@ -140,8 +140,6 @@ $(document).ready(function () {
       $(`.confirmInput[tabindex=1]`).focus();
       return false;
     }
-    console.log(confirmCount)
-    console.log(code)
     if (confirmCount === $('.confirmInput').length) {
       $.ajaxSetup({
         headers: {
