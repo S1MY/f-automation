@@ -83,6 +83,7 @@ class CabinetPagesController extends Controller
             $join->on('stories.id', '=', 'stories_settings.stories_id')
             ->where('stories.group_id', '<>', 0);
         })
+        ->orderBy('id', 'desc')
         ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
         ->orWhere(function ($query) use ($VkGroups) {
             foreach ($VkGroups as $group) {

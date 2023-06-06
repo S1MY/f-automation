@@ -82,6 +82,7 @@ class PaginateController extends Controller
                         $join->on('stories.id', '=', 'stories_settings.stories_id')
                         ->where('stories.group_id', '<>', 0);
                     })
+                    ->orderBy('id', 'desc')
                     ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
                     ->orWhere(function ($query) use ($VkGroups) {
                         foreach ($VkGroups as $group) {
@@ -112,6 +113,7 @@ class PaginateController extends Controller
                 $VkAccounts = VkAccount::where('id', $accountId)
                     ->get();
                 $allStories = Stories::join('vk_accounts', 'stories.account_id', '=', 'vk_accounts.id')
+                ->orderBy('id', 'desc')
                     ->where('stories.account_id', '=', $VkAccounts->pluck('id'))
                     ->where('stories.group_id', '=', 0)
                     ->select([
@@ -129,6 +131,7 @@ class PaginateController extends Controller
                     ->get();
                 $allStories = Stories::join('vk_groups', 'stories.group_id', '=', 'vk_groups.group_id')
                     ->leftJoin('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
+                    ->orderBy('id', 'desc')
                     ->where('stories.account_id', '=', $VkGroups->pluck('account_id'))
                     ->where('stories.group_id', '=', $VkGroups->pluck('group_id'))
                     ->select([
@@ -146,6 +149,7 @@ class PaginateController extends Controller
                 $stories = Stories::where('id', $storiesId)
                     ->get();
                 $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
+                ->orderBy('id', 'desc')
                 ->where('stories_stories.stories_id', '=', $stories->pluck('id'))
                 ->select([
                     'stories_stories.*',
