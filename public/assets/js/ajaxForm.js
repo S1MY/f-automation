@@ -110,7 +110,7 @@ $(document).ready(function () {
                     formData.append('group_id', groupId);
                 }
             }
-            if(page.uncludes('?page_id=')){
+            if(page.includes('?page_id=')){
                 pageId = page.split('?')[1].split('&').find(param => param.startsWith('page_id=')).split('=')[1];
                 page = page.replace('?page_id=' + pageId, '/' + pageId);
                 formData.append('page_id', pageId);
@@ -126,7 +126,6 @@ $(document).ready(function () {
                 dataType: "json",
                 complete: function (response) {
                     const cuurentPath = window.location.pathname;
-                    console.log(response);
                     if (cuurentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
                     } else if (cuurentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
