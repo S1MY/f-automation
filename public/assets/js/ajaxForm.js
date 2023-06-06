@@ -111,8 +111,8 @@ $(document).ready(function () {
                 }
             }
             if(page.includes('?page_id=')){
+                console.log(1)
                 pageId = page.split('?')[1].split('&').find(param => param.startsWith('page_id=')).split('=')[1];
-                console.log(pageId)
                 page = page.replace('?page_id=' + pageId, '/' + pageId);
                 formData.append('page_id', pageId);
             }
