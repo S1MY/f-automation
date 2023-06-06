@@ -118,7 +118,7 @@ class CabinetPagesController extends Controller
             'stories_settings.link_text as link_text',
             'stories_settings.link_url as link_url'
         ])
-        ->paginate(1, ['*'], 'stories-info-page');
+        ->paginate(2, ['*'], 'stories-info-page');
         if(count($VkAccount) == 1){
             return view('cabinet.vk.stories-info', compact('user', 'stories', 'storiesInfo', 'curentPage'));
         }else{
