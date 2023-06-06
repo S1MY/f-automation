@@ -110,6 +110,7 @@ $(document).ready(function () {
                 }
             }
             formData.append('page', page);
+            console.log(window.location.pathname)
             $.ajax({
                 type: "POST",
                 url: action,
