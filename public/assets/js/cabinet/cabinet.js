@@ -213,36 +213,38 @@ $(document).ready(function () {
     $(this).parent().slideUp();
   });
   $(document).on('click', '.cardButton', function (e) {
-    e.preventDefault();
-    const ajaxUrl = $(this).attr('data-action');
-    let formData = new FormData();
-    if ($(this).hasClass('_remove')) {
-      formData.append('removeId', $(this).attr('data-removeId'));
-    }else if($(this).hasClass('_autostart')){
-      formData.append('autoStart', $(this).attr('data-autoStart'));
-    }
-    $.ajax({
-      type: "POST",
-      url: ajaxUrl,
-      contentType: false,
-      processData: false,
-      cache: false,
-      data: formData,
-      dataType: "json",
-      success: function (response) {
-        $('.popupWrapper').fadeIn();
-        $('.popupItem').fadeOut();
-        if (response.status == "success") {
-          successHandler(response.title, response.message)
-        } else {
-          errorHandler(response.title, response.message)
-        }
-      },
-      error: function (response) {
-        console.log(response)
-        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+    if(!$(this).hasClass('_stats')){
+      e.preventDefault();
+      const ajaxUrl = $(this).attr('data-action');
+      let formData = new FormData();
+      if ($(this).hasClass('_remove')) {
+        formData.append('removeId', $(this).attr('data-removeId'));
+      }else if($(this).hasClass('_autostart')){
+        formData.append('autoStart', $(this).attr('data-autoStart'));
       }
-    });
+      $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: formData,
+        dataType: "json",
+        success: function (response) {
+          $('.popupWrapper').fadeIn();
+          $('.popupItem').fadeOut();
+          if (response.status == "success") {
+            successHandler(response.title, response.message)
+          } else {
+            errorHandler(response.title, response.message)
+          }
+        },
+        error: function (response) {
+          console.log(response)
+          errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+        }
+      });
+    }
   });
   $(document).mouseup(function (e) {
     let select = $(".formSelect");
