@@ -107,13 +107,10 @@ $(document).ready(function () {
     let prevIndex = currIndex - 1;
   
     if (currLength == 1) {
-      console.log(1)
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     } else if (currLength == 0 && currIndex > 1) {
-      console.log(2)
       $(`.confirmInput[tabindex=${prevIndex}]`).focus();
     } else if (currLength > 1) {
-      console.log(3)
       for (let i = currIndex; i <= currLength; i++) {
         simbol = currValue.substr(0, 1);
         currValue = currValue.slice(1);
@@ -122,12 +119,10 @@ $(document).ready(function () {
         $(`.confirmInput[tabindex=${next}]`).focus();
       }
     } else if (currIndex == 1 && currLength == 0) {
-      console.log(4)
       if (e.keyCode === 8) {
         return false;
       }
     } else {
-      console.log(5)
       simbol = currValue.substr(0, 1);
       $(`.confirmInput[tabindex=${currIndex}]`).val(simbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
