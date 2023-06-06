@@ -98,67 +98,75 @@ $(document).ready(function () {
     $(".popupItem").fadeOut();
   });
   // код
-  $('.confirmInput').on('keyup', function (e) {
+  $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
     let currValue = $(this).val();
     let currLength = currValue.length;
     let currIndex = parseInt($(this).attr('tabindex'));
     let nextIndex = currIndex + 1;
     let prevIndex = currIndex - 1;
-
-    if(currLength == 1){
+  
+    if (currLength == 1) {
+      console.log(1)
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
-    }else if (currLength == 0 && currIndex > 1){
+    } else if (currLength == 0 && currIndex > 1) {
+      console.log(2)
       $(`.confirmInput[tabindex=${prevIndex}]`).focus();
-    }else if(currLength > 1){
+    } else if (currLength > 1) {
+      console.log(3)
       for (let i = currIndex; i <= currLength; i++) {
-        simbol = currValue.substr(0,1);
+        simbol = currValue.substr(0, 1);
         currValue = currValue.slice(1);
         next = i + 1;
         $(`.confirmInput[tabindex=${i}]`).val(simbol);
         $(`.confirmInput[tabindex=${next}]`).focus();
       }
-    }else if (currIndex == 1 && currLength == 0) {
+    } else if (currIndex == 1 && currLength == 0) {
+      console.log(4)
       if (e.keyCode === 8) {
         return false;
       }
-    }else{
-      simbol = currValue.substr(0,1);
+    } else {
+      console.log(5)
+      simbol = currValue.substr(0, 1);
       $(`.confirmInput[tabindex=${currIndex}]`).val(simbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
+    
     let confirm = 0;
     let code = '';
-    $.each($('.confirmInput'), function (indexInArray, valueOfElement) {
-       if($(valueOfElement).val() !== ''){
+    
+    $('.confirmInput').each(function() {
+      if ($(this).val() !== '') {
         confirm++;
-        code+= $(valueOfElement).val();
-       }
+        code += $(this).val();
+      }
     });
-    if(confirm == $('.confirmInput').length){
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            url: '/user-confirm-email',
-            method: 'post',
-            data: {code: code},
-            success: function(result){
-                $('.confirmInput').addClass('_success');
-                setTimeout(() => {
-                    window.location.href = '/cabinet';
-                }, 500);
-            },
-            error: function (result) {
-                $('.confirmInput').addClass('_error');
-                setTimeout(() => {
-                    $('.confirmInput').removeClass('_error');
-                }, 1000);
-            }
-        });
+    
+    if (confirm == $('.confirmInput').length) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      
+      $.ajax({
+        url: '/user-confirm-email',
+        method: 'post',
+        data: { code: code },
+        success: function(result) {
+          $('.confirmInput').addClass('_success');
+          setTimeout(() => {
+            window.location.href = '/cabinet';
+          }, 500);
+        },
+        error: function(result) {
+          $('.confirmInput').addClass('_error');
+          setTimeout(() => {
+            $('.confirmInput').removeClass('_error');
+          }, 1000);
+        }
+      });
     }
   });
   // Отправка кода ещё раз
