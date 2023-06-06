@@ -98,29 +98,11 @@ $(document).ready(function () {
     $(".popupItem").fadeOut();
   });
   // код
-  let confirmCount = 0;
-  let code = '';
 
   $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
-    if(confirmCount > $('.confirmInput').length){
-      return false;
-    }
-    $('.confirmInput').each(function() {
-      if ($(this).val() !== '') {
-        if (code === '') {
-          confirmCount++;
-        }
-        code += $(this).val();
-      } else {
-        if (code !== '') {
-          confirmCount--;
-        }
-        code = '';
-      }
-    });
-    console.log(confirmCount)
-    console.log(code)
+    let confirmCount = 0;
+    let code = '';
     const currValue = $(this).val();
     const currLength = currValue.length;
     const currIndex = parseInt($(this).attr('tabindex'));
@@ -146,6 +128,20 @@ $(document).ready(function () {
       $(`.confirmInput[tabindex=${currIndex}]`).val(symbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
+    if(confirmCount > $('.confirmInput').length){
+      $('.confirmInput').val('')
+      $(`.confirmInput[tabindex=1]`).focus();
+      return false;
+    }
+    $('.confirmInput').each(function() {
+      const value = $(this).val();
+      if (value !== '') {
+        confirmCount++;
+        code += $(this).val();
+      }
+    });
+    console.log(confirmCount)
+    console.log(code)
     if (confirmCount === $('.confirmInput').length) {
       $.ajaxSetup({
         headers: {
