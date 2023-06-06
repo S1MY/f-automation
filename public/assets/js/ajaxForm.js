@@ -112,6 +112,7 @@ $(document).ready(function () {
             }
             if(page.includes('?page_id=')){
                 pageId = page.split('?')[1].split('&').find(param => param.startsWith('page_id=')).split('=')[1];
+                console.log(pageId)
                 page = page.replace('?page_id=' + pageId, '/' + pageId);
                 formData.append('page_id', pageId);
             }
@@ -125,7 +126,7 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
-                    console.log(page)
+                    console.log(response)
                     const cuurentPath = window.location.pathname;
                     if (cuurentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
