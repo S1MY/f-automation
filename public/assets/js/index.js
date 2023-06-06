@@ -98,6 +98,8 @@ $(document).ready(function () {
     $(".popupItem").fadeOut();
   });
   // код
+  let confirmCount = 0;
+  let code = '';
   $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
     
@@ -106,9 +108,6 @@ $(document).ready(function () {
     const currIndex = parseInt($(this).attr('tabindex'));
     const nextIndex = currIndex + 1;
     const prevIndex = currIndex - 1;
-    
-    let confirmCount = 0;
-    let code = '';
     
     if (currLength === 1) {
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
@@ -131,10 +130,11 @@ $(document).ready(function () {
     }
     
     $('.confirmInput').each(function() {
-      code = '';
       if ($(this).val() !== '') {
         confirmCount++;
         code += $(this).val();
+      }else{
+        confirmCount--;
       }
     });
     console.log(confirmCount)
