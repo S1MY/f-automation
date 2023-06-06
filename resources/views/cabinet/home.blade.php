@@ -48,7 +48,7 @@
                                             <p class="accountName">{{ $vkAccount->name }}</p>
                                         </a>
                                         <div class="accountEdits">
-                                            <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51661029&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends&display=popup&response_type=code&v=5.131" class="manageBtn updateAccount" data-action="{{ route('vkUserAuth') }}" title="Обновить аккаунт">
+                                            <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends&display=popup&response_type=code&v=5.131" class="manageBtn updateAccount" data-action="{{ route('vkUserAuth') }}" title="Обновить аккаунт">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#clip0_26_2)">
                                                     <path d="M4.39097 12.4858C3.0789 11.4303 2.23926 9.81181 2.23926 7.9967C2.23926 5.31359 4.07656 3.06572 6.55983 2.42479V0.940524C3.27299 1.60755 0.799072 4.51331 0.799072 7.9967C0.799072 10.1493 1.74423 12.0796 3.24103 13.3989C4.3996 14.478 5.11964 13.0378 4.39097 12.4858ZM12.6984 2.54254C11.9607 1.87623 10.8805 2.9564 11.5886 3.4915C12.9128 4.5467 13.761 6.17286 13.761 7.9967C13.761 10.6802 11.9234 12.9285 9.44031 13.569V15.0536C12.7271 14.3858 15.2011 11.4805 15.2011 7.9966C15.2011 5.81561 14.2306 3.86282 12.6984 2.54254ZM7.19613 3.66874L9.54008 2.26512C9.88109 2.06086 9.88181 1.72817 9.54192 1.52248L7.1763 0.0907127C6.83601 -0.114676 6.56137 0.0403672 6.56301 0.438096L6.57575 3.31858C6.57678 3.7161 6.85471 3.87299 7.19613 3.66874ZM8.82425 12.3325L6.45832 13.7642C6.11812 13.9699 6.11884 14.3025 6.46027 14.5069L8.804 15.9106C9.14502 16.1144 9.42356 15.9581 9.42531 15.56L9.43764 12.6797C9.43887 12.2822 9.16382 12.1271 8.82425 12.3325Z" fill="white"/>
@@ -166,7 +166,7 @@
                 <h1 class="pageTitle">Привязка аккаунта</h1>
                 <div class="tabItem _active" data-tab="vk">
                     <p class="accountComment">После привязки аккаунта <span>VK</span> Мы получаем доступ к общей информации об аккаунте и доступ ко всем функциям, связанными с автоматизацией.</p>
-                    <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51661029&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends&display=popup&response_type=code&v=5.131" class="firstAddAccount addAccount">Привязать аккаунт</a>
+                    <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends&display=popup&response_type=code&v=5.131" class="firstAddAccount addAccount">Привязать аккаунт</a>
                     <a href="#" class="guidLink" data-name="Как привязать аккаунт ВК" data-popup="vkAuth">Посмотреть инструкцию</a>
                 </div>
                 <div class="tabItem" data-tab="tg">

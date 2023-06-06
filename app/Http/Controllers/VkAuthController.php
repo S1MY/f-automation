@@ -32,8 +32,8 @@ class VkAuthController extends Controller
                 'base_uri' => 'https://api.vk.com',
             ]);
             $tokenParams = [
-                'client_id' => '51661029',
-                'client_secret' => 'jy1p89O8SPpXOMg2JwEe',
+                'client_id' => '51668259',
+                'client_secret' => 'SAIfhHdAxoDXvknZIiPl',
                 'code' => $code[1],
                 'redirect_uri' => 'https://api.vk.com/blank.html',
             ];
