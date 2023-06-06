@@ -99,17 +99,21 @@ $(document).ready(function () {
   });
   // код
   let confirmCount = 0;
-  let code = '';
-    
-  $('.confirmInput').each(function() {
-    if ($(this).val() !== '') {
+let code = '';
+$('.confirmInput').each(function() {
+  if ($(this).val() !== '') {
+    if (code === '') { // если значение поля еще не было добавлено в строку
       confirmCount++;
-      code += $(this).val();
-    }else{
-      confirmCount--;
-      code = '';
     }
-  });
+    code += $(this).val();
+  } else {
+    if (code !== '') { // если значение поля было удалено
+      confirmCount--;
+    }
+    code = '';
+  }
+});
+
   $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
     if(confirmCount > $('.confirmInput').length){
