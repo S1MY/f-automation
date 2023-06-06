@@ -58,7 +58,7 @@
                     <p class="cardLine">Текст: <span>{{$linkTextArray[$stories->seetings_link_text]}}</span></p>
                     <p class="cardLine">Ссылка: <span>{{$stories->seetings_link_url}}</span></p>
                 @endif
-                <p class="cardLine _nextStart">Запуск ежедневно: <span>в {{$dateView}} (МСК)</span></p>
+                <p class="cardLine _nextStart">Запуск ежедневно: <span>в {{$dateView}} 1(МСК)</span></p>
             </div>
             <div class="cardControls _stories">
                 @if ($stories->active == 1)
