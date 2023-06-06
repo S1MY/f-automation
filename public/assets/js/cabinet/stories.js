@@ -128,12 +128,10 @@ $(document).ready(function () {
             $(".popupWrapper").fadeOut();
             $('.popupItem').fadeOut();
           } else {
-            console.log(response.errorJson)
             errorHandler(response.title, response.message)
           }
         },
         error: function (response) {
-          console.log(response)
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
         }
       });
