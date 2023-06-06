@@ -168,19 +168,15 @@ $(document).ready(function () {
         method: 'POST',
         data: formData,
         success: function (response) {
-          const success = $('.popupItem[data-popup="success"]');
-          success.children('.popupTitle').html(response.title);
-          success.children('.popupText').html(response.message);
-          success.fadeIn();
-          setTimeout(() => {
-            location.reload();
-          }, 5000);
+          if (response.status == "success") {
+            successHandler(response.title, response.message)
+          } else {
+            errorHandler(response.title, response.message)
+          }
         },
         error: function (response) {
-          const error = $('.popupItem[data-popup="error"]');
-          error.children('.popupTitle').html(response.title);
-          error.children('.popupText').html(response.message);
-          error.fadeIn();
+          console.log(response)
+          errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
         }
       });
     } else if (popupName == 'addGroup') {
@@ -190,19 +186,14 @@ $(document).ready(function () {
           method: 'POST',
           data: formData,
           success: function (response) {
-            const success = $('.popupItem[data-popup="success"]');
-            success.children('.popupTitle').html(response.title);
-            success.children('.popupText').html(response.message);
-            success.fadeIn();
-            setTimeout(() => {
-              location.reload();
-            }, 5000);
+            if (response.status == "success") {
+              successHandler(response.title, response.message)
+            } else {
+              errorHandler(response.title, response.message)
+            }
           },
           error: function (response) {
-            const error = $('.popupItem[data-popup="error"]');
-            error.children('.popupTitle').html(response.title);
-            error.children('.popupText').html(response.message);
-            error.fadeIn();
+            errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
           }
         });
       } else {
