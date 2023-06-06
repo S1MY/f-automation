@@ -128,6 +128,7 @@ $(document).ready(function () {
             $(".popupWrapper").fadeOut();
             $('.popupItem').fadeOut();
           } else {
+            console.log(response.errorJson)
             errorHandler(response.title, response.message)
           }
         },

@@ -127,7 +127,7 @@ class StoriesController extends Controller
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2', $uploadJSON->error);
             }
             $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
@@ -265,12 +265,13 @@ class StoriesController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
         }
     }
-    private function generateJsonResponse($type, $title, $message)
+    private function generateJsonResponse($type, $title, $message, $errorJson = null)
     {
         return response()->json([
             'status' => $type,
             'title' => $title,
-            'message' => $message
+            'message' => $message,
+            'errorJson' => $errorJson
         ]);
     }
 }
