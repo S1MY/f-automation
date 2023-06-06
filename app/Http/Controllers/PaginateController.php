@@ -25,7 +25,7 @@ class PaginateController extends Controller
         }
         $accountId = (isset($request->account_id) ? $request->account_id : '');
         $groupId = (isset($request->group_id) ? $request->group_id : '');
-        $pageId = (isset($request->page_id) ? $request->page_id : '');
+        $myPageId = (isset($request->myPageId) ? $request->myPageId : '');
 
         switch ($page_id) {
             case 'promo':
@@ -146,7 +146,7 @@ class PaginateController extends Controller
 
                 break;
             case 'stories-info':
-                $stories = Stories::where('id', $pageId)
+                $stories = Stories::where('id', $myPageId)
                     ->get();
                 $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
                 ->orderBy('id', 'desc')
@@ -157,7 +157,7 @@ class PaginateController extends Controller
                     'stories_settings.link_url as link_url'
                 ])
                 ->paginate(1, ['*'], 'stories-info-page');
-                $curentPage = route('storiesInfo');
+                $curentPage = route('stories', ['myPageId' => $myPageId]);
                 return view('load.stories-info-load', compact('stories', 'storiesInfo', 'curentPage'));
             default:
 

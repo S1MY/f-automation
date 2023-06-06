@@ -107,10 +107,10 @@ class CabinetPagesController extends Controller
         return view('cabinet.vk.stories', compact('user', 'allStories', 'curentPage'));
     }
 
-    public function storiesInfo($page_id){
+    public function storiesInfo($myPageId){
         $user = Auth::user();
-        $curentPage = route('stories', ['page_id' => $page_id]);
-        $stories = Stories::find($page_id);
+        $curentPage = route('stories', ['myPageId' => $myPageId]);
+        $stories = Stories::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stories->account_id)->get();
         $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
         ->orderBy('id', 'desc')

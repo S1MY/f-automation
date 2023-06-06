@@ -99,7 +99,7 @@ $(document).ready(function () {
             const parentType = ($(this).parents('.tabItem').attr('data-type')) ? $(this).parents('.tabItem').attr('data-type') : null
             let accountId = 0;
             let groupId = 0;
-            let pageId = 0;
+            let myPageId = 0;
             let formData = new FormData();
             if(parentType){
                 if(parentType === 'account'){
@@ -110,10 +110,10 @@ $(document).ready(function () {
                     formData.append('group_id', groupId);
                 }
             }
-            if(page.includes('?page_id=')){
-                pageId = page.split('?')[1].split('&').find(param => param.startsWith('page_id=')).split('=')[1];
-                page = page.replace('?page_id=' + pageId, '/' + pageId);
-                formData.append('page_id', pageId);
+            if(page.includes('?myPageId=')){
+                myPageId = page.split('?')[1].split('&').find(param => param.startsWith('myPageId=')).split('=')[1];
+                page = page.replace('?myPageId=' + pageId, '/' + pageId);
+                formData.append('myPageId', myPageId);
             }
             formData.append('page', page);
             console.log(page)
@@ -136,7 +136,7 @@ $(document).ready(function () {
                             $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
                         }else if(groupId > 0){
                             $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
-                        }else if(pageId > 0){
+                        }else if(myPageId > 0){
                             $('.streamStory').html(response.responseText);
                         }else{
                             $('.tableWrapper').html(response.responseText);
