@@ -99,12 +99,12 @@ $(document).ready(function () {
   });
   // код
   let confirmCount = 0;
-  let code = '';
   $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
     if(confirmCount > $('.confirmInput').length){
       return false;
     }
+    let code = '';
     console.log(confirmCount)
     console.log(code)
     const currValue = $(this).val();
