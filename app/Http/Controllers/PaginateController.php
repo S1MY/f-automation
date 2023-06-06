@@ -154,7 +154,7 @@ class PaginateController extends Controller
                 ])
                 ->paginate(1, ['*'], 'stories-info-page');
                 $curentPage = route('storiesInfo');
-                return view('load.stories-info-load', compact('stories', 'storiesInfo', 'currentPage'));
+                return view('load.stories-info-load', compact('stories', 'storiesInfo', 'curentPage'));
             default:
 
                 return response()->json([

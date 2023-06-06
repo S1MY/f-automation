@@ -109,7 +109,7 @@ class CabinetPagesController extends Controller
     public function storiesInfo($stories_id){
         $user = Auth::user();
 
-        $currentPage = route('stories', ['stories_id' => $stories_id]);
+        $curentPage = route('stories', ['stories_id' => $stories_id]);
         $stories = Stories::find($stories_id);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stories->account_id)->get();
         $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
@@ -120,7 +120,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(1, ['*'], 'stories-info-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.stories-info', compact('user', 'stories', 'storiesInfo', 'currentPage'));
+            return view('cabinet.vk.stories-info', compact('user', 'stories', 'storiesInfo', 'curentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }
