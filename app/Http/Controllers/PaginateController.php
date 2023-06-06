@@ -156,7 +156,7 @@ class PaginateController extends Controller
                     'stories_settings.link_text as link_text',
                     'stories_settings.link_url as link_url'
                 ])
-                ->paginate(1, ['*'], 'stories-info-page');
+                ->paginate(1, ['*'], 'stories-info-page', $page_num);
                 $curentPage = route('stories', ['myPageId' => $myPageId]);
                 return view('load.stories-info-load', compact('stories', 'storiesInfo', 'curentPage'));
             default:
