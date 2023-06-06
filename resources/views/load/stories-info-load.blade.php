@@ -33,7 +33,7 @@
     @endphp
     <div class="streamStoryItem">
         <p class="streamStoryList"><span>Время:</span><span>{{$dateView}}</span></p>
-        {{$dayDifference}}
+        {{$storiesDate}}
         @if ($dayDifference >= 1)
             <p class="streamStoryList"><span>Статус:</span><span class="_complete">Завершена</span></p>
         @else
