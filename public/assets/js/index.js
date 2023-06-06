@@ -128,12 +128,6 @@ $(document).ready(function () {
       $(`.confirmInput[tabindex=${currIndex}]`).val(symbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
-    console.log(code.length)
-    if(code.length > $('.confirmInput').length){
-      $('.confirmInput').val('')
-      $(`.confirmInput[tabindex=1]`).focus();
-      return false;
-    }
     $('.confirmInput').each(function() {
       const value = $(this).val();
       if (value !== '') {
@@ -141,6 +135,11 @@ $(document).ready(function () {
         code += $(this).val();
       }
     });
+    if(code.length > $('.confirmInput').length){
+      $('.confirmInput').val('')
+      $(`.confirmInput[tabindex=1]`).focus();
+      return false;
+    }
     console.log(confirmCount)
     console.log(code)
     if (confirmCount === $('.confirmInput').length) {
