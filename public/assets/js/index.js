@@ -135,6 +135,7 @@ $(document).ready(function () {
         code += $(this).val();
       }else{
         confirmCount--;
+        code = '';
       }
     });
     console.log(confirmCount)
