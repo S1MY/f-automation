@@ -113,6 +113,7 @@ class CabinetPagesController extends Controller
         $stories = Stories::find($stories_id);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stories->account_id)->get();
         $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
+        ->orderBy('id', 'desc')
         ->select([
             'stories_stories.*',
             'stories_settings.link_text as link_text',
