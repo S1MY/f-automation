@@ -105,7 +105,14 @@ $(document).ready(function () {
     let currIndex = parseInt($(this).attr('tabindex'));
     let nextIndex = currIndex + 1;
     let prevIndex = currIndex - 1;
-  
+    
+    let confirm = 0;
+    let code = '';
+    if(confirm === 5){
+      if (e.keyCode !== 8) {
+        return false;
+      }
+    }
     if (currLength == 1) {
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     } else if (currLength == 0 && currIndex > 1) {
@@ -127,9 +134,6 @@ $(document).ready(function () {
       $(`.confirmInput[tabindex=${currIndex}]`).val(simbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
-    
-    let confirm = 0;
-    let code = '';
     
     $('.confirmInput').each(function() {
       if ($(this).val() !== '') {
