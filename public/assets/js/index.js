@@ -99,12 +99,22 @@ $(document).ready(function () {
   });
   // код
   let confirmCount = 0;
+  let code = '';
+    
+  $('.confirmInput').each(function() {
+    if ($(this).val() !== '') {
+      confirmCount++;
+      code += $(this).val();
+    }else{
+      confirmCount--;
+      code = '';
+    }
+  });
   $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
     if(confirmCount > $('.confirmInput').length){
       return false;
     }
-    let code = '';
     console.log(confirmCount)
     console.log(code)
     const currValue = $(this).val();
@@ -132,15 +142,6 @@ $(document).ready(function () {
       $(`.confirmInput[tabindex=${currIndex}]`).val(symbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
-    
-    $('.confirmInput').each(function() {
-      if ($(this).val() !== '') {
-        confirmCount++;
-        code += $(this).val();
-      }else{
-        confirmCount--;
-      }
-    });
     if (confirmCount === $('.confirmInput').length) {
       $.ajaxSetup({
         headers: {
