@@ -112,7 +112,7 @@ $(document).ready(function () {
             }
             if(page.includes('?myPageId=')){
                 myPageId = page.split('?')[1].split('&').find(param => param.startsWith('myPageId=')).split('=')[1];
-                page = page.replace('?myPageId=' + pageId, '/' + pageId);
+                page = page.replace('?myPageId=' + myPageId, '/' + myPageId);
                 formData.append('myPageId', myPageId);
             }
             formData.append('page', page);
