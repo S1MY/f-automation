@@ -31,9 +31,6 @@ class VkAuthController extends Controller
             // $client = new Client([
             //     'base_uri' => 'https://oauth.vk.com',
             // ]);
-            // $authClient = new Client([
-            //     'base_uri' => 'https://api.vk.com',
-            // ]);
             // $tokenParams = [
             //     'client_id' => '51668259',
             //     'client_secret' => 'SAIfhHdAxoDXvknZIiPl',
@@ -55,6 +52,9 @@ class VkAuthController extends Controller
             // $userId = $tokenJSON->user_id;
             $token = $params['access_token'];
             $userId = $params['user_id'];
+            $authClient = new Client([
+                'base_uri' => 'https://api.vk.com',
+            ]);
             $usersParams = [
                 'v' => '5.131',
                 'access_token' => $token,
