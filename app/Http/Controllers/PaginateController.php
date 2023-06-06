@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\VkAccount;
 use App\Models\VkGroup;
 use App\Models\Stories;
+use App\Models\StoriesStory;
 
 class PaginateController extends Controller
 {
@@ -24,6 +25,7 @@ class PaginateController extends Controller
         }
         $accountId = (isset($request->account_id) ? $request->account_id : '');
         $groupId = (isset($request->group_id) ? $request->group_id : '');
+        $storiesId = (isset($request->stories_id) ? $request->stories_id : '');
 
         switch ($page_id) {
             case 'promo':
@@ -140,6 +142,19 @@ class PaginateController extends Controller
                 return view('load.all-stories-load', compact('allStories', 'curentPage'));
 
                 break;
+            case 'stories-info':
+                $stories = Stories::where('id', $storiesId)
+                    ->get();
+                $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
+                ->where('stories_stories.stories_id', '=', $stories->pluck('id'))
+                ->select([
+                    'stories_stories.*',
+                    'stories_settings.link_text as link_text',
+                    'stories_settings.link_url as link_url'
+                ])
+                ->paginate(1, ['*'], 'stories-info-page');
+                $curentPage = route('storiesInfo');
+                return view('load.stories-info-load', compact('stories', 'storiesInfo', 'currentPage'));
             default:
 
                 return response()->json([

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\VkAccount;
 use App\Models\VkGroup;
 use App\Models\Stories;
+use App\Models\StoriesStory;
 
 class CabinetPagesController extends Controller
 {
@@ -78,6 +79,10 @@ class CabinetPagesController extends Controller
             $join->on('stories.group_id', '=', 'vk_groups.group_id')
                 ->on('stories.account_id', '=', 'vk_groups.account_id');
         })
+        ->leftJoin('stories_settings', function ($join) {
+            $join->on('stories.id', '=', 'stories_settings.stories_id')
+            ->where('stories.group_id', '<>', 0);
+        })
         ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
         ->orWhere(function ($query) use ($VkGroups) {
             foreach ($VkGroups as $group) {
@@ -93,7 +98,9 @@ class CabinetPagesController extends Controller
         ->select([
             'stories.*',
             'vk_accounts.name as vk_account_name',
-            'vk_groups.name as vk_group_name'
+            'vk_groups.name as vk_group_name',
+            'stories_settings.link_text as seetings_link_text',
+            'stories_settings.link_url as seetings_link_url'
         ])
         ->paginate(1, ['*'], 'all-stories-page');
         return view('cabinet.vk.stories', compact('user', 'allStories', 'curentPage'));
@@ -101,10 +108,19 @@ class CabinetPagesController extends Controller
 
     public function storiesInfo($stories_id){
         $user = Auth::user();
+
+        $curentPage = route('storiesInfo');
         $stories = Stories::find($stories_id);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stories->account_id)->get();
+        $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
+        ->select([
+            'stories_stories.*',
+            'stories_settings.link_text as link_text',
+            'stories_settings.link_url as link_url'
+        ])
+        ->paginate(1, ['*'], 'stories-info-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.stories-info', compact('user', 'stories'));
+            return view('cabinet.vk.stories-info', compact('user', 'stories', 'storiesInfo', 'currentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }

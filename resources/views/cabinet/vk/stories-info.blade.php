@@ -12,7 +12,8 @@
                 <div class="pageItem">
                     <h2 class="pageTitle">История "{{ $stories->title}}"</h2>
                     <div class="streamStory">
-                        <div class="streamStoryItem">
+                        @include('load.stories-info-load')
+                        {{-- <div class="streamStoryItem">
                             <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 18:14</span></p>
                             <p class="streamStoryList"><span>Статус:</span><span class="_loading">В обработке</span></p>
                             <p class="streamStoryList _link"><span>Ссылка:</span><span>http://f-automation/cabinet/stories.html</span></p>
@@ -41,7 +42,7 @@
                                     </svg>
                                 </span>
                             </p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
