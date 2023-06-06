@@ -127,7 +127,7 @@ class StoriesController extends Controller
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', $uploadJSON->error);
             }
             $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
