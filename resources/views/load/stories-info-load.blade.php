@@ -29,9 +29,10 @@
     @php
         $storiesDate = Carbon::createFromFormat('Y-m-d H:i:s', $stories->created_at, 'Europe/Moscow');
         $dayDifference = $nowTime->diffInDays($storiesDate);
+        $dateView = Carbon::createFromFormat('d.m.Y H:i', $stories->created_at, 'Europe/Moscow');
     @endphp
     <div class="streamStoryItem">
-        <p class="streamStoryList"><span>Время:</span><span>{{$storiesDate}}</span></p>
+        <p class="streamStoryList"><span>Время:</span><span>{{$dateView}}</span></p>
         @if ($dayDifference >= 1)
             <p class="streamStoryList"><span>Статус:</span><span class="_complete">Завершена</span></p>
         @else
