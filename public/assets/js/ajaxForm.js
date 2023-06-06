@@ -116,7 +116,6 @@ $(document).ready(function () {
                 formData.append('myPageId', myPageId);
             }
             formData.append('page', page);
-            console.log(page)
             $.ajax({
                 type: "POST",
                 url: action,
@@ -126,7 +125,6 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
-                    console.log(response)
                     const cuurentPath = window.location.pathname;
                     if (cuurentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
