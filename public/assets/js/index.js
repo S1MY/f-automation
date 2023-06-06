@@ -100,49 +100,45 @@ $(document).ready(function () {
   // код
   $('.confirmInput').on('keyup', function(e) {
     e.preventDefault();
-    let currValue = $(this).val();
-    let currLength = currValue.length;
-    let currIndex = parseInt($(this).attr('tabindex'));
-    let nextIndex = currIndex + 1;
-    let prevIndex = currIndex - 1;
     
-    let confirm = 0;
+    const currValue = $(this).val();
+    const currLength = currValue.length;
+    const currIndex = parseInt($(this).attr('tabindex'));
+    const nextIndex = currIndex + 1;
+    const prevIndex = currIndex - 1;
+    
+    let confirmCount = 0;
     let code = '';
-    if(confirm === 5){
-      if (e.keyCode !== 8) {
-        return false;
-      }
-    }
-    if (currLength == 1) {
+    
+    if (currLength === 1) {
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
-    } else if (currLength == 0 && currIndex > 1) {
+    } else if (currLength === 0 && currIndex > 1) {
       $(`.confirmInput[tabindex=${prevIndex}]`).focus();
     } else if (currLength > 1) {
       for (let i = currIndex; i <= currLength; i++) {
-        simbol = currValue.substr(0, 1);
+        const symbol = currValue.substr(0, 1);
         currValue = currValue.slice(1);
-        next = i + 1;
-        $(`.confirmInput[tabindex=${i}]`).val(simbol);
+        const next = i + 1;
+        $(`.confirmInput[tabindex=${i}]`).val(symbol);
         $(`.confirmInput[tabindex=${next}]`).focus();
       }
-    } else if (currIndex == 1 && currLength == 0) {
-      if (e.keyCode === 8) {
-        return false;
-      }
+    } else if (currIndex === 1 && currLength === 0 && e.keyCode === 8) {
+      return false;
     } else {
-      simbol = currValue.substr(0, 1);
-      $(`.confirmInput[tabindex=${currIndex}]`).val(simbol);
+      const symbol = currValue.substr(0, 1);
+      $(`.confirmInput[tabindex=${currIndex}]`).val(symbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
     
     $('.confirmInput').each(function() {
       if ($(this).val() !== '') {
-        confirm++;
+        confirmCount++;
+        code = '';
         code += $(this).val();
       }
     });
-    
-    if (confirm == $('.confirmInput').length) {
+  
+    if (confirmCount === $('.confirmInput').length) {
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
