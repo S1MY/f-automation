@@ -139,7 +139,6 @@ $(document).ready(function () {
         code += $(this).val();
       }else{
         confirmCount--;
-        code = '';
       }
     });
     if (confirmCount === $('.confirmInput').length) {
