@@ -10,7 +10,7 @@
         <div class="pageWrapper">
             <div class="pageItems">
                 <div class="pageItem">
-                    <h2 class="pageTitle">История "{{ $stories->title}}"</h2>
+                    <h2 class="pageTitle">{{ $stories->title}}</h2>
                     <div class="streamStory">
                         @include('load.stories-info-load')
                     </div>
