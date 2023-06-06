@@ -109,7 +109,7 @@ class CabinetPagesController extends Controller
     public function storiesInfo($stories_id){
         $user = Auth::user();
 
-        $curentPage = route('stories', ['stories_id' => $stories_id]);
+        $currentPage = route('stories', ['stories_id' => $stories_id]);
         $stories = Stories::find($stories_id);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stories->account_id)->get();
         $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
