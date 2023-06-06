@@ -25,7 +25,7 @@ class PaginateController extends Controller
         }
         $accountId = (isset($request->account_id) ? $request->account_id : '');
         $groupId = (isset($request->group_id) ? $request->group_id : '');
-        $storiesId = (isset($request->stories_id) ? $request->stories_id : '');
+        $pageId = (isset($request->page_id) ? $request->page_id : '');
 
         switch ($page_id) {
             case 'promo':
@@ -146,7 +146,7 @@ class PaginateController extends Controller
 
                 break;
             case 'stories-info':
-                $stories = Stories::where('id', $storiesId)
+                $stories = Stories::where('id', $pageId)
                     ->get();
                 $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
                 ->orderBy('id', 'desc')

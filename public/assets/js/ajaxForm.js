@@ -99,6 +99,7 @@ $(document).ready(function () {
             const parentType = ($(this).parents('.tabItem').attr('data-type')) ? $(this).parents('.tabItem').attr('data-type') : null
             let accountId = 0;
             let groupId = 0;
+            let pageId = 0;
             let formData = new FormData();
             if(parentType){
                 if(parentType === 'account'){
@@ -108,6 +109,11 @@ $(document).ready(function () {
                     groupId = $(this).parents('.tabItem').attr('data-tab');
                     formData.append('group_id', groupId);
                 }
+            }
+            if(page.uncludes('?page_id=')){
+                pageId = page.split('?')[1].split('&').find(param => param.startsWith('page_id=')).split('=')[1];
+                page = page.replace('?page_id=' + pageId, '/' + pageId);
+                formData.append('page_id', pageId);
             }
             formData.append('page', page);
             $.ajax({
@@ -130,6 +136,8 @@ $(document).ready(function () {
                             $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
                         }else if(groupId > 0){
                             $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
+                        }else if(pageId > 0){
+                            $('.streamStory').html(response.responseText);
                         }else{
                             $('.tableWrapper').html(response.responseText);
                         }

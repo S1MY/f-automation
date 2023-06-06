@@ -46,7 +46,7 @@ Route::group(['prefix' => 'cabinet', 'middleware' => ['auth', 'confirmed']], fun
         Route::get('/posts', [CabinetPagesController::class, 'posts'])->name('posts');
         Route::prefix('/stories')->group(function () {
             Route::get('/', [CabinetPagesController::class, 'stories'])->name('stories');
-            Route::get('/{stories_id}', [CabinetPagesController::class, 'storiesInfo'])->name('storiesInfo');
+            Route::get('/{page_id}', [CabinetPagesController::class, 'storiesInfo'])->name('storiesInfo');
         });
     });
 
