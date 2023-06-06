@@ -105,6 +105,8 @@ $(document).ready(function () {
     if(confirmCount > $('.confirmInput').length){
       return false;
     }
+    console.log(confirmCount)
+    console.log(code)
     const currValue = $(this).val();
     const currLength = currValue.length;
     const currIndex = parseInt($(this).attr('tabindex'));
