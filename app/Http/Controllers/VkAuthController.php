@@ -24,32 +24,37 @@ class VkAuthController extends Controller
         if ($type == 'add' || $type == 'update') {
             $tokenGet = null;
             $usersGet = null;
-            $code = explode("=", $request->link);
-            $client = new Client([
-                'base_uri' => 'https://oauth.vk.com',
-            ]);
-            $authClient = new Client([
-                'base_uri' => 'https://api.vk.com',
-            ]);
-            $tokenParams = [
-                'client_id' => '51668259',
-                'client_secret' => 'SAIfhHdAxoDXvknZIiPl',
-                'code' => $code[1],
-                'redirect_uri' => 'https://api.vk.com/blank.html',
-            ];
-            $tokenGet = $client->request('GET', '/access_token', [
-                'query' => $tokenParams
-            ]);
-            if ($tokenGet->getStatusCode() !== 200 || !$tokenGet->getBody()) {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
-            }
-            $tokenContent = $tokenGet->getBody()->getContents();
-            $tokenJSON = json_decode($tokenContent);
-            if (isset($tokenJSON->error)) {
-                return $this->generateJsonResponse('error', 'Ошибка получения токена', 'При получении токена доступа произошла ошибка');
-            }
-            $token = $tokenJSON->access_token;
-            $userId = $tokenJSON->user_id;
+            $code = $request->link;
+            $code = substr($code, strpos($code, '#') + 1);
+            parse_str($code, $params);
+            // $code = explode("=", $request->link);
+            // $client = new Client([
+            //     'base_uri' => 'https://oauth.vk.com',
+            // ]);
+            // $authClient = new Client([
+            //     'base_uri' => 'https://api.vk.com',
+            // ]);
+            // $tokenParams = [
+            //     'client_id' => '51668259',
+            //     'client_secret' => 'SAIfhHdAxoDXvknZIiPl',
+            //     'code' => $code[1],
+            //     'redirect_uri' => 'https://api.vk.com/blank.html',
+            // ];
+            // $tokenGet = $client->request('GET', '/access_token', [
+            //     'query' => $tokenParams
+            // ]);
+            // if ($tokenGet->getStatusCode() !== 200 || !$tokenGet->getBody()) {
+            //     return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка');
+            // }
+            // $tokenContent = $tokenGet->getBody()->getContents();
+            // $tokenJSON = json_decode($tokenContent);
+            // if (isset($tokenJSON->error)) {
+            //     return $this->generateJsonResponse('error', 'Ошибка получения токена', 'При получении токена доступа произошла ошибка');
+            // }
+            // $token = $tokenJSON->access_token;
+            // $userId = $tokenJSON->user_id;
+            $token = $params['access_token'];
+            $userId = $params['user_id'];
             $usersParams = [
                 'v' => '5.131',
                 'access_token' => $token,
