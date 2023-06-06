@@ -128,6 +128,7 @@ $(document).ready(function () {
       $(`.confirmInput[tabindex=${currIndex}]`).val(symbol);
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
+    console.log(code.length)
     if(code.length > $('.confirmInput').length){
       $('.confirmInput').val('')
       $(`.confirmInput[tabindex=1]`).focus();
