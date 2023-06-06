@@ -131,9 +131,9 @@ $(document).ready(function () {
     }
     
     $('.confirmInput').each(function() {
+      code = '';
       if ($(this).val() !== '') {
         confirmCount++;
-        code = '';
         code += $(this).val();
       }
     });
