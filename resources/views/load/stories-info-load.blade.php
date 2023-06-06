@@ -29,7 +29,7 @@
     @php
         $storiesDate = Carbon::createFromFormat('Y-m-d H:i:s', $stories->created_at, 'Europe/Moscow');
         $dayDifference = $nowTime->diffInDays($storiesDate);
-        $dateView = Carbon::createFromFormat('d.m.Y H:i', $stories->created_at, 'Europe/Moscow');
+        $dateView = $storiesDate->format('d.m.Y H:i');
     @endphp
     <div class="streamStoryItem">
         <p class="streamStoryList"><span>Время:</span><span>{{$dateView}}</span></p>
