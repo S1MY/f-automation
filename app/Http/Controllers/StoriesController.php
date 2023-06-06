@@ -183,7 +183,7 @@ class StoriesController extends Controller
                 'filetype' => $extension,
                 'link' => $fileLoadUrl . $fileName,
                 'upload_result' => $sendStoriesJSON->response->upload_result,
-                'active' => 0
+                'active' => 1
             ]);
 
             StoriesSettings::create([
@@ -193,10 +193,7 @@ class StoriesController extends Controller
             ]);
             StoriesStory::create([
                 'stories_id' => $storiesCreate->id,
-                'stories_did' => $storiesJSON->response->items[0]->id,
-                'viewes' => 0,
-                'open_link' => 0,
-                'subscribers' => 0,
+                'stories_did' => $storiesJSON->response->items[0]->id
             ]);
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
         } else {

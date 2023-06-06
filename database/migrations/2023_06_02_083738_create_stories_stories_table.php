@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('stories_did')->nullable();
             $table->integer('viewes')->default(0);
             $table->integer('open_link')->default(0);
-            $table->integer('subscribers')->default(0);
+            $table->integer('shares')->default(0);
             $table->timestamps();
         });
     }
