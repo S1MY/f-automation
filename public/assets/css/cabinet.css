@@ -108,7 +108,7 @@ body{
     left: 0;
     top: 0;
     z-index: 1;
-    height: 30px;
+    height: 20px;
     background: #101010;
     position: fixed;
     content: '';
