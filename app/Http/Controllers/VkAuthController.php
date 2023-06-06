@@ -118,6 +118,7 @@ class VkAuthController extends Controller
                 ->first();
             if ($searchAccount) {
                 $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
+                $searchStreams = Stream::where('account_id', '=', $searchAccount->id)->get();
                 foreach ($searchStreams as $stream) {
                     StreamComments::where('stream_id', '=', $stream->id)->delete();
                     StreamStory::where('stream_id', '=', $stream->id)->delete();
@@ -125,6 +126,7 @@ class VkAuthController extends Controller
                     Storage::delete($stream->link);
                     Stream::where('id', '=', $stream->id)->delete();
                 }
+                VkGroup::where('account_id', '=', $accountId)->delete();
                 VkAccount::where('id', '=', $accountId)->delete();
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
             } else {
