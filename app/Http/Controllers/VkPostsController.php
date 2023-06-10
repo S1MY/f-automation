@@ -159,8 +159,8 @@ class VkPostsController extends Controller
                     Storage::disk('public')->delete($fileLoadUrl . $fileName);
                     return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F4');
                 }
-                $ownerId = $photoJSON->response->owner_id;
-                $fileId = $photoJSON->response->id;
+                // $ownerId = $photoJSON->response->owner_id;
+                // $fileId = $photoJSON->response->id;
             }else{
                 $ownerId = $sendPostJSON->owner_id;
                 $fileId = $sendPostJSON->video_id;
