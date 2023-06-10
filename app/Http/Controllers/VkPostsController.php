@@ -165,7 +165,7 @@ class VkPostsController extends Controller
                 $ownerId = $sendPostJSON->owner_id;
                 $fileId = $sendPostJSON->video_id;
             }
-            return $this->generateJsonResponse('success', 'Оно сработало', $ownerId.'|'.$fileId);
+            return $this->generateJsonResponse('success', 'Оно сработало', $photoJSON);
         }else{
             return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 50МБ');
         }
