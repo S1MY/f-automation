@@ -91,11 +91,11 @@ class StoriesController extends Controller
             if ($fileType == 'video/mp4' || $fileType == 'video/avi') {
                 $extension = 'mp4';
                 $method = '/stories.getVideoUploadServer';
-                $sendType = 'video_file';
+                $sendType = 'video';
             } elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
                 $extension = 'jpg';
                 $method = '/stories.getPhotoUploadServer';
-                $sendType = 'file';
+                $sendType = 'photo';
             } else {
                 return $this->generateJsonResponse('input', 'file', 'Неизвестный тип файла');
             }
@@ -127,12 +127,12 @@ class StoriesController extends Controller
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2', $uploadJSON->error);
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2');
             }
             $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
             $sendStoriesPost = curl_init();
-            if ($sendType == 'file') {
+            if ($sendType == 'photo') {
                 $postFields = [
                     'file' => new CURLFile($fileSend)
                 ];
