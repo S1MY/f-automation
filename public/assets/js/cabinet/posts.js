@@ -1,0 +1,116 @@
+$(document).ready(function () {
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  // Загрузка и статус файла
+  let detector = false;
+  let video = document.createElement("video");
+  $("#file").change(function (e) {
+    e.preventDefault();
+    let file = this.files[0];
+    let size = file.size;
+    detector == false;
+    $(".progressbar").css("width", "0%");
+    if (
+      $(".tabPageInput[data-name='file']")
+        .parent()
+        .children("button")
+        .hasClass("_disabled")
+    ) {
+    } else {
+      $(".tabPageInput[data-name='file']")
+        .parent()
+        .children("button")
+        .addClass("_disabled");
+    }
+    if (size > 419430400) {
+      $("#file").val("");
+      createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 50МБ</p>");
+    } else {
+      if (file.type == 'video/mp4') {
+        let url = URL.createObjectURL(file);
+        video.src = url;
+        video.ondurationchange = function () {
+          $('input[name="duration"]').val(this.duration);
+        };
+      } else {
+        $('input[name="duration"]').val(14.99);
+      }
+      $('.fileName').html(file.name);
+      let newSize = size / 1048576;
+      newSize = newSize.toFixed(2).replace(".00", "");
+      $("._size").html(`${newSize} mb`);
+      const videoData = new FormData();
+      videoData.append("file", file);
+      let xhr = new XMLHttpRequest();
+      xhr.upload.addEventListener("progress", progressOperation, false);
+      xhr.addEventListener("load", () => loadOperation(detector), false);
+      xhr.addEventListener("error", errorOperation, false);
+      xhr.addEventListener("abort", abortOperation, false);
+      xhr.open("POST", "upload_processing.php");
+      xhr.send(videoData);
+    }
+  });
+  $(".tabPageForm").submit(function (e) {
+    e.preventDefault();
+    const ajaxUrl = $(this).attr('action');
+    if (detector == false) {
+      createMessage("<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>");
+    } else {
+      let formData = new FormData();
+      let serialize = $(this).serializeArray();
+      $.each(serialize, function (i, val) {
+        formData.append(val.name, val.value);
+      });
+      let file = document.getElementById("file").files[0];
+      formData.append("file", file);
+      $(".popupWrapper").fadeIn();
+      $('.popupItem').fadeOut();
+      $('.popupItem[data-popup="loader"]').fadeIn();
+      $(".popupWrapper").addClass('_notClose');
+      $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: formData,
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+          $('.popupWrapper').removeClass('_notClose');
+        //   $('.popupItem').fadeOut();
+        //   if (response.status == "success") {
+        //     successHandler(response.title, response.message)
+        //   } else if (response.status == "input") {
+        //     $('.popupWrapper').fadeOut();
+        //     let inputName = response.title;
+        //     if (response.title == 'accType') {
+        //       inputName = 'account'
+        //     } else if (response.title == 'accountId') {
+        //       inputName = 'account'
+        //     } else if (response.title == 'duration') {
+        //       inputName = 'file'
+        //     }
+        //     $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
+        //     $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
+        //     $('.errorInput').fadeOut(3000);
+        //     setTimeout(() => {
+        //       $('.errorInput').remove();
+        //     }, 3500);
+        //     $(".popupWrapper").fadeOut();
+        //     $('.popupItem').fadeOut();
+        //   } else {
+        //     errorHandler(response.title, response.message)
+        //   }
+        },
+        error: function (response) {
+            console.log(response)
+        //   errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+        }
+      });
+    }
+  });
+});

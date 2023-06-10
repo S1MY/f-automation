@@ -86,4 +86,5 @@
         @include('cabinet.layouts.footer')
     </div>
 </div>
+<script src="/assets/js/cabinet/posts.js"></script>
 @endsection

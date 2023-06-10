@@ -46,39 +46,13 @@ $(document).ready(function () {
       videoData.append("file", file);
       let xhr = new XMLHttpRequest();
       xhr.upload.addEventListener("progress", progressOperation, false);
-      xhr.addEventListener("load", loadOperation, false);
+      xhr.addEventListener("load", () => loadOperation(detector), false);
       xhr.addEventListener("error", errorOperation, false);
       xhr.addEventListener("abort", abortOperation, false);
       xhr.open("POST", "upload_processing.php");
       xhr.send(videoData);
     }
   });
-  const progressOperation = (event) => {
-    const percentLoaded = Math.round((event.loaded / event.total) * 100);
-    $(".progressbar").css("width", percentLoaded + "%");
-    $("._status").addClass("_loader");
-    $("._status").html("Идёт загрузка...");
-  }
-  const loadOperation = (event) => {
-    $(".tabPageInput[data-name='file']")
-      .parent()
-      .children("button")
-      .removeClass("_disabled");
-    $("._status").removeClass("_loader");
-    $("._status").addClass("_complete");
-    $("._status").html("Файл загружен");
-    createMessage("<p class='fixedMessage'>Файл успешно загружен!</p>");
-    detector = true;
-  }
-  const errorOperation = (event) => {
-    $("#file").val("");
-    let message =
-    createMessage("<p class='fixedMessage _error'>При загрузке возникла ошибка!</p>");
-  }
-  const abortOperation = (event) => {
-    $("#file").val("");
-    createMessage("<p class='fixedMessage _error'>Не удалось загрузить файл!</p>");
-  }
   $(".tabPageForm").submit(function (e) {
     e.preventDefault();
     const ajaxUrl = $(this).attr('action');
