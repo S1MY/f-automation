@@ -46,13 +46,24 @@ $(document).ready(function () {
       videoData.append("file", file);
       let xhr = new XMLHttpRequest();
       xhr.upload.addEventListener("progress", progressOperation, false);
-      xhr.addEventListener("load", () => loadOperation(detector), false);
+      xhr.addEventListener("load", loadOperation, false);
       xhr.addEventListener("error", errorOperation, false);
       xhr.addEventListener("abort", abortOperation, false);
       xhr.open("POST", "upload_processing.php");
       xhr.send(videoData);
     }
   });
+  const loadOperation = () => {
+    $(".tabPageInput[data-name='file']")
+      .parent()
+      .children("button")
+      .removeClass("_disabled");
+    $("._status").removeClass("_loader");
+    $("._status").addClass("_complete");
+    $("._status").html("Файл загружен");
+    createMessage("<p class='fixedMessage'>Файл успешно загружен!</p>");
+    detector = true;
+  }
   $(".tabPageForm").submit(function (e) {
     e.preventDefault();
     const ajaxUrl = $(this).attr('action');

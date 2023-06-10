@@ -45,17 +45,6 @@ const progressOperation = (event) => {
   $("._status").addClass("_loader");
   $("._status").html("Идёт загрузка...");
 }
-const loadOperation = (detector) => {
-  $(".tabPageInput[data-name='file']")
-    .parent()
-    .children("button")
-    .removeClass("_disabled");
-  $("._status").removeClass("_loader");
-  $("._status").addClass("_complete");
-  $("._status").html("Файл загружен");
-  createMessage("<p class='fixedMessage'>Файл успешно загружен!</p>");
-  detector = true;
-}
 const errorOperation = () => {
   $("#file").val("");
   createMessage("<p class='fixedMessage _error'>При загрузке возникла ошибка!</p>");
