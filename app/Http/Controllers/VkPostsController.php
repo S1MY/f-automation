@@ -87,7 +87,7 @@ class VkPostsController extends Controller
             }
             $fileName = 'post-' . date("Y-m-d-H-i-s") . "." . $extension;
             $userName = Auth::user()->login;
-            Storage::disk('public')->putFileAs('files/users/' . $userName . '/posts', $storiesFile, $fileName);
+            Storage::disk('public')->putFileAs('files/users/' . $userName . '/posts', $postFile, $fileName);
             $getUpload = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
