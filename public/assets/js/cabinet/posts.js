@@ -27,16 +27,16 @@ $(document).ready(function () {
         .children("button")
         .addClass("_disabled");
     }
-    if(files.length > 5){
+    if (files.length > 5) {
       createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 5</p>");
       return false
     }
     $('._filecounts').html(`${files.length} / 5`);
-    for(let i=0; i<files.length; i++) {
+    for (let i = 0; i < files.length; i++) {
       let file = files[i];
       let size = file.size;
       totalSize += size;
-  
+
       if (size > 419430400) {
         $("#file").val("");
         createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 50МБ</p>");
@@ -68,7 +68,7 @@ $(document).ready(function () {
         xhr.send(videoData);
       }
     }
-  
+
     if (totalSize > 1258291200) {
       $("#file").val("");
       createMessage("<p class='fixedMessage _error'>Общий размер загружаемых файлов не должен превышать 150МБ</p>");
@@ -103,17 +103,17 @@ $(document).ready(function () {
       $.each(serialize, function (i, val) {
         formData.append(val.name, val.value);
       });
-      if(!$('input[name="closeComments"]').is(':checked')){
+      if (!$('input[name="closeComments"]').is(':checked')) {
         formData.append('closeComments', 0);
       }
-      if(!$('input[name="onlyFriends"]').is(':checked')){
+      if (!$('input[name="onlyFriends"]').is(':checked')) {
         formData.append('onlyFriends', 0);
       }
       for (let i = 0; i < document.getElementById("file").files.length; i++) {
         const file = document.getElementById("file").files[i]
         formData.append(`file[${i}]`, file);
       }
-      for(let pair of formData.entries()) {
+      for (let pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
       $(".popupWrapper").fadeIn();
@@ -129,38 +129,34 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         success: function (response) {
-            console.log(response)
           $('.popupWrapper').removeClass('_notClose');
           $('.popupItem').fadeOut();
-          // if (response.status == "success") {
-          //   successHandler(response.title, response.message)
-          // } else if (response.status == "input") {
-          //   $('.popupWrapper').fadeOut();
-          //   let inputName = response.title;
-          //   if (response.title == 'accType') {
-          //     inputName = 'account'
-          //   } else if (response.title == 'accountId') {
-          //     inputName = 'account'
-          //   } else if (response.title == 'duration') {
-          //     inputName = 'file'
-          //   }
-          //   $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
-          //   $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
-          //   $('.errorInput').fadeOut(3000);
-          //   setTimeout(() => {
-          //     $('.errorInput').remove();
-          //   }, 3500);
-          //   $(".popupWrapper").fadeOut();
-          //   $('.popupItem').fadeOut();
-          // } else {
-          //   errorHandler(response.title, response.message)
-          // }
+          if (response.status == "success") {
+            successHandler(response.title, response.message)
+          } else if (response.status == "input") {
+            $('.popupWrapper').fadeOut();
+            let inputName = response.title;
+            if (response.title == 'accType') {
+              inputName = 'account'
+            } else if (response.title == 'accountId') {
+              inputName = 'account'
+            } else if (response.title == 'duration') {
+              inputName = 'file'
+            }
+            $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
+            $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
+            $('.errorInput').fadeOut(3000);
+            setTimeout(() => {
+              $('.errorInput').remove();
+            }, 3500);
+            $(".popupWrapper").fadeOut();
+            $('.popupItem').fadeOut();
+          } else {
+            errorHandler(response.title, response.message)
+          }
         },
         error: function (response) {
-            console.log(response)
-            $('.popupWrapper').removeClass('_notClose');
-            $('.popupItem').fadeOut();
-          // errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+          errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
         }
       });
     }
