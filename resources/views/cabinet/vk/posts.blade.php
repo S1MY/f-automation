@@ -24,7 +24,7 @@
                     <form class="tabPageForm" action="{{ route('postCreate') }}" enctype='multipart/form-data'>
                         <input type="hidden" name="accType" value="user">
                         <div class="tabPageInput" data-name="name">
-                            <input type="text" name="name" class="formInput" placeholder="Название истории">
+                            <input type="text" name="name" class="formInput" placeholder="Название поста">
                         </div>
                         <div class="tabPageInput tabPageSelect" data-name="account">
                             <div class="formSelect">
@@ -103,7 +103,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="duration" value="">
-                        <button class="formBtn _full _disabled">Создать историю</button>
+                        <button class="formBtn _full _disabled">Создать пост</button>
                     </form>
                 </div>
                 @endif
