@@ -214,7 +214,7 @@ class PostsController extends Controller
         $wallPostContent = $wallPostGet->getBody()->getContents();
         $wallPostJSON = json_decode($wallPostContent);
         if (isset($wallPostJSON->error)) {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2');
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2', $wallPostJSON);
         }
         $postPinClient = new Client([
             'base_uri' => 'https://api.vk.com',
@@ -229,7 +229,7 @@ class PostsController extends Controller
         }else{
             $postPinParams['owner_id'] = $accountId;
         }
-        $postPinGet = $postPinClient->request('GET', '/method/wall.post', [
+        $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
             'query' => $postPinParams
         ]);
         if ($postPinGet->getStatusCode() !== 200 || !$postPinGet->getBody()) {
