@@ -71,8 +71,8 @@ class PostsController extends Controller
             $accountId = $validatedData['accountId'];
             $groupId = 0;
         }
-        $accountSendId = preg_replace('/[^0-9]/', '', $accountId);
         $searchAccount = VkAccount::where('id', '=', $accountId)->first();
+        $accountSendId = preg_replace('/[^0-9]/', '', $searchAccount->link);
         if (!$searchAccount) {
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
