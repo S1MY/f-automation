@@ -1165,7 +1165,8 @@ a.tableItem:hover{
     margin-top: 12px;
 }
 ._status,
-._size{
+._size,
+._filecounts{
     color: #FF5437;
     font-weight: 500;
 }

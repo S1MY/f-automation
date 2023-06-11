@@ -71,8 +71,12 @@
                                     <span class="_status">Файл не обнаружен</span>
                                 </p>
                                 <p class="fileText">
-                                    <span>Размер файла:</span>
+                                    <span>Размер файлов:</span>
                                     <span class="_size">0 mb</span>
+                                </p>
+                                <p class="fileText">
+                                    <span>Числов файлов:</span>
+                                    <span class="_filecounts">0 / 5</span>
                                 </p>
                             </div>
                         </div>

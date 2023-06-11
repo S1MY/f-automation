@@ -27,7 +27,11 @@ $(document).ready(function () {
         .children("button")
         .addClass("_disabled");
     }
-  
+    if(files.length > 5){
+      createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 5</p>");
+      return false
+    }
+    $('._filecounts').html(`${files.length} / 5`);
     for(let i=0; i<files.length; i++) {
       let file = files[i];
       let size = file.size;
@@ -47,10 +51,10 @@ $(document).ready(function () {
         } else {
           durations.push(14.99)
         }
-        $('input[name="duration"]').val(durations.join(';'));
+        $('input[name="duration"]').val(durations.join('_;_'));
         filenames.push(file.name)
-        $('.fileName').html(filenames.join(';'));
-        let newSize = size / 1048576;
+        $('.fileName').html(filenames.join('_;_'));
+        let newSize = totalSize / 1048576;
         newSize = newSize.toFixed(2).replace(".00", "");
         $("._size").html(`${newSize} mb`);
         const videoData = new FormData();
@@ -68,6 +72,13 @@ $(document).ready(function () {
     if (totalSize > 1258291200) {
       $("#file").val("");
       createMessage("<p class='fixedMessage _error'>Общий размер загружаемых файлов не должен превышать 150МБ</p>");
+      $('.fileName').html('Файл не обнаружен');
+      $("._status").html('0 mb');
+      $("._status").removeClass('_complete');
+      $("._size").html('0 mb');
+      $('._filecounts').html('0 / 5')
+      $("#file").val();
+      detector = false;
     }
   });
   const loadOperation = () => {
@@ -92,23 +103,24 @@ $(document).ready(function () {
       $.each(serialize, function (i, val) {
         formData.append(val.name, val.value);
       });
+      console.log(document.getElementById("file").files)
       let file = document.getElementById("file").files[0];
       formData.append("file", file);
-      $(".popupWrapper").fadeIn();
-      $('.popupItem').fadeOut();
-      $('.popupItem[data-popup="loader"]').fadeIn();
-      $(".popupWrapper").addClass('_notClose');
-      $.ajax({
-        type: "POST",
-        url: ajaxUrl,
-        contentType: false,
-        processData: false,
-        cache: false,
-        data: formData,
-        dataType: "json",
-        success: function (response) {
-            console.log(response)
-          $('.popupWrapper').removeClass('_notClose');
+      // $(".popupWrapper").fadeIn();
+      // $('.popupItem').fadeOut();
+      // $('.popupItem[data-popup="loader"]').fadeIn();
+      // $(".popupWrapper").addClass('_notClose');
+      // $.ajax({
+      //   type: "POST",
+      //   url: ajaxUrl,
+      //   contentType: false,
+      //   processData: false,
+      //   cache: false,
+      //   data: formData,
+      //   dataType: "json",
+      //   success: function (response) {
+      //       console.log(response)
+      //     $('.popupWrapper').removeClass('_notClose');
         //   $('.popupItem').fadeOut();
         //   if (response.status == "success") {
         //     successHandler(response.title, response.message)
@@ -133,12 +145,12 @@ $(document).ready(function () {
         //   } else {
         //     errorHandler(response.title, response.message)
         //   }
-        },
-        error: function (response) {
-            console.log(response)
+        // },
+        // error: function (response) {
+        //     console.log(response)
         //   errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
-        }
-      });
+      //   }
+      // });
     }
   });
 });
