@@ -71,6 +71,7 @@ class PostsController extends Controller
             $accountId = $validatedData['accountId'];
             $groupId = 0;
         }
+        $accountSendId = preg_replace('/[^0-9]/', '', $accountId);
         $searchAccount = VkAccount::where('id', '=', $accountId)->first();
         if (!$searchAccount) {
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
@@ -200,10 +201,10 @@ class PostsController extends Controller
             'attachments' => implode(',',$filesDB),
         ];
         if ($validatedData['accType'] == 'group') {
-            $wallPostParams['owner_id'] = '-'.$groupId;
+            $wallPostParams['owner_id'] = '-'.$groupSendId;
             $wallPostParams['from_group'] = 1;
         }else{
-            $wallPostParams['owner_id'] = $accountId;
+            $wallPostParams['owner_id'] = $accountSendId;
         }
         $wallPostGet = $wallPostSave->request('GET', '/method/wall.post', [
             'query' => $wallPostParams
@@ -225,9 +226,9 @@ class PostsController extends Controller
             'post_id' => $wallPostJSON->response->post_id
         ];
         if ($validatedData['accType'] == 'group') {
-            $postPinParams['owner_id'] = '-'.$groupId;
+            $postPinParams['owner_id'] = '-'.$groupSendId;
         }else{
-            $postPinParams['owner_id'] = $accountId;
+            $postPinParams['owner_id'] = $accountSendId;
         }
         $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
             'query' => $postPinParams
