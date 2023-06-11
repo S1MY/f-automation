@@ -17,9 +17,9 @@
                 $videoId = $vkVideo[1];
             @endphp
             <div class="videoWrapper">
-                <video class="videoGuid" playsinline controls preload="metadata">
-                    <source src="https://vk.com/video_ext.php?oid={{$ownerId}}&id={{$videoId}}&hash={{$link}}&hd=2" type="video/mp4"/>
-                </video>
+                <div class="videoGuid">
+                    <iframe src="https://vk.com/video_ext.php?oid={{$ownerId}}&id={{$videoId}}&hash={{$link}}&hd=2" width="853" height="480" allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
             @else
             <div class="imageWrapper">
