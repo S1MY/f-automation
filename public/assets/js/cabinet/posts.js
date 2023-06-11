@@ -1,10 +1,13 @@
 $(document).ready(function () {
 
   let splide = new Splide('.splideSlider', {
-      // Настройки слайдера
+    // Настройки слайдера
   });
-  splide.mount();
-  
+  if (splide) {
+    splide.mount();
+  }
+
+
   $.ajaxSetup({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
