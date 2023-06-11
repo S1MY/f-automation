@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class StoriesSettings extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'stories_id',
         'link_text',
