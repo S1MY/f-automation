@@ -38,7 +38,7 @@
         </div>
         @else
         <div class="imageWrapper">
-            <img src="/storage/{{$stories->link}}" alt="image">
+            <img src="{{$stories->link}}" alt="image">
         </div>
         @endif
         <div class="cardInformation">
