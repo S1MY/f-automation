@@ -101,16 +101,16 @@ $(document).ready(function () {
             let groupId = 0;
             let myPageId = 0;
             let formData = new FormData();
-            if(parentType){
-                if(parentType === 'account'){
+            if (parentType) {
+                if (parentType === 'account') {
                     accountId = $(this).parents('.tabItem').attr('data-tab');
                     formData.append('account_id', accountId);
-                }else if(parentType === 'group'){
+                } else if (parentType === 'group') {
                     groupId = $(this).parents('.tabItem').attr('data-tab');
                     formData.append('group_id', groupId);
                 }
             }
-            if(page.includes('?myPageId=')){
+            if (page.includes('?myPageId=')) {
                 myPageId = page.split('?')[1].split('&').find(param => param.startsWith('myPageId=')).split('=')[1];
                 page = page.replace('?myPageId=' + myPageId, '/' + myPageId);
                 formData.append('myPageId', myPageId);
@@ -130,22 +130,21 @@ $(document).ready(function () {
                         $('.offerLoadWrapper').html(response.responseText);
                     } else if (cuurentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storiesAllWrapper').html(response.responseText);
-                    }else if (cuurentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    } else if (cuurentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.postsAllWrapper').html(response.responseText);
-                    }else {
-                        if(accountId > 0){
+                    } else {
+                        if (accountId > 0) {
                             $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
-                        }else if(groupId > 0){
+                        } else if (groupId > 0) {
                             $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
-                        }else if(myPageId > 0){
+                        } else if (myPageId > 0) {
                             $('.streamStory').html(response.responseText);
-                        }else{
+                        } else {
                             $('.tableWrapper').html(response.responseText);
                         }
                     }
-                    if($('.videoGuid').length > 0){
-                      const player = new Plyr('.videoGuid');
-                    }
+                    sliderSearch()
+                    playerSearch()
                 }
             });
         }
