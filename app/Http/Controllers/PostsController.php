@@ -255,7 +255,7 @@ class PostsController extends Controller
             'friends_only' => $validatedData['onlyFriends'],
             'close_comments' => $validatedData['closeComments'],
         ]);
-        PostSettings::create([
+        PostStory::create([
             'post_id' => $postCreate->id,
             'post_did' => $wallPostJSON->response->post_id
         ]);
