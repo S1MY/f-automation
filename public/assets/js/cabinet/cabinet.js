@@ -102,6 +102,8 @@ $(document).ready(function () {
         }
       });
     }
+    sliderSearch()
+    playerSearch()
     $(".pageTab").removeClass("_active");
     $(this).addClass("_active");
     $(".tabItem").removeClass("_active");
