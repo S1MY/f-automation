@@ -103,15 +103,17 @@ $(document).ready(function () {
       $.each(serialize, function (i, val) {
         formData.append(val.name, val.value);
       });
-      console.log(document.getElementById("file").files)
       for (let i = 0; i < document.getElementById("file").files.length; i++) {
         const file = document.getElementById("file").files[i]
-        formData.append(`file${i}`, file);
+        formData.append(`file[${i}]`, file);
       }
-      // $(".popupWrapper").fadeIn();
-      // $('.popupItem').fadeOut();
-      // $('.popupItem[data-popup="loader"]').fadeIn();
-      // $(".popupWrapper").addClass('_notClose');
+      for(let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
+      $(".popupWrapper").fadeIn();
+      $('.popupItem').fadeOut();
+      $('.popupItem[data-popup="loader"]').fadeIn();
+      $(".popupWrapper").addClass('_notClose');
       // $.ajax({
       //   type: "POST",
       //   url: ajaxUrl,
@@ -123,34 +125,36 @@ $(document).ready(function () {
       //   success: function (response) {
       //       console.log(response)
       //     $('.popupWrapper').removeClass('_notClose');
-        //   $('.popupItem').fadeOut();
-        //   if (response.status == "success") {
-        //     successHandler(response.title, response.message)
-        //   } else if (response.status == "input") {
-        //     $('.popupWrapper').fadeOut();
-        //     let inputName = response.title;
-        //     if (response.title == 'accType') {
-        //       inputName = 'account'
-        //     } else if (response.title == 'accountId') {
-        //       inputName = 'account'
-        //     } else if (response.title == 'duration') {
-        //       inputName = 'file'
-        //     }
-        //     $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
-        //     $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
-        //     $('.errorInput').fadeOut(3000);
-        //     setTimeout(() => {
-        //       $('.errorInput').remove();
-        //     }, 3500);
-        //     $(".popupWrapper").fadeOut();
-        //     $('.popupItem').fadeOut();
-        //   } else {
-        //     errorHandler(response.title, response.message)
-        //   }
-        // },
-        // error: function (response) {
-        //     console.log(response)
-        //   errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+      //     $('.popupItem').fadeOut();
+      //     // if (response.status == "success") {
+      //     //   successHandler(response.title, response.message)
+      //     // } else if (response.status == "input") {
+      //     //   $('.popupWrapper').fadeOut();
+      //     //   let inputName = response.title;
+      //     //   if (response.title == 'accType') {
+      //     //     inputName = 'account'
+      //     //   } else if (response.title == 'accountId') {
+      //     //     inputName = 'account'
+      //     //   } else if (response.title == 'duration') {
+      //     //     inputName = 'file'
+      //     //   }
+      //     //   $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
+      //     //   $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
+      //     //   $('.errorInput').fadeOut(3000);
+      //     //   setTimeout(() => {
+      //     //     $('.errorInput').remove();
+      //     //   }, 3500);
+      //     //   $(".popupWrapper").fadeOut();
+      //     //   $('.popupItem').fadeOut();
+      //     // } else {
+      //     //   errorHandler(response.title, response.message)
+      //     // }
+      //   },
+      //   error: function (response) {
+      //       console.log(response)
+      //       $('.popupWrapper').removeClass('_notClose');
+      //       $('.popupItem').fadeOut();
+      //     // errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       //   }
       // });
     }

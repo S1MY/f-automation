@@ -12,6 +12,5 @@ class StoriesSettings extends Model
         'stories_id',
         'link_text',
         'link_url',
-        'to_news',
     ];
 }
