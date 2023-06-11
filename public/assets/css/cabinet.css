@@ -916,11 +916,6 @@ a.tableItem:hover{
     overflow: hidden;
     margin-top: 16px;
 }
-.videoWrapper iframe{
-    width: 100%;
-    height: 100%;
-    background: #101010;
-}
 .videoWrapper .plyr{
     width: 100%;
     height: 100%;

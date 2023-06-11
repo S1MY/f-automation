@@ -11,15 +11,10 @@
     <div class="itemsSlider">
         @foreach ($links as $key => $link)
             @if (rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')
-            @php
-                $vkVideo = explode("_", $attachments[$key]);
-                $ownerId = substr($vkVideo[0], 5);
-                $videoId = $vkVideo[1];
-            @endphp
             <div class="videoWrapper">
-                <div class="videoGuid plyr__video-embed">
-                    <iframe src="https://vk.com/video_ext.php?oid={{$ownerId}}&id={{$videoId}}&hash={{$link}}&hd=2" width="853" height="480" allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameborder="0" allowfullscreen allowtransparency></iframe>
-                </div>
+                <video class="videoGuid" playsinline controls preload="metadata">
+                    <source src="/storage/{{$link}}" type="video/mp4"/>
+                </video>
             </div>
             @else
             <div class="imageWrapper">
