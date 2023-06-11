@@ -215,7 +215,7 @@ class PostsController extends Controller
         $wallPostContent = $wallPostGet->getBody()->getContents();
         $wallPostJSON = json_decode($wallPostContent);
         if (isset($wallPostJSON->error)) {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2', $wallPostJSON);
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2', $wallPostParams);
         }
         $postPinClient = new Client([
             'base_uri' => 'https://api.vk.com',
