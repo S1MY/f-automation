@@ -174,14 +174,13 @@ class StoriesController extends Controller
             $storiesJSON = json_decode($storiesContent);
             if (isset($storiesJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При сохранении истории возникла ошибка F2', $storiesJSON);
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При сохранении истории возникла ошибка F2');
             }
-            Storage::disk('public')->delete($fileLoadUrl . $fileName);
             if ($sendType == 'photo') {
+                Storage::disk('public')->delete($fileLoadUrl . $fileName);
                 $storiesLink = $storiesJSON->response->items[0]->photo->sizes[3]->url;
             }else{
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При сохранении истории возникла ошибка F2', $storiesJSON);
-                $storiesLink = $storiesJSON->response->items[0]->video->files->mp4_720;
+                $storiesLink = $fileLoadUrl . $fileName;
             }
             $storiesCreate = Stories::create([
                 'account_id' => $accountId,
