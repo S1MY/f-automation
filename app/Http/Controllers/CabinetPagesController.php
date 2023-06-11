@@ -71,7 +71,7 @@ class CabinetPagesController extends Controller
             ->get();
         $VkGroups = VkGroup::where('uid', $user->id)
                 ->get();
-        $allPosts = Posts::join('vk_accounts', 'posts.account_id', '=', 'vk_accounts.id')
+        $allPosts = Post::join('vk_accounts', 'posts.account_id', '=', 'vk_accounts.id')
         ->leftJoin('vk_groups', function ($join) {
             $join->on('posts.group_id', '=', 'vk_groups.group_id')
                 ->on('posts.account_id', '=', 'vk_groups.account_id');

@@ -9,8 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\VkAccount;
 use App\Models\VkGroup;
+
 use App\Models\Stories;
 use App\Models\StoriesStory;
+
+use App\Models\Post;
+use App\Models\PostStory;
+
 
 class PaginateController extends Controller
 {
@@ -164,7 +169,7 @@ class PaginateController extends Controller
                     ->get();
                 $VkGroups = VkGroup::where('uid', Auth::user()->id)
                     ->get();
-                $allPosts = Posts::join('vk_accounts', 'posts.account_id', '=', 'vk_accounts.id')
+                $allPosts = Post::join('vk_accounts', 'posts.account_id', '=', 'vk_accounts.id')
                 ->leftJoin('vk_groups', function ($join) {
                     $join->on('posts.group_id', '=', 'vk_groups.group_id')
                         ->on('posts.account_id', '=', 'vk_groups.account_id');
