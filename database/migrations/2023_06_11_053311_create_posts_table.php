@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('group_id')->default(0);
             $table->longText('title')->nullable();
             $table->longText('message')->nullable();
-            $table->string('link')->nullable();
+            $table->longText('link')->nullable();
             $table->longText('attachments')->nullable();
             $table->integer('active')->default(0);
             $table->timestamps();
