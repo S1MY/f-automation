@@ -113,9 +113,6 @@ $(document).ready(function () {
         const file = document.getElementById("file").files[i]
         formData.append(`file[${i}]`, file);
       }
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-      }
       $(".popupWrapper").fadeIn();
       $('.popupItem').fadeOut();
       $('.popupItem[data-popup="loader"]').fadeIn();
@@ -129,6 +126,7 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         success: function (response) {
+          console.log(response)
           $('.popupWrapper').removeClass('_notClose');
           $('.popupItem').fadeOut();
           if (response.status == "success") {
