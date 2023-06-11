@@ -88,8 +88,8 @@ $(document).ready(function () {
       .removeClass("_disabled");
     $("._status").removeClass("_loader");
     $("._status").addClass("_complete");
-    $("._status").html("Файл загружен");
-    createMessage("<p class='fixedMessage'>Файл успешно загружен!</p>");
+    $("._status").html("Файлы загружены");
+    createMessage("<p class='fixedMessage'>Файлы успешно загружены!</p>");
     detector = true;
   }
   $(".tabPageForm").submit(function (e) {
@@ -104,8 +104,10 @@ $(document).ready(function () {
         formData.append(val.name, val.value);
       });
       console.log(document.getElementById("file").files)
-      let file = document.getElementById("file").files[0];
-      formData.append("file", file);
+      for (let i = 0; i < document.getElementById("file").files.length; i++) {
+        const file = document.getElementById("file").files[i]
+        formData.append(`file${i}`, file);
+      }
       // $(".popupWrapper").fadeIn();
       // $('.popupItem').fadeOut();
       // $('.popupItem[data-popup="loader"]').fadeIn();
