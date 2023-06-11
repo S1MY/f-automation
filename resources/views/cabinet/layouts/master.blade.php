@@ -9,6 +9,7 @@
     <title>F-Кабинет: @yield('title')</title>
     <link rel="stylesheet" href="/assets/css/videoplayer.css">
     <link rel="stylesheet" href="/assets/css/preloader.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
     <link rel="stylesheet" href="/assets/css/cabinet.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
     <script src="/assets/js/jquery-3.6.1.min.js"></script>
@@ -116,6 +117,7 @@
     @include('cabinet.layouts.popups')
     <script src="/assets/js/videoplayer.js"></script>
     <script src="/assets/js/functions.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
     <script src="/assets/js/cabinet/cabinet.js"></script>
     <script src="/assets/js/cabinet/account.js"></script>
     <script src="/assets/js/ajaxForm.js"></script>
