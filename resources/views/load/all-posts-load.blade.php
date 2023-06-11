@@ -13,7 +13,7 @@
             @if (rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')
             <div class="videoWrapper">
                 <video class="videoGuid" playsinline controls preload="metadata">
-                    <source src="{{$link}}" type="video/mp4"/>
+                    <source src="https://vk.com/{{$attachments[$key]}}" type="video/mp4"/>
                 </video>
             </div>
             @else
