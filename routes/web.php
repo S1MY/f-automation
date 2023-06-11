@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\VkAuthController;
 use App\Http\Controllers\StoriesController;
-use App\Http\Controllers\VkPostsController;
+use App\Http\Controllers\PostsController;
 
 /*
  *
