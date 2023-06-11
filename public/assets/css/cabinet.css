@@ -1982,14 +1982,14 @@ a.accountInfo:hover{
 .itemsSlider .videoWrapper{
     max-width: unset;
 }
-.slick-arrow {
+.sliderArrow{
     position: absolute;
     width: 24px;
     height: 24px;
     font-size: 0px;
     top: 12px;
     right: 12px;
-    border-radius: 8px;
+    border-radius: 6px;
     background: #FFFFFF;
     box-shadow: 0px 0px 8px rgb(16 16 16 / 45%);
     transition: all 0.4s;
@@ -2000,10 +2000,10 @@ a.accountInfo:hover{
     pointer-events: none;
     cursor: default;
 }
-.slick-prev{
+.sliderArrow.prev{
     right: 48px;
 }
-.slick-arrow:hover{
+.sliderArrow:hover{
     background: #FF5437;
 }
 /* Адаптив */
