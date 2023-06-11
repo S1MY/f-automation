@@ -11,9 +11,14 @@
     <div class="itemsSlider">
         @foreach ($links as $key => $link)
             @if (rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')
+            @php
+                $vkVideo = explode("_", $attachments[$key]);
+                $ownerId = substr($vkVideo[0], 5);
+                $videoId = $vkVideo[1];
+            @endphp
             <div class="videoWrapper">
                 <video class="videoGuid" playsinline controls preload="metadata">
-                    <source src="https://vk.com/{{$attachments[$key]}}" type="video/mp4"/>
+                    <source src="https://vk.com/video_ext.php?oid={{$ownerId}}&id={{$videoId}}&hash={{$link}}&hd=2" type="video/mp4"/>
                 </video>
             </div>
             @else

@@ -183,7 +183,7 @@ class PostsController extends Controller
                 $link = $photoJSON->response[0]->sizes[3]->url;
             }else{
                 $attachments = 'video'.$sendPostJSON->owner_id.'_'.$sendPostJSON->video_id;
-                $link = $sendPostJSON->direct_link;
+                $link = $sendPostJSON->video_hash;
             }
             Storage::disk('public')->delete($fileLoadUrl . $fileName);
             $linksDB[] = $link;
