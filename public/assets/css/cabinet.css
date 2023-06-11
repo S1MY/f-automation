@@ -1977,7 +1977,11 @@ a.accountInfo:hover{
     margin-bottom: 16px;
 }
 .splideSlider{
-    width: 44%;
+    width: 100%;
+    max-width: 44%;
+}
+.splideSlider .imageWrapper{
+    max-width: unset;
 }
 /* Адаптив */
 @media (max-width: 1480px) {
