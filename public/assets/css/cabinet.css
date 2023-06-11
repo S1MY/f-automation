@@ -1547,6 +1547,7 @@ a.tableItem:hover{
     flex-wrap: wrap;
 }
 .cardItem{
+    position: relative;
     width: 100%;
     background: #101010;
     border-radius: 6px;
@@ -1586,9 +1587,6 @@ a.tableItem:hover{
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-}
-.cardControls._posts{
-    margin-top: 12px;
 }
 .cardButton{
     width: calc((50% - 30px) / 3);
@@ -1647,7 +1645,7 @@ a.tableItem:hover{
 .imageWrapper{
     width: 100%;
     max-width: 44%;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     height: 280px;
     border-radius: 6px;
@@ -1983,6 +1981,24 @@ a.accountInfo:hover{
 .itemsSlider .imageWrapper,
 .itemsSlider .videoWrapper{
     max-width: unset;
+}
+.slick-arrow {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    font-size: 0px;
+    top: 12px;
+    right: 12px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 8px rgb(16 16 16 / 45%);
+    transition: all 0.4s;
+}
+.slick-prev{
+    right: 48px;
+}
+.slick-arrow:hover{
+    background: #FF5437;
 }
 /* Адаптив */
 @media (max-width: 1480px) {

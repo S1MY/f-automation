@@ -1,6 +1,8 @@
 $(document).ready(function () {
   if($('.itemsSlider').length > 0){
-    $('.itemsSlider').slick();
+    $('.itemsSlider').slick({
+      infinite: false,
+    });
   }
   $.ajaxSetup({
     headers: {
