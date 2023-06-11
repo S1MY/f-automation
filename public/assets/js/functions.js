@@ -24,7 +24,10 @@ const errorHandler = (title, message) => {
 }
 let players = []
 const playerSearch = () => {
-  players = []
+  players.forEach(function (player) {
+    player.pause();
+  });
+  players.splice(0, players.length);
   if ($('.videoGuid').length > 0) {
     $('.videoGuid').each(function () {
       const player = new Plyr(this);
