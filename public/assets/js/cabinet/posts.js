@@ -1,10 +1,6 @@
 $(document).ready(function () {
-  let splide;
-  if($('.splideSlider').length > 0){
-    splide = new Splide('.splideSlider', {
-      // Настройки слайдера
-    });
-    splide.mount();
+  if($('.itemsSlider').length > 0){
+    $('.itemsSlider').slick();
   }
   $.ajaxSetup({
     headers: {

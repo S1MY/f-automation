@@ -8,7 +8,7 @@
     $links = unserialize($post->link);
 @endphp
 <div class="cardItem">
-    <div class="splideSlider">
+    <div class="itemsSlider">
         @foreach ($links as $key => $link)
             @if (rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')
             <div class="videoWrapper">

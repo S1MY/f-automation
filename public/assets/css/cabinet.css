@@ -1976,12 +1976,12 @@ a.accountInfo:hover{
 .cardEmpty svg{
     margin-bottom: 16px;
 }
-.splideSlider{
+.itemsSlider{
     width: 100%;
     max-width: 44%;
 }
-.splideSlider .imageWrapper,
-.splideSlider .videoWrapper{
+.itemsSlider .imageWrapper,
+.itemsSlider .videoWrapper{
     max-width: unset;
 }
 /* Адаптив */
