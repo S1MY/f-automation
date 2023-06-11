@@ -1126,6 +1126,8 @@ a.tableItem:hover{
     align-items: center;
 }
 .fileName{
+    max-width: calc(100% - 100px);
+    overflow: hidden;
     color: rgba(255, 255, 255, 0.8);
 }
 .myFileBtn{
