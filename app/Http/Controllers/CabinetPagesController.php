@@ -12,8 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\VkAccount;
 use App\Models\VkGroup;
+
 use App\Models\Stories;
 use App\Models\StoriesStory;
+
+use App\Models\Post;
+use App\Models\PostStory;
 
 class CabinetPagesController extends Controller
 {
@@ -62,7 +66,43 @@ class CabinetPagesController extends Controller
     public function posts(){
         $user = Auth::user();
 
-        return view('cabinet.vk.posts', compact('user'));
+        $curentPage = route('posts');
+        $VkAccounts = VkAccount::where('uid', $user->id)
+            ->get();
+        $VkGroups = VkGroup::where('uid', $user->id)
+                ->get();
+        $allPosts = Posts::join('vk_accounts', 'posts.account_id', '=', 'vk_accounts.id')
+        ->leftJoin('vk_groups', function ($join) {
+            $join->on('posts.group_id', '=', 'vk_groups.group_id')
+                ->on('posts.account_id', '=', 'vk_groups.account_id');
+        })
+        ->leftJoin('post_settings', function ($join) {
+            $join->on('posts.id', '=', 'post_settings.post_id')
+            ->where('posts.group_id', '<>', 0);
+        })
+        ->orderBy('id', 'desc')
+        ->whereIn('posts.account_id', $VkAccounts->pluck('id'))
+        ->orWhere(function ($query) use ($VkGroups) {
+            foreach ($VkGroups as $group) {
+                $query->orWhere(function ($subquery) use ($group) {
+                    $subquery->where('posts.account_id', $group->account_id)
+                        ->where(function ($q) use ($group) {
+                            $q->where('posts.group_id', $group->group_id)
+                                ->orWhere('posts.group_id', 0);
+                        });
+                });
+            }
+        })
+        ->select([
+            'posts.*',
+            'vk_accounts.name as vk_account_name',
+            'vk_groups.name as vk_group_name',
+            'post_settings.friends_only as seetings_friends_only',
+            'post_settings.close_comments as seetings_close_comments'
+        ])
+        ->paginate(1, ['*'], 'all-posts-page');
+
+        return view('cabinet.vk.posts', compact('user', 'allPosts', 'curentPage'));
     }
 
     public function stories(){

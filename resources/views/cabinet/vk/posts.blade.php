@@ -108,6 +108,40 @@
                 </div>
                 @endif
             </div>
+            <div class="pageItem">
+                <h2 class="pageTitle">Ваши посты</h2>
+                <p class="pageText _mt12">Все посты, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления</p>
+                <div class="pageTabs" data-name="classic">
+                    <p class="pageTab _active" data-tab="all">Все посты</p>
+                    @if(count(Auth::user()->VkAccount) > 0)
+                        @foreach (Auth::user()->VkAccount as $vkAccount)
+                                <p class="pageTab" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}" data-type="account-stories">{{$vkAccount->name}}</p>
+                            @foreach ($vkAccount->VkGroup as $VkGroup)
+                                <p class="pageTab" data-tab="{{$VkGroup->group_id}}" data-groupId="{{$VkGroup->group_id}}" data-action="{{route('paginate')}}" data-type="group-stories">{{$VkGroup->name}}</p>
+                            @endforeach
+                        @endforeach
+                    @endif
+                </div>
+                <div class="tabItem _active" data-tab="all">
+                    <div class="storiesAllWrapper">
+                        @include('load.all-posts-load')
+                    </div>
+                </div>
+                @if(count(Auth::user()->VkAccount) > 0)
+                    @foreach (Auth::user()->VkAccount as $vkAccount)
+                        <div class="tabItem" data-tab="{{$vkAccount->id}}" data-type="account">
+                            <div class="rowFlex">
+                            </div>
+                        </div>
+                        @foreach ($vkAccount->VkGroup as $VkGroup)
+                            <div class="tabItem" data-tab="{{$VkGroup->group_id}}" data-type="group">
+                                <div class="rowFlex">
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforeach
+                @endif
+            </div>
         </div>
         @include('cabinet.layouts.footer')
     </div>

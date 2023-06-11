@@ -66,7 +66,7 @@ class PostsController extends Controller
                 return $this->generateJsonResponse('input', 'account', 'Группа не найдена');
             }
             $accountId = $searchGroup->account_id;
-            $groupSendId = $searchGroup->group_id;
+            $groupId = $searchGroup->group_id;
         } else {
             $accountId = $validatedData['accountId'];
             $groupId = 0;
@@ -201,7 +201,7 @@ class PostsController extends Controller
             'attachments' => implode(',',$filesDB),
         ];
         if ($validatedData['accType'] == 'group') {
-            $wallPostParams['owner_id'] = '-'.$groupSendId;
+            $wallPostParams['owner_id'] = '-'.$groupId;
             $wallPostParams['from_group'] = 1;
         }else{
             $wallPostParams['owner_id'] = $accountSendId;
@@ -226,7 +226,7 @@ class PostsController extends Controller
             'post_id' => $wallPostJSON->response->post_id
         ];
         if ($validatedData['accType'] == 'group') {
-            $postPinParams['owner_id'] = '-'.$groupSendId;
+            $postPinParams['owner_id'] = '-'.$groupId;
         }else{
             $postPinParams['owner_id'] = $accountSendId;
         }
