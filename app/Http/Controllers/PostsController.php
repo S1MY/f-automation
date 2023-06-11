@@ -77,7 +77,7 @@ class PostsController extends Controller
         }
         $maxSeconds = 120;
         $postFiles = $validatedData['file'];
-        $durationItems = explode("_;_", $string);
+        $durationItems = explode("_;_", $validatedData['duration']);
         foreach ($postFiles as $postFile) {
             $fileSize = $postFile->getSize();
             if ($fileSize > 419430400) {
