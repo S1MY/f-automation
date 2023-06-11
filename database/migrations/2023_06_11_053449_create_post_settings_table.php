@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts_settings', function (Blueprint $table) {
+        Schema::create('post_settings', function (Blueprint $table) {
             $table->id();
             $table->integer('post_id')->nullable();
             $table->integer('friends_only')->default(0);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts_settings');
+        Schema::dropIfExists('post_settings');
     }
 };

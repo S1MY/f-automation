@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts_stories', function (Blueprint $table) {
+        Schema::create('post_stories', function (Blueprint $table) {
             $table->id();
             $table->integer('post_id')->nullable();
             $table->integer('post_did')->default(0);
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts_stories');
+        Schema::dropIfExists('post_stories');
     }
 };
