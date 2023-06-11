@@ -1,5 +1,5 @@
 @extends('cabinet.layouts.master')
-
+<link rel="stylesheet" href="/assets/css/splide.min.css">
 @section('title', 'Посты Вконтакте')
 
 @section('cabinet-content')
@@ -146,5 +146,6 @@
         @include('cabinet.layouts.footer')
     </div>
 </div>
+<script src="/assets/js/splide.min.js"></script>
 <script src="/assets/js/cabinet/posts.js"></script>
 @endsection

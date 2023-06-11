@@ -3,7 +3,26 @@
 @endphp
 @if (count($allPosts) > 0)
 @foreach ($allPosts as $post)
+@php
+    $attachments = unserialize($post->attachments);
+    $links = unserialize($post->link);
+@endphp
 <div class="cardItem">
+    <div class="splideSlider">
+        @foreach ($links as $key => $link)
+            @if (rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')
+            <div class="videoWrapper">
+                <video class="videoGuid" playsinline controls preload="metadata">
+                    <source src="{{$link}}" type="video/mp4"/>
+                </video>
+            </div>
+            @else
+            <div class="imageWrapper">
+                <img src="{{$link}}" alt="image">
+            </div>
+            @endif
+        @endforeach
+    </div>
     <div class="cardInformation">
         <div class="cardInformationTop">
             <h3 class="cardName">{{$post->title}}</h3>
