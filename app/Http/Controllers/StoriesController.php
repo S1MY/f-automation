@@ -180,6 +180,7 @@ class StoriesController extends Controller
             if ($sendType == 'photo') {
                 $storiesLink = $storiesJSON->response->items[0]->photo->sizes[3]->url;
             }else{
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При сохранении истории возникла ошибка F2', $storiesJSON);
                 $storiesLink = $storiesJSON->response->items[0]->video->files->mp4_720;
             }
             $storiesCreate = Stories::create([
