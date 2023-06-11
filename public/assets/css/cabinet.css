@@ -1976,6 +1976,9 @@ a.accountInfo:hover{
 .cardEmpty svg{
     margin-bottom: 16px;
 }
+.splideSlider{
+    width: 100%;
+}
 /* Адаптив */
 @media (max-width: 1480px) {
     .footer{
