@@ -26,7 +26,9 @@ class PostsController extends Controller
             'accountId' => 'required|integer',
             'file.*' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
             'duration' => 'required|string',
-            'message' => 'required|string|max:200'
+            'message' => 'required|string|max:200',
+            'closeComments' => 'integer|in:1,0',
+            'onlyFriends' => 'integer|in:1,0'
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
@@ -45,6 +47,10 @@ class PostsController extends Controller
             'message.required' => 'Обязательное поле',
             'message.string' => 'Не является строкой',
             'message.max' => 'Максимум :max символов',
+            'closeComments.integer' => 'Должно быть числом',
+            'closeComments.in' => 'Должно быть 1 или 0',
+            'onlyFriends.integer' => 'Должно быть числом',
+            'onlyFriends.in' => 'Должно быть 1 или 0'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -114,13 +120,13 @@ class PostsController extends Controller
             $fileLoadUrl = 'files/users/' . $userName . '/posts/';
             if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F1');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Ссылка для загрузки файла не получена F1');
             }
             $uploadContent = $uploadGet->getBody()->getContents();
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Ссылка для загрузки файла не получена F2');
             }
             $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
@@ -164,27 +170,95 @@ class PostsController extends Controller
                 ]);
                 if ($photoGet->getStatusCode() !== 200 || !$photoGet->getBody()) {
                     Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F3');
+                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось сохранить изображение F1');
                 }
                 $photoContent = $photoGet->getBody()->getContents();
                 $photoJSON = json_decode($photoContent);
                 if (isset($photoJSON->error)) {
                     Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F4');
+                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось сохранить изображение F2');
                 }
                 $attachments = 'photo{'.$photoJSON->response[0]->owner_id.'}_{'.$photoJSON->response[0]->id.'}';
-                $link = $photoJSON->response[0]->sizes[4]->url;
-                $fileId = $photoJSON->response[0]->id;
+                $link = $photoJSON->response[0]->sizes[3]->url;
             }else{
                 $attachments = 'video{'.$sendPostJSON->owner_id.'}_{'.$sendPostJSON->video_id.'}';
                 $link = $sendPostJSON->direct_link;
-                $fileId = $sendPostJSON->video_id;
             }
             Storage::disk('public')->delete($fileLoadUrl . $fileName);
             $linksDB[] = $link;
-            $filesDB[] = $fileId;
+            $filesDB[] = $attachments;
         }
-        return $this->generateJsonResponse('success', 'Оно сработало', 'Да');
+        $wallPostSave = new Client([
+            'base_uri' => 'https://api.vk.com',
+        ]);
+        $wallPostParams = [
+            'v' => '5.131',
+            'access_token' => $searchAccount->token,
+            'friends_only' => $validatedData['onlyFriends'],
+            'close_comments' => $validatedData['closeComments'],
+            'message' => $validatedData['message'],
+            'attachments' => implode(',',$filesDB),
+        ];
+        if ($validatedData['accType'] == 'group') {
+            $wallPostParams['owner_id'] = '-'.$groupId;
+            $wallPostParams['from_group'] = 1;
+        }else{
+            $wallPostParams['owner_id'] = $accountId;
+        }
+        $wallPostGet = $wallPostSave->request('GET', '/method/wall.post', [
+            'query' => $wallPostParams
+        ]);
+        if ($wallPostGet->getStatusCode() !== 200 || !$wallPostGet->getBody()) {
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F1');
+        }
+        $wallPostContent = $wallPostGet->getBody()->getContents();
+        $wallPostJSON = json_decode($wallPostContent);
+        if (isset($wallPostJSON->error)) {
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2');
+        }
+        $postPinClient = new Client([
+            'base_uri' => 'https://api.vk.com',
+        ]);
+        $postPinParams = [
+            'v' => '5.131',
+            'access_token' => $searchAccount->token,
+            'post_id' => $wallPostJSON->response->post_id
+        ];
+        if ($validatedData['accType'] == 'group') {
+            $postPinParams['owner_id'] = '-'.$groupId;
+        }else{
+            $postPinParams['owner_id'] = $accountId;
+        }
+        $postPinGet = $postPinClient->request('GET', '/method/wall.post', [
+            'query' => $postPinParams
+        ]);
+        if ($postPinGet->getStatusCode() !== 200 || !$postPinGet->getBody()) {
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F1');
+        }
+        $postPinContent = $postPinGet->getBody()->getContents();
+        $postPinJSON = json_decode($postPinContent);
+        if (isset($postPinJSON->error)) {
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F2');
+        }
+        $postCreate = Post::create([
+            'account_id' => $accountId,
+            'group_id' => $groupId,
+            'title' => $validatedData['name'],
+            'message' => $validatedData['message'],
+            'link' => serialize($linksDB),
+            'attachments' => serialize($filesDB),
+            'active' => 1
+        ]);
+        PostSettings::create([
+            'post_id' => $postCreate->id,
+            'friends_only' => $validatedData['onlyFriends'],
+            'close_comments' => $validatedData['closeComments'],
+        ]);
+        PostSettings::create([
+            'post_id' => $postCreate->id,
+            'post_did' => $wallPostJSON->response->post_id
+        ]);
+        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен');
     }
     private function generateJsonResponse($type, $title, $message, $errorJson = null)
     {

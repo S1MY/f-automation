@@ -121,13 +121,13 @@ class StoriesController extends Controller
             $fileLoadUrl = 'files/users/' . $userName . '/stories/';
             if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F1');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Ссылка для загрузки файла не получена F1');
             }
             $uploadContent = $uploadGet->getBody()->getContents();
             $uploadJSON = json_decode($uploadContent);
             if (isset($uploadJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F2');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Ссылка для загрузки файла не получена F2');
             }
             $fileSend = storage_path('app/public/' . $fileLoadUrl . $fileName);
             // Эта хуйня работает только с курлом ХЗ почему
@@ -168,20 +168,26 @@ class StoriesController extends Controller
             ]);
             if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F3');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При сохранении истории возникла ошибка F1');
             }
             $storiesContent = $storiesGet->getBody()->getContents();
             $storiesJSON = json_decode($storiesContent);
             if (isset($storiesJSON->error)) {
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При отправке запроса на сервер ВК произошла ошибка F4');
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'При сохранении истории возникла ошибка F2');
+            }
+            Storage::disk('public')->delete($fileLoadUrl . $fileName);
+            if ($sendType == 'photo') {
+                $storiesLink = $storiesJSON->response->items[0]->photo->sizes[3]->url;
+            }else{
+                $storiesLink = $storiesJSON->response->items[0]->video->files->mp4_720;
             }
             $storiesCreate = Stories::create([
                 'account_id' => $accountId,
                 'group_id' => $groupId,
                 'title' => $validatedData['name'],
                 'filetype' => $extension,
-                'link' => $fileLoadUrl . $fileName,
+                'link' => $storiesLink,
                 'upload_result' => $sendStoriesJSON->response->upload_result,
                 'active' => 1
             ]);
