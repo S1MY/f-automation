@@ -168,7 +168,7 @@ $(document).ready(function () {
     $(this).parent().prev().children('p').html(name);
     $(this).parent().prev().prev().val(id);
     $(this).parent().prev().children('.selectArrow').removeClass('_active');
-    if ($(this).attr('data-type') !== 'undefined') {
+    if ($(this).attr('data-type')) {
       if ($(this).attr('data-type') == 'group') {
         if ($('.tabPageGroup').length > 0) {
           $('.tabPageGroup').css({ "display": "flex" });
