@@ -1994,6 +1994,7 @@ a.accountInfo:hover{
     box-shadow: 0px 0px 8px rgb(16 16 16 / 45%);
     transition: all 0.4s;
     z-index: 1;
+    cursor: pointer;
 }
 .slick-disabled{
     opacity: 0.75;
@@ -2005,6 +2006,9 @@ a.accountInfo:hover{
 }
 .sliderArrow:hover{
     background: #FF5437;
+}
+.sliderArrow:hover path{
+    fill: #FFFFFF;
 }
 /* Адаптив */
 @media (max-width: 1480px) {
