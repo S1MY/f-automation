@@ -179,10 +179,10 @@ class PostsController extends Controller
                     Storage::disk('public')->delete($fileLoadUrl . $fileName);
                     return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось сохранить изображение F2');
                 }
-                $attachments = 'photo{'.$photoJSON->response[0]->owner_id.'}_{'.$photoJSON->response[0]->id.'}';
+                $attachments = 'photo'.$photoJSON->response[0]->owner_id.'_'.$photoJSON->response[0]->id;
                 $link = $photoJSON->response[0]->sizes[3]->url;
             }else{
-                $attachments = 'video{'.$sendPostJSON->owner_id.'}_{'.$sendPostJSON->video_id.'}';
+                $attachments = 'video'.$sendPostJSON->owner_id.'_'.$sendPostJSON->video_id;
                 $link = $sendPostJSON->direct_link;
             }
             Storage::disk('public')->delete($fileLoadUrl . $fileName);
