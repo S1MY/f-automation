@@ -130,7 +130,9 @@ $(document).ready(function () {
                         $('.offerLoadWrapper').html(response.responseText);
                     } else if (cuurentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storiesAllWrapper').html(response.responseText);
-                    } else {
+                    }else if (cuurentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                        $('.postsAllWrapper').html(response.responseText);
+                    }else {
                         if(accountId > 0){
                             $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
                         }else if(groupId > 0){
