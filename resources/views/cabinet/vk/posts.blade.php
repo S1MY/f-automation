@@ -63,7 +63,7 @@
                                     <p class="fileName">Файл не выбран</p>
                                     <div class="myFileBtn">
                                         <span>Обзор...</span>
-                                        <input type="file" name="file" id="file" class="hidden" accept="image/jpeg, video/mp4, video/avi, image/png">
+                                        <input type="file" name="file" id="file" class="hidden" accept="image/jpeg, video/mp4, video/avi, image/png" multiple>
                                     </div>
                                 </div>
                                 <p class="fileText">

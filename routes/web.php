@@ -90,7 +90,7 @@ Route::post('/vk-stories-create', [StoriesController::class, 'storiesCreate'])->
 Route::post('/vk-stories-remove', [StoriesController::class, 'storiesRemove'])->name('storiesRemove');
 Route::post('/vk-stories-activator', [StoriesController::class, 'storiesActivator'])->name('storiesActivator');
 
-Route::post('/vk-post-create', [VkPostsController::class, 'postCreate'])->name('postCreate');
+Route::post('/vk-post-create', [PostsController::class, 'postCreate'])->name('postCreate');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');
