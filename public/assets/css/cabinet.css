@@ -1980,7 +1980,8 @@ a.accountInfo:hover{
     width: 100%;
     max-width: 44%;
 }
-.splideSlider .imageWrapper{
+.splideSlider .imageWrapper,
+.splideSlider .videoWrapper{
     max-width: unset;
 }
 /* Адаптив */
