@@ -3,7 +3,7 @@
 @endphp
 @if (count($allPosts) > 0)
 @foreach ($allPosts as $post)
-{{@dd($post)}}
+{{ var_dump($post) }}
 @endforeach
 @else
 <div class="cardEmpty">
