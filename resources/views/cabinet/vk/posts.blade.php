@@ -115,15 +115,15 @@
                     <p class="pageTab _active" data-tab="all">Все посты</p>
                     @if(count(Auth::user()->VkAccount) > 0)
                         @foreach (Auth::user()->VkAccount as $vkAccount)
-                                <p class="pageTab" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}" data-type="account-stories">{{$vkAccount->name}}</p>
+                                <p class="pageTab" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}" data-type="account-posts">{{$vkAccount->name}}</p>
                             @foreach ($vkAccount->VkGroup as $VkGroup)
-                                <p class="pageTab" data-tab="{{$VkGroup->group_id}}" data-groupId="{{$VkGroup->group_id}}" data-action="{{route('paginate')}}" data-type="group-stories">{{$VkGroup->name}}</p>
+                                <p class="pageTab" data-tab="{{$VkGroup->group_id}}" data-groupId="{{$VkGroup->group_id}}" data-action="{{route('paginate')}}" data-type="group-posts">{{$VkGroup->name}}</p>
                             @endforeach
                         @endforeach
                     @endif
                 </div>
                 <div class="tabItem _active" data-tab="all">
-                    <div class="storiesAllWrapper">
+                    <div class="postsAllWrapper">
                         @include('load.all-posts-load')
                     </div>
                 </div>

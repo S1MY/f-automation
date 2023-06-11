@@ -164,6 +164,7 @@ class PaginateController extends Controller
                 ->paginate(1, ['*'], 'stories-info-page', $page_num);
                 $curentPage = route('stories', ['myPageId' => $myPageId]);
                 return view('load.stories-info-load', compact('stories', 'storiesInfo', 'curentPage'));
+                break;
             case 'all-posts':
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
                     ->get();
@@ -174,10 +175,7 @@ class PaginateController extends Controller
                     $join->on('posts.group_id', '=', 'vk_groups.group_id')
                         ->on('posts.account_id', '=', 'vk_groups.account_id');
                 })
-                ->leftJoin('post_settings', function ($join) {
-                    $join->on('posts.id', '=', 'post_settings.post_id')
-                    ->where('posts.group_id', '<>', 0);
-                })
+                ->leftJoin('post_settings', 'posts.id', '=', 'post_settings.post_id')
                 ->orderBy('id', 'desc')
                 ->whereIn('posts.account_id', $VkAccounts->pluck('id'))
                 ->orWhere(function ($query) use ($VkGroups) {
@@ -200,8 +198,47 @@ class PaginateController extends Controller
                 ])
                 ->paginate(1, ['*'], 'all-posts-page', $page_num);
 
-            $curentPage = route('stories');
-            return view('load.all-posts-load', compact('allPosts', 'curentPage'));
+                $curentPage = route('posts');
+                return view('load.all-posts-load', compact('allPosts', 'curentPage'));
+                break;
+            case 'account-posts':
+                $VkAccounts = VkAccount::where('id', $accountId)
+                    ->get();
+                $allPosts = Post::join('vk_accounts', 'posts.account_id', '=', 'vk_accounts.id')
+                ->leftJoin('post_settings', 'posts.id', '=', 'post_settings.post_id')
+                ->orderBy('id', 'desc')
+                    ->where('posts.account_id', '=', $VkAccounts->pluck('id'))
+                    ->where('posts.group_id', '=', 0)
+                    ->select([
+                        'posts.*',
+                        'vk_accounts.name as vk_account_name',
+                        'post_settings.friends_only as seetings_friends_only',
+                        'post_settings.close_comments as seetings_close_comments'
+                    ])
+                    ->paginate(1, ['*'], 'account-posts-page', $page_num);
+                $curentPage = route('posts');
+                return view('load.all-posts-load', compact('allPosts', 'curentPage'));
+
+                break;
+            case 'group-posts':
+                $VkGroups = VkGroup::where('group_id', $groupId)
+                    ->get();
+                $allPosts = Post::join('vk_groups', 'posts.group_id', '=', 'vk_groups.group_id')
+                    ->leftJoin('post_settings', 'posts.id', '=', 'post_settings.post_id')
+                    ->orderBy('id', 'desc')
+                    ->where('posts.account_id', '=', $VkGroups->pluck('account_id'))
+                    ->where('posts.group_id', '=', $VkGroups->pluck('group_id'))
+                    ->select([
+                        'posts.*',
+                        'vk_groups.name as vk_group_name',
+                        'post_settings.friends_only as seetings_friends_only',
+                        'post_settings.close_comments as seetings_close_comments'
+                    ])
+                    ->paginate(1, ['*'], 'group-posts-page', $page_num);
+                $curentPage = route('posts');
+                return view('load.all-posts-load', compact('allPosts', 'curentPage'));
+
+                break;
             default:
 
                 return response()->json([

@@ -93,6 +93,9 @@ $(document).ready(function () {
           if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${itemId}]`)) {
             $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
           }
+          if (window.location.pathname == '/cabinet/vk/posts' && $(`.pageTab[data-accountId=${itemId}]`)) {
+            $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
+          }
           playerSearch()
         }
       });
