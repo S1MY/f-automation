@@ -20,6 +20,7 @@ $(document).ready(function () {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  sliderSearch()
   playerSearch()
   // Бургер
   $('.burgerButton').click(function (e) {
@@ -96,6 +97,7 @@ $(document).ready(function () {
           if (window.location.pathname == '/cabinet/vk/posts' && $(`.pageTab[data-accountId=${itemId}]`)) {
             $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
           }
+          sliderSearch()
           playerSearch()
         }
       });
