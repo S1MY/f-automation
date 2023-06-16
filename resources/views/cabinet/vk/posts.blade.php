@@ -17,7 +17,7 @@
                         </svg>
                     </div>
                 </h1>
-                <p class="pageText _mt12">Созданный пост что-то делает</p>
+                <p class="pageText _mt12">Созданный пост обновляется в соответствии с указанными настройками. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
                 @if(count(Auth::user()->VkAccount) > 0)
                 <div class="tabPageItem">
                     <form class="tabPageForm" action="{{ route('postCreate') }}" enctype='multipart/form-data'>
