@@ -251,6 +251,23 @@ class PaginateController extends Controller
                 return view('load.all-posts-load', compact('allPosts', 'curentPage'));
 
                 break;
+            case 'posts-info':
+                $post = Post::find($myPageId);
+                $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
+                ->orderBy('id', 'desc')
+                ->select([
+                    'post_stories.*',
+                    'post_settings.friends_only as friends_only',
+                    'post_settings.close_comments as close_comments',
+                    'post_settings.type as type',
+                    'post_settings.interval as interval',
+                    'post_settings.date as date',
+                    'post_settings.daily as daily'
+                ])
+                ->paginate(1, ['*'], 'posts-info-page', $page_num);
+                $curentPage = route('posts', ['myPageId' => $myPageId]);
+                return view('cabinet.stories-info-load', compact('post', 'postInfo', 'curentPage'));
+                break;
             default:
 
                 return response()->json([
