@@ -20,7 +20,8 @@
         $postDate->hour = $postDate->hour + ($post->interval / 60);
         $nextStart = $postDate->format('H:i d.m.Y');
     }elseif ($post->type === 'date') {
-        $nextStart = Carbon::createFromFormat('H:i d.m.Y', $post->date, 'Europe/Moscow');
+        $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->date, 'Europe/Moscow');
+        $nextStart = $postDate->format('H:i d.m.Y');
     }
 @endphp
 <div class="cardItem">
