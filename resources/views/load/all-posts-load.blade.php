@@ -7,8 +7,7 @@
     $attachments = unserialize($post->attachments);
     $links = unserialize($post->link);
     $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow');
-    $nextStart = null;
-    if($post->link === 'daily'){
+    if($post->type === 'daily'){
         if ($postDate->hour >= $post->daily) {
             $postDate = $postDate->addDay();
             $postDate->hour = $post->daily;
@@ -18,10 +17,10 @@
             $postDate->hour = $post->daily;
         }
         $nextStart = $postDate->format('d.m.Y H:i:s');
-    }elseif ($post->link === 'interval') {
+    }elseif ($post->type === 'interval') {
         $postDate->hour = $postDate->hour + ($post->interval / 60);
         $nextStart = $postDate->format('d.m.Y H:i:s');
-    }elseif ($post->link === 'date') {
+    }elseif ($post->type === 'date') {
         $nextStart = Carbon::createFromFormat('Y-m-d H:i:s', $post->date, 'Europe/Moscow');
     }
 @endphp
