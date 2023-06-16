@@ -1,4 +1,4 @@
 
-@foreach ($postsInfo as $post)
+@foreach ($postInfo as $post)
 {{$post->id}}
 @endforeach
