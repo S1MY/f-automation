@@ -15,12 +15,12 @@
         }else{
             $postDate->hour = $post->daily;
         }
-        $nextStart = $postDate->format('H:i:s d.m.Y');
+        $nextStart = $postDate->format('H:i d.m.Y');
     }elseif ($post->type === 'interval') {
         $postDate->hour = $postDate->hour + ($post->interval / 60);
-        $nextStart = $postDate->format('H:i:s d.m.Y');
+        $nextStart = $postDate->format('H:i d.m.Y');
     }elseif ($post->type === 'date') {
-        $nextStart = Carbon::createFromFormat('H:i:s d.m.Y', $post->date, 'Europe/Moscow');
+        $nextStart = Carbon::createFromFormat('H:i d.m.Y', $post->date, 'Europe/Moscow');
     }
 @endphp
 <div class="cardItem">
