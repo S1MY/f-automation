@@ -91,6 +91,8 @@ Route::post('/vk-stories-remove', [StoriesController::class, 'storiesRemove'])->
 Route::post('/vk-stories-activator', [StoriesController::class, 'storiesActivator'])->name('storiesActivator');
 
 Route::post('/vk-post-create', [PostsController::class, 'postCreate'])->name('postCreate');
+Route::post('/vk-post-remove', [PostsController::class, 'postRemove'])->name('postRemove');
+Route::post('/vk-post-activator', [PostsController::class, 'postActivator'])->name('postActivator');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

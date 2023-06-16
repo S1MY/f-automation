@@ -261,6 +261,147 @@ class PostsController extends Controller
         ]);
         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен');
     }
+    public function postRemove(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $removeId = $request->removeId;
+        if (is_numeric($removeId)) {
+            $searchPost = Post::where('id', '=', $removeId)
+                ->first();
+            $searchAccount = VkAccount::where('id', '=', $searchPost->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    $ownerId = preg_replace('/[^0-9]/', '', $searchAccount->link);
+                    if ($searchPost) {
+                        if($searchPost->group_id > 0){
+                            $ownerId = '-'.$searchPost->group_id;
+                        }
+                        PostSettings::where('post_id', '=', $removeId)->delete();
+                        $attachments = unserialize($searchPost->attachments);
+                        $links = unserialize($searchPost->link);
+                        $searchPostStory = PostStory::where('post_id', '=', $removeId)->get();
+                        foreach ($searchPostStory as $post) {
+                            $postRemoveClient = new Client([
+                                'base_uri' => 'https://api.vk.com',
+                            ]);
+                            $postRemoveParams = [
+                                'v' => '5.131',
+                                'access_token' => $searchAccount->token,
+                                'owner_id' => $ownerId,
+                                'post_id' => $searchPostStory->post_did
+                            ];
+                    
+                            $postRemoveGet = $postRemoveClient->request('GET', '/method/wall.delete', [
+                                'query' => $postRemoveParams
+                            ]);
+                    
+                            if ($postRemoveGet->getStatusCode() !== 200 || !$postRemoveGet->getBody()) {
+                                return;
+                            }
+                            $postRemoveContent = $postRemoveGet->getBody()->getContents();
+                            $postRemoveJSON = json_decode($postRemoveContent);
+                            if (isset($postRemoveJSON->error)) {
+                                return;
+                            }
+                        }
+                        foreach ($links as $key => $link) {
+                            $itemId = explode("_", $attachments[$key])[1];
+                            if((rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')){
+                                Storage::delete($link);
+                                $videoRemoveClient = new Client([
+                                    'base_uri' => 'https://api.vk.com',
+                                ]);
+                                $videoRemoveParams = [
+                                    'v' => '5.131',
+                                    'access_token' => $searchAccount->token,
+                                    'owner_id' => preg_replace('/[^0-9]/', '', $searchAccount->link),
+                                    'video_id' => $itemId,
+                                    'target_id' => preg_replace('/[^0-9]/', '', $searchAccount->link)
+                                ];
+                        
+                                $videoRemoveGet = $videoRemoveClient->request('GET', '/method/video.delete', [
+                                    'query' => $videoRemoveParams
+                                ]);
+                        
+                                if ($videoRemoveGet->getStatusCode() !== 200 || !$videoRemoveGet->getBody()) {
+                                    return;
+                                }
+                                $videoRemoveContent = $videoRemoveGet->getBody()->getContents();
+                                $videoRemoveJSON = json_decode($videoRemoveContent);
+                                if (isset($videoRemoveJSON->error)) {
+                                    return;
+                                }
+                            }else{
+                                $photoRemoveClient = new Client([
+                                    'base_uri' => 'https://api.vk.com',
+                                ]);
+                                $photoRemoveParams = [
+                                    'v' => '5.131',
+                                    'access_token' => $searchAccount->token,
+                                    'owner_id' => preg_replace('/[^0-9]/', '', $searchAccount->link),
+                                    'photo_id' => $itemId
+                                ];
+                        
+                                $photoRemoveGet = $photoRemoveClient->request('GET', '/method/photos.delete', [
+                                    'query' => $photoRemoveParams
+                                ]);
+                        
+                                if ($photoRemoveGet->getStatusCode() !== 200 || !$photoRemoveGet->getBody()) {
+                                    return;
+                                }
+                                $photoRemoveContent = $photoRemoveGet->getBody()->getContents();
+                                $photoRemoveJSON = json_decode($photoRemoveContent);
+                                if (isset($photoRemoveJSON->error)) {
+                                    return;
+                                }
+                            }
+                        }
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный пост не найден');
+                    }  
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный пост вам не принадлежит');
+                } 
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Не найден родительский аккаунт');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле removeId');
+        }
+    }
+    public function postActivator(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $autoStart = $request->autoStart;
+        if (is_numeric($autoStart)) {
+            $searchPost = Post::where('id', '=', $autoStart)
+                ->first();
+            $searchAccount = VkAccount::where('id', '=', $searchPost->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchPost) {
+                        $newActive = ($searchPost->active == 1) ? 0 : 1;
+                        $searchPost->active = $newActive;
+                        $searchPost->save();
+                        if($newActive == 1){
+                            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Пост будет выложен через минуту');
+                        }else{
+                            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск выключен. Пост не будет выкладываться');
+                        }
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данный пост не найден');
+                    }
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данный пост вам не принадлежит');
+                }
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Не найден родительский аккаунт');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
+        }
+    }
     private function generateJsonResponse($type, $title, $message, $errorJson = null)
     {
         return response()->json([
