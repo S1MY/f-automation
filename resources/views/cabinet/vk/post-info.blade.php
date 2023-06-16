@@ -11,6 +11,7 @@
             <div class="pageItems">
                 <div class="pageItem">
                     <h2 class="pageTitle">{{ $post->title}}</h2>
+                    <p class="pageText _mt12">Информация о постах обновляется раз в час (9:00, 10:00, 11:00), либо перед удалением если это вариант автопостинга</p>
                     <div class="streamStory">
                         @include('load.posts-info-load')
                     </div>
