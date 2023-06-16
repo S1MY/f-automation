@@ -7,8 +7,7 @@
     $attachments = unserialize($post->attachments);
     $links = unserialize($post->link);
     $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow');
-    $nextStart = null;
-    echo $post->type;
+    $nextStart = $post->type;
     if($post->type === 'daily'){
         if ($postDate->hour >= $post->daily) {
             $postDate = $postDate->addDay();
