@@ -62,7 +62,7 @@
                 <a href="{{ route('streams') }}" class="sidebarLink{{ request()->is('cabinet/vk/stream*') ? ' _active' : null }}">
                     <span>Трансляции</span>
                 </a>
-                <a href="{{ route('posts') }}" class="sidebarLink{{ request()->is('cabinet/vk/posts') ? ' _active' : null }}">
+                <a href="{{ route('posts') }}" class="sidebarLink{{ request()->is('cabinet/vk/posts*') ? ' _active' : null }}">
                     <span>Посты</span>
                 </a>
                 <a href="{{ route('stories') }}" class="sidebarLink{{ request()->is('cabinet/vk/stories*') ? ' _active' : null }}">
