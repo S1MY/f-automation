@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use CURLFile;
+use DateTime;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\VkAccount;
@@ -28,7 +29,13 @@ class PostsController extends Controller
             'duration' => 'required|string',
             'message' => 'required|string|max:200',
             'closeComments' => 'integer|in:1,0',
-            'onlyFriends' => 'integer|in:1,0'
+            'onlyFriends' => 'integer|in:1,0',
+            'removeOld' => 'integer|in:1,0',
+            'pinNew' => 'integer|in:1,0',
+            'type' => 'required|string|in:interval,date,daily',
+            'interval' => 'integer|in:0,60,120,240,360,480',
+            'daily' => 'integer|in:0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
+            'date' => 'string'
         ];
         $messages = [
             'name.required' => 'Обязательное поле',
@@ -50,7 +57,19 @@ class PostsController extends Controller
             'closeComments.integer' => 'Должно быть числом',
             'closeComments.in' => 'Должно быть 1 или 0',
             'onlyFriends.integer' => 'Должно быть числом',
-            'onlyFriends.in' => 'Должно быть 1 или 0'
+            'onlyFriends.in' => 'Должно быть 1 или 0',
+            'removeOld.integer' => 'Должно быть числом',
+            'removeOld.in' => 'Должно быть 1 или 0',
+            'pinNew.integer' => 'Должно быть числом',
+            'pinNew.in' => 'Должно быть 1 или 0',
+            'type.required' => 'Должно быть числом',
+            'type.string' => 'Должно быть строкой',
+            'type.in' => 'Неизвестный тип операции',
+            'interval.integer' => 'Интервал должен быть числом',
+            'interval.in' => 'Неизвестный тип интервала',
+            'daily.integer' => 'Ежедневный выбор не число',
+            'daily.in' => 'Должно быть числом от 0 до 23',
+            'date.string' => 'Дата имеет некорректный формат',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -75,6 +94,14 @@ class PostsController extends Controller
         $accountSendId = preg_replace('/[^0-9]/', '', $searchAccount->link);
         if (!$searchAccount) {
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
+        }
+        if($validatedData['type'] === 'date'){
+            if (DateTime::createFromFormat('d-m-Y H:i', $validatedData['date']) === false) {
+                return $this->generateJsonResponse('input', 'tabs', 'Неверная дата');
+            }
+            if(DateTime::createFromFormat('d-m-Y H:i', $validatedData['date']) <= new DateTime()){
+                return $this->generateJsonResponse('input', 'tabs', 'Дата и время меньше текущих');
+            }
         }
         $maxSeconds = 120;
         $postFiles = $validatedData['file'];
@@ -250,11 +277,24 @@ class PostsController extends Controller
             'attachments' => serialize($filesDB),
             'active' => 1
         ]);
-        PostSettings::create([
+        $settingsData = [
             'post_id' => $postCreate->id,
             'friends_only' => $validatedData['onlyFriends'],
             'close_comments' => $validatedData['closeComments'],
-        ]);
+        ];
+        if ($type === 'date') {
+            $settingsData['type'] = 'date';
+            $timestamp = strtotime($validatedData['date']);
+            $timestampDate = date('Y-m-d H:i:s', $timestamp);
+            $settingsData['date'] = $timestampDate;
+        } elseif ($type === 'interval') {
+            $settingsData['type'] = 'interval';
+            $settingsData['interval'] = $validatedData['interval'];
+        }else{
+            $settingsData['type'] = 'daily';
+            $settingsData['daily'] = $validatedData['daily'];
+        }
+        PostSettings::create($settingsData);
         PostStory::create([
             'post_id' => $postCreate->id,
             'post_did' => $wallPostJSON->response->post_id

@@ -119,6 +119,21 @@ $(document).ready(function () {
       if (!$('input[name="onlyFriends"]').is(':checked')) {
         formData.append('onlyFriends', 0);
       }
+      if (!$('input[name="removeOld"]').is(':checked')) {
+        formData.append('removeOld', 0);
+      }
+      if (!$('input[name="pinNew"]').is(':checked')) {
+        formData.append('pinNew', 0);
+      }
+      if (!$('input[name="interval"]').val() === '') {
+        formData.append('interval', 0);
+      }
+      if (!$('input[name="daily"]').val() === '') {
+        formData.append('daily', 0);
+      }
+      if (!$('input[name="date"]').val() === '') {
+        formData.append('date', 'Пустое');
+      }
       for (let i = 0; i < document.getElementById("file").files.length; i++) {
         const file = document.getElementById("file").files[i]
         formData.append(`file[${i}]`, file);
@@ -150,6 +165,14 @@ $(document).ready(function () {
               inputName = 'account'
             } else if (response.title == 'duration') {
               inputName = 'file'
+            } else if (response.title == 'type') {
+              inputName = 'tabs'
+            }else if (response.title == 'interval') {
+              inputName = 'tabs'
+            }else if (response.title == 'daily') {
+              inputName = 'tabs'
+            }else if (response.title == 'date') {
+              inputName = 'tabs'
             }
             $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
             $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);

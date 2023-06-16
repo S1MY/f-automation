@@ -122,7 +122,7 @@
                         <div class="tabPageInput _full" data-name="message">
                             <textarea name="message" class="formInput" placeholder="Сообщение вашего поста"></textarea>
                         </div>
-                        <div class="tabPageInput">
+                        <div class="tabPageInput" data-name="removeOld">
                             <div class="customCheck">
                                 <span>Удалять старые:</span>
                                 <input type="checkbox" class="checkInput" name="removeOld" value="1">
@@ -133,7 +133,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="tabPageInput">
+                        <div class="tabPageInput" data-name="pinNew">
                             <div class="customCheck">
                                 <span>Закреплять новые:</span>
                                 <input type="checkbox" class="checkInput" name="pinNew" value="1">
@@ -144,7 +144,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="tabPageInput">
+                        <div class="tabPageInput" data-name="closeComments">
                             <div class="customCheck">
                                 <span>Закрыть комментарии:</span>
                                 <input type="checkbox" class="checkInput" name="closeComments" value="1">
@@ -155,7 +155,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="tabPageInput">
+                        <div class="tabPageInput" data-name="onlyFriends">
                             <div class="customCheck">
                                 <span>Только для друзей:</span>
                                 <input type="checkbox" class="checkInput" name="onlyFriends" value="1">
