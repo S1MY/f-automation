@@ -104,6 +104,25 @@ class CabinetPagesController extends Controller
 
         return view('cabinet.vk.posts', compact('user', 'allPosts', 'curentPage'));
     }
+    public function postsInfo($myPageId){
+        $user = Auth::user();
+        $curentPage = route('posts', ['myPageId' => $myPageId]);
+        $post = Post::find($myPageId);
+        $VkAccount = VkAccount::where('uid', $user->id)->where('id', $post->account_id)->get();
+        $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
+        ->orderBy('id', 'desc')
+        ->select([
+            'post_stories.*',
+            'post_settings.friends_only as friends_only',
+            'post_settings.close_comments as close_comments'
+        ])
+        ->paginate(1, ['*'], 'posts-info-page');
+        if(count($VkAccount) == 1){
+            return view('cabinet.vk.posts-info', compact('user', 'posts', 'postsInfo', 'curentPage'));
+        }else{
+            return view('cabinet.home', compact('user'));
+        }
+    }
 
     public function stories(){
         $user = Auth::user();

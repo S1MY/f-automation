@@ -44,7 +44,10 @@ Route::group(['prefix' => 'cabinet', 'middleware' => ['auth', 'confirmed']], fun
         Route::get('/streams', [CabinetPagesController::class, 'streams'])->name('streams');
         Route::get('/stream-info', [CabinetPagesController::class, 'streamInfo'])->name('streamInfo');
         Route::get('/stream-comments', [CabinetPagesController::class, 'streamComments'])->name('streamComments');
-        Route::get('/posts', [CabinetPagesController::class, 'posts'])->name('posts');
+        Route::prefix('/posts')->group(function () {
+            Route::get('/', [CabinetPagesController::class, 'posts'])->name('posts');
+            Route::get('/{myPageId}', [CabinetPagesController::class, 'postsInfo'])->name('postsInfo');
+        });
         Route::prefix('/stories')->group(function () {
             Route::get('/', [CabinetPagesController::class, 'stories'])->name('stories');
             Route::get('/{myPageId}', [CabinetPagesController::class, 'storiesInfo'])->name('storiesInfo');
