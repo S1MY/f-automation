@@ -4,6 +4,16 @@ $(document).ready(function () {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  // Типы поста
+  $(".streamType").click(function (e) {
+    e.preventDefault();
+    $(".streamType").removeClass("_active");
+    $(this).addClass("_active");
+    let type = $(this).attr("data-type");
+    $('input[name="type"]').val(type);
+    $("._type").removeClass("_active");
+    $(`._type[data-type=${type}]`).addClass("_active");
+  });
   // Загрузка и статус файла
   let detector = false;
   let video = document.createElement("video");

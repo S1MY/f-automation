@@ -212,5 +212,6 @@
         @include('cabinet.layouts.footer')
     </div>
 </div>
+<script src="/assets/js/cabinet/datapicker.js"></script>
 <script src="/assets/js/cabinet/posts.js"></script>
 @endsection

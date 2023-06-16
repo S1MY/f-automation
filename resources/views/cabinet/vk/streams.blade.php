@@ -269,7 +269,7 @@
                             <div class="cardItem">
                                 <div class="videoWrapper">
                                     <video controls class="videoGuid" data-index="0" preload="metadata">
-                                    <source src="/files/test/streams/321.mp4" type="video/mp4"></source>
+                                    <source src="/files/test/streams/321.mp4" type="video/mp4"/>
                                     </video>
                                     <div class="videoContoller">
                                     <p class="togglePlay">
@@ -345,7 +345,7 @@
                             <div class="cardItem">
                                 <div class="videoWrapper">
                                     <video controls class="videoGuid" data-index="0" preload="metadata">
-                                    <source src="/files/test/streams/321.mp4" type="video/mp4"></source>
+                                    <source src="/files/test/streams/321.mp4" type="video/mp4"/>
                                     </video>
                                     <div class="videoContoller">
                                     <p class="togglePlay">
@@ -421,7 +421,7 @@
                             <div class="cardItem">
                                 <div class="videoWrapper">
                                     <video controls class="videoGuid" data-index="0" preload="metadata">
-                                    <source src="/files/test/streams/321.mp4" type="video/mp4"></source>
+                                    <source src="/files/test/streams/321.mp4" type="video/mp4"/>
                                     </video>
                                     <div class="videoContoller">
                                     <p class="togglePlay">
