@@ -194,7 +194,11 @@ class PaginateController extends Controller
                     'vk_accounts.name as vk_account_name',
                     'vk_groups.name as vk_group_name',
                     'post_settings.friends_only as seetings_friends_only',
-                    'post_settings.close_comments as seetings_close_comments'
+                    'post_settings.close_comments as seetings_close_comments',
+                    'post_settings.type as type',
+                    'post_settings.interval as interval',
+                    'post_settings.date as date',
+                    'post_settings.daily as daily'
                 ])
                 ->paginate(1, ['*'], 'all-posts-page', $page_num);
 
@@ -213,7 +217,11 @@ class PaginateController extends Controller
                         'posts.*',
                         'vk_accounts.name as vk_account_name',
                         'post_settings.friends_only as seetings_friends_only',
-                        'post_settings.close_comments as seetings_close_comments'
+                        'post_settings.close_comments as seetings_close_comments',
+                        'post_settings.type as type',
+                        'post_settings.interval as interval',
+                        'post_settings.date as date',
+                        'post_settings.daily as daily'
                     ])
                     ->paginate(1, ['*'], 'account-posts-page', $page_num);
                 $curentPage = route('posts');
@@ -232,7 +240,11 @@ class PaginateController extends Controller
                         'posts.*',
                         'vk_groups.name as vk_group_name',
                         'post_settings.friends_only as seetings_friends_only',
-                        'post_settings.close_comments as seetings_close_comments'
+                        'post_settings.close_comments as seetings_close_comments',
+                        'post_settings.type as type',
+                        'post_settings.interval as interval',
+                        'post_settings.date as date',
+                        'post_settings.daily as daily'
                     ])
                     ->paginate(1, ['*'], 'group-posts-page', $page_num);
                 $curentPage = route('posts');

@@ -114,7 +114,11 @@ class CabinetPagesController extends Controller
         ->select([
             'post_stories.*',
             'post_settings.friends_only as friends_only',
-            'post_settings.close_comments as close_comments'
+            'post_settings.close_comments as close_comments',
+            'post_settings.type as type',
+            'post_settings.interval as interval',
+            'post_settings.date as date',
+            'post_settings.daily as daily'
         ])
         ->paginate(1, ['*'], 'posts-info-page');
         if(count($VkAccount) == 1){

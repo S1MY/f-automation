@@ -6,6 +6,23 @@
 @php
     $attachments = unserialize($post->attachments);
     $links = unserialize($post->link);
+    $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow');
+    if($post->link === 'daily'){
+        if ($postDate->hour >= $post->daily) {
+            $postDate = $postDate->addDay();
+            $postDate->hour = $post->daily;
+            $postDate->minute = 0;
+            $postDate->second = 0;
+        }else{
+            $postDate->hour = $post->daily;
+        }
+        $nextStart = $postDate->format('d.m.Y H:i:s');
+    }elseif ($post->link === 'interval') {
+        $postDate->hour = $postDate->hour + ($post->interval / 60);
+        $nextStart = $postDate->format('d.m.Y H:i:s');
+    }elseif ($post->link === 'date') {
+        $nextStart = Carbon::createFromFormat('Y-m-d H:i:s', $post->date, 'Europe/Moscow');
+    }
 @endphp
 <div class="cardItem">
     <div class="itemsSlider">
@@ -38,7 +55,7 @@
             <p class="cardLine">Автозапуск: <span>Активен</span></p>
             <p class="cardLine">Только для друзей: <span>{{($post->seetings_friends_only) ? 'Да' : 'Нет'}}</span></p>
                 <p class="cardLine">Скрытые комментарии: <span>{{($post->seetings_close_comments) ? 'Да' : 'Нет'}}</span></p>
-            <p class="cardLine _nextStart">Следущий запуск: <span>в 123123 (МСК)</span></p>
+            <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
         </div>
         <div class="cardControls">
             @if ($post->active == 1)
