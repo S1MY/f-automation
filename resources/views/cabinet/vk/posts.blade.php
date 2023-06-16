@@ -52,6 +52,73 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="streamTypes">
+                            <input type="hidden" name="type" value="interval">
+                            <p class="streamType _active" aria-label="Тип 1:" data-type="interval">Интервал</p>
+                            <p class="streamType" aria-label="Тип 2:" data-type="date">Дата</p>
+                            <p class="streamType" aria-label="Тип 3:" data-type="daily">Ежедневно</p>
+                        </div>
+                        <div class="tabPageInput" data-name="tabs">
+                            <div class="streamTabs">
+                                <div class="formSelect _type _active" data-type="interval">
+                                    <input type="hidden" name="interval" value="">
+                                    <div class="selectHeader">
+                                        <p>Интервал повтора</p>
+                                        <svg class="selectArrow" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.8894 4.17936L7.99929 10.5553L1.10916 4.17936C0.986054 4.06521 0.820797 4.00131 0.648713 4.00131C0.476628 4.00131 0.311372 4.06521 0.188268 4.17936C0.128661 4.2348 0.0813067 4.30098 0.0489791 4.37401C0.0166514 4.44704 0 4.52546 0 4.60468C0 4.6839 0.0166514 4.76232 0.0489791 4.83536C0.0813067 4.90839 0.128661 4.97456 0.188268 5.03L7.51817 11.8142C7.64689 11.9333 7.81954 12 7.99929 12C8.17905 12 8.3517 11.9333 8.48042 11.8142L15.8103 5.03131C15.8703 4.97583 15.9181 4.90949 15.9506 4.83622C15.9832 4.76294 16 4.68422 16 4.60468C16 4.52515 15.9832 4.44642 15.9506 4.37314C15.9181 4.29987 15.8703 4.23353 15.8103 4.17805C15.6872 4.0639 15.522 4 15.3499 4C15.1778 4 15.0125 4.0639 14.8894 4.17805V4.17936Z" fill="white"/>
+                                        </svg>
+                                    </div>
+                                    <div class="selectFlow">
+                                        <p class="selectItem" data-id="60"><span class="_name">Раз в 1 час</span><span class="_r">Не желательно</span></p>
+                                        <p class="selectItem" data-id="120"><span class="_name">Раз в 2 часа</span><span class="_b">Оптимально</span></p>
+                                        <p class="selectItem" data-id="240"><span class="_name">Раз в 4 часа</span><span class="_g">То что нужно</span></p>
+                                        <p class="selectItem" data-id="360"><span class="_name">Раз в 6 часов</span><span class="_g">То что нужно</span></p>
+                                        <p class="selectItem" data-id="480"><span class="_name">Раз в 8 часов</span><span class="_g">То что нужно</span></p>
+                                    </div>
+                                </div>
+                                <div class="dataPicker _type" data-type="date">
+                                    <input type="hidden" name="date" value="">
+                                    <p class="dataPickerText">
+                                        Выберите дату и время
+                                    </p>
+                                </div>
+                                <div class="formSelect _type" data-type="daily">
+                                    <input type="hidden" name="daily" value="">
+                                    <div class="selectHeader">
+                                        <p>Ежедневный интервал</p>
+                                        <svg class="selectArrow" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.8894 4.17936L7.99929 10.5553L1.10916 4.17936C0.986054 4.06521 0.820797 4.00131 0.648713 4.00131C0.476628 4.00131 0.311372 4.06521 0.188268 4.17936C0.128661 4.2348 0.0813067 4.30098 0.0489791 4.37401C0.0166514 4.44704 0 4.52546 0 4.60468C0 4.6839 0.0166514 4.76232 0.0489791 4.83536C0.0813067 4.90839 0.128661 4.97456 0.188268 5.03L7.51817 11.8142C7.64689 11.9333 7.81954 12 7.99929 12C8.17905 12 8.3517 11.9333 8.48042 11.8142L15.8103 5.03131C15.8703 4.97583 15.9181 4.90949 15.9506 4.83622C15.9832 4.76294 16 4.68422 16 4.60468C16 4.52515 15.9832 4.44642 15.9506 4.37314C15.9181 4.29987 15.8703 4.23353 15.8103 4.17805C15.6872 4.0639 15.522 4 15.3499 4C15.1778 4 15.0125 4.0639 14.8894 4.17805V4.17936Z" fill="white"/>
+                                        </svg>
+                                    </div>
+                                    <div class="selectFlow">
+                                        <p class="selectItem" data-id="0"><span class="_name">Ежедневно в 00:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="1"><span class="_name">Ежедневно в 01:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="2"><span class="_name">Ежедневно в 02:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="3"><span class="_name">Ежедневно в 03:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="4"><span class="_name">Ежедневно в 04:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="5"><span class="_name">Ежедневно в 05:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="6"><span class="_name">Ежедневно в 06:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="7"><span class="_name">Ежедневно в 07:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="8"><span class="_name">Ежедневно в 08:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="9"><span class="_name">Ежедневно в 09:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="10"><span class="_name">Ежедневно в 10:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="11"><span class="_name">Ежедневно в 11:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="12"><span class="_name">Ежедневно в 12:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="13"><span class="_name">Ежедневно в 13:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="14"><span class="_name">Ежедневно в 14:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="15"><span class="_name">Ежедневно в 15:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="16"><span class="_name">Ежедневно в 16:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="17"><span class="_name">Ежедневно в 17:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="18"><span class="_name">Ежедневно в 18:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="19"><span class="_name">Ежедневно в 19:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="20"><span class="_name">Ежедневно в 20:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="21"><span class="_name">Ежедневно в 21:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="22"><span class="_name">Ежедневно в 22:00</span><span class="_r">МСК</span></p>
+                                        <p class="selectItem" data-id="23"><span class="_name">Ежедневно в 23:00</span><span class="_r">МСК</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="tabPageInput _full" data-name="message">
                             <textarea name="message" class="formInput" placeholder="Сообщение вашего поста"></textarea>
                         </div>
