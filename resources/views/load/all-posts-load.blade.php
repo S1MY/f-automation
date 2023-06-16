@@ -8,14 +8,14 @@
     $links = unserialize($post->link);
     $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow');
     if($post->type === 'daily'){
-        if ($postDate->hour >= $post->daily) {
-            $postDate = $postDate->addDay();
-            $postDate->hour = $post->daily;
-            $postDate->minute = 0;
-            $postDate->second = 0;
-        }else{
-            $postDate->hour = $post->daily;
-        }
+        // if ($postDate->hour >= $post->daily) {
+        //     $postDate = $postDate->addDay();
+        //     $postDate->hour = $post->daily;
+        //     $postDate->minute = 0;
+        //     $postDate->second = 0;
+        // }else{
+        //     $postDate->hour = $post->daily;
+        // }
         $nextStart = $postDate->hour;
         // $nextStart = $postDate->format('H:i:s d.m.Y');
     }elseif ($post->type === 'interval') {
