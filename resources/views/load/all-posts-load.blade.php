@@ -11,7 +11,6 @@
         if ($postDate->hour >= $post->daily) {
             $postDate = $postDate->addDay();
             $postDate->hour = $post->daily;
-            $postDate->minute = 0;
             $postDate->second = 0;
         }else{
             $postDate->hour = $post->daily;
