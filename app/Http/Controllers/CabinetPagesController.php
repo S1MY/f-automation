@@ -118,7 +118,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(1, ['*'], 'posts-info-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.posts-info', compact('user', 'post', 'postInfo', 'curentPage'));
+            return view('cabinet.vk.post-info', compact('user', 'post', 'postInfo', 'curentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }
