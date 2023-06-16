@@ -58,7 +58,7 @@
                             <p class="streamType" aria-label="Тип 2:" data-type="date">Дата</p>
                             <p class="streamType" aria-label="Тип 3:" data-type="daily">Ежедневно</p>
                         </div>
-                        <div class="tabPageInput" data-name="tabs">
+                        <div class="tabPageInput tabPageSelect" data-name="tabs">
                             <div class="streamTabs">
                                 <div class="formSelect _type _active" data-type="interval">
                                     <input type="hidden" name="interval" value="">
