@@ -1,4 +1,10 @@
 $(document).ready(function () {
+
+  $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
     let fullPrice = 0;
     let subNames = [];
     let promoValue = 0;
@@ -138,12 +144,6 @@ $(document).ready(function () {
     let popupName = $(this).attr("data-form");
     let ajaxUrl = $(this).attr("action");
     let formData = $(this).serialize();
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 
     $.ajax({
         url: ajaxUrl,
