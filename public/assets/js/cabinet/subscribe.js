@@ -151,8 +151,8 @@ $(document).ready(function () {
         success: function(response){
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
+          console.log(response)
           if (response.status == "success") {
-            console.log(response)
             if (popupName === 'deposit') {
               
             }else{
