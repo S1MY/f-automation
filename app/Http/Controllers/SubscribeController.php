@@ -129,6 +129,7 @@ class SubscribeController extends Controller
             $now = Carbon::now();
             if ($now > Carbon::parse($getPromocode->before) || $getPromocode->active < 1) {
                 $getPromocode->active = 0;
+                $getPromocode->save();
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Промокод больше недействителен');
             }
             $usersActivate = unserialize($getPromocode->users_active);
