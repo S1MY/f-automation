@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Subscribe;
+use App\Models\Promocodes;
 
 class SubscribeController extends Controller
 {
@@ -33,14 +36,14 @@ class SubscribeController extends Controller
 
         $ubalance = Auth::user()->UserInfo->balance;
         $uid = Auth::user()->id;
-
+        if($validatedData['price'] === 0){
+            return $this->generateJsonResponse('error', 'Пустой пакет', 'С пустым пакетом вы далеко не уедете. Пересоберите его пожалуйста!');
+        }
         if( $validatedData['price'] > $ubalance ){
             return $this->generateJsonResponse('error', 'Недостаточно средств', 'На балансе недостаточно средств, попробуйте оплатить подписку через FREEKASSA.');
         }
-
-        $end_date = date("Y-m-d", strtotime("+1 month"));
-
-        $sub_config = [
+        $endDate = date("Y-m-d", strtotime("+1 month"));
+        $subConfig = [
             'vk' => [
                 'streams' => [
                     'type1' => ($request->streamType1 === 1) ? $request->streamType1 : 0,
@@ -56,21 +59,100 @@ class SubscribeController extends Controller
                     'type1' => ($request->postType1 === 1) ? $request->postType1 : 0,
                     'type2' => ($request->postType2 === 1) ? $request->postType2 : 0,
                     'type3' => ($request->postType3 === 1) ? $request->postType3 : 0
-                ],
-                'friends' => [
-                    'type1' => ($request->friendsType1 === 1) ? $request->friendsType1 : 0,
-                    'type2' => ($request->friendsType2 === 1) ? $request->friendsType2 : 0,
-                    'type3' => ($request->friendsType3 === 1) ? $request->friendsType3 : 0
-                ],
-            ],
+                ]
+            ]
         ];
+        $packagePrices = [
+            'vk' => [
+                'streams' => [
+                    'type1' => 200,
+                    'type2' => 200,
+                    'type3' => 100
+                ],
+                'stories' => [
+                    'type1' => 100,
+                    'type2' => 100,
+                    'type3' => 50
+                ],
+                'posts' => [
+                    'type1' => 100,
+                    'type2' => 100,
+                    'type3' => 50
+                ]
+            ]
+        ];
+        $packageParents = [
+            'vk' => [
+                'streams' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ],
+                'stories' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ],
+                'posts' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ]
+            ]
+        ];
+        foreach ($subConfig['vk'] as $type => $options) {
+            foreach ($options as $subtype => $selected) {
+                if ($selected === 1 && $packageParents['vk'][$type][$subtype] !== '0') {
+                    $requiredType = $packageParents['vk'][$type][$subtype];
+                    if ($subConfig['vk'][$type][$requiredType] !== 1) {
+                        return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций ВК '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
+                    }
+                }
+            }
+        }
+        $totalPrice = 0;
+        foreach ($subConfig['vk'] as $type => $options) {
+            foreach ($options as $subtype => $selected) {
+                if ($selected === 1) {
+                    $totalPrice += $packagePrices['vk'][$type][$subtype];
+                }
+            }
+        }
+        if($totalPrice !== $validatedData['price']){
+            $getPromocode = Promocodes::where('code', '=', $validatedData['promocode'])->get();
+            $usersActivate = unserialize($getPromocode->users_active);
+            if (in_array($uid, $usersActivate)) {
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Вы уже использовали данный промокод');
+            }
+            $usersActivate[] = $userEmail;
+            if (count($getPromocode) < 1) {
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Данный промокод не найден. Проверьте ещё раз!');
+            }
+            if($getPromocode->uses < 1){
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'У промокода закончилось количество использований!');
+            }
+            $now = Carbon::now();
+            if ($now < Carbon::parse($getPromocode->before) || $getPromocode->active < 1) {
+                $getPromocode->active = 0;
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Промокод больше недействителен');
+            }
+            $newTotalPrice = $totalPrice - $getPromocode->amount;
+            if($newTotalPrice !== $validatedData['price']){
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
+            }
+            $getPromocode->uses = $getPromocode->uses - 1;
+            $getPromocode->users_active = serialize($usersActivate);
+            $getPromocode->save();
+        }
+        Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
+        Auth::user()->UserInfo->save();
 
         Subscribe::create([
             'uid'        => $uid,
-            'sub_config' => serialize($sub_config),
-            'sub_old'    => serialize($sub_config),
+            'sub_config' => serialize($subConfig),
+            'sub_old'    => serialize($subConfig),
             'sub_status' => 1,
-            'end_date'   => $end_date
+            'end_date'   => $endDate
         ]);
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.');
     }

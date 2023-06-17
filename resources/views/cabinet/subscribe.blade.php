@@ -439,8 +439,8 @@
                                         <div class="subCheckBox">
                                             <p class="subCheckNumber">2</p>
                                             <p class="subCheckText">Возможность запуска историй в ВК группы</p>
-                                            <p class="subCheckPrice">Стоимость: <span>30₽</span></p>
-                                            <a href="#" class="subCheckBtn" data-price="30" data-parent="1"
+                                            <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
+                                            <a href="#" class="subCheckBtn" data-price="100" data-parent="1"
                                                 data-children="0" data-name="Истории в ВК группе">Выбрать</a>
                                             <input type="checkbox" name="storiesType2" class="subInput" value="1">
                                         </div>
