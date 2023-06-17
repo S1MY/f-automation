@@ -49,24 +49,22 @@ $(document).ready(function () {
   $(".subCheckBtn").click(function (e) {
     e.preventDefault();
     // Обозначаем элемент
-    let element = $(this);
+    const element = $(this);
     // Получаем стоимость функции
-    let price = parseInt($(this).attr("data-price"));
+    const price = parseInt($(this).attr("data-price"));
     // Получаем список требуемых функций
-    let parent = $(this).attr("data-parent");
-    let children = $(this).attr("data-children");
+    const parent = $(this).attr("data-parent");
+    const children = $(this).attr("data-children");
     // Создаём массив требуемых функций
-    let parents = parent.split(" или ");
-    let childrens = children.split(" и ");
+    const parents = parent.split(" или ");
+    const childrens = children.split(" и ");
     // Детектор активации
     let detector = 0;
-    let fullPrice = 0;
-  
     if (parent != 0) {
-      let eachElements = element.parent().parent().children(".subCheckBox");
+      const eachElements = element.parent().parent().children(".subCheckBox");
       $.each(eachElements, function (indexInArray, valueOfElement) {
         for (let i = 0; i < parents.length; i++) {
-          let funcId = $(valueOfElement).children(".subCheckNumber").text();
+          const funcId = $(valueOfElement).children(".subCheckNumber").text();
           if (funcId == parents[i]) {
             if ($(valueOfElement).children(".subCheckBtn").hasClass("_active")) {
               detector = 1;
@@ -83,9 +81,9 @@ $(document).ready(function () {
     if (detector == 1) {
       if ($(this).hasClass("_active")) {
         // Получаем id зависимой функции
-        let eachElements = element.parent().parent().children(".subCheckBox");
+        const eachElements = element.parent().parent().children(".subCheckBox");
         $.each(eachElements, function (indexInArray, valueOfElement) {
-          let funcId = $(valueOfElement).children(".subCheckNumber").text();
+          const funcId = $(valueOfElement).children(".subCheckNumber").text();
           childrens.forEach(children => {
             if (funcId == children) {
               if ($(valueOfElement).children(".subCheckBtn").hasClass("_active")) {
@@ -93,7 +91,7 @@ $(document).ready(function () {
                 $(valueOfElement).children(".subCheckBtn").next().prop("checked", false);
                 $(valueOfElement).children(".subCheckBtn").html("Выбрать");
   
-                let childPrice = parseInt($(valueOfElement).children(".subCheckBtn").attr("data-price"));
+                const childPrice = parseInt($(valueOfElement).children(".subCheckBtn").attr("data-price"));
                 fullPrice -= childPrice;
                 console.log(fullPrice);
               }
@@ -119,6 +117,7 @@ $(document).ready(function () {
       construct();
     }
   });
+  
   $(".subItemArrow").click(function (e) {
     e.preventDefault();
     if ($(this).parent().hasClass('_active')) {
