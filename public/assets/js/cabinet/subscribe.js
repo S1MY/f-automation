@@ -56,6 +56,8 @@ $(document).ready(function () {
     let parent = $(this).attr("data-parent");
     // Создаём массив требуемых функций
     let parents = parent.split(" или ");
+
+    let сhildrens = parent.split(" и ");
     // Детектор активации
     let detector = 0;
 
@@ -81,25 +83,26 @@ $(document).ready(function () {
     if (detector == 1) {
       if ($(this).hasClass("_active")) {
         // Получаем id зависимой функции
-        let children = $(this).attr("data-children");
         let eachElements = element.parent().parent().children(".subCheckBox");
         $.each(eachElements, function (indexInArray, valueOfElement) {
           let funcId = $(valueOfElement).children(".subCheckNumber").text();
-          if (funcId == children) {
-            if (
-              $(valueOfElement).children(".subCheckBtn").hasClass("_active")
-            ) {
-              $(valueOfElement).children(".subCheckBtn").removeClass("_active");
-              $(valueOfElement)
-                .children(".subCheckBtn")
-                .next()
-                .prop("checked", false);
-              $(valueOfElement).children(".subCheckBtn").html("Выбрать");
-              let childPrice = $(valueOfElement).children(".subCheckBtn").attr("data-price");
-            fullPrice = parseInt(fullPrice) - parseInt(childPrice);
-            console.log(fullPrice);
+          сhildrens.forEach(children => {
+            if (funcId == children) {
+              if (
+                $(valueOfElement).children(".subCheckBtn").hasClass("_active")
+              ) {
+                $(valueOfElement).children(".subCheckBtn").removeClass("_active");
+                $(valueOfElement)
+                  .children(".subCheckBtn")
+                  .next()
+                  .prop("checked", false);
+                $(valueOfElement).children(".subCheckBtn").html("Выбрать");
+                let childPrice = $(valueOfElement).children(".subCheckBtn").attr("data-price");
+              fullPrice = parseInt(fullPrice) - parseInt(childPrice);
+              console.log(fullPrice);
+              }
             }
-          }
+          });
         });
         $(this).removeClass("_active");
         $(this).next().prop("checked", false);

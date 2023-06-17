@@ -371,7 +371,7 @@
                                             <p class="subCheckText">Запуск видео в трансляцию на ВК аккаунт</p>
                                             <p class="subCheckPrice">Стоимость: <span>200₽</span></p>
                                             <a href="#" class="subCheckBtn _active" data-price="200" data-parent="0"
-                                                data-children="2"
+                                                data-children="2 и 3"
                                                 data-name="Трансляции на ВК аккаунт">Убрать</a>
                                             <input type="checkbox" name="streamType1" class="subInput" value="1" checked>
                                         </div>
