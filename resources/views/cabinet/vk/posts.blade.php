@@ -5,13 +5,13 @@
         if($user->Subscribe->sub_status === 1){
             $vkPackage = unserialize($user->Subscribe->sub_config);
             if($vkPackage['vk']['posts']['type1'] !== 1){
-                header("Location: " . route('cabinet') , true, 302);
+                return redirect()->route('cabinet');
             }
         }else{
-            header("Location: " . route('cabinet') , true, 302);
+                return redirect()->route('cabinet');
         }
     }else{
-        header("Location: " . route('cabinet') , true, 302);
+                return redirect()->route('cabinet');
     }
 @endphp
 @section('cabinet-content')
