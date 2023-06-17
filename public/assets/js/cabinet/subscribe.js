@@ -141,7 +141,7 @@ $(document).ready(function () {
         $('input[name="promocode"]').val('empty');
     }
     const formData = $(this).serialize();
-    if(popupName === 'subscribe' && $('input[name="promocode"]').val() == 'empty'){
+    if($('input[name="promocode"]').val() == 'empty'){
       $('input[name="promocode"]').val();
     }
     $.ajax({
