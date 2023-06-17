@@ -141,14 +141,14 @@ $(document).ready(function () {
         $('input[name="promocode"]').val('empty');
     }
     const formData = $(this).serialize();
-    if($('input[name="promocode"]').val() == 'empty'){
-      $('input[name="promocode"]').val();
-    }
     $.ajax({
         url: ajaxUrl,
         method: 'POST',
         data: formData,
         success: function(response){
+          if($('input[name="promocode"]').val() == 'empty'){
+            $('input[name="promocode"]').val();
+          }
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           if (response.status == "success") {
@@ -162,6 +162,9 @@ $(document).ready(function () {
           }
         },
         error: function (response) {
+          if($('input[name="promocode"]').val() == 'empty'){
+            $('input[name="promocode"]').val();
+          }
           console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
