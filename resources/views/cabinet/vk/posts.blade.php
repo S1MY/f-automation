@@ -1,6 +1,20 @@
 @extends('cabinet.layouts.master')
 @section('title', 'Посты Вконтакте')
-
+@php
+    
+    if($user->Subscribe){
+        if($user->Subscribe->sub_status === 1){
+            $vkPackage = unserialize($user->Subscribe->sub_config);
+            if($vkPackage['vk']['posts']['type1'] !== 1){
+                return redirect('/cabinet');
+            }
+        }else{
+            return redirect('/cabinet');
+        }
+    }else{
+        return redirect('/cabinet');
+    }
+@endphp
 @section('cabinet-content')
 <div class="pageFlex">
     <div class="sidebar">
