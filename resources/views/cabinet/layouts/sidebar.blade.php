@@ -1,7 +1,7 @@
 <div class="sidebarWrapper">
     <div class="sidebarInfo">
         <p class="infoFlex">Логин <span>{{ $user->login }}</span></p> <p class="infoFlex">Баланс <span>{{ $user->UserInfo->balance }} ₽</span></p>
-        <p class="infoFlex">Пакет <span>Активен</span></p>
+        <p class="infoFlex">Пакет <span>{{ ($user->Subscribe) ? ($user->Subscribe->sub_status === 1) ? 'Активен' : 'Не активен' : 'Не активен' }}</span></p>
         <p class="infoFlex">Окончание <span>22.10.2023</span></p>
     </div>
     @if ($user->admin)

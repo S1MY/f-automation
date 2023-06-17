@@ -47,6 +47,9 @@ class User extends Authenticatable
     public function UserInfo(){
         return $this->hasOne(UserInfo::class, 'uid', 'id');
     }
+    public function Subscribe(){
+        return $this->hasOne(Subscribe::class, 'uid', 'id');
+    }
     public function VkAccount(){
         return $this->hasMany(VkAccount::class, 'uid', 'id');
     }
