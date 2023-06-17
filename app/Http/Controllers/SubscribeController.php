@@ -46,19 +46,19 @@ class SubscribeController extends Controller
         $subConfig = [
             'vk' => [
                 'streams' => [
-                    'type1' => ($request->streamType1 === 1) ? $request->streamType1 : 0,
-                    'type2' => ($request->streamType2 === 1) ? $request->streamType2 : 0,
-                    'type3' => ($request->streamType3 === 1) ? $request->streamType3 : 0
+                    'type1' => $request->streamType1 ? $request->streamType1 : 0,
+                    'type2' => $request->streamType2 ? $request->streamType2 : 0,
+                    'type3' => $request->streamType3 ? $request->streamType3 : 0
                 ],
                 'stories' => [
-                    'type1' => ($request->storiesType1 === 1) ? $request->storiesType1 : 0,
-                    'type2' => ($request->storiesType2 === 1) ? $request->storiesType2 : 0,
-                    'type3' => ($request->storiesType3 === 1) ? $request->storiesType3 : 0
+                    'type1' => $request->storiesType1 ? $request->storiesType1 : 0,
+                    'type2' => $request->storiesType2 ? $request->storiesType2 : 0,
+                    'type3' => $request->storiesType3 ? $request->storiesType3 : 0
                 ],
                 'posts' => [
-                    'type1' => ($request->postType1 === 1) ? $request->postType1 : 0,
-                    'type2' => ($request->postType2 === 1) ? $request->postType2 : 0,
-                    'type3' => ($request->postType3 === 1) ? $request->postType3 : 0
+                    'type1' => $request->postType1 ? $request->postType1 : 0,
+                    'type2' => $request->postType2 ? $request->postType2 : 0,
+                    'type3' => $request->postType3 ? $request->postType3 : 0
                 ]
             ]
         ];
