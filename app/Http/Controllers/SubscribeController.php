@@ -127,7 +127,7 @@ class SubscribeController extends Controller
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Данный промокод не найден. Проверьте ещё раз!');
             }
             $now = Carbon::now();
-            if ($now < Carbon::parse($getPromocode->before) || $getPromocode->active < 1) {
+            if ($now > Carbon::parse($getPromocode->before) || $getPromocode->active < 1) {
                 $getPromocode->active = 0;
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Промокод больше недействителен');
             }
