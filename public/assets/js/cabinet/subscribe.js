@@ -51,25 +51,23 @@ $(document).ready(function () {
     // Обозначаем элемент
     let element = $(this);
     // Получаем стоимость функции
-    let price = $(this).attr("data-price");
+    let price = parseInt($(this).attr("data-price"));
     // Получаем список требуемых функций
     let parent = $(this).attr("data-parent");
     // Создаём массив требуемых функций
     let parents = parent.split(" или ");
-
-    let сhildrens = parent.split(" и ");
+    let childrens = parent.split(" и ");
     // Детектор активации
     let detector = 0;
-
-    if (parent != 0) {
+    let fullPrice = 0;
+  
+    if (parent !== '0') {
       let eachElements = element.parent().parent().children(".subCheckBox");
       $.each(eachElements, function (indexInArray, valueOfElement) {
         for (let i = 0; i < parents.length; i++) {
           let funcId = $(valueOfElement).children(".subCheckNumber").text();
           if (funcId == parents[i]) {
-            if (
-              $(valueOfElement).children(".subCheckBtn").hasClass("_active")
-            ) {
+            if ($(valueOfElement).children(".subCheckBtn").hasClass("_active")) {
               detector = 1;
             } else {
               element.html(`Требуется функция с ID ${parent}`);
@@ -80,43 +78,43 @@ $(document).ready(function () {
     } else {
       detector = 1;
     }
+  
     if (detector == 1) {
       if ($(this).hasClass("_active")) {
         // Получаем id зависимой функции
         let eachElements = element.parent().parent().children(".subCheckBox");
         $.each(eachElements, function (indexInArray, valueOfElement) {
           let funcId = $(valueOfElement).children(".subCheckNumber").text();
-          сhildrens.forEach(children => {
+          childrens.forEach(children => {
             if (funcId == children) {
-              if (
-                $(valueOfElement).children(".subCheckBtn").hasClass("_active")
-              ) {
+              if ($(valueOfElement).children(".subCheckBtn").hasClass("_active")) {
                 $(valueOfElement).children(".subCheckBtn").removeClass("_active");
-                $(valueOfElement)
-                  .children(".subCheckBtn")
-                  .next()
-                  .prop("checked", false);
+                $(valueOfElement).children(".subCheckBtn").next().prop("checked", false);
                 $(valueOfElement).children(".subCheckBtn").html("Выбрать");
-                let childPrice = $(valueOfElement).children(".subCheckBtn").attr("data-price");
-              fullPrice = parseInt(fullPrice) - parseInt(childPrice);
-              console.log(fullPrice);
+  
+                let childPrice = parseInt($(valueOfElement).children(".subCheckBtn").attr("data-price"));
+                fullPrice -= childPrice;
+                console.log(fullPrice);
               }
             }
           });
         });
+  
         $(this).removeClass("_active");
         $(this).next().prop("checked", false);
-        fullPrice = parseInt(fullPrice) - parseInt(price);
+        fullPrice -= price;
         console.log(fullPrice);
+  
         $(this).html("Выбрать");
-        $(this).parent().parent().parent().prev().children('.subItemCheck').removeClass('_active');
       } else {
-        fullPrice = parseInt(fullPrice) + parseInt(price);
+        fullPrice += price;
         console.log(fullPrice);
+  
         $(this).addClass("_active");
         $(this).next().prop("checked", true);
         $(this).html("Убрать");
       }
+  
       construct();
     }
   });
