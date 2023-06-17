@@ -3,12 +3,12 @@
     $disabledClass = '';
     $vkPackage = '';
     if ($user->Subscribe) {
-        if($user->Subscribe->sub_status !== 1){
-        $disabledClass = '_disabled';
-        }else{
+            print_r($user->Subscribe);
+        if($user->Subscribe->sub_status === 1){
             $vkPackage = unserialize($user->Subscribe->sub_config);
+        }else{
+            $disabledClass = '_disabled';
         }
-        print_r($user->Subscribe);
     } else {
         $disabledClass = '_disabled';
     }
