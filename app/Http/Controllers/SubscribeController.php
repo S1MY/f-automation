@@ -126,6 +126,11 @@ class SubscribeController extends Controller
             if (!$getPromocode) {
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Данный промокод не найден. Проверьте ещё раз!');
             }
+            $now = Carbon::now();
+            if ($now < Carbon::parse($getPromocode->before) || $getPromocode->active < 1) {
+                $getPromocode->active = 0;
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Промокод больше недействителен');
+            }
             $usersActivate = unserialize($getPromocode->users_active);
             if (in_array($uid, $usersActivate)) {
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Вы уже использовали данный промокод');
@@ -133,11 +138,6 @@ class SubscribeController extends Controller
             $usersActivate[] = $userEmail;
             if($getPromocode->uses < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'У промокода закончилось количество использований!');
-            }
-            $now = Carbon::now();
-            if ($now < Carbon::parse($getPromocode->before) || $getPromocode->active < 1) {
-                $getPromocode->active = 0;
-                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Промокод больше недействителен');
             }
             $newTotalPrice = $totalPrice - $getPromocode->amount;
             if($newTotalPrice !== $validatedData['price']){
