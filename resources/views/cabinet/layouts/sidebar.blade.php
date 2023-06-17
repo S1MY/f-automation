@@ -3,7 +3,7 @@
     $disabledClass = '';
     $vkPackage = '';
     if ($user->Subscribe) {
-            dd($user->Subscribe);
+        var_dump($user->Subscribe);
         if($user->Subscribe->sub_status === 1){
             $vkPackage = unserialize($user->Subscribe->sub_config);
         }else{
