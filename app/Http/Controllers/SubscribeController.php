@@ -119,7 +119,7 @@ class SubscribeController extends Controller
             }
         }
         if($totalPrice !== $validatedData['price']){
-            if($validatedData['promoChecker'] !== 1){
+            if($validatedData['promoChecker'] < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
             }
             $getPromocode = Promocodes::where('code', '=', $validatedData['promocode'])->first();
