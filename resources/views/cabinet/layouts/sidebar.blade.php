@@ -60,6 +60,7 @@
             $disabledClass = '_disabled';
         }
         $vkPackage = unserialize($user->Subscribe->sub_config);
+        echo $vkPackage['vk']['streams']['type1'];
     @endphp
     <div class="sidebarParent{{ request()->is('cabinet/vk/*') ? ' _active' : null }}{{$disabledClass}}">
         <div class="sidebarOpener">
