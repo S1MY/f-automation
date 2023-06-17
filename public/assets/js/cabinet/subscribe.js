@@ -61,7 +61,7 @@ $(document).ready(function () {
     let detector = 0;
     let fullPrice = 0;
   
-    if (parent !== '0') {
+    if (parent != 0) {
       let eachElements = element.parent().parent().children(".subCheckBox");
       $.each(eachElements, function (indexInArray, valueOfElement) {
         for (let i = 0; i < parents.length; i++) {
