@@ -29,7 +29,6 @@ $(document).ready(function () {
             let childPrice = $(valueOfElement).children(".subCheckBtn").attr("data-price");
           fullPrice = parseInt(fullPrice) + parseInt(childPrice);
         }
-        console.log(fullPrice);
         });
     }else{
         $.each(eachElements, function (indexInArray, valueOfElement) {
@@ -41,7 +40,6 @@ $(document).ready(function () {
             $(valueOfElement).children(".subCheckBtn").html("Выбрать");
             let childPrice = $(valueOfElement).children(".subCheckBtn").attr("data-price");
           fullPrice = parseInt(fullPrice) - parseInt(childPrice);
-          console.log(fullPrice);
         });
     }
     construct();
@@ -93,7 +91,6 @@ $(document).ready(function () {
   
                 const childPrice = parseInt($(valueOfElement).children(".subCheckBtn").attr("data-price"));
                 fullPrice -= childPrice;
-                console.log(fullPrice);
               }
             }
           });
@@ -102,13 +99,9 @@ $(document).ready(function () {
         $(this).removeClass("_active");
         $(this).next().prop("checked", false);
         fullPrice -= price;
-        console.log(fullPrice);
-  
         $(this).html("Выбрать");
       } else {
         fullPrice += price;
-        console.log(fullPrice);
-  
         $(this).addClass("_active");
         $(this).next().prop("checked", true);
         $(this).html("Убрать");
@@ -142,44 +135,44 @@ $(document).ready(function () {
   });
   $(".pageTarget").submit(function (e) {
     e.preventDefault();
-    let popupName = $(this).attr("data-form");
-    let ajaxUrl = $(this).attr("action");
+    const popupName = $(this).attr("data-form");
+    const ajaxUrl = $(this).attr("action");
     let formData = $(this).serialize();
+    console.log(formData)
+    // $.ajax({
+    //     url: ajaxUrl,
+    //     method: 'post',
+    //     data: formData,
+    //     success: function(result){
 
-    $.ajax({
-        url: ajaxUrl,
-        method: 'post',
-        data: formData,
-        success: function(result){
+    //         let title = result.title;
+    //         let message = result.message;
+    //         $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
+    //         $('.popupItem[data-popup="success"]').children(".popupText").html(message);
 
-            let title = result.title;
-            let message = result.message;
-            $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-            $('.popupItem[data-popup="success"]').children(".popupText").html(message);
+    //         $(".popupWrapper").fadeIn();
+    //         $('.popupItem[data-popup="success"]').fadeIn();
 
-            $(".popupWrapper").fadeIn();
-            $('.popupItem[data-popup="success"]').fadeIn();
+    //         setTimeout(() => {
+    //             location.reload();
+    //         }, 5000);
+    //     },
+    //     error: function (result) {
+    //         $.each(result.responseJSON.errors, function(key,value) {
 
-            setTimeout(() => {
-                location.reload();
-            }, 5000);
-        },
-        error: function (result) {
-            $.each(result.responseJSON.errors, function(key,value) {
+    //             let error = $('.popupWrapper .popupItem[data-popup="error"]');
 
-                let error = $('.popupWrapper .popupItem[data-popup="error"]');
+    //             error.children('.popupTitle').html('');
+    //             error.children('.popupText').html('');
 
-                error.children('.popupTitle').html('');
-                error.children('.popupText').html('');
+    //             $('.popupWrapper').show();
+    //             error.show();
 
-                $('.popupWrapper').show();
-                error.show();
-
-                error.children('.popupTitle').append(value.title);
-                error.children('.popupText').append(value.message);
-            });
-        }
-    });
+    //             error.children('.popupTitle').append(value.title);
+    //             error.children('.popupText').append(value.message);
+    //         });
+    //     }
+    // });
 
     // $('.popupCenter').show();
     // $('.popupWrapper').removeClass('_notClose');
