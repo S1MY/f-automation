@@ -137,7 +137,15 @@ $(document).ready(function () {
     e.preventDefault();
     const popupName = $(this).attr("data-form");
     const ajaxUrl = $(this).attr("action");
+    if(popupName === 'subscribe'){
+      if (!$('input[name="promocode"]').val()) {
+        $('input[name="promocode"]').val('empty');
+      }
+    }
     const formData = $(this).serialize();
+    if(popupName === 'subscribe'){
+      $('input[name="promocode"]').val();
+    }
     $.ajax({
         url: ajaxUrl,
         method: 'POST',
