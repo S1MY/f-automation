@@ -137,93 +137,30 @@ $(document).ready(function () {
     e.preventDefault();
     const popupName = $(this).attr("data-form");
     const ajaxUrl = $(this).attr("action");
-    let formData = $(this).serialize();
-    console.log(formData)
-    // $.ajax({
-    //     url: ajaxUrl,
-    //     method: 'post',
-    //     data: formData,
-    //     success: function(result){
-
-    //         let title = result.title;
-    //         let message = result.message;
-    //         $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-    //         $('.popupItem[data-popup="success"]').children(".popupText").html(message);
-
-    //         $(".popupWrapper").fadeIn();
-    //         $('.popupItem[data-popup="success"]').fadeIn();
-
-    //         setTimeout(() => {
-    //             location.reload();
-    //         }, 5000);
-    //     },
-    //     error: function (result) {
-    //         $.each(result.responseJSON.errors, function(key,value) {
-
-    //             let error = $('.popupWrapper .popupItem[data-popup="error"]');
-
-    //             error.children('.popupTitle').html('');
-    //             error.children('.popupText').html('');
-
-    //             $('.popupWrapper').show();
-    //             error.show();
-
-    //             error.children('.popupTitle').append(value.title);
-    //             error.children('.popupText').append(value.message);
-    //         });
-    //     }
-    // });
-
-    // $('.popupCenter').show();
-    // $('.popupWrapper').removeClass('_notClose');
-    if (popupName == "subscribe") {
-    //   // То как должен выглядеть ответ после ответ с сервера
-    //   let title = "Всё прошло круто";
-    //   let message =
-    //     "Вы успешно приобрели подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.";
-    //   $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-    //   $('.popupItem[data-popup="success"]')
-    //     .children(".popupText")
-    //     .html(message);
-    //   $(".popupWrapper").fadeIn();
-    //   $('.popupItem[data-popup="success"]').fadeIn();
-    //   setTimeout(() => {
-    //     location.reload();
-    //   }, 5000);
-          // errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
-    }else if(popupName == "increase"){
-      // То как должен выглядеть ответ после ответ с сервера
-      let title = "Всё прошло круто";
-      let message =
-        "Вы успешно увеличили подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.";
-      $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-      $('.popupItem[data-popup="success"]')
-        .children(".popupText")
-        .html(message);
-      $(".popupWrapper").fadeIn();
-      $('.popupItem[data-popup="success"]').fadeIn();
-      setTimeout(() => {
-        location.reload();
-      }, 5000);
-    }else if(popupName == "deposit"){
-      $('.popupCenter').hide();
-      $('.popupItem[data-popup="success"]').parent().addClass('_notClose');
-      // То как должен выглядеть ответ после ответ с сервера
-      let title = "Время оплаты";
-      let message =
-        "Через 5 секунд вас перенаправит на страницу оплаты";
-      // Получаем ссылку на оплату фрисаки
-      let link = 'https://vk.com/feed';
-      $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-      $('.popupItem[data-popup="success"]')
-        .children(".popupText")
-        .html(message);
-      $(".popupWrapper").fadeIn();
-      $('.popupItem[data-popup="success"]').fadeIn();
-      setTimeout(() => {
-        window.location.href = link;
-      }, 5000);
-    }
+    const formData = $(this).serialize();
+    $.ajax({
+        url: ajaxUrl,
+        method: 'POST',
+        data: formData,
+        success: function(response){
+          $(".popupWrapper").fadeIn();
+          $('.popupItem').fadeOut();
+          if (response.status == "success") {
+            if (popupName === 'deposit') {
+              
+            }else{
+              successHandler(response.title, response.message)
+            }
+          } else {
+            errorHandler(response.title, response.message)
+          }
+        },
+        error: function (result) {
+          $(".popupWrapper").fadeIn();
+          $('.popupItem').fadeOut();
+          errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+        }
+    });
   });
   $(".promoBtn").click(function (e) {
     e.preventDefault();
