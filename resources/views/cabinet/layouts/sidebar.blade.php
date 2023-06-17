@@ -11,7 +11,7 @@
     } else {
         $disabledClass = '_disabled';
     }
-        dd($user->Subscribe);
+        dd($vkPackage);
 @endphp
 <div class="sidebarWrapper">
     <div class="sidebarInfo">
