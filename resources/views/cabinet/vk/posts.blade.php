@@ -1,18 +1,17 @@
 @extends('cabinet.layouts.master')
 @section('title', 'Посты Вконтакте')
 @php
-    use Illuminate\Support\Facades\Redirect;
     if($user->Subscribe){
         if($user->Subscribe->sub_status === 1){
             $vkPackage = unserialize($user->Subscribe->sub_config);
             if($vkPackage['vk']['posts']['type1'] !== 1){
-                return Redirect::to('/cabinet');
+                header("Location: " . route('cabinet') , true, 302);
             }
         }else{
-            return Redirect::to('/cabinet');
+            header("Location: " . route('cabinet') , true, 302);
         }
     }else{
-        return Redirect::to('/cabinet');
+        header("Location: " . route('cabinet') , true, 302);
     }
 @endphp
 @section('cabinet-content')
