@@ -52,15 +52,16 @@
     </a>
     @php
         $disabledClass = '';
+        $vkPackage = '';
         if ($user->Subscribe) {
             if($user->Subscribe->sub_status !== 1){
             $disabledClass = '_disabled';
+            }else{
+                $vkPackage = unserialize($user->Subscribe->sub_config);
             }
         } else {
             $disabledClass = '_disabled';
         }
-        $vkPackage = unserialize($user->Subscribe->sub_config);
-        echo $vkPackage['vk']['streams']['type1'];
     @endphp
     <div class="sidebarParent{{ request()->is('cabinet/vk/*') ? ' _active' : null }}{{$disabledClass}}">
         <div class="sidebarOpener">
@@ -72,7 +73,7 @@
                 <path d="M18.6118 5.2242L9.99912 13.1941L1.38645 5.2242C1.23257 5.08152 1.026 5.00164 0.810891 5.00164C0.595786 5.00164 0.389214 5.08152 0.235334 5.2242C0.160826 5.2935 0.101633 5.37622 0.0612238 5.46751C0.0208142 5.5588 0 5.65683 0 5.75585C0 5.85488 0.0208142 5.9529 0.0612238 6.04419C0.101633 6.13548 0.160826 6.2182 0.235334 6.28751L9.39771 14.7678C9.55862 14.9167 9.77442 15 9.99912 15C10.2238 15 10.4396 14.9167 10.6005 14.7678L19.7629 6.28914C19.8379 6.21979 19.8976 6.13687 19.9383 6.04527C19.979 5.95368 20 5.85527 20 5.75585C20 5.65644 19.979 5.55802 19.9383 5.46643C19.8976 5.37484 19.8379 5.29192 19.7629 5.22256C19.609 5.07988 19.4025 5 19.1873 5C18.9722 5 18.7657 5.07988 18.6118 5.22256V5.2242Z" fill="black"/>
             </svg>
         </div>
-        @if ($disabledClass === '')
+        @if ($vkPackage !== '')
             <div class="{{ request()->is('cabinet/vk/*') ? null : 'sidebarSubWrapper' }}">
                 <div class="sidebarSub">
                     <a href="{{ route('streams') }}" class="sidebarLink{{ request()->is('cabinet/vk/stream*') ? ' _active' : null }}{{($vkPackage['vk']['streams']['type1'] !== 1) ? ' _disabled' : null}}">
