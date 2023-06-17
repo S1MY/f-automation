@@ -15,13 +15,13 @@ class SubscribeController extends Controller
         $rules = [
             'price' => 'integer',
             'promoChecker' => 'integer|in:0,1',
-            'promocode' => 'sting',
+            'promocode' => 'string',
         ];
         $messages = [
             'price.integer' => 'Сумма не является числом',
             'promoChecker.integer' => 'Значение активного промокода не является числом',
             'promoChecker.in' => 'Значение активного промокода 0 или 1',
-            'promocode.sting' => 'Промокод должен быть строкой',
+            'promocode.string' => 'Промокод должен быть строкой',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
