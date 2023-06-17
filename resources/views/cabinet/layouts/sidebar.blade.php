@@ -59,6 +59,7 @@
             }else{
                 $vkPackage = unserialize($user->Subscribe->sub_config);
             }
+            dd($user->Subscribe);
         } else {
             $disabledClass = '_disabled';
         }
