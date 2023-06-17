@@ -155,7 +155,8 @@ $(document).ready(function () {
             errorHandler(response.title, response.message)
           }
         },
-        error: function (result) {
+        error: function (response) {
+          console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
