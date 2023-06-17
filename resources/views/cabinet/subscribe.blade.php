@@ -378,7 +378,7 @@
                                         <div class="subCheckBox">
                                             <p class="subCheckNumber">2</p>
                                             <p class="subCheckText">Возможность проводить трансляции в ВК группе</p>
-                                            <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
+                                            <p class="subCheckPrice">Стоимость: <span>200₽</span></p>
                                             <a href="#" class="subCheckBtn" data-price="200" data-parent="1"
                                                 data-children="0"
                                                 data-name="Трансляции в ВК группе">Выбрать</a>
@@ -386,7 +386,7 @@
                                         </div>
                                         <div class="subCheckBox">
                                             <p class="subCheckNumber">3</p>
-                                            <p class="subCheckText">Full HD качество стримов</p>
+                                            <p class="subCheckText">Full HD качество любого из ваших стримов</p>
                                             <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
                                             <a href="#" class="subCheckBtn" data-price="100" data-parent="1"
                                                 data-children="0"
@@ -430,19 +430,27 @@
                                     <div class="subFlex">
                                         <div class="subCheckBox">
                                             <p class="subCheckNumber">1</p>
-                                            <p class="subCheckText">Запуск историй по интервалу или раз в день</p>
-                                            <p class="subCheckPrice">Стоимость: <span>50₽</span></p>
-                                            <a href="#" class="subCheckBtn" data-price="50" data-parent="0"
-                                                data-children="2" data-name="Запуск историй">Выбрать</a>
+                                            <p class="subCheckText">Запуск историй каждый день в одно время</p>
+                                            <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
+                                            <a href="#" class="subCheckBtn" data-price="100" data-parent="0"
+                                                data-children="2 и 3" data-name="Ежедневный запуск историй">Выбрать</a>
                                             <input type="checkbox" name="storiesType1" class="subInput" value="1">
                                         </div>
                                         <div class="subCheckBox">
                                             <p class="subCheckNumber">2</p>
-                                            <p class="subCheckText">Возможность загрузить историю в группу ВК</p>
+                                            <p class="subCheckText">Возможность запуска историй в ВК группы</p>
                                             <p class="subCheckPrice">Стоимость: <span>30₽</span></p>
                                             <a href="#" class="subCheckBtn" data-price="30" data-parent="1"
-                                                data-children="0" data-name="Запуск историй в группу">Выбрать</a>
+                                                data-children="0" data-name="Истории в ВК группе">Выбрать</a>
                                             <input type="checkbox" name="storiesType2" class="subInput" value="1">
+                                        </div>
+                                        <div class="subCheckBox">
+                                            <p class="subCheckNumber">3</p>
+                                            <p class="subCheckText">Возможность загрузки 5 историй сразу</p>
+                                            <p class="subCheckPrice">Стоимость: <span>50₽</span></p>
+                                            <a href="#" class="subCheckBtn" data-price="50" data-parent="1"
+                                                data-children="0" data-name="Массив историй">Выбрать</a>
+                                            <input type="checkbox" name="storiesType3" class="subInput" value="1">
                                         </div>
                                     </div>
                                 </div>
@@ -481,11 +489,27 @@
                                     <div class="subFlex">
                                         <div class="subCheckBox">
                                             <p class="subCheckNumber">1</p>
-                                            <p class="subCheckText">Запуск историй по интервалу или раз в день</p>
+                                            <p class="subCheckText">Запуск автопостинга на ВК Аккаунт</p>
+                                            <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
+                                            <a href="#" class="subCheckBtn" data-price="100" data-parent="0"
+                                                data-children="2 и 3" data-name="Автопостинг аккаунт">Выбрать</a>
+                                            <input type="checkbox" name="postType1" class="subInput" value="1">
+                                        </div>
+                                        <div class="subCheckBox">
+                                            <p class="subCheckNumber">2</p>
+                                            <p class="subCheckText">Запуск автопостинга в ВК Группе</p>
+                                            <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
+                                            <a href="#" class="subCheckBtn" data-price="100" data-parent="1"
+                                                data-children="0" data-name="Автопостинг группа">Выбрать</a>
+                                            <input type="checkbox" name="postType2" class="subInput" value="1">
+                                        </div>
+                                        <div class="subCheckBox">
+                                            <p class="subCheckNumber">3</p>
+                                            <p class="subCheckText">Возможность загрузки 5 файлов сразу</p>
                                             <p class="subCheckPrice">Стоимость: <span>50₽</span></p>
-                                            <a href="#" class="subCheckBtn" data-price="50" data-parent="0"
-                                                data-children="0" data-name="Запуск историй">Выбрать</a>
-                                            <input type="checkbox" name="storiesType1" class="subInput" value="1">
+                                            <a href="#" class="subCheckBtn" data-price="50" data-parent="1"
+                                                data-children="0" data-name="Массив файлов в посте">Выбрать</a>
+                                            <input type="checkbox" name="postType3" class="subInput" value="1">
                                         </div>
                                     </div>
                                 </div>
@@ -522,14 +546,7 @@
                                 </div>
                                 <div class="subWrapper">
                                     <div class="subFlex">
-                                        <div class="subCheckBox">
-                                            <p class="subCheckNumber">1</p>
-                                            <p class="subCheckText">Запуск историй по интервалу или раз в день</p>
-                                            <p class="subCheckPrice">Стоимость: <span>50₽</span></p>
-                                            <a href="#" class="subCheckBtn" data-price="50" data-parent="0"
-                                                data-children="0" data-name="Запуск историй">Выбрать</a>
-                                            <input type="checkbox" name="storiesType1" class="subInput" value="1">
-                                        </div>
+                                        <p>Здесь пока ничего нет</p>
                                     </div>
                                 </div>
                             </div>
@@ -539,7 +556,7 @@
                             <p class="subPrice">К оплате: <span><span class="fullPrice"></span>₽</span></p>
                             <label class="promoInput">
                                 <p class="promoResponse"><span></span></p>
-                                <input type="hidden" name="promoChecker" value="1">
+                                <input type="hidden" name="promoChecker" value="0">
                                 <input type="text" placeholder="Промокод" name="promocode">
                                 <a href="#" class="promoBtn">Применить</a>
                             </label>
