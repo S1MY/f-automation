@@ -11,7 +11,6 @@
     } else {
         $disabledClass = '_disabled';
     }
-        dd($vkPackage);
 @endphp
 <div class="sidebarWrapper">
     <div class="sidebarInfo">
