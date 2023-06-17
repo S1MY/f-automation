@@ -6,13 +6,13 @@
         if($user->Subscribe->sub_status === 1){
             $vkPackage = unserialize($user->Subscribe->sub_config);
             if($vkPackage['vk']['posts']['type1'] !== 1){
-                redirect('/cabinet');
+                return Redirect::to('/cabinet');
             }
         }else{
-            redirect('/cabinet');
+            return Redirect::to('/cabinet');
         }
     }else{
-        redirect('/cabinet');
+        return Redirect::to('/cabinet');
     }
 @endphp
 @section('cabinet-content')
