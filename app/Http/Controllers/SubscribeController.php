@@ -46,19 +46,19 @@ class SubscribeController extends Controller
         $subConfig = [
             'vk' => [
                 'streams' => [
-                    'type1' => $request->streamType1 ? $request->streamType1 : 0,
-                    'type2' => $request->streamType2 ? $request->streamType2 : 0,
-                    'type3' => $request->streamType3 ? $request->streamType3 : 0
+                    'type1' => (is_numeric($request->streamType1)) ? intval($request->streamType1) : 0,
+                    'type2' => (is_numeric($request->streamType2)) ? intval($request->streamType2) : 0,
+                    'type3' => (is_numeric($request->streamType3)) ? intval($request->streamType3) : 0
                 ],
                 'stories' => [
-                    'type1' => $request->storiesType1 ? $request->storiesType1 : 0,
-                    'type2' => $request->storiesType2 ? $request->storiesType2 : 0,
-                    'type3' => $request->storiesType3 ? $request->storiesType3 : 0
+                    'type1' => (is_numeric($request->storiesType1)) ? intval($request->storiesType1) : 0,
+                    'type2' => (is_numeric($request->storiesType2)) ? intval($request->storiesType2) : 0,
+                    'type3' => (is_numeric($request->storiesType3)) ? intval($request->storiesType3) : 0
                 ],
                 'posts' => [
-                    'type1' => $request->postType1 ? $request->postType1 : 0,
-                    'type2' => $request->postType2 ? $request->postType2 : 0,
-                    'type3' => $request->postType3 ? $request->postType3 : 0
+                    'type1' => (is_numeric($request->postType1)) ? intval($request->postType1) : 0,
+                    'type2' => (is_numeric($request->postType2)) ? intval($request->postType2) : 0,
+                    'type3' => (is_numeric($request->postType3)) ? intval($request->postType3) : 0
                 ]
             ]
         ];
