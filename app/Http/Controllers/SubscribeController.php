@@ -144,7 +144,7 @@ class SubscribeController extends Controller
             }
             $newTotalPrice = $totalPrice - $getPromocode->amount;
             if($newTotalPrice !== $validatedData['price']){
-                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера', $getPromocode->amount);
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера', $newTotalPrice);
             }
             $getPromocode->uses = $getPromocode->uses - 1;
             $getPromocode->users_active = serialize($usersActivate);
