@@ -11,7 +11,7 @@
     } else {
         $disabledClass = '_disabled';
     }
-        var_dump($user);
+        dd($user);
 @endphp
 <div class="sidebarWrapper">
     <div class="sidebarInfo">
