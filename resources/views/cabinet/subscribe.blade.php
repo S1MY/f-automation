@@ -557,7 +557,7 @@
                             <label class="promoInput">
                                 <p class="promoResponse"><span></span></p>
                                 <input type="hidden" name="promoChecker" value="0">
-                                <input type="text" placeholder="Промокод" name="promocode">
+                                <input type="text" placeholder="Промокод" name="promocode" value="">
                                 <a href="#" class="promoBtn">Применить</a>
                             </label>
                             <input type="hidden" name="price" id="priceInput">
