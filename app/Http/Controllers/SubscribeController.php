@@ -119,15 +119,15 @@ class SubscribeController extends Controller
             }
         }
         if($totalPrice !== $validatedData['price']){
-            $getPromocode = Promocodes::where('code', '=', $validatedData['promocode'])->get();
+            $getPromocode = Promocodes::where('code', '=', $validatedData['promocode'])->first();
+            if (!$getPromocode) {
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Данный промокод не найден. Проверьте ещё раз!');
+            }
             $usersActivate = unserialize($getPromocode->users_active);
             if (in_array($uid, $usersActivate)) {
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Вы уже использовали данный промокод');
             }
             $usersActivate[] = $userEmail;
-            if (count($getPromocode) < 1) {
-                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Данный промокод не найден. Проверьте ещё раз!');
-            }
             if($getPromocode->uses < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'У промокода закончилось количество использований!');
             }
