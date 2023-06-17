@@ -1,6 +1,11 @@
 @extends('cabinet.layouts.master')
 
 @section('title', 'Информация о посте "'.$post->title.'"')
+<script>
+    if({{ $user->Subscribe ? ($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)['vk']['posts']['type1'] !== 1) : true }}){
+      window.location.href = "{{ route('cabinet') }}";
+    }
+  </script>
 
 @section('cabinet-content')
     <div class="pageFlex">
