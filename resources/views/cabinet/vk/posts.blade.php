@@ -6,12 +6,15 @@
         if($user->Subscribe->sub_status === 1){
             $vkPackage = unserialize($user->Subscribe->sub_config);
             if($vkPackage['vk']['posts']['type1'] !== 1){
+        ob_clean();
                 return redirect('/cabinet');
             }
         }else{
+        ob_clean();
             return redirect('/cabinet');
         }
     }else{
+        ob_clean();
         return redirect('/cabinet');
     }
 @endphp
