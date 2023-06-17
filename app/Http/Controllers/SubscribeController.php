@@ -36,10 +36,14 @@ class SubscribeController extends Controller
 
         $ubalance = Auth::user()->UserInfo->balance;
         $uid = Auth::user()->id;
-        if($validatedData['price'] === 0){
+        $clientPriceNumber = (is_numeric($validatedData['price'])) ? intval($validatedData['price']) : 'error';
+        if($clientPriceNumber === 'error'){
+            return $this->generateJsonResponse('error', 'Ошибка суммы', 'Сумма должна являться целым числом');
+        }
+        if($clientPriceNumber === 0){
             return $this->generateJsonResponse('error', 'Пустой пакет', 'С пустым пакетом вы далеко не уедете. Пересоберите его пожалуйста!');
         }
-        if( $validatedData['price'] > $ubalance ){
+        if( $clientPriceNumber > $ubalance ){
             return $this->generateJsonResponse('error', 'Недостаточно средств', 'На балансе недостаточно средств, попробуйте оплатить подписку через FREEKASSA.');
         }
         $endDate = date("Y-m-d", strtotime("+1 month"));
@@ -118,7 +122,7 @@ class SubscribeController extends Controller
                 }
             }
         }
-        if($totalPrice !== $validatedData['price']){
+        if($totalPrice !== $clientPriceNumber){
             if($validatedData['promoChecker'] < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
             }
@@ -143,8 +147,8 @@ class SubscribeController extends Controller
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'У промокода закончилось количество использований!');
             }
             $newTotalPrice = $totalPrice - $getPromocode->amount;
-            if($newTotalPrice !== $validatedData['price']){
-                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера', $validatedData['price']);
+            if($newTotalPrice !== $clientPriceNumber){
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
             }
             $getPromocode->uses = $getPromocode->uses - 1;
             $getPromocode->users_active = serialize($usersActivate);
@@ -162,13 +166,12 @@ class SubscribeController extends Controller
         ]);
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.');
     }
-    private function generateJsonResponse($type, $title, $message, $subConfig = null)
+    private function generateJsonResponse($type, $title, $message)
     {
         return response()->json([
             'status' => $type,
             'title' => $title,
-            'message' => $message,
-            'megaerror'=> $subConfig
+            'message' => $message
         ]);
     }
 }
