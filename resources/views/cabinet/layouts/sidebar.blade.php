@@ -1,5 +1,17 @@
 @php
     use Carbon\Carbon;
+    $disabledClass = '';
+    $vkPackage = '';
+    if ($user->Subscribe) {
+        if($user->Subscribe->sub_status !== 1){
+        $disabledClass = '_disabled';
+        }else{
+            $vkPackage = unserialize($user->Subscribe->sub_config);
+        }
+        print_r($user->Subscribe);
+    } else {
+        $disabledClass = '_disabled';
+    }
 @endphp
 <div class="sidebarWrapper">
     <div class="sidebarInfo">
@@ -50,20 +62,6 @@
         </svg>
         <span>Подписка</span>
     </a>
-    @php
-        $disabledClass = '';
-        $vkPackage = '';
-        if ($user->Subscribe) {
-            if($user->Subscribe->sub_status !== 1){
-            $disabledClass = '_disabled';
-            }else{
-                $vkPackage = unserialize($user->Subscribe->sub_config);
-            }
-            dd($user->Subscribe);
-        } else {
-            $disabledClass = '_disabled';
-        }
-    @endphp
     <div class="sidebarParent{{ request()->is('cabinet/vk/*') ? ' _active' : null }}{{$disabledClass}}">
         <div class="sidebarOpener">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
