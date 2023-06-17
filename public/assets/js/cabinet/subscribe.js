@@ -54,9 +54,10 @@ $(document).ready(function () {
     let price = parseInt($(this).attr("data-price"));
     // Получаем список требуемых функций
     let parent = $(this).attr("data-parent");
+    let children = $(this).attr("data-children");
     // Создаём массив требуемых функций
     let parents = parent.split(" или ");
-    let childrens = parent.split(" и ");
+    let childrens = children.split(" и ");
     // Детектор активации
     let detector = 0;
     let fullPrice = 0;
