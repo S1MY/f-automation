@@ -505,7 +505,7 @@
                                         </div>
                                         <div class="subCheckBox">
                                             <p class="subCheckNumber">3</p>
-                                            <p class="subCheckText">Возможность загрузки 5 файлов сразу</p>
+                                            <p class="subCheckText">Загрузки до 5 файлов сразу</p>
                                             <p class="subCheckPrice">Стоимость: <span>50₽</span></p>
                                             <a href="#" class="subCheckBtn" data-price="50" data-parent="1"
                                                 data-children="0" data-name="Массив файлов в посте">Выбрать</a>
