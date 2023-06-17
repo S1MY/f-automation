@@ -190,6 +190,7 @@ $(document).ready(function () {
     //   setTimeout(() => {
     //     location.reload();
     //   }, 5000);
+          // errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
     }else if(popupName == "increase"){
       // То как должен выглядеть ответ после ответ с сервера
       let title = "Всё прошло круто";
