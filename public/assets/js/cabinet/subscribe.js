@@ -143,6 +143,7 @@ $(document).ready(function () {
       }
     }
     const formData = $(this).serialize();
+    console.log(formData)
     if(popupName === 'subscribe'){
       $('input[name="promocode"]').val();
     }
