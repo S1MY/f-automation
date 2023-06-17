@@ -173,7 +173,7 @@ $(document).ready(function () {
     e.preventDefault();
     let promocode = $(this).prev().val();
     // То как должен выглядеть ответ после ответ с сервера
-    if (promocode == "FIRST100") {
+    if (promocode == "MINUS100") {
       $(".promoResponse").removeClass("_error");
       $(".promoResponse span").html("Промокод применён");
       $(".promoResponse").fadeIn();
