@@ -53,13 +53,12 @@
     @php
         $disabledClass = '';
         if ($user->Subscribe) {
-            # code...
+            if($user->Subscribe->sub_status !== 1){
+            $disabledClass = '_disabled';
+            }
         } else {
             $disabledClass = '_disabled';
         }
-        
-        
-        // ($user->Subscribe) ? (($user->Subscribe->sub_status === 1) ? null : ' _disabled') : ' _disabled';
     @endphp
     <div class="sidebarParent{{ request()->is('cabinet/vk/*') ? ' _active' : null }}{{$disabledClass}}">
         <div class="sidebarOpener">
