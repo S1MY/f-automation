@@ -144,7 +144,7 @@ class SubscribeController extends Controller
             }
             $newTotalPrice = $totalPrice - $getPromocode->amount;
             if($newTotalPrice !== $validatedData['price']){
-                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера'.implode(',',$subConfig));
+                return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера', $subConfig);
             }
             $getPromocode->uses = $getPromocode->uses - 1;
             $getPromocode->users_active = serialize($usersActivate);
@@ -162,12 +162,13 @@ class SubscribeController extends Controller
         ]);
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.');
     }
-    private function generateJsonResponse($type, $title, $message)
+    private function generateJsonResponse($type, $title, $message, $subConfig = null)
     {
         return response()->json([
             'status' => $type,
             'title' => $title,
-            'message' => $message
+            'message' => $message,
+            'megaerror'=> $subConfig
         ]);
     }
 }

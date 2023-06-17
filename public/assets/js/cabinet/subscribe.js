@@ -152,6 +152,7 @@ $(document).ready(function () {
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           if (response.status == "success") {
+            console.log(response)
             if (popupName === 'deposit') {
               
             }else{
