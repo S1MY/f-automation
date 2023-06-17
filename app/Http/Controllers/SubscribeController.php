@@ -63,14 +63,11 @@ class SubscribeController extends Controller
             ],
         ];
 
-        // При добавление tg добавить условия на смену чисто под tg и когда обе подписки активны - all
-        $sub_alt = 'vk';
-
         Subscribe::create([
             'uid'        => $uid,
             'sub_config' => serialize($sub_config),
+            'sub_old'    => serialize($sub_config),
             'sub_status' => 1,
-            'sub_alt'    => $sub_alt,
             'end_date'   => $end_date
         ]);
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.');
