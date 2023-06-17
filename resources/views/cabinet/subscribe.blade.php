@@ -539,7 +539,8 @@
                             <p class="subPrice">К оплате: <span><span class="fullPrice"></span>₽</span></p>
                             <label class="promoInput">
                                 <p class="promoResponse"><span></span></p>
-                                <input type="text" placeholder="Промокод">
+                                <input type="hidden" name="promoChecker" value="1">
+                                <input type="text" placeholder="Промокод" name="promocode">
                                 <a href="#" class="promoBtn">Применить</a>
                             </label>
                             <input type="hidden" name="price" id="priceInput">

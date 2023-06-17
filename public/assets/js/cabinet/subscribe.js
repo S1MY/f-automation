@@ -247,6 +247,7 @@ $(document).ready(function () {
   function construct(){
     subNames = [];
     fullPrice = 0;
+    $('input[name="promoChecker"]').prop("checked", false);
     $.each($('.subCheckBtn'), function (indexInArray, valueOfElement) {
         if ($(valueOfElement).hasClass('_active')) {
           subNames.push($(valueOfElement).attr('data-name'));
@@ -258,6 +259,7 @@ $(document).ready(function () {
         fullPrice = 0;
     }
     if (promoValue != 0) {
+      $('input[name="promoChecker"]').prop("checked", true);
       fullPrice = parseInt(fullPrice) - parseInt(promoValue);
     }
     $('.subNames').html(subNames.join(', '));
