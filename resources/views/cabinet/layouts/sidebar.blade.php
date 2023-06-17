@@ -51,7 +51,15 @@
         <span>Подписка</span>
     </a>
     @php
-        $disabledClass = ($user->Subscribe) ? (($user->Subscribe->sub_status === 1) ? null : ' _disabled') : ' _disabled';
+        $disabledClass = '';
+        if ($user->Subscribe) {
+            # code...
+        } else {
+            $disabledClass = '_disabled';
+        }
+        
+        
+        // ($user->Subscribe) ? (($user->Subscribe->sub_status === 1) ? null : ' _disabled') : ' _disabled';
     @endphp
     <div class="sidebarParent{{ request()->is('cabinet/vk/*') ? ' _active' : null }}{{$disabledClass}}">
         <div class="sidebarOpener">
