@@ -104,7 +104,7 @@
                             </p>
                         </div>
                         <div class="tabItem _active" data-tab="vk">
-                            @if ($allPackages['vk']['streams']['type1'] !== 1 && $allPackages['vk']['streams']['type2'] === 1 && $allPackages['vk']['streams']['type3'] === 1)
+                            @if ($allPackages['vk']['streams']['type1'] !== 1 || $allPackages['vk']['streams']['type2'] !== 1 || $allPackages['vk']['streams']['type3'] !== 1)
                             <div class="subItem">
                                 <div class="subItemTop _active">
                                     <p class="subItemName">
