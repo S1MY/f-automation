@@ -22,7 +22,7 @@
                 </div>
                 <div class="pageItem">
                     <h2 class="pageTitle">Подписка</h2>
-                    @if ($user->Subscribe->sub_status === 1)
+                    @if ($user->Subscribe && $user->Subscribe->sub_status === 1)
                     @php
                         $allPackages = unserialize($user->Subscribe->sub_config);
                         $packageNames = [
