@@ -63,7 +63,7 @@
                                     @endif
                                 @endforeach
                             @endforeach
-                            @foreach ($allPackages['tg'] as $type => $options)
+                            {{-- @foreach ($allPackages['tg'] as $type => $options)
                                 @foreach ($options as $subtype => $selected)
                                     @if ($selected === 1)
                                     <p class="packageActive">
@@ -77,7 +77,7 @@
                                     </p>
                                     @endif
                                 @endforeach
-                            @endforeach
+                            @endforeach --}}
                         </div>
                         <p class="pageText">Вы в любое время можете расширить пакет, но скидок на добавленные
                             функции не будет. Подробнее в <a href="#"
