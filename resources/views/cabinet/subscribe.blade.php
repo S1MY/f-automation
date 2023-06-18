@@ -23,7 +23,7 @@
                 <div class="pageItem">
                     <h2 class="pageTitle">Подписка</h2>
                     <!-- Если пакет активен -->
-                    <!-- <form data-form="increase" method="POST" class="pageTarget">
+                    <form data-form="increase" method="POST" class="pageTarget">
                         <p class="pageText">Ваш пакет активен и включает в себя следующие услуги</p>
                         <div class="packageActiveFlex">
                             <p class="packageActive">
@@ -301,7 +301,7 @@
                             <button class="formBtn">Оплатить с баланса</button>
                             <a href="#" class="formBtn freekassa">Оплатить FREEKASSA</a>
                         </div>
-                    </form> -->
+                    </form>
                     <!-- Если нет -->
                     <form data-form="subscribe" method="POST" action="{{ route('doSubscribe') }}" class="pageTarget">
                         <p class="pageText">Соберите свой пакет на основании нужных вам функций. Подробнее в <a
