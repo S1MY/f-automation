@@ -159,7 +159,7 @@
                                                 <p class="subCheckNumber">2</p>
                                                 <p class="subCheckText">Возможность проводить трансляции в ВК группе</p>
                                                 <p class="subCheckPrice">Стоимость: <span>200₽</span></p>
-                                                <a href="#" class="subCheckBtn" data-price="200" data-parent="1"
+                                                <a href="#" class="subCheckBtn" data-price="200" data-parent="{{$allPackages['vk']['streams']['type1'] === 1 ? 0 : 1}}"
                                                     data-children="0"
                                                     data-name="Трансляции в ВК группе">Выбрать</a>
                                                 <input type="checkbox" name="streamType2" class="subInput" value="1">
@@ -170,7 +170,7 @@
                                                 <p class="subCheckNumber">3</p>
                                                 <p class="subCheckText">Full HD качество любого из ваших стримов</p>
                                                 <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
-                                                <a href="#" class="subCheckBtn" data-price="100" data-parent="1"
+                                                <a href="#" class="subCheckBtn" data-price="100" data-parent="{{$allPackages['vk']['streams']['type1'] === 1 ? 0 : 1}}"
                                                     data-children="0"
                                                     data-name="Full HD качество стримов">Выбрать</a>
                                                 <input type="checkbox" name="streamType3" class="subInput" value="1">
