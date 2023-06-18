@@ -66,17 +66,17 @@
         @if ($user->Subscribe)
             @if ($user->Subscribe->sub_status === 1)
                 @php
-                    $vkPackage = unserialize($user->Subscribe->sub_config);
+                    $vkPackage = unserialize($user->Subscribe->sub_config)['vk'];
                 @endphp
                 <div class="{{ request()->is('cabinet/vk/*') ? null : 'sidebarSubWrapper' }}">
                     <div class="sidebarSub">
-                        <a href="{{ route('streams') }}" class="sidebarLink{{ request()->is('cabinet/vk/stream*') ? ' _active' : null }}{{($vkPackage['vk']['streams']['type1'] !== 1) ? ' _disabled' : null}}">
+                        <a href="{{ route('streams') }}" class="sidebarLink{{ request()->is('cabinet/vk/stream*') ? ' _active' : null }}{{($vkPackage['streams']['type1'] !== 1) ? ' _disabled' : null}}">
                             <span>Трансляции</span>
                         </a>
-                        <a href="{{ route('posts') }}" class="sidebarLink{{ request()->is('cabinet/vk/posts*') ? ' _active' : null }}{{($vkPackage['vk']['posts']['type1'] !== 1) ? ' _disabled' : null}}">
+                        <a href="{{ route('posts') }}" class="sidebarLink{{ request()->is('cabinet/vk/posts*') ? ' _active' : null }}{{($vkPackage['posts']['type1'] !== 1) ? ' _disabled' : null}}">
                             <span>Посты</span>
                         </a>
-                        <a href="{{ route('stories') }}" class="sidebarLink{{ request()->is('cabinet/vk/stories*') ? ' _active' : null }}{{($vkPackage['vk']['stories']['type1'] !== 1) ? ' _disabled' : null}}">
+                        <a href="{{ route('stories') }}" class="sidebarLink{{ request()->is('cabinet/vk/stories*') ? ' _active' : null }}{{($vkPackage['stories']['type1'] !== 1) ? ' _disabled' : null}}">
                             <span>Истории</span>
                         </a>
                         <a class="sidebarLink _disabled">
