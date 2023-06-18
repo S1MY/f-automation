@@ -44,7 +44,7 @@ $(document).ready(function () {
     }
     construct();
   });
-  $(".subCheckBtn").click(function (e) {
+  $(document).on('click', '.subCheckBtn', function (e) {
     e.preventDefault();
     // Обозначаем элемент
     const element = $(this);
