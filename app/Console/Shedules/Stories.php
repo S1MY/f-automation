@@ -106,8 +106,10 @@ $schedule->call(function () {
                     if($storiesJSON->response->open_link->state === "on"){
                         $open_link += $storiesJSON->response->open_link->count;
                     }
-                   
                 }
+                $lastStories->viewes = $viewes;
+                $lastStories->shares = $shares;
+                $lastStories->open_link = $open_link;
                 $lastStories->save();
             }
         }
