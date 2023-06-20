@@ -101,7 +101,7 @@ class StoriesController extends Controller
         $linksDB = [];
         $uploadsDB = [];
         $extensionDB = [];
-        $storiedDid = [];
+        $storiesDid = [];
         foreach ($storiesFile as $index => $sFile) {
             $fileType = $sFile->getMimeType();
             if ($fileType == 'video/mp4' || $fileType == 'video/avi') {
@@ -202,7 +202,7 @@ class StoriesController extends Controller
             }
             $linksDB[] = $storiesLink;
             $uploadsDB[] = $sendStoriesJSON->response->upload_result;
-            $storiedDid[] = $storiesJSON->response->items[0]->id;
+            $storiesDid[] = $storiesJSON->response->items[0]->photo->id;
         }
             $storiesCreate = Stories::create([
                 'account_id' => $accountId,
@@ -221,7 +221,7 @@ class StoriesController extends Controller
             ]);
             StoriesStory::create([
                 'stories_id' => $storiesCreate->id,
-                'stories_did' => serialize($storiedDid)
+                'stories_did' => serialize($storiesDid)
             ]);
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
     }
