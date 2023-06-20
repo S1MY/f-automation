@@ -82,9 +82,6 @@ $(document).ready(function () {
       } else if (groupId) {
         formData.append('group_id', groupId);
       }
-      for (var pair of formData.entries()) {
-          console.log(pair[0]+ ', ' + pair[1]); 
-      }
       $.ajax({
         type: "POST",
         url: action,

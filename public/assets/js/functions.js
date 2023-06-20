@@ -1,12 +1,21 @@
 jQuery.event.special.touchstart = {
+  setup: function( _, ns, handle ) {
+      this.addEventListener("touchstart", handle, { passive: !ns.includes("noPreventDefault") });
+  }
+};
+jQuery.event.special.touchmove = {
+  setup: function( _, ns, handle ) {
+      this.addEventListener("touchmove", handle, { passive: !ns.includes("noPreventDefault") });
+  }
+};
+jQuery.event.special.wheel = {
   setup: function( _, ns, handle ){
-    if ( ns.includes("noPreventDefault") ) {
-      this.addEventListener("touchstart", handle, { passive: false });
-      this.addEventListener("touchmove", handle, { passive: false });
-    } else {
-      this.addEventListener("touchstart", handle, { passive: true });
-      this.addEventListener("touchmove", handle, { passive: true });
-    }
+      this.addEventListener("wheel", handle, { passive: true });
+  }
+};
+jQuery.event.special.mousewheel = {
+  setup: function( _, ns, handle ){
+      this.addEventListener("mousewheel", handle, { passive: true });
   }
 };
 const successHandler = (title, message, locate = null) => {
