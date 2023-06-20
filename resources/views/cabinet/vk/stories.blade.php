@@ -45,15 +45,20 @@
                                     @endif
                                     @endforeach
                                     <div class="selectFlow">
+                                        @php 
+                                            $groupStories = unserialize($user->Subscribe->sub_config)['vk']['stories']['type2'];
+                                        @endphp
                                         @foreach (Auth::user()->VkAccount as $key => $vkAccount)
                                         @if ($key === 0)
                                         <p class="selectItem _active" data-type="user" data-id="{{ $vkAccount->id }}"><span class="_name">Аккаунт: {{$vkAccount->name}}</span></p>
                                         @else
                                         <p class="selectItem" data-type="user" data-id="{{ $vkAccount->id }}"><span class="_name">Аккаунт: {{$vkAccount->name}}</span></p>
                                         @endif
+                                        @if ($groupStories === 1)
                                         @foreach ($vkAccount->VkGroup as $VkGroup)
                                         <p class="selectItem" data-type="group" data-id="{{ $VkGroup->id }}"><span class="_name">Группа: {{ $VkGroup->name }}</span></p>
                                         @endforeach
+                                        @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -96,6 +101,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @php 
+                                $multiFiles = unserialize($user->Subscribe->sub_config)['vk']['stories']['type3'];
+                            @endphp
                             <div class="tabPageInput _full" data-name="file">
                                 <div class="fileInput">
                                     <div class="progressbar"></div>
@@ -103,7 +111,11 @@
                                         <p class="fileName">Файл не выбран</p>
                                         <div class="myFileBtn">
                                             <span>Обзор...</span>
-                                            <input type="file" name="file" id="file" class="hidden" accept="image/jpeg, video/mp4, video/avi, image/png">
+                                            @if ($multiFiles === 1)
+                                            <input type="file" name="file[]" id="file" class="hidden" accept="image/jpeg, video/mp4, video/avi, image/png" multiple>
+                                            @else
+                                            <input type="file" name="file[]" id="file" class="hidden" accept="image/jpeg, video/mp4, video/avi, image/png">
+                                            @endif
                                         </div>
                                     </div>
                                     <p class="fileText">
@@ -114,6 +126,17 @@
                                         <span>Размер файла:</span>
                                         <span class="_size">0 mb</span>
                                     </p>
+                                    @if ($multiFiles === 1)
+                                        <p class="fileText">
+                                            <span>Число файлов:</span>
+                                            <span class="_filecounts">0 / 5</span>
+                                        </p>
+                                    @else
+                                        <p class="fileText">
+                                            <span>Число файлов:</span>
+                                            <span class="_filecounts">0 / 1</span>
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                             <input type="hidden" name="duration" value="">

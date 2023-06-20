@@ -20,12 +20,16 @@ class StoriesController extends Controller
 {
     public function storiesCreate(Request $request)
     {
+        $vkStoriesRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['stories'];
+        if($vkStoriesRules['type1'] !== 1){
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание историй недоступно для данного F-Аккаунта');
+        }
         $rules = [
             'name' => 'required|string|max:20',
             'accType' => 'required|string|in:user,group',
             'accountId' => 'required|integer',
-            'file' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
-            'duration' => 'required|numeric|regex:/^\d+(\.\d{1,8})?$/',
+            'file.*' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
+            'duration' => 'required|string',
             'linkText' => 'string|in:learn_more,to_store,more,vote,book,order,enroll,fill,signup,buy,ticket,write,open,view,go_to,contact,watch,play,install,read',
             'linkUrl' => 'sometimes|nullable|url',
         ];
@@ -42,8 +46,7 @@ class StoriesController extends Controller
             'file.file' => 'Файл не является файлом',
             'file.mimetypes' => 'Доступны только avi, mp4, jpg, png',
             'duration.required' => 'Файл является обязательным',
-            'duration.numeric' => 'Длительность не numeric',
-            'duration.regex' => 'Ошибка длительности видео',
+            'duration.string' => 'Ошибка длительности файлов',
             'linkText.string' => 'Не является строкой',
             'linkText.in' => 'Неопределённый тип кнопки',
             'linkUrl.url' => 'Не является ссылкой'
@@ -56,13 +59,6 @@ class StoriesController extends Controller
         }
         $validatedData = $validator->validated();
         if ($validatedData['accType'] == 'group') {
-            $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
-            $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : route('main');
-        }else{
-            $linkText = null;
-            $linkUrl = null;
-        }
-        if ($validatedData['accType'] == 'group') {
             $groupId = $validatedData['accountId'];
             $searchGroup = VkGroup::where('id', '=', $groupId)->first();
             if (!$searchGroup) {
@@ -70,32 +66,54 @@ class StoriesController extends Controller
             }
             $accountId = $searchGroup->account_id;
             $groupSendId = $searchGroup->group_id;
-        } else {
+            $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
+            $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : route('main');
+            if($vkStoriesRules['type2'] !== 1){
+                return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание историй в группах недоступно для данного F-Аккаунта');
+            }
+        }else{
             $accountId = $validatedData['accountId'];
             $groupId = 0;
+            $linkText = null;
+            $linkUrl = null;
         }
         $searchAccount = VkAccount::where('id', '=', $accountId)->first();
         if (!$searchAccount) {
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
-        // Сколько секунд может загрузить чел
-        // Надо будет делать функцию нарезки длинного видоса и отписание поочерёдной загрузки (ебано)
         $maxSeconds = 15;
-        if($validatedData['duration'] > $maxSeconds){
-            return $this->generateJsonResponse('input', 'file', 'Максимальная длительность '.$maxSeconds.' секунд');
-        }
         $storiesFile = $validatedData['file'];
-        $fileSize = $storiesFile->getSize();
-        $fileType = $storiesFile->getMimeType();
-        if ($fileSize <= 83886080) {
+        if(count($storiesFile) > 1 && $vkStoriesRules['type3'] !== 1){
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов историй недоступен данного F-Аккаунта');
+        }
+        $durationItems = explode("_;_", $validatedData['duration']);
+        foreach ($storiesFile as $sFile) {
+            $fileSize = $sFile->getSize();
+            if ($fileSize > 83886080) {
+                return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');
+            }
+        }
+        foreach ($durationItems as $durationItem) {
+            if($durationItem > $maxSeconds){
+                return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
+            }
+        }
+        $linksDB = [];
+        $uploadsDB = [];
+        $extensionDB = [];
+        $storiedDid = [];
+        foreach ($storiesFile as $sFile) {
+            $fileType = $storiesFile->getMimeType();
             if ($fileType == 'video/mp4' || $fileType == 'video/avi') {
                 $extension = 'mp4';
                 $method = '/stories.getVideoUploadServer';
                 $sendType = 'video';
+                $extensionDB[] = 'video';
             } elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
                 $extension = 'jpg';
                 $method = '/stories.getPhotoUploadServer';
                 $sendType = 'photo';
+                $extensionDB[] = 'photo';
             } else {
                 return $this->generateJsonResponse('input', 'file', 'Неизвестный тип файла');
             }
@@ -182,13 +200,17 @@ class StoriesController extends Controller
             }else{
                 $storiesLink = $fileLoadUrl . $fileName;
             }
+            $linksDB[] = $storiesLink;
+            $uploadsDB[] = $storiesLink;
+            $storiedDid[] = $storiesJSON->response->items[0]->id;
+        }
             $storiesCreate = Stories::create([
                 'account_id' => $accountId,
                 'group_id' => $groupId,
                 'title' => $validatedData['name'],
-                'filetype' => $extension,
-                'link' => $storiesLink,
-                'upload_result' => $sendStoriesJSON->response->upload_result,
+                'filetype' => serialize($extensionDB),
+                'link' => serialize($linksDB),
+                'upload_result' => serialize($uploadsDB),
                 'active' => 1
             ]);
 
@@ -199,12 +221,9 @@ class StoriesController extends Controller
             ]);
             StoriesStory::create([
                 'stories_id' => $storiesCreate->id,
-                'stories_did' => $storiesJSON->response->items[0]->id
+                'stories_did' => serialize($storiedDid)
             ]);
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История успешно запущена в ВК');
-        } else {
-            return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 10МБ');
-        }
     }
 
     public function storiesRemove(Request $request)
@@ -248,7 +267,19 @@ class StoriesController extends Controller
                 if($searchAccount->uid == $userId){
                     if ($searchStories) {
                         $newActive = ($searchStories->active == 1) ? 0 : 1;
+                        $vkStoriesRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['stories'];
+                        if($newActive ==1 && $vkStoriesRules['type1'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация историй недоступна для данного F-Аккаунта');
+                        }
+                        if($searchStories->group_id > 0 && $vkStoriesRules['type2'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация историй в группе недоступна для данного F-Аккаунта');
+                        }
+                        if(count(unserialize($searchStories->link)) > 0 && $vkStoriesRules['type3'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов историй недоступен для данного F-Аккаунта');
+                        }
                         $searchStories->active = $newActive;
+                        $timestampDate = date('Y-m-d H:i:s', strtotime('+1 minute'));
+                        $searchStories->updated_at = $timestampDate;
                         $searchStories->save();
                         if($newActive == 1){
                             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. История запустится через минуту');

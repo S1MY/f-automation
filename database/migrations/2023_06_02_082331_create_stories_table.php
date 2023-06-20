@@ -18,9 +18,9 @@ return new class extends Migration
             $table->integer('account_id')->nullable();
             $table->integer('group_id')->default(0);
             $table->longText('title')->nullable();
-            $table->string('filetype')->nullable();
-            $table->string('link')->nullable();
-            $table->string('upload_result')->nullable();
+            $table->longText('filetype')->nullable();
+            $table->longText('link')->nullable();
+            $table->longText('upload_result')->nullable();
             $table->integer('active')->default(0);
             $table->timestamps();
         });

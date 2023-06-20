@@ -7,11 +7,13 @@ $(document).ready(function () {
   // Загрузка и статус файла
   let detector = false;
   let video = document.createElement("video");
+  let durations = []
+  let filenames = []
   $("#file").change(function (e) {
     e.preventDefault();
-    let file = this.files[0];
-    let size = file.size;
-    detector == false;
+    let files = this.files;
+    let totalSize = 0;
+    detector = false;
     $(".progressbar").css("width", "0%");
     if (
       $(".tabPageInput[data-name='file']")
@@ -25,32 +27,58 @@ $(document).ready(function () {
         .children("button")
         .addClass("_disabled");
     }
-    if (size > 83886080) {
-      $("#file").val("");
-      createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 10МБ</p>");
-    } else {
-      if (file.type == 'video/mp4') {
-        let url = URL.createObjectURL(file);
-        video.src = url;
-        video.ondurationchange = function () {
-          $('input[name="duration"]').val(this.duration);
-        };
+    if (files.length > 5) {
+      createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 5</p>");
+      return false
+    }
+    $('._filecounts').html(`${files.length} / 5`);
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
+      let size = file.size;
+      totalSize += size;
+
+      if (size > 83886080) {
+        $("#file").val("");
+        createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 10МБ</p>");
+        return false
       } else {
-        $('input[name="duration"]').val(14.99);
+        if (file.type == 'video/mp4') {
+          let url = URL.createObjectURL(file);
+          video.src = url;
+          video.ondurationchange = function () {
+            durations.push(this.duration)
+          };
+        } else {
+          durations.push(14.99)
+        }
+        $('input[name="duration"]').val(durations.join('_;_'));
+        filenames.push(file.name)
+        $('.fileName').html(filenames.join('_;_'));
+        let newSize = totalSize / 1048576;
+        newSize = newSize.toFixed(2).replace(".00", "");
+        $("._size").html(`${newSize} mb`);
+        const videoData = new FormData();
+        videoData.append("file", file);
+        let xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener("progress", progressOperation, false);
+        xhr.addEventListener("load", loadOperation, false);
+        xhr.addEventListener("error", errorOperation, false);
+        xhr.addEventListener("abort", abortOperation, false);
+        xhr.open("POST", "upload_processing.php");
+        xhr.send(videoData);
       }
-      $('.fileName').html(file.name);
-      let newSize = size / 1048576;
-      newSize = newSize.toFixed(2).replace(".00", "");
-      $("._size").html(`${newSize} mb`);
-      const videoData = new FormData();
-      videoData.append("file", file);
-      let xhr = new XMLHttpRequest();
-      xhr.upload.addEventListener("progress", progressOperation, false);
-      xhr.addEventListener("load", loadOperation, false);
-      xhr.addEventListener("error", errorOperation, false);
-      xhr.addEventListener("abort", abortOperation, false);
-      xhr.open("POST", "upload_processing.php");
-      xhr.send(videoData);
+    }
+
+    if (totalSize > 419430400) {
+      $("#file").val("");
+      createMessage("<p class='fixedMessage _error'>Общий размер загружаемых файлов не должен превышать 50МБ</p>");
+      $('.fileName').html('Файл не обнаружен');
+      $("._status").html('0 mb');
+      $("._status").removeClass('_complete');
+      $("._size").html('0 mb');
+      $('._filecounts').html('0 / 5')
+      $("#file").val();
+      detector = false;
     }
   });
   const loadOperation = () => {
@@ -60,8 +88,8 @@ $(document).ready(function () {
       .removeClass("_disabled");
     $("._status").removeClass("_loader");
     $("._status").addClass("_complete");
-    $("._status").html("Файл загружен");
-    createMessage("<p class='fixedMessage'>Файл успешно загружен!</p>");
+    $("._status").html("Файлы загружены");
+    createMessage("<p class='fixedMessage'>Файлы успешно загружены!</p>");
     detector = true;
   }
   $(".tabPageForm").submit(function (e) {
@@ -75,8 +103,10 @@ $(document).ready(function () {
       $.each(serialize, function (i, val) {
         formData.append(val.name, val.value);
       });
-      let file = document.getElementById("file").files[0];
-      formData.append("file", file);
+      for (let i = 0; i < document.getElementById("file").files.length; i++) {
+        const file = document.getElementById("file").files[i]
+        formData.append(`file[${i}]`, file);
+      }
       $(".popupWrapper").fadeIn();
       $('.popupItem').fadeOut();
       $('.popupItem[data-popup="loader"]').fadeIn();

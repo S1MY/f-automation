@@ -110,6 +110,7 @@ class PostsController extends Controller
                 return $this->generateJsonResponse('input', 'tabs', 'Дата и время меньше текущих');
             }
         }
+        // Сюда
         $maxSeconds = 120;
         $postFiles = $validatedData['file'];
         if(count($postFiles) > 1 && $vkPostsRules['type3'] !== 1){
