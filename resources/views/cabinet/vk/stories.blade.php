@@ -2,10 +2,14 @@
 
 @section('title', 'Истории Вконтакте')
 <script>
-    if({{ $user->Subscribe ? ($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)['vk']['stories']['type1'] !== 1) : true }}){
-      window.location.href = "{{ route('cabinet') }}";
+    if({{$user->Subscribe}}){
+        if({{$user->Subscribe->sub_status === 1}} && {{unserialize($user->Subscribe->sub_config)['vk']['stories']['type1'] !== 1}}){
+            window.location.href = "{{ route('cabinet') }}";
+        }
+    }else{
+        window.location.href = "{{ route('cabinet') }}";
     }
-  </script>
+</script>
 
 @section('cabinet-content')
     <div class="pageFlex">
