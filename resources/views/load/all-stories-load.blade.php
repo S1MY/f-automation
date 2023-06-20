@@ -22,9 +22,9 @@
         'install' => 'Установить',
         'read' => 'Читать'
     ]
+    print_r($allStories);
 @endphp
 @if (count($allStories) > 0)
-@dd($allStories)
 @foreach ($allStories as $stories)
     @php
         $extensions = unserialize($stories->filetype);
