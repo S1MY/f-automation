@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call('app/Console/Schedules/');
+        $schedule->call('app/Console/Schedules/Stories')->everyMinute();
     }
 
     /**
