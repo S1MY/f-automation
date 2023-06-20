@@ -129,7 +129,7 @@ class StoriesController extends Controller
                 'add_to_news' => 1
             ];
             if ($validatedData['accType'] == 'group') {
-                $uploadParams['group_id'] = $groupSendId;
+                $uploadParams['group_id'] = $groupId;
                 $uploadParams['link_text'] = $linkText;
                 $uploadParams['link_url'] = $linkUrl;
             }
