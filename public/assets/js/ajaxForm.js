@@ -116,9 +116,6 @@ $(document).ready(function () {
                 formData.append('myPageId', myPageId);
             }
             formData.append('page', page);
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            }
             $.ajax({
                 type: "POST",
                 url: action,
