@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('post_id')->nullable();
             $table->integer('friends_only')->default(0);
             $table->integer('close_comments')->default(0);
+            $table->integer('pin_new')->default(0);
+            $table->integer('remove_old')->default(0);
             $table->string('type')->nullable();
             $table->integer('interval')->nullable();
             $table->timestamp('date')->nullable();

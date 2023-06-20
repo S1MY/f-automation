@@ -255,29 +255,31 @@ class PostsController extends Controller
         if (isset($wallPostJSON->error)) {
             return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2', $wallPostParams);
         }
-        $postPinClient = new Client([
-            'base_uri' => 'https://api.vk.com',
-        ]);
-        $postPinParams = [
-            'v' => '5.131',
-            'access_token' => $searchAccount->token,
-            'post_id' => $wallPostJSON->response->post_id
-        ];
-        if ($validatedData['accType'] == 'group') {
-            $postPinParams['owner_id'] = '-'.$groupId;
-        }else{
-            $postPinParams['owner_id'] = $accountSendId;
-        }
-        $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
-            'query' => $postPinParams
-        ]);
-        if ($postPinGet->getStatusCode() !== 200 || !$postPinGet->getBody()) {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F1');
-        }
-        $postPinContent = $postPinGet->getBody()->getContents();
-        $postPinJSON = json_decode($postPinContent);
-        if (isset($postPinJSON->error)) {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F2');
+        if($validatedData['pinNew'] == 1){
+            $postPinClient = new Client([
+                'base_uri' => 'https://api.vk.com',
+            ]);
+            $postPinParams = [
+                'v' => '5.131',
+                'access_token' => $searchAccount->token,
+                'post_id' => $wallPostJSON->response->post_id
+            ];
+            if ($validatedData['accType'] == 'group') {
+                $postPinParams['owner_id'] = '-'.$groupId;
+            }else{
+                $postPinParams['owner_id'] = $accountSendId;
+            }
+            $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
+                'query' => $postPinParams
+            ]);
+            if ($postPinGet->getStatusCode() !== 200 || !$postPinGet->getBody()) {
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F1');
+            }
+            $postPinContent = $postPinGet->getBody()->getContents();
+            $postPinJSON = json_decode($postPinContent);
+            if (isset($postPinJSON->error)) {
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F2');
+            }
         }
         $postCreate = Post::create([
             'account_id' => $accountId,
@@ -292,6 +294,8 @@ class PostsController extends Controller
             'post_id' => $postCreate->id,
             'friends_only' => $validatedData['onlyFriends'],
             'close_comments' => $validatedData['closeComments'],
+            'pin_new' => $validatedData['pinNew'],
+            'remove_old' => $validatedData['removeOld'],
         ];
         if ($type === 'date') {
             $settingsData['type'] = 'date';
