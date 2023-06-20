@@ -21,6 +21,10 @@ class PostsController extends Controller
 {
     public function postCreate(Request $request)
     {
+        $vkPostsRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['posts'];
+        if($vkPostsRules['type1'] !== 1){
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание постов недоступно для данного F-Аккаунта');
+        }
         $rules = [
             'name' => 'required|string|max:20',
             'accType' => 'required|string|in:user,group',
@@ -86,6 +90,9 @@ class PostsController extends Controller
             }
             $accountId = $searchGroup->account_id;
             $groupId = $searchGroup->group_id;
+            if($vkPostsRules['type2'] !== 1){
+                return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание постов в группах недоступно для данного F-Аккаунта');
+            }
         } else {
             $accountId = $validatedData['accountId'];
             $groupId = 0;
@@ -105,6 +112,9 @@ class PostsController extends Controller
         }
         $maxSeconds = 120;
         $postFiles = $validatedData['file'];
+        if(count($postFiles) > 1 && $vkPostsRules['type3'] !== 1){
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов для поста недоступен данного F-Аккаунта');
+        }
         $durationItems = explode("_;_", $validatedData['duration']);
         foreach ($postFiles as $postFile) {
             $fileSize = $postFile->getSize();
@@ -422,6 +432,16 @@ class PostsController extends Controller
                 if($searchAccount->uid == $userId){
                     if ($searchPost) {
                         $newActive = ($searchPost->active == 1) ? 0 : 1;
+                        $vkPostsRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['posts'];
+                        if($newActive ==1 && $vkPostsRules['type1'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация поста недоступна для данного F-Аккаунта');
+                        }
+                        if($searchPost->group_id > 0 && $vkPostsRules['type2'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация поста в группе недоступна для данного F-Аккаунта');
+                        }
+                        if(count(unserialize($searchPost->attachments)) > 0 && $vkPostsRules['type3'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов поста недоступен для данного F-Аккаунта');
+                        }
                         $searchPost->active = $newActive;
                         $searchPost->save();
                         if($newActive == 1){
