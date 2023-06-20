@@ -427,6 +427,8 @@ class PostsController extends Controller
         if (is_numeric($autoStart)) {
             $searchPost = Post::where('id', '=', $autoStart)
                 ->first();
+            $postSettings = PostSettings::where('post_id', '=', $autoStart)
+            ->first();
             $searchAccount = VkAccount::where('id', '=', $searchPost->account_id)->first();
             if($searchAccount){
                 if($searchAccount->uid == $userId){
@@ -443,6 +445,12 @@ class PostsController extends Controller
                             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов поста недоступен для данного F-Аккаунта');
                         }
                         $searchPost->active = $newActive;
+                        $timestampDate = date('Y-m-d H:i:s', strtotime('+1 minute'));
+                        if ($postSettings->type === 'date') {
+                            $postSettings->date = $timestampDate;
+                            $postSettings->save();
+                        }
+                        $searchPost->updated_at = $timestampDate;
                         $searchPost->save();
                         if($newActive == 1){
                             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Пост будет выложен через минуту');
