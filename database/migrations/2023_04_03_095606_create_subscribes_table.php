@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('subscribes', function (Blueprint $table) {
             $table->id();
             $table->integer('uid')->nullable();
-            $table->binary('sub_config')->nullable();
-            $table->binary('sub_old')->nullable();
+            $table->longText('sub_config')->nullable();
+            $table->longText('sub_old')->nullable();
             $table->integer('sub_status')->default(0);
             $table->date('end_date')->nullable();
         });
