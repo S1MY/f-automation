@@ -26,21 +26,27 @@
 @if (count($allStories) > 0)
 @foreach ($allStories as $stories)
     @php
+        $extensions = unserialize($post->filetype);
+        $links = unserialize($post->link);
         $storiesDate = Carbon::createFromFormat('Y-m-d H:i:s', $stories->created_at, 'Europe/Moscow');
         $dateView = $storiesDate->format('H:i');
     @endphp
     <div class="cardItem">
-        @if ($stories->filetype == 'mp4')
-        <div class="videoWrapper">
-            <video class="videoGuid" playsinline controls preload="metadata">
-                <source src="/storage/{{$stories->link}}" type="video/mp4"/>
-            </video>
+        <div class="itemsSlider">
+            @foreach ($links as $key => $link)
+                @if (rtrim(strstr($extensions[$key], '_', true), "0123456789") == 'video')
+                <div class="videoWrapper">
+                    <video class="videoGuid" playsinline controls preload="metadata">
+                        <source src="/storage/{{$link}}" type="video/mp4"/>
+                    </video>
+                </div>
+                @else
+                <div class="imageWrapper">
+                    <img src="{{$link}}" alt="image">
+                </div>
+                @endif
+            @endforeach
         </div>
-        @else
-        <div class="imageWrapper">
-            <img src="{{$stories->link}}" alt="image">
-        </div>
-        @endif
         <div class="cardInformation">
             <div class="cardInformationTop">
                 <h3 class="cardName">{{$stories->title}}</h3>
