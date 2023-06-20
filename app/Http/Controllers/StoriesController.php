@@ -65,7 +65,7 @@ class StoriesController extends Controller
                 return $this->generateJsonResponse('input', 'account', 'Группа не найдена');
             }
             $accountId = $searchGroup->account_id;
-            $groupSendId = $searchGroup->group_id;
+            $groupId = $searchGroup->group_id;
             $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
             $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : route('main');
             if($vkStoriesRules['type2'] !== 1){

@@ -135,7 +135,7 @@ class PaginateController extends Controller
                 $VkGroups = VkGroup::where('group_id', $groupId)
                     ->get();
                 $allStories = Stories::join('vk_groups', 'stories.group_id', '=', 'vk_groups.group_id')
-                    ->join('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
+                    ->leftJoin('stories_settings', 'stories.id', '=', 'stories_settings.stories_id')
                     ->orderBy('id', 'desc')
                     ->where('stories.account_id', '=', $VkGroups->pluck('account_id'))
                     ->where('stories.group_id', '=', $VkGroups->pluck('group_id'))
