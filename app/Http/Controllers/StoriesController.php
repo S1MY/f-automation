@@ -102,7 +102,7 @@ class StoriesController extends Controller
         $uploadsDB = [];
         $extensionDB = [];
         $storiedDid = [];
-        foreach ($storiesFile as $sFile) {
+        foreach ($storiesFile as $index => $sFile) {
             $fileType = $sFile->getMimeType();
             if ($fileType == 'video/mp4' || $fileType == 'video/avi') {
                 $extension = 'mp4';
@@ -117,9 +117,9 @@ class StoriesController extends Controller
             } else {
                 return $this->generateJsonResponse('input', 'file', 'Неизвестный тип файла');
             }
-            $fileName = 'stories-' . date("Y-m-d-H-i-s") . "." . $extension;
+            $fileName = 'stories-' . date("Y-m-d-H-i-s") . $index . "." . $extension;
             $userName = Auth::user()->login;
-            Storage::disk('public')->putFileAs('files/users/' . $userName . '/stories', $storiesFile, $fileName);
+            Storage::disk('public')->putFileAs('files/users/' . $userName . '/stories', $sFile, $fileName);
             $getUpload = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
