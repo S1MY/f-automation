@@ -160,7 +160,6 @@ class SubscribeController extends Controller
         Subscribe::create([
             'uid'        => $uid,
             'sub_config' => serialize($subConfig),
-            'sub_old'    => serialize($subConfig),
             'sub_status' => 1,
             'end_date'   => $endDate
         ]);
