@@ -91,10 +91,10 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         complete: function (response) {
-          if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-accountId=${itemId}]`)) {
+          if (window.location.pathname == '/cabinet/vk/stories' && $(`.pageTab[data-tab=${itemId}]`)) {
             $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
           }
-          if (window.location.pathname == '/cabinet/vk/posts' && $(`.pageTab[data-accountId=${itemId}]`)) {
+          if (window.location.pathname == '/cabinet/vk/posts' && $(`.pageTab[data-tab=${itemId}]`)) {
             $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
           }
           sliderSearch()
