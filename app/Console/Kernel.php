@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            Promocodes::delete();
+            Promocodes::where('id', '=', 1)->delete();
         })->everyMinute();
     }
 
