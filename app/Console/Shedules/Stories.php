@@ -18,11 +18,11 @@ $schedule->call(function () {
         if($stories->active === 1){
             $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $stories->updated_at, 'Europe/Moscow')->startOfMinute();
             $updatedAtNext = $updatedAt->copy()->addDay()->startOfMinute();
+            $accountId = $stories->account_id;
+            $groupId = $stories->group_id;
+            $vkAccount = VkAccount::where('id', '=', $accountId)->first();
+            $vkToken = $vkAccount->token;
             if ($updatedAtNext === Carbon::now('Europe/Moscow')->startOfMinute()) {
-                $accountId = $stories->account_id;
-                $groupId = $stories->group_id;
-                $vkAccount = VkAccount::where('id', '=', $accountId)->first();
-                $vkToken = $vkAccount->token;
                 $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                 $userId = $vkAccount->uid;
                 $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
@@ -36,6 +36,7 @@ $schedule->call(function () {
                             if(count(unserialize($stories->upload_result)) > 1 && $subscribePackage['type3'] !== 1){
                                 die();
                             }
+                            $storiesDid = [];
                             foreach (unserialize($stories->upload_result) as $storiesIndex => $storiesUpload) {
                                 $storiesSave = new Client([
                                     'base_uri' => 'https://api.vk.com',
@@ -56,10 +57,14 @@ $schedule->call(function () {
                                 if (isset($storiesJSON->error)) {
                                     die();
                                 }
-                                $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
-                                $stories-save();
-                                // Сохранить новые стори
+                                $storiesDid[] = $storiesJSON->response->items[0]->id;
                             }
+                            $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
+                            $stories-save();
+                            StoriesStory::create([
+                                'stories_id' => $stories->id,
+                                'stories_did' => serialize($storiesDid)
+                            ]);
                         }
                     }else{
                         $stories->active = 0;
@@ -67,7 +72,43 @@ $schedule->call(function () {
                     }
                 }
             }elseif ($updatedAtNext->subMinutes(5) === Carbon::now('Europe/Moscow')->startOfMinute()) {
-                // Собрать всю информацию и записать в последнюю карточку
+                $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
+                $lastStories = StoriesStory::where('stories_id', '=', $stories->id)->latest('id')->first();
+                $viewes = $lastStories->viewes;
+                $open_link = $lastStories->open_link;
+                $shares = $lastStories->shares;
+                foreach (unserialize($lastStories->stories_did) as $storiesItem) {
+                    $storiesStats = new Client([
+                        'base_uri' => 'https://api.vk.com',
+                    ]);
+                    $storiesParams = [
+                        'v' => '5.131',
+                        'owner_id' => $ownerId,
+                        'story_id' => $storiesItem,
+                    ];
+                    $storiesGet = $storiesStats->request('GET', '/method/stories.getStats', [
+                        'query' => $storiesParams
+                    ]);
+                    if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
+                        die();
+                    }
+                    $storiesContent = $storiesGet->getBody()->getContents();
+                    $storiesJSON = json_decode($storiesContent);
+                    if (isset($storiesJSON->error)) {
+                        die();
+                    }
+                    if($storiesJSON->response->views->state === "on"){
+                        $viewes += $storiesJSON->response->views->count;
+                    }
+                    if($storiesJSON->response->shares->state === "on"){
+                        $shares += $storiesJSON->response->shares->count;
+                    }
+                    if($storiesJSON->response->open_link->state === "on"){
+                        $open_link += $storiesJSON->response->open_link->count;
+                    }
+                   
+                }
+                $lastStories->save();
             }
         }
     }
