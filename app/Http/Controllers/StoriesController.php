@@ -201,7 +201,7 @@ class StoriesController extends Controller
                 $storiesLink = $fileLoadUrl . $fileName;
             }
             $linksDB[] = $storiesLink;
-            $uploadsDB[] = $storiesLink;
+            $uploadsDB[] = $sendStoriesJSON->response->upload_result;
             $storiedDid[] = $storiesJSON->response->items[0]->id;
         }
             $storiesCreate = Stories::create([
