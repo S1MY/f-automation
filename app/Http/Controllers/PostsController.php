@@ -227,59 +227,64 @@ class PostsController extends Controller
             $linksDB[] = $link;
             $filesDB[] = $attachments;
         }
-        $wallPostSave = new Client([
-            'base_uri' => 'https://api.vk.com',
-        ]);
-        $wallPostParams = [
-            'v' => '5.131',
-            'access_token' => $searchAccount->token,
-            'friends_only' => $validatedData['onlyFriends'],
-            'close_comments' => $validatedData['closeComments'],
-            'message' => $validatedData['message'],
-            'attachments' => implode(',',$filesDB),
-        ];
-        if ($validatedData['accType'] == 'group') {
-            $wallPostParams['owner_id'] = '-'.$groupId;
-            $wallPostParams['from_group'] = 1;
+        if($type === 'date'){
+            $postDid = 0;
         }else{
-            $wallPostParams['owner_id'] = $accountSendId;
-        }
-        $wallPostGet = $wallPostSave->request('GET', '/method/wall.post', [
-            'query' => $wallPostParams
-        ]);
-        if ($wallPostGet->getStatusCode() !== 200 || !$wallPostGet->getBody()) {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F1');
-        }
-        $wallPostContent = $wallPostGet->getBody()->getContents();
-        $wallPostJSON = json_decode($wallPostContent);
-        if (isset($wallPostJSON->error)) {
-            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2', $wallPostParams);
-        }
-        if($validatedData['pinNew'] == 1){
-            $postPinClient = new Client([
+            $wallPostSave = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
-            $postPinParams = [
+            $wallPostParams = [
                 'v' => '5.131',
                 'access_token' => $searchAccount->token,
-                'post_id' => $wallPostJSON->response->post_id
+                'friends_only' => $validatedData['onlyFriends'],
+                'close_comments' => $validatedData['closeComments'],
+                'message' => $validatedData['message'],
+                'attachments' => implode(',',$filesDB),
             ];
             if ($validatedData['accType'] == 'group') {
-                $postPinParams['owner_id'] = '-'.$groupId;
+                $wallPostParams['owner_id'] = '-'.$groupId;
+                $wallPostParams['from_group'] = 1;
             }else{
-                $postPinParams['owner_id'] = $accountSendId;
+                $wallPostParams['owner_id'] = $accountSendId;
             }
-            $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
-                'query' => $postPinParams
+            $wallPostGet = $wallPostSave->request('GET', '/method/wall.post', [
+                'query' => $wallPostParams
             ]);
-            if ($postPinGet->getStatusCode() !== 200 || !$postPinGet->getBody()) {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F1');
+            if ($wallPostGet->getStatusCode() !== 200 || !$wallPostGet->getBody()) {
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F1');
             }
-            $postPinContent = $postPinGet->getBody()->getContents();
-            $postPinJSON = json_decode($postPinContent);
-            if (isset($postPinJSON->error)) {
-                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F2');
+            $wallPostContent = $wallPostGet->getBody()->getContents();
+            $wallPostJSON = json_decode($wallPostContent);
+            if (isset($wallPostJSON->error)) {
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось создать пост F2', $wallPostParams);
             }
+            if($validatedData['pinNew'] == 1){
+                $postPinClient = new Client([
+                    'base_uri' => 'https://api.vk.com',
+                ]);
+                $postPinParams = [
+                    'v' => '5.131',
+                    'access_token' => $searchAccount->token,
+                    'post_id' => $wallPostJSON->response->post_id
+                ];
+                if ($validatedData['accType'] == 'group') {
+                    $postPinParams['owner_id'] = '-'.$groupId;
+                }else{
+                    $postPinParams['owner_id'] = $accountSendId;
+                }
+                $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
+                    'query' => $postPinParams
+                ]);
+                if ($postPinGet->getStatusCode() !== 200 || !$postPinGet->getBody()) {
+                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F1');
+                }
+                $postPinContent = $postPinGet->getBody()->getContents();
+                $postPinJSON = json_decode($postPinContent);
+                if (isset($postPinJSON->error)) {
+                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось закрепить пост на стене F2');
+                }
+            }
+            $postDid = $wallPostJSON->response->post_id;
         }
         $postCreate = Post::create([
             'account_id' => $accountId,
@@ -312,9 +317,21 @@ class PostsController extends Controller
         PostSettings::create($settingsData);
         PostStory::create([
             'post_id' => $postCreate->id,
-            'post_did' => $wallPostJSON->response->post_id
+            'post_did' => $postDid
         ]);
-        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен');
+        if ($validatedData['accType'] == 'group') {
+            if($type !== 'date'){
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен на стену группы');
+            }else{
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет загружен на стену группы в указанное время');
+            }
+        }else{
+            if($type !== 'date'){
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен на стену аккаунта');
+            }else{
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет загружен на стену аккаунта в указанное время');
+            }
+        }
     }
     public function postRemove(Request $request)
     {
