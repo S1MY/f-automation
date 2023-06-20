@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-// use App\Models\Promocodes;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,9 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            // Promocodes::where('id', '=', 1)->delete();
-        })->everyMinute();
+        $schedule->load('app/Console/Schedules/');
     }
 
     /**

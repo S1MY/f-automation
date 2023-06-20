@@ -46,7 +46,7 @@ class SubscribeController extends Controller
         if( $clientPriceNumber > $ubalance ){
             return $this->generateJsonResponse('error', 'Недостаточно средств', 'На балансе недостаточно средств, попробуйте оплатить подписку через FREEKASSA.');
         }
-        $endDate = date("Y-m-d", strtotime("+1 month"));
+        $endDate = date('Y-m-d H:i:s', strtotime('+1 month'));
         $subConfig = [
             'vk' => [
                 'streams' => [

@@ -5,7 +5,7 @@
     <div class="sidebarInfo">
         <p class="infoFlex">Логин <span>{{ $user->login }}</span></p> <p class="infoFlex">Баланс <span>{{ $user->UserInfo->balance }} ₽</span></p>
         <p class="infoFlex">Пакет <span>{{ ($user->Subscribe) ? ($user->Subscribe->sub_status === 1) ? 'Активен' : 'Не активен' : 'Не активен' }}</span></p>
-        <p class="infoFlex">Окончание <span>{{($user->Subscribe) ? ($user->Subscribe->sub_status === 1) ? Carbon::createFromFormat('Y-m-d', $user->Subscribe->end_date, 'Europe/Moscow')->format('d.m.Y') : 'Не активен' : 'Не активен'}}</span></p>
+        <p class="infoFlex">Окончание <span>{{($user->Subscribe) ? ($user->Subscribe->sub_status === 1) ? Carbon::createFromFormat('Y-m-d H:i:s', $user->Subscribe->end_date, 'Europe/Moscow')->format('d.m.Y') : 'Не активен' : 'Не активен'}}</span></p>
     </div>
     @if ($user->admin)
         <a href="{{ route('admin') }}" class="sidebarLink{{ request()->is('cabinet/admin') ? ' _active' : null }}">
