@@ -103,7 +103,7 @@ class StoriesController extends Controller
         $extensionDB = [];
         $storiedDid = [];
         foreach ($storiesFile as $sFile) {
-            $fileType = $storiesFile->getMimeType();
+            $fileType = $sFile->getMimeType();
             if ($fileType == 'video/mp4' || $fileType == 'video/avi') {
                 $extension = 'mp4';
                 $method = '/stories.getVideoUploadServer';
