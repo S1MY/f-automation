@@ -110,6 +110,16 @@ class PostsController extends Controller
                 return $this->generateJsonResponse('input', 'tabs', 'Дата и время меньше текущих');
             }
         }
+        if($validatedData['type'] === 'interval'){
+            if($validatedData['interval'] == 0){
+                return $this->generateJsonResponse('input', 'tabs', 'Неверный интервал');
+            }
+        }
+        if($validatedData['type'] === 'daily'){
+            if($validatedData['daily'] == 0){
+                return $this->generateJsonResponse('input', 'tabs', 'Неверное значение');
+            }
+        }
         // Сюда
         $maxSeconds = 120;
         $postFiles = $validatedData['file'];
