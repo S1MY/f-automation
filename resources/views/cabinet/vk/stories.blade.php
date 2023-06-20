@@ -1,16 +1,17 @@
 @extends('cabinet.layouts.master')
 
 @section('title', 'Истории Вконтакте')
-<script>
-    if({{$user->Subscribe}}){
-        if({{$user->Subscribe->sub_status === 1}} && {{unserialize($user->Subscribe->sub_config)['vk']['stories']['type1'] !== 1}}){
+@if($user->Subscribe)
+    @if($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)["vk"]["stories"]["type1"] !== 1)
+        <script>
             window.location.href = "{{ route('cabinet') }}";
-        }
-    }else{
+        </script>
+    @endif
+@else
+    <script>
         window.location.href = "{{ route('cabinet') }}";
-    }
-</script>
-
+    </script>
+@endif
 @section('cabinet-content')
     <div class="pageFlex">
         <div class="sidebar">
