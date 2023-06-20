@@ -202,7 +202,7 @@ class StoriesController extends Controller
             }
             $linksDB[] = $storiesLink;
             $uploadsDB[] = $sendStoriesJSON->response->upload_result;
-            $storiesDid[] = $storiesJSON->response->items[0]->photo->id;
+            $storiesDid[] = $storiesJSON->response->items[0]->id;
         }
             $storiesCreate = Stories::create([
                 'account_id' => $accountId,
