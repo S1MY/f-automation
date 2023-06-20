@@ -58,7 +58,7 @@ $schedule->call(function () {
                                 }
                                 $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
                                 $stories-save();
-                                $storiesLast = StoriesStory::latest()->first();
+                                // Сохранить новые стори
                             }
                         }
                     }else{
@@ -67,7 +67,7 @@ $schedule->call(function () {
                     }
                 }
             }elseif ($updatedAtNext->subMinutes(5) === Carbon::now('Europe/Moscow')->startOfMinute()) {
-                # code...
+                // Собрать всю информацию и записать в последнюю карточку
             }
         }
     }
