@@ -170,6 +170,9 @@
                                 </span>
                             </div>
                         </div>
+                        @php 
+                            $multiFiles = unserialize($user->Subscribe->sub_config)['vk']['posts']['type3'];
+                        @endphp
                         <div class="tabPageInput _full" data-name="file">
                             <div class="fileInput">
                                 <div class="progressbar"></div>
@@ -177,7 +180,11 @@
                                     <p class="fileName">Файл не выбран</p>
                                     <div class="myFileBtn">
                                         <span>Обзор...</span>
+                                        @if ($multiFiles === 1)
                                         <input type="file" name="file[]" id="file" class="hidden" accept="image/jpeg, video/mp4, video/avi, image/png" multiple>
+                                        @else
+                                        <input type="file" name="file[]" id="file" class="hidden" accept="image/jpeg, video/mp4, video/avi, image/png">
+                                        @endif
                                     </div>
                                 </div>
                                 <p class="fileText">
@@ -188,10 +195,17 @@
                                     <span>Размер файлов:</span>
                                     <span class="_size">0 mb</span>
                                 </p>
-                                <p class="fileText">
-                                    <span>Числов файлов:</span>
-                                    <span class="_filecounts">0 / 5</span>
-                                </p>
+                                @if ($multiFiles === 1)
+                                    <p class="fileText">
+                                        <span>Числов файлов:</span>
+                                        <span class="_filecounts">0 / 5</span>
+                                    </p>
+                                @else
+                                    <p class="fileText">
+                                        <span>Числов файлов:</span>
+                                        <span class="_filecounts">0 / 1</span>
+                                    </p>
+                                @endif
                             </div>
                         </div>
                         <input type="hidden" name="duration" value="">
