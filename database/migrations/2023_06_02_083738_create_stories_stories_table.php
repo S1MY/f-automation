@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('stories_stories', function (Blueprint $table) {
             $table->id();
             $table->integer('stories_id')->nullable();
-            $table->integer('stories_did')->nullable();
+            $table->longText('stories_did')->nullable();
             $table->integer('viewes')->default(0);
             $table->integer('open_link')->default(0);
             $table->integer('shares')->default(0);
