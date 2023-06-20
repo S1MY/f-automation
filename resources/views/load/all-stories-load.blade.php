@@ -26,8 +26,8 @@
 @if (count($allStories) > 0)
 @foreach ($allStories as $stories)
     @php
-        $extensions = unserialize($post->filetype);
-        $links = unserialize($post->link);
+        $extensions = unserialize($stories->filetype);
+        $links = unserialize($stories->link);
         $storiesDate = Carbon::createFromFormat('Y-m-d H:i:s', $stories->created_at, 'Europe/Moscow');
         $dateView = $storiesDate->format('H:i');
     @endphp
