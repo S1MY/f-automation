@@ -22,7 +22,6 @@
         'install' => 'Установить',
         'read' => 'Читать'
 ];
-    print_r($allStories);
 @endphp
 @if (count($allStories) > 0)
 @foreach ($allStories as $stories)
