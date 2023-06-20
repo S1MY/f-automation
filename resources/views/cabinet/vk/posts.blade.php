@@ -43,15 +43,20 @@
                                 @endif
                                 @endforeach
                                 <div class="selectFlow">
+                                    @php 
+                                        $groupPosts = unserialize($user->Subscribe->sub_config)['vk']['posts']['type2'];
+                                    @endphp
                                     @foreach (Auth::user()->VkAccount as $key => $vkAccount)
                                     @if ($key === 0)
                                     <p class="selectItem _active" data-type="user" data-id="{{ $vkAccount->id }}"><span class="_name">Аккаунт: {{$vkAccount->name}}</span></p>
                                     @else
                                     <p class="selectItem" data-type="user" data-id="{{ $vkAccount->id }}"><span class="_name">Аккаунт: {{$vkAccount->name}}</span></p>
                                     @endif
-                                    @foreach ($vkAccount->VkGroup as $VkGroup)
-                                    <p class="selectItem" data-type="group" data-id="{{ $VkGroup->id }}"><span class="_name">Группа: {{ $VkGroup->name }}</span></p>
-                                    @endforeach
+                                    @if ($groupPosts === 1)
+                                        @foreach ($vkAccount->VkGroup as $VkGroup)
+                                        <p class="selectItem" data-type="group" data-id="{{ $VkGroup->id }}"><span class="_name">Группа: {{ $VkGroup->name }}</span></p>
+                                        @endforeach
+                                    @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -197,12 +202,12 @@
                                 </p>
                                 @if ($multiFiles === 1)
                                     <p class="fileText">
-                                        <span>Числов файлов:</span>
+                                        <span>Число файлов:</span>
                                         <span class="_filecounts">0 / 5</span>
                                     </p>
                                 @else
                                     <p class="fileText">
-                                        <span>Числов файлов:</span>
+                                        <span>Число файлов:</span>
                                         <span class="_filecounts">0 / 1</span>
                                     </p>
                                 @endif
