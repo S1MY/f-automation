@@ -21,8 +21,8 @@
         'play' => 'Слушать',
         'install' => 'Установить',
         'read' => 'Читать'
-    ]
-    var_dump($allStories);
+];
+    print_r($allStories);
 @endphp
 @if (count($allStories) > 0)
 @foreach ($allStories as $stories)
