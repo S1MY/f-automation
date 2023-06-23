@@ -99,7 +99,6 @@ class StoriesController extends Controller
             }
         }
         $linksDB = [];
-        $uploadsDB = [];
         $extensionDB = [];
         $storiesDid = [];
         foreach ($storiesFile as $index => $sFile) {
@@ -120,6 +119,7 @@ class StoriesController extends Controller
             $fileName = 'stories-' . date("Y-m-d-H-i-s") . $index . "." . $extension;
             $userName = Auth::user()->login;
             Storage::disk('public')->putFileAs('files/users/' . $userName . '/stories', $sFile, $fileName);
+            // Создаём ссылку для загнрузки файла
             $getUpload = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
@@ -194,14 +194,7 @@ class StoriesController extends Controller
                 Storage::disk('public')->delete($fileLoadUrl . $fileName);
                 return $this->generateJsonResponse('error', 'Ошибка запроса', 'При сохранении истории возникла ошибка F2');
             }
-            if ($sendType == 'photo') {
-                Storage::disk('public')->delete($fileLoadUrl . $fileName);
-                $storiesLink = $storiesJSON->response->items[0]->photo->sizes[3]->url;
-            }else{
-                $storiesLink = $fileLoadUrl . $fileName;
-            }
-            $linksDB[] = $storiesLink;
-            $uploadsDB[] = $sendStoriesJSON->response->upload_result;
+            $linksDB[] = $fileLoadUrl . $fileName;
             $storiesDid[] = $storiesJSON->response->items[0]->id;
         }
             $storiesCreate = Stories::create([
@@ -210,7 +203,6 @@ class StoriesController extends Controller
                 'title' => $validatedData['name'],
                 'filetype' => serialize($extensionDB),
                 'link' => serialize($linksDB),
-                'upload_result' => serialize($uploadsDB),
                 'active' => 1
             ]);
 

@@ -10,6 +10,7 @@ use App\Models\VkGroup;
 
 use App\Models\Stories;
 use App\Models\StoriesStory;
+use App\Models\StoriesSettings;
 
 use App\Models\CronLogs;
 $allStories = Stories::all();
@@ -44,7 +45,7 @@ $allStories = Stories::all();
                                     ]);
                                     die();
                                 }
-                                if(count(unserialize($stories->upload_result)) > 1 && $subscribePackage['type3'] !== 1){
+                                if(count(unserialize($stories->filetype)) > 1 && $subscribePackage['type3'] !== 1){
                                     CronLogs::create([
                                         'uid'        => $userId,
                                         'cron_type' => 'stories',
@@ -54,20 +55,93 @@ $allStories = Stories::all();
                                     die();
                                 }
                                 $storiesDid = [];
-                                foreach (unserialize($stories->upload_result) as $storiesIndex => $storiesUpload) {
+                                foreach (unserialize($stories->filetype) as $storiesIndex => $storiesType) {
+                                    if ($storiesType == 'video') {
+                                        $method = '/stories.getVideoUploadServer';
+                                    } elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
+                                        $method = '/stories.getPhotoUploadServer';
+                                    }
+                                    $fileLoadUrl = unserialize($stories->link)[$storiesIndex];
+                                    // Создаём ссылку для загнрузки файла
+                                    $getUpload = new Client([
+                                        'base_uri' => 'https://api.vk.com',
+                                    ]);
+                                    $uploadParams = [
+                                        'v' => '5.131',
+                                        'access_token' => $vkToken,
+                                        'add_to_news' => 1
+                                    ];
+                                    if ($groupId == > 0) {
+                                        $settings = StoriesSettings::where('stories_id', '=', $stories->id)->first();
+                                        $uploadParams['group_id'] = $groupId;
+                                        $uploadParams['link_text'] = $settings->link_text;
+                                        $uploadParams['link_url'] = $settings->link_url;
+                                    }
+                                    $uploadGet = $getUpload->request('GET', '/method' . $method, [
+                                        'query' => $uploadParams
+                                    ]);
+                                    if ($uploadGet->getStatusCode() !== 200 || !$uploadGet->getBody()) {
+                                        CronLogs::create([
+                                            'uid'        => $userId,
+                                            'cron_type' => 'stories',
+                                            'item_id' => $stories->id,
+                                            'message'   => 'Метод '.$method.' ничего не вернул для файла '.$storiesIndex
+                                        ]);
+                                        die();
+                                    }
+                                    $uploadContent = $uploadGet->getBody()->getContents();
+                                    $uploadJSON = json_decode($uploadContent);
+                                    if (isset($uploadJSON->error)) {
+                                        CronLogs::create([
+                                            'uid'        => $userId,
+                                            'cron_type' => 'stories',
+                                            'item_id' => $stories->id,
+                                            'message'   => 'Метод '.$method.' вернул ошибку для файла '.$storiesIndex
+                                        ]);
+                                        die();
+                                    }
+                                    $fileSend = storage_path('app/public/' . $fileLoadUrl);
+                                    // Эта хуйня работает только с курлом ХЗ почему
+                                    $sendStoriesPost = curl_init();
+                                    if ($storiesType == 'photo') {
+                                        $postFields = [
+                                            'file' => new CURLFile($fileSend)
+                                        ];
+                                    } else {
+                                        $postFields = [
+                                            'video_file' => new CURLFile($fileSend)
+                                        ];
+                                    }
+                                    curl_setopt_array($sendStoriesPost, [
+                                        CURLOPT_URL => $uploadJSON->response->upload_url,
+                                        CURLOPT_RETURNTRANSFER => true,
+                                        CURLOPT_POST => true,
+                                        CURLOPT_POSTFIELDS => $postFields,
+                                    ]);
+                                    $sendStoriesContent = curl_exec($sendStoriesPost);
+                                    $sendStoriesJSON = json_decode($sendStoriesContent);
+                                    curl_close($sendStoriesPost);
+                                    $sendStoriesCode = curl_getinfo($sendStoriesPost, CURLINFO_HTTP_CODE);
+                                    if ($sendStoriesCode != 200 || isset($sendStoriesJSON->error)) {
+                                        CronLogs::create([
+                                            'uid'        => $userId,
+                                            'cron_type' => 'stories',
+                                            'item_id' => $stories->id,
+                                            'message'   => 'При загрузке файла на сервер ВК возникла ошибка'
+                                        ]);
+                                        die();
+                                    }
                                     $storiesSave = new Client([
                                         'base_uri' => 'https://api.vk.com',
                                     ]);
                                     $storiesParams = [
                                         'v' => '5.131',
                                         'access_token' => $vkToken,
-                                        'upload_results' => $storiesUpload,
+                                        'upload_results' => $sendStoriesJSON->response->upload_result,
                                     ];
                                     $storiesGet = $storiesSave->request('GET', '/method/stories.save', [
                                         'query' => $storiesParams
                                     ]);
-                                    print_r($storiesGet);
-                                    echo '</br></br>';
                                     if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
                                         CronLogs::create([
                                             'uid'        => $userId,
@@ -78,11 +152,7 @@ $allStories = Stories::all();
                                         die();
                                     }
                                     $storiesContent = $storiesGet->getBody()->getContents();
-                                    print_r($storiesContent);
-                                    echo '</br></br>';
                                     $storiesJSON = json_decode($storiesContent);
-                                    print_r($storiesJSON);
-                                    echo '</br></br>';
                                     if (isset($storiesJSON->error)) {
                                         CronLogs::create([
                                             'uid'        => $userId,
@@ -100,7 +170,6 @@ $allStories = Stories::all();
                                         'message'   => 'Метод stories.save завершён для файла '.$storiesIndex
                                     ]);
                                 }
-                                print_r($storiesDid);
                                 CronLogs::create([
                                     'uid'        => $userId,
                                     'cron_type' => 'stories',

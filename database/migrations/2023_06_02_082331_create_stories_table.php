@@ -20,7 +20,6 @@ return new class extends Migration
             $table->longText('title')->nullable();
             $table->longText('filetype')->nullable();
             $table->longText('link')->nullable();
-            $table->longText('upload_result')->nullable();
             $table->integer('active')->default(0);
             $table->timestamps();
         });
