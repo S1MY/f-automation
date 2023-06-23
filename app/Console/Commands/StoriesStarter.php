@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use CURLFile;
 
 use App\Models\Subscribe;
 
