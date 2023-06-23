@@ -99,7 +99,7 @@ class StoriesStarter extends Command
                                             'uid'        => $userId,
                                             'cron_type' => 'stories',
                                             'item_id' => $stories->id,
-                                            'message'   => 'Метод stories.save ничего не вернул!'
+                                            'message'   => 'Метод stories.save ничего не вернул для файла '.$storiesIndex
                                         ]);
                                         die();
                                     }
@@ -110,12 +110,24 @@ class StoriesStarter extends Command
                                             'uid'        => $userId,
                                             'cron_type' => 'stories',
                                             'item_id' => $stories->id,
-                                            'message'   => 'Метод stories.save вернул ошибку!'
+                                            'message'   => 'Метод stories.save вернул ошибку для файла '.$storiesIndex
                                         ]);
                                         die();
                                     }
                                     $storiesDid[] = $storiesJSON->response->items[0]->id;
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'stories',
+                                        'item_id' => $stories->id,
+                                        'message'   => 'Метод stories.save завершён для файла '.$storiesIndex
+                                    ]);
                                 }
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'stories',
+                                    'item_id' => $stories->id,
+                                    'message'   => 'Истории должны быть запущены!'
+                                ]);
                                 $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
                                 $stories-save();
                                 StoriesStory::create([
@@ -154,7 +166,7 @@ class StoriesStarter extends Command
                     $viewes = $lastStories->viewes;
                     $open_link = $lastStories->open_link;
                     $shares = $lastStories->shares;
-                    foreach (unserialize($lastStories->stories_did) as $storiesItem) {
+                    foreach (unserialize($lastStories->stories_did) as $storiesIndex => $storiesItem) {
                         $storiesStats = new Client([
                             'base_uri' => 'https://api.vk.com',
                         ]);
@@ -194,7 +206,19 @@ class StoriesStarter extends Command
                         if($storiesJSON->response->open_link->state === "on"){
                             $open_link += $storiesJSON->response->open_link->count;
                         }
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'stories',
+                            'item_id' => $stories->id,
+                            'message'   => 'Метод stories.getStats завершён для файла '.$storiesIndex
+                        ]);
                     }
+                    CronLogs::create([
+                        'uid'        => $userId,
+                        'cron_type' => 'stories',
+                        'item_id' => $stories->id,
+                        'message'   => 'Статистика историй должна быть собрана!'
+                    ]);
                     $lastStories->viewes = $viewes;
                     $lastStories->shares = $shares;
                     $lastStories->open_link = $open_link;
