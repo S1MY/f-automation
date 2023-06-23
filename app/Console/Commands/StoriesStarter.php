@@ -64,7 +64,7 @@ class StoriesStarter extends Command
                         'uid'        => $userId,
                         'cron_type' => 'stories',
                         'item_id' => $stories->id,
-                        'message'   => 'Время совпало я ебашу!'
+                        'message'   => 'Время совпало!'
                     ]);
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
@@ -90,6 +90,12 @@ class StoriesStarter extends Command
                                     ]);
                                     die();
                                 }
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'stories',
+                                    'item_id' => $stories->id,
+                                    'message'   => 'Я сюда дошёл!'
+                                ]);
                                 $storiesDid = [];
                                 foreach (unserialize($stories->filetype) as $storiesIndex => $storiesType) {
                                     if ($storiesType == 'video') {
@@ -98,6 +104,12 @@ class StoriesStarter extends Command
                                         $method = '/stories.getPhotoUploadServer';
                                     }
                                     $fileLoadUrl = unserialize($stories->link)[$storiesIndex];
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'stories',
+                                        'item_id' => $stories->id,
+                                        'message'   => $fileLoadUrl
+                                    ]);
                                     // Создаём ссылку для загнрузки файла
                                     $getUpload = new Client([
                                         'base_uri' => 'https://api.vk.com',
@@ -226,6 +238,7 @@ class StoriesStarter extends Command
                                     'item_id' => $stories->id,
                                     'message'   => 'Пользователь не имеет Stories type1'
                                 ]);
+                                die();
                             }
                         }else{
                             CronLogs::create([
