@@ -29,7 +29,6 @@ $allStories = Stories::all();
                     'item_id' => $stories->id,
                     'message'   => 'Воркерс'
                 ]);
-                $storiesDB = Stories::where('id', '=', $stories->id)->first();
                 // if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
@@ -177,12 +176,13 @@ $allStories = Stories::all();
                                     'item_id' => $stories->id,
                                     'message'   => 'Истории должны быть запущены!'
                                 ]);
-                                $storiesDB->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
-                                $storiesDB-save();
-                                // StoriesStory::create([
-                                //     'stories_id' => $stories->id,
-                                //     'stories_did' => serialize($storiesDid)
-                                // ]);
+                                $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
+                                $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
+                                $stories->save();
+                                StoriesStory::create([
+                                    'stories_id' => $stories->id,
+                                    'stories_did' => serialize($storiesDid)
+                                ]);
                             }else{
                                 CronLogs::create([
                                     'uid'        => $userId,
@@ -198,8 +198,8 @@ $allStories = Stories::all();
                                 'item_id' => $stories->id,
                                 'message'   => 'Пользователь не имеет активной Подписки'
                             ]);
-                            $storiesDB->active = 0;
-                            $storiesDB-save();
+                            $stories->active = 0;
+                            $stories->save();
                         }
                     }else{
                         CronLogs::create([
