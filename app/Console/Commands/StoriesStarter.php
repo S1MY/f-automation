@@ -42,6 +42,12 @@ class StoriesStarter extends Command
     public function handle()
     {
         $allStories = Stories::all();
+        CronLogs::create([
+            'uid'        => 0,
+            'cron_type' => 'stories',
+            'item_id' => 0,
+            'message'   => 'Босс я джобаю'
+        ]);
         foreach ($allStories as $stories) {
             if($stories->active === 1){
                 $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $stories->updated_at, 'Europe/Moscow')->startOfMinute();
