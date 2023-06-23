@@ -20,10 +20,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // foreach (glob('app/Console/Schedules/*.php') as $file) {
-        //     require_once $file;
-        // }
-        // $schedule->call('app/Console/Schedules/')->everyMinute();
         $schedule->command('stories:cron')->everyMinute();
     }
 
