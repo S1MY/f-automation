@@ -58,6 +58,12 @@ class StoriesStarter extends Command
                 $userId = $vkAccount->uid;
                 $vkToken = $vkAccount->token;
                 if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                    CronLogs::create([
+                        'uid'        => $userId,
+                        'cron_type' => 'stories',
+                        'item_id' => $stories->id,
+                        'message'   => 'Время совпало я ебашу!'
+                    ]);
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
                     if($userSubscribe){
