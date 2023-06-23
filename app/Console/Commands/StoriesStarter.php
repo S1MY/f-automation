@@ -131,9 +131,22 @@ class StoriesStarter extends Command
                                 ]);
                             }
                         }else{
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'stories',
+                                'item_id' => $stories->id,
+                                'message'   => 'Пользователь не имеет активной Подписки'
+                            ]);
                             $stories->active = 0;
                             $stories-save();
                         }
+                    }else{
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'stories',
+                            'item_id' => $stories->id,
+                            'message'   => 'Пользователь не имеет Подписки в базе данных'
+                        ]);
                     }
                 }elseif ($updatedAtNext->subMinutes(5) === Carbon::now('Europe/Moscow')->startOfMinute()) {
                     $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
