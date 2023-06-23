@@ -29,6 +29,7 @@ $allStories = Stories::all();
                     'item_id' => $stories->id,
                     'message'   => 'Воркерс'
                 ]);
+                $storiesDB = Stories::where('id', '=', $stories->id)->first();
                 // if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
@@ -176,8 +177,8 @@ $allStories = Stories::all();
                                     'item_id' => $stories->id,
                                     'message'   => 'Истории должны быть запущены!'
                                 ]);
-                                $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
-                                $stories-save();
+                                $storiesDB->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
+                                $storiesDB-save();
                                 // StoriesStory::create([
                                 //     'stories_id' => $stories->id,
                                 //     'stories_did' => serialize($storiesDid)
@@ -197,8 +198,8 @@ $allStories = Stories::all();
                                 'item_id' => $stories->id,
                                 'message'   => 'Пользователь не имеет активной Подписки'
                             ]);
-                            $stories->active = 0;
-                            $stories-save();
+                            $storiesDB->active = 0;
+                            $storiesDB-save();
                         }
                     }else{
                         CronLogs::create([
