@@ -28,6 +28,7 @@ class StoriesStarter extends Command
      */
     public function handle()
     {
+        \Log::info("Cron is working fine!");
         CronLogs::create([
             'message'   => 'Крона сработала!'
         ]);
