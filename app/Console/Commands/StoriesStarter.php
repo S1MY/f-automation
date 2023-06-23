@@ -54,9 +54,9 @@ class StoriesStarter extends Command
                     'uid'        => $userId,
                     'cron_type' => 'stories',
                     'item_id' => $stories->id,
-                    'message'   => $updatedAtNext.' | '.Carbon::now('Europe/Moscow')->startOfMinute()
+                    'message'   => strtotime($updatedAtNext).' | '.strtotime(Carbon::now('Europe/Moscow')->startOfMinute())
                 ]);
-                if ($updatedAtNext === Carbon::now('Europe/Moscow')->startOfMinute()) {
+                if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
                     if($userSubscribe){
@@ -160,7 +160,7 @@ class StoriesStarter extends Command
                             'message'   => 'Пользователь не имеет Подписки в базе данных'
                         ]);
                     }
-                }elseif ($updatedAtNext->subMinutes(5) === Carbon::now('Europe/Moscow')->startOfMinute()) {
+                }elseif (strtotime($updatedAtNext->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                     $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
                     $lastStories = StoriesStory::where('stories_id', '=', $stories->id)->latest('id')->first();
                     $viewes = $lastStories->viewes;
