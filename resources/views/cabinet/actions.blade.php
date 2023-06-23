@@ -28,10 +28,11 @@ $allStories = Stories::all();
                     'item_id' => $stories->id,
                     'message'   => 'Воркерс'
                 ]);
-                // if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                    echo 'Время совпало!';
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
-                    print_r($vkGroup);
-                    // $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
+                    $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
+                    print_r($userSubscribe);
                     // if($userSubscribe){
                     //     if($userSubscribe->sub_status === 1){
                     //         $subscribePackage = unserialize($userSubscribe->sub_config)['vk']['stories'];
@@ -133,7 +134,8 @@ $allStories = Stories::all();
                     //         'message'   => 'Пользователь не имеет Подписки в базе данных'
                     //     ]);
                     // }
-                // }elseif (strtotime($updatedAtNext->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                }
+                // elseif (strtotime($updatedAtNext->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                 //     $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
                 //     $lastStories = StoriesStory::where('stories_id', '=', $stories->id)->latest('id')->first();
                 //     $viewes = $lastStories->viewes;
