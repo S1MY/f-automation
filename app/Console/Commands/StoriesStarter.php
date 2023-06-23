@@ -232,6 +232,12 @@ class StoriesStarter extends Command
                         ]);
                     }
                 }elseif (strtotime($updatedAtNext->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                    CronLogs::create([
+                        'uid'        => $userId,
+                        'cron_type' => 'stories',
+                        'item_id' => $stories->id,
+                        'message'   => 'Время меньше на 5 минут!'
+                    ]);
                     $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
                     $lastStories = StoriesStory::where('stories_id', '=', $stories->id)->latest('id')->first();
                     $viewes = $lastStories->viewes;
