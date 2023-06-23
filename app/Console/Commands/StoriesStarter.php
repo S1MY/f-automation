@@ -54,7 +54,7 @@ class StoriesStarter extends Command
                     'uid'        => $userId,
                     'cron_type' => 'stories',
                     'item_id' => $stories->id,
-                    'message'   => 'Крона сработала!'
+                    'message'   => $updatedAtNext.' | '.Carbon::now('Europe/Moscow')->startOfMinute()
                 ]);
                 if ($updatedAtNext === Carbon::now('Europe/Moscow')->startOfMinute()) {
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
