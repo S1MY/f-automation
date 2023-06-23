@@ -34,7 +34,7 @@
     <div class="cardItem">
         <div class="itemsSlider">
             @foreach ($links as $key => $link)
-                @if (rtrim(strstr($extensions[$key], '_', true), "0123456789") == 'video')
+                @if ($extensions[$key] == 'video')
                 <div class="videoWrapper">
                     <video class="videoGuid" playsinline controls preload="metadata">
                         <source src="/storage/{{$link}}" type="video/mp4"/>
