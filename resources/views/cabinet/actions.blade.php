@@ -246,7 +246,7 @@ $allStories = Stories::all();
                                 'message'   => 'Метод stories.getStats вернул ошибку!'
                             ]);
                         }
-                        dd($storiesJSON)
+                        print_r($storiesJSON);
                         // if($storiesJSON->response->views->state === "on"){
                         //     $viewes += $storiesJSON->response->views->count;
                         // }
@@ -256,12 +256,12 @@ $allStories = Stories::all();
                         // if($storiesJSON->response->open_link->state === "on"){
                         //     $open_link += $storiesJSON->response->open_link->count;
                         // }
-                        // CronLogs::create([
-                        //     'uid'        => $userId,
-                        //     'cron_type' => 'stories',
-                        //     'item_id' => $stories->id,
-                        //     'message'   => 'Метод stories.getStats завершён для файла '.$storiesIndex
-                        // ]);
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'stories',
+                            'item_id' => $stories->id,
+                            'message'   => 'Метод stories.getStats завершён для файла '.$storiesIndex
+                        ]);
                     }
                     CronLogs::create([
                         'uid'        => $userId,
