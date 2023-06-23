@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use Illuminate\Support\Facades\Storage;
+
 use GuzzleHttp\Client;
 use Carbon\Carbon;
 
@@ -134,7 +136,7 @@ class StoriesStarter extends Command
                                         ]);
                                         die();
                                     }
-                                    $fileSend = storage_path('app/public/' . $fileLoadUrl);
+                                    $fileSend = Storage::path('public/' . $fileLoadUrl);
                                     // Эта хуйня работает только с курлом ХЗ почему
                                     $sendStoriesPost = curl_init();
                                     if ($storiesType == 'photo') {
