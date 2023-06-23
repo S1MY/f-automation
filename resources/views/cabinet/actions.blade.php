@@ -28,7 +28,7 @@ $allStories = Stories::all();
                     'item_id' => $stories->id,
                     'message'   => 'Воркерс'
                 ]);
-                if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                if ($updatedAtNext === Carbon::now('Europe/Moscow')->startOfMinute()) {
                     echo 'Время совпало!';
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
