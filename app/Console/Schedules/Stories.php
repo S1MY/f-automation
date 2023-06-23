@@ -12,6 +12,8 @@ use App\Models\VkGroup;
 use App\Models\Stories;
 use App\Models\StoriesStory;
 
+use App\Models\CronLogs;
+
 
 $schedule->call(function () {
     $allStories = Stories::all();
@@ -22,19 +24,31 @@ $schedule->call(function () {
             $accountId = $stories->account_id;
             $groupId = $stories->group_id;
             $vkAccount = VkAccount::where('id', '=', $accountId)->first();
+            $userId = $vkAccount->uid;
             $vkToken = $vkAccount->token;
             if ($updatedAtNext === Carbon::now('Europe/Moscow')->startOfMinute()) {
                 $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
-                $userId = $vkAccount->uid;
                 $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
                 if($userSubscribe){
                     if($userSubscribe->sub_status === 1){
                         $subscribePackage = unserialize($userSubscribe->sub_config)['vk']['stories'];
                         if($subscribePackage['type1'] === 1){
                             if($vkGroup && $subscribePackage['type2'] !== 1){
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'stories',
+                                    'item_id' => $stories->id,
+                                    'message'   => 'Пользователь не имеет Stories type2'
+                                ]);
                                 die();
                             }
                             if(count(unserialize($stories->upload_result)) > 1 && $subscribePackage['type3'] !== 1){
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'stories',
+                                    'item_id' => $stories->id,
+                                    'message'   => 'Пользователь не имеет Stories type3'
+                                ]);
                                 die();
                             }
                             $storiesDid = [];
@@ -51,11 +65,23 @@ $schedule->call(function () {
                                     'query' => $storiesParams
                                 ]);
                                 if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'stories',
+                                        'item_id' => $stories->id,
+                                        'message'   => 'Метод stories.save ничего не вернул!'
+                                    ]);
                                     die();
                                 }
                                 $storiesContent = $storiesGet->getBody()->getContents();
                                 $storiesJSON = json_decode($storiesContent);
                                 if (isset($storiesJSON->error)) {
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'stories',
+                                        'item_id' => $stories->id,
+                                        'message'   => 'Метод stories.save вернул ошибку!'
+                                    ]);
                                     die();
                                 }
                                 $storiesDid[] = $storiesJSON->response->items[0]->id;
@@ -65,6 +91,13 @@ $schedule->call(function () {
                             StoriesStory::create([
                                 'stories_id' => $stories->id,
                                 'stories_did' => serialize($storiesDid)
+                            ]);
+                        }else{
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'stories',
+                                'item_id' => $stories->id,
+                                'message'   => 'Пользователь не имеет Stories type1'
                             ]);
                         }
                     }else{
@@ -91,12 +124,23 @@ $schedule->call(function () {
                         'query' => $storiesParams
                     ]);
                     if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'stories',
+                            'item_id' => $stories->id,
+                            'message'   => 'Метод stories.getStats ничего не вернул!'
+                        ]);
                         die();
                     }
                     $storiesContent = $storiesGet->getBody()->getContents();
                     $storiesJSON = json_decode($storiesContent);
                     if (isset($storiesJSON->error)) {
-                        die();
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'stories',
+                            'item_id' => $stories->id,
+                            'message'   => 'Метод stories.getStats вернул ошибку!'
+                        ]);
                     }
                     if($storiesJSON->response->views->state === "on"){
                         $viewes += $storiesJSON->response->views->count;
