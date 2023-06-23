@@ -246,7 +246,7 @@ $allStories = Stories::all();
                                 'message'   => 'Метод stories.getStats вернул ошибку!'
                             ]);
                         }
-                        print_r($storiesJSON)
+                        dd($storiesJSON)
                         // if($storiesJSON->response->views->state === "on"){
                         //     $viewes += $storiesJSON->response->views->count;
                         // }
