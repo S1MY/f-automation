@@ -1,4 +1,15 @@
+@php
+    
+use Illuminate\Support\Facades\Storage;
 
+use App\Models\Stories;
+    $allStories = Stories::all();
+    foreach ($allStories as $stories) {
+        $fileLoadUrl = unserialize($stories->link)[0];
+                                    $fileSend = Storage::path('public/' . $fileLoadUrl);
+                                    print_r($fileSend);
+    }
+@endphp
 @extends('cabinet.layouts.master')
 
 @section('title', 'Акции')

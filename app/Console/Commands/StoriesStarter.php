@@ -90,12 +90,6 @@ class StoriesStarter extends Command
                                     ]);
                                     die();
                                 }
-                                CronLogs::create([
-                                    'uid'        => $userId,
-                                    'cron_type' => 'stories',
-                                    'item_id' => $stories->id,
-                                    'message'   => 'Я сюда дошёл!'
-                                ]);
                                 $storiesDid = [];
                                 foreach (unserialize($stories->filetype) as $storiesIndex => $storiesType) {
                                     if ($storiesType == 'video') {
@@ -104,12 +98,6 @@ class StoriesStarter extends Command
                                         $method = '/stories.getPhotoUploadServer';
                                     }
                                     $fileLoadUrl = unserialize($stories->link)[$storiesIndex];
-                                    CronLogs::create([
-                                        'uid'        => $userId,
-                                        'cron_type' => 'stories',
-                                        'item_id' => $stories->id,
-                                        'message'   => $fileLoadUrl
-                                    ]);
                                     // Создаём ссылку для загнрузки файла
                                     $getUpload = new Client([
                                         'base_uri' => 'https://api.vk.com',
