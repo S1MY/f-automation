@@ -247,15 +247,15 @@ $allStories = Stories::all();
                             ]);
                         }
                         print_r($storiesJSON)
-                        if($storiesJSON->response->views->state === "on"){
-                            $viewes += $storiesJSON->response->views->count;
-                        }
-                        if($storiesJSON->response->shares->state === "on"){
-                            $shares += $storiesJSON->response->shares->count;
-                        }
-                        if($storiesJSON->response->open_link->state === "on"){
-                            $open_link += $storiesJSON->response->open_link->count;
-                        }
+                        // if($storiesJSON->response->views->state === "on"){
+                        //     $viewes += $storiesJSON->response->views->count;
+                        // }
+                        // if($storiesJSON->response->shares->state === "on"){
+                        //     $shares += $storiesJSON->response->shares->count;
+                        // }
+                        // if($storiesJSON->response->open_link->state === "on"){
+                        //     $open_link += $storiesJSON->response->open_link->count;
+                        // }
                         CronLogs::create([
                             'uid'        => $userId,
                             'cron_type' => 'stories',
