@@ -221,6 +221,7 @@ $allStories = Stories::all();
                         ]);
                         $storiesParams = [
                             'v' => '5.131',
+                            'access_token' => $vkToken,
                             'owner_id' => $ownerId,
                             'story_id' => $storiesItem,
                         ];
