@@ -42,7 +42,7 @@
                 </div>
                 @else
                 <div class="imageWrapper">
-                    <img src="{{$link}}" alt="image">
+                    <img src="/storage/{{$link}}" alt="image">
                 </div>
                 @endif
             @endforeach
