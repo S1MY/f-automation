@@ -136,6 +136,12 @@ class StoriesStarter extends Command
                                         ]);
                                         die();
                                     }
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'stories',
+                                        'item_id' => $stories->id,
+                                        'message'   => 'ССЫЛКА ПОЛУЧЕНА!'
+                                    ]);
                                     $fileSend = Storage::path('public/' . $fileLoadUrl);
                                     // Эта хуйня работает только с курлом ХЗ почему
                                     $sendStoriesPost = curl_init();
@@ -167,6 +173,12 @@ class StoriesStarter extends Command
                                         ]);
                                         die();
                                     }
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'stories',
+                                        'item_id' => $stories->id,
+                                        'message'   => 'ФАЙЛ ЗАГРУЖЕН!'
+                                    ]);
                                     $storiesSave = new Client([
                                         'base_uri' => 'https://api.vk.com',
                                     ]);
