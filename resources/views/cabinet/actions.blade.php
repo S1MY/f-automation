@@ -23,12 +23,6 @@ $allStories = Stories::all();
                 $vkAccount = VkAccount::where('id', '=', $accountId)->first();
                 $userId = $vkAccount->uid;
                 $vkToken = $vkAccount->token;
-                CronLogs::create([
-                    'uid'        => $userId,
-                    'cron_type' => 'stories',
-                    'item_id' => $stories->id,
-                    'message'   => 'Воркерс'
-                ]);
                 // if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                     // $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     // $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
@@ -246,17 +240,17 @@ $allStories = Stories::all();
                                 'item_id' => $stories->id,
                                 'message'   => 'Метод stories.getStats вернул ошибку!'
                             ]);
+                            die();
                         }
-                        print_r($storiesJSON->response->shares);
-                        // if($storiesJSON->response->views->state === "on"){
-                        //     $viewes += $storiesJSON->response->views->count;
-                        // }
-                        // if($storiesJSON->response->shares->state === "on"){
-                        //     $shares += $storiesJSON->response->shares->count;
-                        // }
-                        // if($storiesJSON->response->open_link->state === "on"){
-                        //     $open_link += $storiesJSON->response->open_link->count;
-                        // }
+                        if($storiesJSON->response->views->state === "on"){
+                            $viewes += $storiesJSON->response->views->count;
+                        }
+                        if($storiesJSON->response->shares->state === "on"){
+                            $shares += $storiesJSON->response->shares->count;
+                        }
+                        if($storiesJSON->response->open_link->state === "on"){
+                            $open_link += $storiesJSON->response->open_link->count;
+                        }
                         CronLogs::create([
                             'uid'        => $userId,
                             'cron_type' => 'stories',
