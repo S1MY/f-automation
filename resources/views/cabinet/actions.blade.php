@@ -71,7 +71,7 @@ $allStories = Stories::all();
                                         'access_token' => $vkToken,
                                         'add_to_news' => 1
                                     ];
-                                    if ($groupId == > 0) {
+                                    if ($groupId > 0) {
                                         $settings = StoriesSettings::where('stories_id', '=', $stories->id)->first();
                                         $uploadParams['group_id'] = $groupId;
                                         $uploadParams['link_text'] = $settings->link_text;
