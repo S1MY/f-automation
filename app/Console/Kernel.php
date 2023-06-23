@@ -5,7 +5,6 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-use App\Models\CronLogs;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,13 +16,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        foreach (glob('app/Console/Schedules/*.php') as $file) {
-            CronLogs::create([
-                'message'   => 'Крона сработала!'
-            ]);
-            require_once $file;
-        }
+        // foreach (glob('app/Console/Schedules/*.php') as $file) {
+        //     require_once $file;
+        // }
         // $schedule->call('app/Console/Schedules/')->everyMinute();
+        $schedule->command('stories:cron')->everyMinute();
     }
 
     /**
