@@ -58,7 +58,7 @@ $allStories = Stories::all();
                                 foreach (unserialize($stories->filetype) as $storiesIndex => $storiesType) {
                                     if ($storiesType == 'video') {
                                         $method = '/stories.getVideoUploadServer';
-                                    } elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
+                                    } else{
                                         $method = '/stories.getPhotoUploadServer';
                                     }
                                     $fileLoadUrl = unserialize($stories->link)[$storiesIndex];
