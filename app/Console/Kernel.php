@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('stories:cron')->everyMinute();
+        $schedule->command('stories:cron')->everyMinute();
     }
 
     /**
