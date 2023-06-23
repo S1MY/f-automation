@@ -28,114 +28,117 @@ $allStories = Stories::all();
                     'item_id' => $stories->id,
                     'message'   => 'Воркерс'
                 ]);
-                if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
-                    echo 'Время совпало!';
+                // if (strtotime($updatedAtNext) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                     $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                     $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
-                    print_r($userSubscribe);
-                    // if($userSubscribe){
-                    //     if($userSubscribe->sub_status === 1){
-                    //         $subscribePackage = unserialize($userSubscribe->sub_config)['vk']['stories'];
-                    //         if($subscribePackage['type1'] === 1){
-                    //             if($vkGroup && $subscribePackage['type2'] !== 1){
-                    //                 CronLogs::create([
-                    //                     'uid'        => $userId,
-                    //                     'cron_type' => 'stories',
-                    //                     'item_id' => $stories->id,
-                    //                     'message'   => 'Пользователь не имеет Stories type2'
-                    //                 ]);
-                    //                 die();
-                    //             }
-                    //             if(count(unserialize($stories->upload_result)) > 1 && $subscribePackage['type3'] !== 1){
-                    //                 CronLogs::create([
-                    //                     'uid'        => $userId,
-                    //                     'cron_type' => 'stories',
-                    //                     'item_id' => $stories->id,
-                    //                     'message'   => 'Пользователь не имеет Stories type3'
-                    //                 ]);
-                    //                 die();
-                    //             }
-                    //             $storiesDid = [];
-                    //             foreach (unserialize($stories->upload_result) as $storiesIndex => $storiesUpload) {
-                    //                 $storiesSave = new Client([
-                    //                     'base_uri' => 'https://api.vk.com',
-                    //                 ]);
-                    //                 $storiesParams = [
-                    //                     'v' => '5.131',
-                    //                     'access_token' => $vkToken,
-                    //                     'upload_results' => $storiesUpload,
-                    //                 ];
-                    //                 $storiesGet = $storiesSave->request('GET', '/method/stories.save', [
-                    //                     'query' => $storiesParams
-                    //                 ]);
-                    //                 if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
-                    //                     CronLogs::create([
-                    //                         'uid'        => $userId,
-                    //                         'cron_type' => 'stories',
-                    //                         'item_id' => $stories->id,
-                    //                         'message'   => 'Метод stories.save ничего не вернул для файла '.$storiesIndex
-                    //                     ]);
-                    //                     die();
-                    //                 }
-                    //                 $storiesContent = $storiesGet->getBody()->getContents();
-                    //                 $storiesJSON = json_decode($storiesContent);
-                    //                 if (isset($storiesJSON->error)) {
-                    //                     CronLogs::create([
-                    //                         'uid'        => $userId,
-                    //                         'cron_type' => 'stories',
-                    //                         'item_id' => $stories->id,
-                    //                         'message'   => 'Метод stories.save вернул ошибку для файла '.$storiesIndex
-                    //                     ]);
-                    //                     die();
-                    //                 }
-                    //                 $storiesDid[] = $storiesJSON->response->items[0]->id;
-                    //                 CronLogs::create([
-                    //                     'uid'        => $userId,
-                    //                     'cron_type' => 'stories',
-                    //                     'item_id' => $stories->id,
-                    //                     'message'   => 'Метод stories.save завершён для файла '.$storiesIndex
-                    //                 ]);
-                    //             }
-                    //             CronLogs::create([
-                    //                 'uid'        => $userId,
-                    //                 'cron_type' => 'stories',
-                    //                 'item_id' => $stories->id,
-                    //                 'message'   => 'Истории должны быть запущены!'
-                    //             ]);
-                    //             $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
-                    //             $stories-save();
-                    //             StoriesStory::create([
-                    //                 'stories_id' => $stories->id,
-                    //                 'stories_did' => serialize($storiesDid)
-                    //             ]);
-                    //         }else{
-                    //             CronLogs::create([
-                    //                 'uid'        => $userId,
-                    //                 'cron_type' => 'stories',
-                    //                 'item_id' => $stories->id,
-                    //                 'message'   => 'Пользователь не имеет Stories type1'
-                    //             ]);
-                    //         }
-                    //     }else{
-                    //         CronLogs::create([
-                    //             'uid'        => $userId,
-                    //             'cron_type' => 'stories',
-                    //             'item_id' => $stories->id,
-                    //             'message'   => 'Пользователь не имеет активной Подписки'
-                    //         ]);
-                    //         $stories->active = 0;
-                    //         $stories-save();
-                    //     }
-                    // }else{
-                    //     CronLogs::create([
-                    //         'uid'        => $userId,
-                    //         'cron_type' => 'stories',
-                    //         'item_id' => $stories->id,
-                    //         'message'   => 'Пользователь не имеет Подписки в базе данных'
-                    //     ]);
-                    // }
-                }
-                // elseif (strtotime($updatedAtNext->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                    if($userSubscribe){
+                        if($userSubscribe->sub_status === 1){
+                            $subscribePackage = unserialize($userSubscribe->sub_config)['vk']['stories'];
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'stories',
+                                'item_id' => $stories->id,
+                                'message'   => 'Я зашёл далеко!'
+                            ]);
+                            // if($subscribePackage['type1'] === 1){
+                            //     if($vkGroup && $subscribePackage['type2'] !== 1){
+                            //         CronLogs::create([
+                            //             'uid'        => $userId,
+                            //             'cron_type' => 'stories',
+                            //             'item_id' => $stories->id,
+                            //             'message'   => 'Пользователь не имеет Stories type2'
+                            //         ]);
+                            //         die();
+                            //     }
+                            //     if(count(unserialize($stories->upload_result)) > 1 && $subscribePackage['type3'] !== 1){
+                            //         CronLogs::create([
+                            //             'uid'        => $userId,
+                            //             'cron_type' => 'stories',
+                            //             'item_id' => $stories->id,
+                            //             'message'   => 'Пользователь не имеет Stories type3'
+                            //         ]);
+                            //         die();
+                            //     }
+                            //     $storiesDid = [];
+                            //     foreach (unserialize($stories->upload_result) as $storiesIndex => $storiesUpload) {
+                            //         $storiesSave = new Client([
+                            //             'base_uri' => 'https://api.vk.com',
+                            //         ]);
+                            //         $storiesParams = [
+                            //             'v' => '5.131',
+                            //             'access_token' => $vkToken,
+                            //             'upload_results' => $storiesUpload,
+                            //         ];
+                            //         $storiesGet = $storiesSave->request('GET', '/method/stories.save', [
+                            //             'query' => $storiesParams
+                            //         ]);
+                            //         if ($storiesGet->getStatusCode() !== 200 || !$storiesGet->getBody()) {
+                            //             CronLogs::create([
+                            //                 'uid'        => $userId,
+                            //                 'cron_type' => 'stories',
+                            //                 'item_id' => $stories->id,
+                            //                 'message'   => 'Метод stories.save ничего не вернул для файла '.$storiesIndex
+                            //             ]);
+                            //             die();
+                            //         }
+                            //         $storiesContent = $storiesGet->getBody()->getContents();
+                            //         $storiesJSON = json_decode($storiesContent);
+                            //         if (isset($storiesJSON->error)) {
+                            //             CronLogs::create([
+                            //                 'uid'        => $userId,
+                            //                 'cron_type' => 'stories',
+                            //                 'item_id' => $stories->id,
+                            //                 'message'   => 'Метод stories.save вернул ошибку для файла '.$storiesIndex
+                            //             ]);
+                            //             die();
+                            //         }
+                            //         $storiesDid[] = $storiesJSON->response->items[0]->id;
+                            //         CronLogs::create([
+                            //             'uid'        => $userId,
+                            //             'cron_type' => 'stories',
+                            //             'item_id' => $stories->id,
+                            //             'message'   => 'Метод stories.save завершён для файла '.$storiesIndex
+                            //         ]);
+                            //     }
+                            //     CronLogs::create([
+                            //         'uid'        => $userId,
+                            //         'cron_type' => 'stories',
+                            //         'item_id' => $stories->id,
+                            //         'message'   => 'Истории должны быть запущены!'
+                            //     ]);
+                            //     $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
+                            //     $stories-save();
+                            //     StoriesStory::create([
+                            //         'stories_id' => $stories->id,
+                            //         'stories_did' => serialize($storiesDid)
+                            //     ]);
+                            // }else{
+                            //     CronLogs::create([
+                            //         'uid'        => $userId,
+                            //         'cron_type' => 'stories',
+                            //         'item_id' => $stories->id,
+                            //         'message'   => 'Пользователь не имеет Stories type1'
+                            //     ]);
+                            // }
+                        }else{
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'stories',
+                                'item_id' => $stories->id,
+                                'message'   => 'Пользователь не имеет активной Подписки'
+                            ]);
+                            $stories->active = 0;
+                            $stories-save();
+                        }
+                    }else{
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'stories',
+                            'item_id' => $stories->id,
+                            'message'   => 'Пользователь не имеет Подписки в базе данных'
+                        ]);
+                    }
+                // }elseif (strtotime($updatedAtNext->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
                 //     $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
                 //     $lastStories = StoriesStory::where('stories_id', '=', $stories->id)->latest('id')->first();
                 //     $viewes = $lastStories->viewes;
