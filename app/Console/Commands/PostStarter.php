@@ -53,6 +53,7 @@ class PostStarter extends Command
             $accountId = $post->account_id;
             $groupId = $post->group_id;
             $vkAccount = VkAccount::where('id', '=', $accountId)->first();
+            $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
             $userId = $vkAccount->uid;
             $vkToken = $vkAccount->token;
             if($startType === 'date'){
@@ -93,6 +94,136 @@ class PostStarter extends Command
                                 ]);
                                 die();
                             }
+                            $wallPostSave = new Client([
+                                'base_uri' => 'https://api.vk.com',
+                            ]);
+                            $wallPostParams = [
+                                'v' => '5.131',
+                                'access_token' => $vkToken,
+                                'friends_only' => $postSettings->friends_only,
+                                'close_comments' => $postSettings->close_comments,
+                                'message' => $post->message,
+                                'attachments' => implode(',',unserialize($post->attachments)),
+                            ];
+                            if($vkGroup){
+                                $wallPostParams['owner_id'] = '-'.$groupId;
+                                $wallPostParams['from_group'] = 1;
+                            }else{
+                                $wallPostParams['owner_id'] = $ownerId;
+                            }
+                            $wallPostGet = $wallPostSave->request('GET', '/method/wall.post', [
+                                'query' => $wallPostParams
+                            ]);
+                            if ($wallPostGet->getStatusCode() !== 200 || !$wallPostGet->getBody()) {
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'posts',
+                                    'item_id' => $post->id,
+                                    'message'   => 'Метод wall.post ничего не вернул'
+                                ]);
+                                die();
+                            }
+                            $wallPostContent = $wallPostGet->getBody()->getContents();
+                            $wallPostJSON = json_decode($wallPostContent);
+                            if (isset($wallPostJSON->error)) {
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'posts',
+                                    'item_id' => $post->id,
+                                    'message'   => 'Метод wall.post вернул ошибку'
+                                ]);
+                                die();
+                            }
+                            
+                            $latestPost = PostStory::where('post_id', '=', $post->id)->latest()->first();
+                            if($postSettings->remove_old === 1){
+                                $wallPostRemove = new Client([
+                                    'base_uri' => 'https://api.vk.com',
+                                ]);
+                                $wallRemoveParams = [
+                                    'v' => '5.131',
+                                    'access_token' => $vkToken,
+                                    'post_id' => $latestPost->post_did
+                                ];
+                                if($vkGroup){
+                                    $wallRemoveParams['owner_id'] = '-'.$groupId;
+                                }else{
+                                    $wallRemoveParams['owner_id'] = $ownerId;
+                                }
+                                $wallRemoveGet = $wallPostRemove->request('GET', '/method/wall.delete', [
+                                    'query' => $wallRemoveParams
+                                ]);
+                                if ($wallRemoveGet->getStatusCode() !== 200 || !$wallRemoveGet->getBody()) {
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'posts',
+                                        'item_id' => $post->id,
+                                        'message'   => 'Метод wall.delete ничего не вернул'
+                                    ]);
+                                    die();
+                                }
+                                $wallRemoveContent = $wallRemoveGet->getBody()->getContents();
+                                $wallRemoveJSON = json_decode($wallRemoveContent);
+                                if (isset($wallRemoveJSON->error)) {
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'posts',
+                                        'item_id' => $post->id,
+                                        'message'   => 'Метод wall.delete вернул ошибку'
+                                    ]);
+                                    die();
+                                }
+                            }
+                            if($postSettings->pin_new === 1){
+                                $postPinClient = new Client([
+                                    'base_uri' => 'https://api.vk.com',
+                                ]);
+                                $postPinParams = [
+                                    'v' => '5.131',
+                                    'access_token' => $vkToken,
+                                    'post_id' => $wallPostJSON->response->post_id
+                                ];
+                                if ($vkGroup == 'group') {
+                                    $postPinParams['owner_id'] = '-'.$groupId;
+                                }else{
+                                    $postPinParams['owner_id'] = $ownerId;
+                                }
+                                $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
+                                    'query' => $postPinParams
+                                ]);
+                                if ($postPinGet->getStatusCode() !== 200 || !$postPinGet->getBody()) {
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'posts',
+                                        'item_id' => $post->id,
+                                        'message'   => 'Метод wall.pin ничего не вернул'
+                                    ]);
+                                    die();
+                                }
+                                $postPinContent = $postPinGet->getBody()->getContents();
+                                $postPinJSON = json_decode($postPinContent);
+                                if (isset($postPinJSON->error)) {
+                                    CronLogs::create([
+                                        'uid'        => $userId,
+                                        'cron_type' => 'posts',
+                                        'item_id' => $post->id,
+                                        'message'   => 'Метод wall.pin вернул ошибку'
+                                    ]);
+                                    die();
+                                }
+                            }
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'posts',
+                                'item_id' => $post->id,
+                                'message'   => 'Пост должен быть запущен!'
+                            ]);
+                            $post->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
+                            $post->save();
+                            PostStory::create([
+                                'post_id' => $post->id,
+                                'post_did' => $wallPostJSON->response->post_id
+                            ]);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
@@ -119,6 +250,74 @@ class PostStarter extends Command
                         'item_id' => $post->id,
                         'message'   => 'Пользователь не имеет Подписки в базе данных'
                     ]);
+                }
+            }elseif (strtotime($updatedAt->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
+                CronLogs::create([
+                    'uid'        => $userId,
+                    'cron_type' => 'posts',
+                    'item_id' => $post->id,
+                    'message'   => 'Время меньше на 5 минут!'
+                ]);
+                $lastPost = PostStory::where('post_id', '=', $post->id)->latest('id')->first();
+                if($lastPost){
+                    $comments = $lastPost->comments;
+                    $reposts = $lastPost->reposts;
+                    $likes = $lastPost->likes;
+                    $viewes = $lastPost->viewes;
+                    $postStats = new Client([
+                        'base_uri' => 'https://api.vk.com',
+                    ]);
+                    $postParams = [
+                        'v' => '5.131',
+                        'access_token' => $vkToken,
+                        'post_id' => $lastPost->post_did,
+                    ];
+                    $postGet = $postStats->request('GET', '/method/wall.getById', [
+                        'query' => $postParams
+                    ]);
+                    if ($postGet->getStatusCode() !== 200 || !$postGet->getBody()) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'posts',
+                            'item_id' => $post->id,
+                            'message'   => 'Метод wall.getById ничего не вернул!'
+                        ]);
+                        die();
+                    }
+                    $postContent = $postGet->getBody()->getContents();
+                    $postJSON = json_decode($postContent);
+                    if (isset($postJSON->error)) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'posts',
+                            'item_id' => $post->id,
+                            'message'   => 'Метод wall.getById вернул ошибку!'
+                        ]);
+                        die();
+                    }
+                    if($postJSON->response[0]->comments){
+                        $comments += $postJSON->response[0]->comments->count;
+                    }
+                    if($postJSON->response[0]->likes){
+                        $likes += $postJSON->response[0]->likes->count;
+                    }
+                    if($postJSON->response[0]->reposts){
+                        $reposts += $postJSON->response[0]->reposts->count;
+                    }
+                    if($postJSON->response[0]->views){
+                        $viewes += $postJSON->response[0]->views->count;
+                    }
+                    CronLogs::create([
+                        'uid'        => $userId,
+                        'cron_type' => 'posts',
+                        'item_id' => $post->id,
+                        'message'   => 'Статистика поста должна быть собрана!'
+                    ]);
+                    $lastPost->viewes = $viewes;
+                    $lastPost->comments = $comments;
+                    $lastPost->reposts = $reposts;
+                    $lastPost->likes = $likes;
+                    $lastPost->save();
                 }
             }
         }

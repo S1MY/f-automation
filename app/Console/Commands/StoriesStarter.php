@@ -218,7 +218,6 @@ class StoriesStarter extends Command
                                 'item_id' => $stories->id,
                                 'message'   => 'Истории должны быть запущены!'
                             ]);
-                            $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
                             $stories->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
                             $stories->save();
                             StoriesStory::create([
