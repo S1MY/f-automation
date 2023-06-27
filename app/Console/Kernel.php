@@ -10,6 +10,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 
         Commands\StoriesStarter::class,
+        Commands\PostStarter::class,
 
     ];
     /**
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('stories:cron')->everyMinute();
+        $schedule->command('post:cron')->everyMinute();
     }
 
     /**
