@@ -104,96 +104,93 @@ $(document).ready(function () {
   }
   $(".tabPageForm").submit(function (e) {
     e.preventDefault();
-    if(!$('input[name="interval"]').val()){
-      console.log(1)
-    }
     const ajaxUrl = $(this).attr('action');
-    // if (detector == false) {
-    //   createMessage("<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>");
-    // } else {
-    //   let formData = new FormData();
-    //   let serialize = $(this).serializeArray();
-    //   $.each(serialize, function (i, val) {
-    //     formData.append(val.name, val.value);
-    //   });
-    //   if (!$('input[name="closeComments"]').is(':checked')) {
-    //     formData.append('closeComments', 0);
-    //   }
-    //   if (!$('input[name="onlyFriends"]').is(':checked')) {
-    //     formData.append('onlyFriends', 0);
-    //   }
-    //   if (!$('input[name="removeOld"]').is(':checked')) {
-    //     formData.append('removeOld', 0);
-    //   }
-    //   if (!$('input[name="pinNew"]').is(':checked')) {
-    //     formData.append('pinNew', 0);
-    //   }
-    //   if (!$('input[name="interval"]').val() === '') {
-    //     formData.append('interval', 0);
-    //   }
-    //   if (!$('input[name="daily"]').val() === '') {
-    //     formData.append('daily', 0);
-    //   }
-    //   if (!$('input[name="date"]').val() === '') {
-    //     formData.append('date', 'Пустое');
-    //   }
-    //   for (let i = 0; i < document.getElementById("file").files.length; i++) {
-    //     const file = document.getElementById("file").files[i]
-    //     formData.append(`file[${i}]`, file);
-    //   }
-    //   $(".popupWrapper").fadeIn();
-    //   $('.popupItem').fadeOut();
-    //   $('.popupItem[data-popup="loader"]').fadeIn();
-    //   $(".popupWrapper").addClass('_notClose');
-    //   $.ajax({
-    //     type: "POST",
-    //     url: ajaxUrl,
-    //     contentType: false,
-    //     processData: false,
-    //     cache: false,
-    //     data: formData,
-    //     dataType: "json",
-    //     success: function (response) {
-    //       console.log(response)
-    //       $('.popupWrapper').removeClass('_notClose');
-    //       $('.popupItem').fadeOut();
-    //       if (response.status == "success") {
-    //         successHandler(response.title, response.message)
-    //       } else if (response.status == "input") {
-    //         $('.popupWrapper').fadeOut();
-    //         let inputName = response.title;
-    //         if (response.title == 'accType') {
-    //           inputName = 'account'
-    //         } else if (response.title == 'accountId') {
-    //           inputName = 'account'
-    //         } else if (response.title == 'duration') {
-    //           inputName = 'file'
-    //         } else if (response.title == 'type') {
-    //           inputName = 'tabs'
-    //         }else if (response.title == 'interval') {
-    //           inputName = 'tabs'
-    //         }else if (response.title == 'daily') {
-    //           inputName = 'tabs'
-    //         }else if (response.title == 'date') {
-    //           inputName = 'tabs'
-    //         }
-    //         $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
-    //         $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
-    //         $('.errorInput').fadeOut(3000);
-    //         setTimeout(() => {
-    //           $('.errorInput').remove();
-    //         }, 3500);
-    //         $(".popupWrapper").fadeOut();
-    //         $('.popupItem').fadeOut();
-    //       } else {
-    //         errorHandler(response.title, response.message)
-    //       }
-    //     },
-    //     error: function (response) {
-    //       console.log(response)
-    //       errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
-    //     }
-    //   });
-    // }
+    if (detector == false) {
+      createMessage("<p class='fixedMessage _error'>Дождитесь загрузки файла!</p>");
+    } else {
+      let formData = new FormData();
+      let serialize = $(this).serializeArray();
+      $.each(serialize, function (i, val) {
+        formData.append(val.name, val.value);
+      });
+      if (!$('input[name="closeComments"]').is(':checked')) {
+        formData.append('closeComments', 0);
+      }
+      if (!$('input[name="onlyFriends"]').is(':checked')) {
+        formData.append('onlyFriends', 0);
+      }
+      if (!$('input[name="removeOld"]').is(':checked')) {
+        formData.append('removeOld', 0);
+      }
+      if (!$('input[name="pinNew"]').is(':checked')) {
+        formData.append('pinNew', 0);
+      }
+      if ($('input[name="interval"]').val() === '') {
+        formData.append('interval', 0);
+      }
+      if ($('input[name="daily"]').val() === '') {
+        formData.append('daily', 0);
+      }
+      if ($('input[name="date"]').val() === '') {
+        formData.append('date', 'Пустое');
+      }
+      for (let i = 0; i < document.getElementById("file").files.length; i++) {
+        const file = document.getElementById("file").files[i]
+        formData.append(`file[${i}]`, file);
+      }
+      $(".popupWrapper").fadeIn();
+      $('.popupItem').fadeOut();
+      $('.popupItem[data-popup="loader"]').fadeIn();
+      $(".popupWrapper").addClass('_notClose');
+      $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: formData,
+        dataType: "json",
+        success: function (response) {
+          console.log(response)
+          $('.popupWrapper').removeClass('_notClose');
+          $('.popupItem').fadeOut();
+          if (response.status == "success") {
+            successHandler(response.title, response.message)
+          } else if (response.status == "input") {
+            $('.popupWrapper').fadeOut();
+            let inputName = response.title;
+            if (response.title == 'accType') {
+              inputName = 'account'
+            } else if (response.title == 'accountId') {
+              inputName = 'account'
+            } else if (response.title == 'duration') {
+              inputName = 'file'
+            } else if (response.title == 'type') {
+              inputName = 'tabs'
+            }else if (response.title == 'interval') {
+              inputName = 'tabs'
+            }else if (response.title == 'daily') {
+              inputName = 'tabs'
+            }else if (response.title == 'date') {
+              inputName = 'tabs'
+            }
+            $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
+            $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
+            $('.errorInput').fadeOut(3000);
+            setTimeout(() => {
+              $('.errorInput').remove();
+            }, 3500);
+            $(".popupWrapper").fadeOut();
+            $('.popupItem').fadeOut();
+          } else {
+            errorHandler(response.title, response.message)
+          }
+        },
+        error: function (response) {
+          console.log(response)
+          errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+        }
+      });
+    }
   });
 });
