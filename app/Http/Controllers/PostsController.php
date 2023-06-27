@@ -237,9 +237,7 @@ class PostsController extends Controller
             $linksDB[] = $link;
             $filesDB[] = $attachments;
         }
-        if($type === 'date'){
-            $postDid = 0;
-        }else{
+        if($type === 'interval'){
             $wallPostSave = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
