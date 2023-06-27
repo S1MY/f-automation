@@ -237,7 +237,7 @@ class PostsController extends Controller
             $linksDB[] = $link;
             $filesDB[] = $attachments;
         }
-        if($type === 'interval'){
+        if($validatedData['type'] === 'interval'){
             $wallPostSave = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
@@ -310,12 +310,12 @@ class PostsController extends Controller
             'pin_new' => $validatedData['pinNew'],
             'remove_old' => $validatedData['removeOld'],
         ];
-        if ($type === 'date') {
+        if ($validatedData['type'] === 'date') {
             $settingsData['type'] = 'date';
             $timestamp = strtotime($validatedData['date']);
             $timestampDate = date('Y-m-d H:i:s', $timestamp);
             $settingsData['date'] = $timestampDate;
-        } elseif ($type === 'interval') {
+        } elseif ($validatedData['type'] === 'interval') {
             $settingsData['type'] = 'interval';
             $settingsData['interval'] = $validatedData['interval'];
         }else{
@@ -328,13 +328,13 @@ class PostsController extends Controller
             'post_did' => $postDid
         ]);
         if ($validatedData['accType'] == 'group') {
-            if($type !== 'date'){
+            if($validatedData['type'] !== 'date'){
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен на стену группы');
             }else{
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет загружен на стену группы в указанное время');
             }
         }else{
-            if($type !== 'date'){
+            if($validatedData['type'] !== 'date'){
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен на стену аккаунта');
             }else{
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет загружен на стену аккаунта в указанное время');
