@@ -260,7 +260,7 @@ class PaginateController extends Controller
             case 'posts-info':
                 $post = Post::find($myPageId);
                 $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
-                ->where('post_id', $myPageId)
+                ->where('post_stories.post_id', $myPageId)
                 ->orderBy('id', 'desc')
                 ->select([
                     'post_stories.*',
