@@ -16,6 +16,8 @@ $(document).ready(function () {
         let year = $('input[name=year]').val();
         let hour = $('input[name=hour]').val();
         let minute = $('input[name=minute]').val();
+        minute = (minute < 10) ? 0+minute : minute
+        console.log(minute)
         let message = `${day}.${month}.${year} в ${hour}:${minute}`;
         let date = `${day}-${month}-${year} ${hour}:${minute}`;
         $('.dataPickerText').html(message);
