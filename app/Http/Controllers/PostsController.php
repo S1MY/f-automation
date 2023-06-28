@@ -482,15 +482,16 @@ class PostsController extends Controller
                             $postSettings->date = $timestampDate;
                             $postSettings->save();
                         }
-                        if($postSettings->type !== 'daily') {
-                            $searchPost->updated_at = $timestampDate;
-                        }else{
+                        if($postSettings->type === 'daily') {
                             $currentTime = date('H:i:s');
                             if ($currentTime < '12:00:00') {
                                 $searchPost->updated_at = date('Y-m-d', strtotime('-1 day')) . substr($searchPost->updated_at, 10);
                             } else {
                                 $searchPost->updated_at = date('Y-m-d') . substr($searchPost->updated_at, 10);
                             }
+                        }
+                        if($postSettings->type === 'interval'){
+                            $searchPost->updated_at = date('Y-m-d H:i:s', strtotime($timestampDate . ' -' . $postSettings->interval . ' minutes'));
                         }
                         $searchPost->save();
                         if($newActive == 1){
