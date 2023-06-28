@@ -72,3 +72,4 @@
     @endif
 </div>
 @endforeach
+{{ $postInfo->links('layouts.paginate', ['curentPage' => $curentPage]) }}
