@@ -258,11 +258,10 @@ class PaginateController extends Controller
 
                 break;
             case 'posts-info':
-                $post = Post::where('id', $myPageId)
-                    ->get();
+                $post = Post::find($myPageId);
                 $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
                 ->orderBy('id', 'desc')
-                ->where('post_stories.post_id', '=', $post->pluck('id'))
+                ->where('post_stories.post_id', $myPageId)
                 ->select([
                     'post_stories.*',
                     'post_settings.friends_only as friends_only',

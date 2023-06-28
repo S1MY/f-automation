@@ -113,12 +113,11 @@ class CabinetPagesController extends Controller
     public function postsInfo($myPageId){
         $user = Auth::user();
         $curentPage = route('posts', ['myPageId' => $myPageId]);
-        $post = Post::where('id', $myPageId)
-            ->get();
+        $post = Post::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $post->account_id)->get();
         $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
         ->orderBy('id', 'desc')
-        ->where('post_stories.post_id', '=', $post->pluck('id'))
+        ->where('post_stories.post_id', $myPageId)
         ->select([
             'post_stories.*',
             'post_settings.friends_only as friends_only',
