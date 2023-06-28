@@ -46,6 +46,12 @@ class PostStarter extends Command
     {
         $allPosts = Post::where('active', 1)->get();
         foreach ($allPosts as $post) {
+            CronLogs::create([
+                'uid'        => $userId,
+                'cron_type' => 'posts',
+                'item_id' => $post->id,
+                'message'   => 'Я заимелся'
+            ]);
             $postSettings = PostSettings::where('post_id', $post->id);
             $startType = $postSettings->type;
             $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow')->startOfMinute();
