@@ -59,7 +59,7 @@
                         @endif
                     </span>
                 </p>
-                <p class="cardLine">Автозапуск: <span>Активен</span></p>
+                <p class="cardLine">Автозапуск: <span>{{$stories->active === 1 ? 'Активен' : 'Не активен'}}</span></p>
                 @if ($stories->group_id > 0)
                     <p class="cardLine">Текст: <span>{{$linkTextArray[$stories->seetings_link_text]}}</span></p>
                     <p class="cardLine">Ссылка: <span>{{$stories->seetings_link_url}}</span></p>
