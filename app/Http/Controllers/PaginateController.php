@@ -274,7 +274,7 @@ class PaginateController extends Controller
                 ])
                 ->paginate(1, ['*'], 'posts-info-page', $page_num);
                 $curentPage = route('posts', ['myPageId' => $myPageId]);
-                return view('cabinet.posts-info-load', compact('post', 'postInfo', 'curentPage'));
+                return view('load.posts-info-load', compact('post', 'postInfo', 'curentPage'));
                 break;
             default:
 
