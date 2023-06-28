@@ -11,19 +11,21 @@ $(document).ready(function () {
     });
     $('.pickerComplete').click(function (e) { 
         e.preventDefault();
-        let day = $('input[name=day]').val();
-        let month = $('input[name=month]').val();
+        
+        let day = $('input[name=day]').val().padStart(2, '0');
+        let month = $('input[name=month]').val().padStart(2, '0');
         let year = $('input[name=year]').val();
-        let hour = $('input[name=hour]').val();
-        let minute = $('input[name=minute]').val();
-        minute = (minute < 10) ? 0 + minute : minute
+        let hour = $('input[name=hour]').val().padStart(2, '0');
+        let minute = $('input[name=minute]').val().padStart(2, '0');
+        
         let message = `${day}.${month}.${year} в ${hour}:${minute}`;
-        let date = `${day}-${month}-${year} ${hour}:${minute}`;
+        let date = `${year}-${month}-${day} ${hour}:${minute}`;
+        
         $('.dataPickerText').html(message);
         $('input[name="date"]').val(date);
         $('.dataPopup').fadeOut();
     });
-    function datapicker(){
+    const datapicker = (newDate) =>{
         const monthNames = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
         let date = new Date();
         let dateArray, timeArray, monthName, year, nextYear;
@@ -93,12 +95,11 @@ $(document).ready(function () {
                 $(this).parent().children('input').val(max);
             }
         }
-        let day = $('input[name=day]').val();
-        let month = $('input[name=month]').val();
+        let day = $('input[name=day]').val().padStart(2, '0');
+        let month = $('input[name=month]').val().padStart(2, '0');
         let year = $('input[name=year]').val();
-        let hour = $('input[name=hour]').val();
-        let minute = $('input[name=minute]').val();
-        minute = (minute < 10) ? 0 + minute : minute
+        let hour = $('input[name=hour]').val().padStart(2, '0');
+        let minute = $('input[name=minute]').val().padStart(2, '0');
         newDate = new Date(year, month-1, day, hour, minute);
         datapicker(newDate);
     });
@@ -112,12 +113,11 @@ $(document).ready(function () {
         }else if(value < min){
             $(this).val(min);
         }else{
-            let day = $('input[name=day]').val();
-            let month = $('input[name=month]').val();
+            let day = $('input[name=day]').val().padStart(2, '0');
+            let month = $('input[name=month]').val().padStart(2, '0');
             let year = $('input[name=year]').val();
-            let hour = $('input[name=hour]').val();
-            let minute = $('input[name=minute]').val();
-            minute = (minute < 10) ? 0 + minute : minute
+            let hour = $('input[name=hour]').val().padStart(2, '0');
+            let minute = $('input[name=minute]').val().padStart(2, '0');
             newDate = new Date(year, month-1, day, hour, minute);
             datapicker(newDate);
         }
