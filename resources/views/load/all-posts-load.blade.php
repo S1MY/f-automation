@@ -51,9 +51,7 @@
                     @endif
                 </span>
             </p>
-            <p class="cardLine">Автозапуск: <span>Активен</span></p>
-            <p class="cardLine">Только для друзей: <span>{{($post->seetings_friends_only === 1) ? 'Да' : 'Нет'}}</span></p>
-            <p class="cardLine">Скрытые комментарии: <span>{{($post->seetings_close_comments === 1) ? 'Да' : 'Нет'}}</span></p>
+            <p class="cardLine">Автозапуск: <span>{{$post->active === 1 ? 'Активен' : 'Не активен'}}</span></p>
             <p class="cardLine">Закреплять на стене: <span>{{($post->seetings_pin_new === 1) ? 'Да' : 'Нет'}}</span></p>
             <p class="cardLine">Удалять старый пост: <span>{{($post->seetings_remove_old === 1) ? 'Да' : 'Нет'}}</span></p>
             <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
