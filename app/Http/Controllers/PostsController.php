@@ -293,6 +293,8 @@ class PostsController extends Controller
                 }
             }
             $postDid = $wallPostJSON->response->post_id;
+        }else{
+            $postDid = 0;
         }
         $postCreate = Post::create([
             'account_id' => $accountId,
@@ -480,10 +482,23 @@ class PostsController extends Controller
                             $postSettings->date = $timestampDate;
                             $postSettings->save();
                         }
-                        $searchPost->updated_at = $timestampDate;
+                        if($postSettings->type !== 'daily') {
+                            $searchPost->updated_at = $timestampDate;
+                        }else{
+                            $currentTime = date('H:i:s');
+                            if ($currentTime < '12:00:00') {
+                                $searchPost->updated_at = date('Y-m-d', strtotime('-1 day')) . substr($searchPost->updated_at, 10);
+                            } else {
+                                $searchPost->updated_at = date('Y-m-d') . substr($searchPost->updated_at, 10);
+                            }
+                        }
                         $searchPost->save();
                         if($newActive == 1){
-                            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Пост будет выложен через минуту');
+                            if($postSettings->type === 'daily'){
+                                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Пост будет выложен в указанный час');
+                            }else{
+                                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Пост будет выложен через минуту');
+                            }
                         }else{
                             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск выключен. Пост не будет выкладываться');
                         }

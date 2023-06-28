@@ -6,18 +6,35 @@
 @foreach ($postInfo as $post)
 @php
     $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at, 'Europe/Moscow');
-    $dayDifference = $nowTime->diffInDays($postDate);
+    $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();
     $dateView = $postDate->format('H:i d.m.Y');
+    $diffCheck = 0;
+    if($post->type === 'daily'){
+        if (strtotime($nowTime) >= strtotime($postDate->addDay())) {
+            $diffCheck = 1;
+        }
+    }elseif ($post->type === 'interval') {
+        if(strtotime($nowTime) >= strtotime($postDate->addMinutes($post->interval))){
+            $diffCheck = 1;
+        }
+    }elseif ($post->type === 'date') {
+        $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->date, 'Europe/Moscow');
+        if(strtotime($nowTime) >= strtotime($postDate)){
+            $diffCheck = 1;
+        }
+    }
 @endphp
 <div class="streamStoryItem">
     <p class="streamStoryList"><span>Время:</span><span>{{$dateView}}</span></p>
-    @if ($dayDifference >= 1)
+    @if ($diffCheck >= 1)
         <p class="streamStoryList"><span>Статус:</span><span class="_complete">Завершена</span></p>
     @else
         <p class="streamStoryList"><span>Статус:</span><span class="_loading">В обработке</span></p>
     @endif
-    <p class="cardLine">Только для друзей: <span>{{($post->seetings_friends_only) ? 'Да' : 'Нет'}}</span></p>
-    <p class="cardLine">Скрытые комментарии: <span>{{($post->seetings_close_comments) ? 'Да' : 'Нет'}}</span></p>
+    <p class="cardLine">Только для друзей: <span>{{($post->friends_only === 1) ? 'Да' : 'Нет'}}</span></p>
+    <p class="cardLine">Скрытые комментарии: <span>{{($post->close_comments === 1) ? 'Да' : 'Нет'}}</span></p>
+    <p class="cardLine">Закреплять на стене: <span>{{($post->pin_new === 1) ? 'Да' : 'Нет'}}</span></p>
+    <p class="cardLine">Удалять старый пост: <span>{{($post->remove_old === 1) ? 'Да' : 'Нет'}}</span></p>
     <p class="streamStoryList"><span>Просмотров:</span>
         <span class="storyIcon">
             {{$post->viewes}}
@@ -43,7 +60,7 @@
             </svg>
         </span>
     </p>
-    @if ($post->seetings_close_comments)
+    @if ($post->seetings_close_comments === 0)
         <p class="streamStoryList"><span>Комментариев:</span>
             <span class="storyIcon">
                 {{$post->comments}}

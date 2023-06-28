@@ -48,7 +48,7 @@ class PostStarter extends Command
         foreach ($allPosts as $post) {
             $postSettings = PostSettings::where('post_id', $post->id)->first();
             $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow')->startOfMinute();
-
+            $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();
             $accountId = $post->account_id;
             $groupId = $post->group_id;
             $vkAccount = VkAccount::where('id', '=', $accountId)->first();
@@ -60,15 +60,9 @@ class PostStarter extends Command
             }elseif ($postSettings->type === 'interval') {
                 $updatedAt->addMinutes($postSettings->interval);
             }else{
-                $updatedAt->setTime($postSettings->daily, 0, 0);
+                $updatedAt = $nowTime->setTime($postSettings->daily, 0, 0);
             }
-            if (strtotime($updatedAt) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
-                CronLogs::create([
-                    'uid'        => $userId,
-                    'cron_type' => 'posts',
-                    'item_id' => $post->id,
-                    'message'   => 'Время совпало!'
-                ]);
+            if (strtotime($updatedAt) === strtotime($nowTime)) {
                 $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                 $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
                 if($userSubscribe){
@@ -135,51 +129,54 @@ class PostStarter extends Command
                             }
                             
                             $latestPost = PostStory::where('post_id', '=', $post->id)->latest()->first();
-                            if($postSettings->remove_old === 1){
-                                $wallPostRemove = new Client([
-                                    'base_uri' => 'https://api.vk.com',
-                                ]);
-                                $wallRemoveParams = [
-                                    'v' => '5.131',
-                                    'access_token' => $vkToken,
-                                    'post_id' => $latestPost->post_did
-                                ];
-                                if($vkGroup){
-                                    $wallRemoveParams['owner_id'] = '-'.$groupId;
-                                }else{
-                                    $wallRemoveParams['owner_id'] = $ownerId;
-                                }
-                                $wallRemoveGet = $wallPostRemove->request('GET', '/method/wall.delete', [
-                                    'query' => $wallRemoveParams
-                                ]);
-                                if ($wallRemoveGet->getStatusCode() !== 200 || !$wallRemoveGet->getBody()) {
-                                    CronLogs::create([
-                                        'uid'        => $userId,
-                                        'cron_type' => 'posts',
-                                        'item_id' => $post->id,
-                                        'message'   => 'Метод wall.delete ничего не вернул'
+                            if ($latestPost->post_did === 0) {
+                                $latestPost->post_did = $wallPostJSON->response->post_id;
+                                $latestPost->save();
+                            }else{
+                                if($postSettings->remove_old === 1){
+                                    $wallPostRemove = new Client([
+                                        'base_uri' => 'https://api.vk.com',
                                     ]);
-                                    die();
-                                }
-                                $wallRemoveContent = $wallRemoveGet->getBody()->getContents();
-                                $wallRemoveJSON = json_decode($wallRemoveContent);
-                                if (isset($wallRemoveJSON->error)) {
-                                    CronLogs::create([
-                                        'uid'        => $userId,
-                                        'cron_type' => 'posts',
-                                        'item_id' => $post->id,
-                                        'message'   => 'Метод wall.delete вернул ошибку'
+                                    $wallRemoveParams = [
+                                        'v' => '5.131',
+                                        'access_token' => $vkToken,
+                                        'post_id' => $latestPost->post_did
+                                    ];
+                                    if($vkGroup){
+                                        $wallRemoveParams['owner_id'] = '-'.$groupId;
+                                    }else{
+                                        $wallRemoveParams['owner_id'] = $ownerId;
+                                    }
+                                    $wallRemoveGet = $wallPostRemove->request('GET', '/method/wall.delete', [
+                                        'query' => $wallRemoveParams
                                     ]);
-                                    die();
+                                    if ($wallRemoveGet->getStatusCode() !== 200 || !$wallRemoveGet->getBody()) {
+                                        CronLogs::create([
+                                            'uid'        => $userId,
+                                            'cron_type' => 'posts',
+                                            'item_id' => $post->id,
+                                            'message'   => 'Метод wall.delete ничего не вернул'
+                                        ]);
+                                        die();
+                                    }
+                                    $wallRemoveContent = $wallRemoveGet->getBody()->getContents();
+                                    $wallRemoveJSON = json_decode($wallRemoveContent);
+                                    if (isset($wallRemoveJSON->error)) {
+                                        CronLogs::create([
+                                            'uid'        => $userId,
+                                            'cron_type' => 'posts',
+                                            'item_id' => $post->id,
+                                            'message'   => 'Метод wall.delete вернул ошибку'
+                                        ]);
+                                        die();
+                                    }
                                 }
+                                PostStory::create([
+                                    'post_id' => $post->id,
+                                    'post_did' => $wallPostJSON->response->post_id
+                                ]);
                             }
                             if($postSettings->pin_new === 1){
-                                CronLogs::create([
-                                    'uid'        => $userId,
-                                    'cron_type' => 'posts',
-                                    'item_id' => $post->id,
-                                    'message'   => 'Метод wall.pin Полетел'
-                                ]);
                                 $postPinClient = new Client([
                                     'base_uri' => 'https://api.vk.com',
                                 ]);
@@ -188,7 +185,7 @@ class PostStarter extends Command
                                     'access_token' => $vkToken,
                                     'post_id' => $wallPostJSON->response->post_id
                                 ];
-                                if ($vkGroup == 'group') {
+                                if ($vkGroup) {
                                     $postPinParams['owner_id'] = '-'.$groupId;
                                 }else{
                                     $postPinParams['owner_id'] = $ownerId;
@@ -216,25 +213,9 @@ class PostStarter extends Command
                                     ]);
                                     die();
                                 }
-                                CronLogs::create([
-                                    'uid'        => $userId,
-                                    'cron_type' => 'posts',
-                                    'item_id' => $post->id,
-                                    'message'   => 'Метод wall.pin Заебись'
-                                ]);
                             }
-                            CronLogs::create([
-                                'uid'        => $userId,
-                                'cron_type' => 'posts',
-                                'item_id' => $post->id,
-                                'message'   => 'Пост должен быть запущен!'
-                            ]);
-                            $post->updated_at = Carbon::now('Europe/Moscow')->startOfMinute()->format('Y-m-d H:i:s');
+                            $post->updated_at = $nowTime->format('Y-m-d H:i:s');
                             $post->save();
-                            PostStory::create([
-                                'post_id' => $post->id,
-                                'post_did' => $wallPostJSON->response->post_id
-                            ]);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
@@ -262,15 +243,9 @@ class PostStarter extends Command
                         'message'   => 'Пользователь не имеет Подписки в базе данных'
                     ]);
                 }
-            }elseif (strtotime($updatedAt->subMinutes(5)) === strtotime(Carbon::now('Europe/Moscow')->startOfMinute())) {
-                CronLogs::create([
-                    'uid'        => $userId,
-                    'cron_type' => 'posts',
-                    'item_id' => $post->id,
-                    'message'   => 'Время меньше на 5 минут!'
-                ]);
+            }elseif (strtotime($updatedAt->subMinutes(5)) === strtotime($nowTime)) {
                 $lastPost = PostStory::where('post_id', '=', $post->id)->latest('id')->first();
-                if($lastPost){
+                if($lastPost->posd_did !== 0){
                     $comments = $lastPost->comments;
                     $reposts = $lastPost->reposts;
                     $likes = $lastPost->likes;
@@ -318,12 +293,6 @@ class PostStarter extends Command
                     if($postJSON->response[0]->views){
                         $viewes += $postJSON->response[0]->views->count;
                     }
-                    CronLogs::create([
-                        'uid'        => $userId,
-                        'cron_type' => 'posts',
-                        'item_id' => $post->id,
-                        'message'   => 'Статистика поста должна быть собрана!'
-                    ]);
                     $lastPost->viewes = $viewes;
                     $lastPost->comments = $comments;
                     $lastPost->reposts = $reposts;

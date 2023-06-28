@@ -9,11 +9,10 @@
     $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow');
     if($post->type === 'daily'){
         if ($postDate->hour >= $post->daily) {
-            $postDate = $postDate->addDay();
-            $postDate->hour = $post->daily;
-            $postDate->second = 0;
+            $postDate->addDay();
+            $postDate->setTime($post->daily, 0, 0);
         }else{
-            $postDate->hour = $post->daily;
+            $postDate->setTime($post->daily, 0, 0);
         }
         $nextStart = $postDate->format('H:i d.m.Y');
     }elseif ($post->type === 'interval') {
@@ -53,8 +52,10 @@
                 </span>
             </p>
             <p class="cardLine">Автозапуск: <span>Активен</span></p>
-            <p class="cardLine">Только для друзей: <span>{{($post->seetings_friends_only) ? 'Да' : 'Нет'}}</span></p>
-                <p class="cardLine">Скрытые комментарии: <span>{{($post->seetings_close_comments) ? 'Да' : 'Нет'}}</span></p>
+            <p class="cardLine">Только для друзей: <span>{{($post->seetings_friends_only === 1) ? 'Да' : 'Нет'}}</span></p>
+            <p class="cardLine">Скрытые комментарии: <span>{{($post->seetings_close_comments === 1) ? 'Да' : 'Нет'}}</span></p>
+            <p class="cardLine">Закреплять на стене: <span>{{($post->seetings_pin_new === 1) ? 'Да' : 'Нет'}}</span></p>
+            <p class="cardLine">Удалять старый пост: <span>{{($post->seetings_remove_old === 1) ? 'Да' : 'Нет'}}</span></p>
             <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
         </div>
         <div class="cardControls _stories">
