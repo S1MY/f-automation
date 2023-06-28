@@ -1,4 +1,13 @@
 @extends('layouts.master')
+@php
+
+use App\Models\Post;
+
+        $allPosts = Post::where('active', 1)->get();
+        foreach ($allPosts as $post) {
+            echo $post->id;
+        }
+@endphp
 @section('content')
     <section id="hero">
         <div class="heroLeft">
