@@ -106,7 +106,7 @@ class CabinetPagesController extends Controller
             'post_settings.date as date',
             'post_settings.daily as daily'
         ])
-        ->paginate(1, ['*'], 'all-posts-page');
+        ->paginate(4, ['*'], 'all-posts-page');
 
         return view('cabinet.vk.posts', compact('user', 'allPosts', 'curentPage'));
     }
@@ -128,7 +128,7 @@ class CabinetPagesController extends Controller
             'post_settings.date as date',
             'post_settings.daily as daily'
         ])
-        ->paginate(1, ['*'], 'posts-info-page');
+        ->paginate(4, ['*'], 'posts-info-page');
         if(count($VkAccount) == 1){
             return view('cabinet.vk.post-info', compact('user', 'post', 'postInfo', 'curentPage'));
         }else{
@@ -174,7 +174,7 @@ class CabinetPagesController extends Controller
             'stories_settings.link_text as seetings_link_text',
             'stories_settings.link_url as seetings_link_url'
         ])
-        ->paginate(1, ['*'], 'all-stories-page');
+        ->paginate(4, ['*'], 'all-stories-page');
         return view('cabinet.vk.stories', compact('user', 'allStories', 'curentPage'));
     }
 
@@ -190,7 +190,7 @@ class CabinetPagesController extends Controller
             'stories_settings.link_text as link_text',
             'stories_settings.link_url as link_url'
         ])
-        ->paginate(1, ['*'], 'stories-info-page');
+        ->paginate(4, ['*'], 'stories-info-page');
         if(count($VkAccount) == 1){
             return view('cabinet.vk.stories-info', compact('user', 'stories', 'storiesInfo', 'curentPage'));
         }else{

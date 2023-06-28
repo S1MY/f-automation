@@ -49,7 +49,7 @@ class PaginateController extends Controller
                     ->where('published', '=', 6)
                     ->where('uid', '!=', Auth::user()->id)
                     ->where('votes', 'NOT LIKE', '%i:%;i:' . Auth::user()->id . ';%')
-                    ->paginate(1, ['*'], 'all-offers-page', $page_num);
+                    ->paginate(4, ['*'], 'all-offers-page', $page_num);
 
                 $curentPage = route('offers');
 
@@ -107,7 +107,7 @@ class PaginateController extends Controller
                         'stories_settings.link_text as seetings_link_text',
                         'stories_settings.link_url as seetings_link_url'
                     ])
-                    ->paginate(1, ['*'], 'all-stories-page', $page_num);
+                    ->paginate(4, ['*'], 'all-stories-page', $page_num);
 
                 $curentPage = route('stories');
                 return view('load.all-stories-load', compact('allStories', 'curentPage'));
@@ -125,7 +125,7 @@ class PaginateController extends Controller
                         'stories.*',
                         'vk_accounts.name as vk_account_name'
                     ])
-                    ->paginate(1, ['*'], 'account-stories-page', $page_num);
+                    ->paginate(4, ['*'], 'account-stories-page', $page_num);
                 $curentPage = route('stories');
                 return view('load.all-stories-load', compact('allStories', 'curentPage'));
 
@@ -145,7 +145,7 @@ class PaginateController extends Controller
                         'stories_settings.link_text as seetings_link_text',
                         'stories_settings.link_url as seetings_link_url'
                     ])
-                    ->paginate(1, ['*'], 'group-stories-page', $page_num);
+                    ->paginate(4, ['*'], 'group-stories-page', $page_num);
                 $curentPage = route('stories');
                 return view('load.all-stories-load', compact('allStories', 'curentPage'));
 
@@ -161,7 +161,7 @@ class PaginateController extends Controller
                     'stories_settings.link_text as link_text',
                     'stories_settings.link_url as link_url'
                 ])
-                ->paginate(1, ['*'], 'stories-info-page', $page_num);
+                ->paginate(4, ['*'], 'stories-info-page', $page_num);
                 $curentPage = route('stories', ['myPageId' => $myPageId]);
                 return view('load.stories-info-load', compact('stories', 'storiesInfo', 'curentPage'));
                 break;
@@ -202,7 +202,7 @@ class PaginateController extends Controller
                     'post_settings.date as date',
                     'post_settings.daily as daily'
                 ])
-                ->paginate(1, ['*'], 'all-posts-page', $page_num);
+                ->paginate(4, ['*'], 'all-posts-page', $page_num);
 
                 $curentPage = route('posts');
                 return view('load.all-posts-load', compact('allPosts', 'curentPage'));
@@ -227,7 +227,7 @@ class PaginateController extends Controller
                         'post_settings.date as date',
                         'post_settings.daily as daily'
                     ])
-                    ->paginate(1, ['*'], 'account-posts-page', $page_num);
+                    ->paginate(4, ['*'], 'account-posts-page', $page_num);
                 $curentPage = route('posts');
                 return view('load.all-posts-load', compact('allPosts', 'curentPage'));
 
@@ -252,7 +252,7 @@ class PaginateController extends Controller
                         'post_settings.date as date',
                         'post_settings.daily as daily'
                     ])
-                    ->paginate(1, ['*'], 'group-posts-page', $page_num);
+                    ->paginate(4, ['*'], 'group-posts-page', $page_num);
                 $curentPage = route('posts');
                 return view('load.all-posts-load', compact('allPosts', 'curentPage'));
 
@@ -272,7 +272,7 @@ class PaginateController extends Controller
                     'post_settings.date as date',
                     'post_settings.daily as daily'
                 ])
-                ->paginate(1, ['*'], 'posts-info-page', $page_num);
+                ->paginate(4, ['*'], 'posts-info-page', $page_num);
                 $curentPage = route('posts', ['myPageId' => $myPageId]);
                 return view('load.posts-info-load', compact('post', 'postInfo', 'curentPage'));
                 break;
