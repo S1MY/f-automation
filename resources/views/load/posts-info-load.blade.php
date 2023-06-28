@@ -60,7 +60,7 @@
             </svg>
         </span>
     </p>
-    @if ($post->seetings_close_comments === 0)
+    @if ($post->close_comments === 0)
         <p class="streamStoryList"><span>Комментариев:</span>
             <span class="storyIcon">
                 {{$post->comments}}
