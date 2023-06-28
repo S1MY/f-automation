@@ -53,7 +53,6 @@ class PostStarter extends Command
                 'message'   => 'Я заимелся'
             ]);
             $postSettings = PostSettings::where('post_id', $post->id);
-            $startType = $postSettings->type;
             $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow')->startOfMinute();
 
             $accountId = $post->account_id;
@@ -62,9 +61,9 @@ class PostStarter extends Command
             $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
             $userId = $vkAccount->uid;
             $vkToken = $vkAccount->token;
-            if($startType === 'date'){
+            if($postSettings->type === 'date'){
                 $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $postSettings->date, 'Europe/Moscow')->startOfMinute();
-            }elseif ($type === 'interval') {
+            }elseif ($postSettings->type === 'interval') {
                 $updatedAt->addMinutes($postSettings->interval);
             }else{
                 $updatedAt->setTime($postSettings->daily, 0, 0);
