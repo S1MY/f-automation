@@ -5,7 +5,7 @@
 @foreach ($postInfo as $post)
 @php
     $nowTime2 = Carbon::now('Europe/Moscow')->startOfMinute();
-    $updatedAt = $nowTime2->setTime($post->daily, 0, 0);
+    $updatedAt = Carbon::now('Europe/Moscow')->startOfMinute()->setTime($post->daily, 0, 0);
     echo $nowTime2;
     echo $updatedAt;
     $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at, 'Europe/Moscow');
