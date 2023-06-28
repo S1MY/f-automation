@@ -16,8 +16,7 @@ $(document).ready(function () {
         let year = $('input[name=year]').val();
         let hour = $('input[name=hour]').val();
         let minute = $('input[name=minute]').val();
-        minute = (minute < 10) ? 0+minute : minute
-        console.log(minute)
+        minute = (minute < 10) ? 0 + minute : minute
         let message = `${day}.${month}.${year} в ${hour}:${minute}`;
         let date = `${day}-${month}-${year} ${hour}:${minute}`;
         $('.dataPickerText').html(message);
@@ -61,6 +60,7 @@ $(document).ready(function () {
         nextYear = parseInt(year) + 1;
         let hour = timeArray[0];
         let minute = timeArray[1];
+        minute = (minute < 10) ? 0 + minute : minute
         var daysPerMonth = new Date(year, month, 0).getDate();
         let message = `${days} ${monthName} ${year} в ${hour}:${minute} (МСК)`;
         $('.currentDate').html(message);
@@ -98,6 +98,7 @@ $(document).ready(function () {
         let year = $('input[name=year]').val();
         let hour = $('input[name=hour]').val();
         let minute = $('input[name=minute]').val();
+        minute = (minute < 10) ? 0 + minute : minute
         newDate = new Date(year, month-1, day, hour, minute);
         datapicker(newDate);
     });
@@ -116,6 +117,7 @@ $(document).ready(function () {
             let year = $('input[name=year]').val();
             let hour = $('input[name=hour]').val();
             let minute = $('input[name=minute]').val();
+            minute = (minute < 10) ? 0 + minute : minute
             newDate = new Date(year, month-1, day, hour, minute);
             datapicker(newDate);
         }
