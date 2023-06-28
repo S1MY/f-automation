@@ -1,4 +1,9 @@
 @extends('layouts.master')
+@php
+$updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', '2023-06-27 19:12:29', 'Europe/Moscow')->startOfMinute();
+$updatedAt->addMinutes($postSettings->interval);
+echo $updatedAt;
+@endphp
 @section('content')
     <section id="hero">
         <div class="heroLeft">
