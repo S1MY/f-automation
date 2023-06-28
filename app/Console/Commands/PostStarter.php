@@ -60,7 +60,7 @@ class PostStarter extends Command
             }elseif ($postSettings->type === 'interval') {
                 $updatedAt->addMinutes($postSettings->interval);
             }else{
-                $updatedAt = $nowTime->setTime($postSettings->daily, 0, 0);
+                $updatedAt = Carbon::now('Europe/Moscow')->startOfMinute()->setTime($postSettings->daily, 0, 0);
             }
             if (strtotime($updatedAt) === strtotime($nowTime)) {
                 $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
