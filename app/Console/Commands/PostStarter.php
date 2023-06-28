@@ -174,6 +174,12 @@ class PostStarter extends Command
                                 }
                             }
                             if($postSettings->pin_new === 1){
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'posts',
+                                    'item_id' => $post->id,
+                                    'message'   => 'Метод wall.pin Полетел'
+                                ]);
                                 $postPinClient = new Client([
                                     'base_uri' => 'https://api.vk.com',
                                 ]);
@@ -210,6 +216,12 @@ class PostStarter extends Command
                                     ]);
                                     die();
                                 }
+                                CronLogs::create([
+                                    'uid'        => $userId,
+                                    'cron_type' => 'posts',
+                                    'item_id' => $post->id,
+                                    'message'   => 'Метод wall.pin Заебись'
+                                ]);
                             }
                             CronLogs::create([
                                 'uid'        => $userId,
