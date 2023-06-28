@@ -117,7 +117,7 @@ class CabinetPagesController extends Controller
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $post->account_id)->get();
         $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
         ->orderBy('id', 'desc')
-        ->whereIn('post_stories.post_id', $post->pluck('id'))
+        ->whereIn('post_stories.post_id', $myPageId)
         ->select([
             'post_stories.*',
             'post_settings.friends_only as friends_only',
