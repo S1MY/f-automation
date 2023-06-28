@@ -259,8 +259,8 @@ class PaginateController extends Controller
                 break;
             case 'posts-info':
                 $post = Post::find($myPageId);
-                $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
-                ->where('post_stories.post_id', $myPageId)
+                $postInfo = PostStory::where('post_stories.post_id', $myPageId)
+                ->join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
                 ->orderBy('id', 'desc')
                 ->select([
                     'post_stories.*',
