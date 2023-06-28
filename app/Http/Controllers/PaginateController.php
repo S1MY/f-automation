@@ -261,7 +261,7 @@ class PaginateController extends Controller
                 $post = Post::find($myPageId);
                 $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
                 ->orderBy('id', 'desc')
-                ->whereIn('post_stories.post_id', $myPageId)
+                ->where('post_stories.post_id', $myPageId)
                 ->select([
                     'post_stories.*',
                     'post_settings.friends_only as friends_only',
