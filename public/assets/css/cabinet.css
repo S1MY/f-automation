@@ -974,6 +974,9 @@ a.tableItem:hover{
 .tabPageInput._full{
     width: 100%;
 }
+.tabPageInput:not(._full) textarea{
+    height: 100% !important;
+}
 .tabPageInput .formInput,
 .tabPageInput .formSelect,
 .tabPageInput .dataPicker,
@@ -2294,6 +2297,7 @@ a.accountInfo:hover{
     }
     .tabPageInput{
         width: 100% !important;
+        height: 120px !important;
         margin-top: 16px;
     }
     .videoName{
