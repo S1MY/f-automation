@@ -211,7 +211,7 @@ class PaginateController extends Controller
                 $VkAccounts = VkAccount::where('id', $accountId)
                     ->get();
                 $allStreams = Stream::join('vk_accounts', 'streams.account_id', '=', 'vk_accounts.id')
-                ->leftJoin('stream_settings', 'streams.id', '=', 'stream_settings.post_id')
+                ->leftJoin('stream_settings', 'streams.id', '=', 'stream_settings.stream_id')
                 ->orderBy('id', 'desc')
                     ->where('streams.account_id', '=', $VkAccounts->pluck('id'))
                     ->where('streams.group_id', '=', 0)
@@ -232,7 +232,7 @@ class PaginateController extends Controller
                 $VkGroups = VkGroup::where('group_id', $groupId)
                     ->get();
                 $allStreams = Stream::join('vk_groups', 'streams.group_id', '=', 'vk_groups.group_id')
-                    ->leftJoin('stream_settings', 'streams.id', '=', 'stream_settings.post_id')
+                    ->leftJoin('stream_settings', 'streams.id', '=', 'stream_settings.stream_id')
                     ->orderBy('id', 'desc')
                     ->where('streams.account_id', '=', $VkGroups->pluck('account_id'))
                     ->where('streams.group_id', '=', $VkGroups->pluck('group_id'))

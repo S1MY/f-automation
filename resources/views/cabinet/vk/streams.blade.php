@@ -291,7 +291,7 @@
                     <h2 class="pageTitle">Ваши трансляции</h2>
                     <p class="pageText _mt12">Все трансляции, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления</p>
                     <div class="pageTabs" data-name="classic">
-                        <p class="pageTab _active" data-tab="all">Все посты</p>
+                        <p class="pageTab _active" data-tab="all">Все стримы</p>
                         @if(count(Auth::user()->VkAccount) > 0)
                             @foreach (Auth::user()->VkAccount as $vkAccount)
                                     <p class="pageTab" data-tab="{{$vkAccount->id}}" data-accountId="{{$vkAccount->id}}" data-action="{{route('paginate')}}" data-type="account-streams">{{$vkAccount->name}}</p>
