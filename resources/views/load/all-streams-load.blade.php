@@ -27,6 +27,7 @@
         $streamType = 'Дата';
     }
 @endphp
+<div class="cardItem">
 @foreach ($links as $key => $link)
     <div class="videoWrapper">
         <video class="videoGuid" playsinline controls preload="metadata">
@@ -79,6 +80,7 @@
         </a>
         <a href="" class="cardButton _stats" title="Подробная информация">Подобная информация</a>
     </div>
+</div>
 </div>
 @endforeach
 @else
