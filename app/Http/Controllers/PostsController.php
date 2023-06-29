@@ -324,13 +324,13 @@ class PostsController extends Controller
             'post_did' => $postDid
         ]);
         if ($validatedData['accType'] == 'group') {
-            if($validatedData['type'] !== 'date'){
+            if($validatedData['type'] === 'interval'){
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен на стену группы');
             }else{
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет загружен на стену группы в указанное время');
             }
         }else{
-            if($validatedData['type'] !== 'date'){
+            if($validatedData['type'] === 'interval'){
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен на стену аккаунта');
             }else{
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет загружен на стену аккаунта в указанное время');

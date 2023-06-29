@@ -109,17 +109,20 @@ class StreamsController extends Controller
         if(count($postFiles) > 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Стримы поддерживают только 1 файл');
         }
-        $durationItem = $validatedData['duration'];
-        if($durationItem > $maxSeconds){
-            return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
-        }
+        $durationItems = explode("_;_", $validatedData['duration']);
         foreach ($postFiles as $postFile) {
             $fileSize = $postFile->getSize();
             if ($fileSize > 419430400) {
                 return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 50МБ');
             }
         }
+        foreach ($durationItems as $durationItem) {
+            if($durationItem > $maxSeconds){
+                return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
+            }
+        }
         $linksDB = [];
+
         foreach ($postFiles as $postFile) {
             $fileName = 'stream-' . date("Y-m-d-H-i-s") . ".mp4";
             $userName = Auth::user()->login;
@@ -162,6 +165,11 @@ class StreamsController extends Controller
             $streamCreate->save();
         }
         StreamSettings::create($settingsData);
+        if($validatedData['type'] === 'interval'){
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Стрим будет запущен в следующую минуту');
+        }else{
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Стрим будет запущен в указанное время');
+        }
     }
     private function generateJsonResponse($type, $title, $message, $errorJson = null)
     {
