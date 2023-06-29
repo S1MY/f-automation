@@ -19,6 +19,8 @@ use App\Models\StoriesStory;
 use App\Models\Post;
 use App\Models\PostStory;
 
+use App\Models\Stream;
+use App\Models\StreamStory;
 class CabinetPagesController extends Controller
 {
     public function settings(){
@@ -48,7 +50,45 @@ class CabinetPagesController extends Controller
     public function streams(){
         $user = Auth::user();
 
-        return view('cabinet.vk.streams', compact('user'));
+        $curentPage = route('streams');
+        $VkAccounts = VkAccount::where('uid', $user->id)
+            ->get();
+        $VkGroups = VkGroup::where('uid', $user->id)
+                ->get();
+        $allStreams = Stream::join('vk_accounts', 'streams.account_id', '=', 'vk_accounts.id')
+        ->leftJoin('vk_groups', function ($join) {
+            $join->on('streams.group_id', '=', 'vk_groups.group_id')
+                ->on('streams.account_id', '=', 'vk_groups.account_id');
+        })
+        ->leftJoin('stream_settings', function ($join) {
+            $join->on('streams.id', '=', 'stream_settings.stream_id	')
+            ->where('streams.group_id', '<>', 0);
+        })
+        ->orderBy('id', 'desc')
+        ->whereIn('streams.account_id', $VkAccounts->pluck('id'))
+        ->orWhere(function ($query) use ($VkGroups) {
+            foreach ($VkGroups as $group) {
+                $query->orWhere(function ($subquery) use ($group) {
+                    $subquery->where('streams.account_id', $group->account_id)
+                        ->where(function ($q) use ($group) {
+                            $q->where('streams.group_id', $group->group_id)
+                                ->orWhere('streams.group_id', 0);
+                        });
+                });
+            }
+        })
+        ->select([
+            'streams.*',
+            'vk_accounts.name as vk_account_name',
+            'vk_groups.name as vk_group_name',
+            'stream_settings.type as type',
+            'stream_settings.interval as interval',
+            'stream_settings.date as date',
+            'stream_settings.daily as daily'
+        ])
+        ->paginate(1, ['*'], 'all-streams-page');
+
+        return view('cabinet.vk.streams', compact('user', 'allStreams', 'curentPage'));
     }
 
     public function streamInfo(){

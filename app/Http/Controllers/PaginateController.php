@@ -16,6 +16,8 @@ use App\Models\StoriesStory;
 use App\Models\Post;
 use App\Models\PostStory;
 
+use App\Models\Stream;
+use App\Models\StreamStory;
 
 class PaginateController extends Controller
 {
@@ -164,6 +166,88 @@ class PaginateController extends Controller
                 ->paginate(4, ['*'], 'stories-info-page', $page_num);
                 $curentPage = route('stories', ['myPageId' => $myPageId]);
                 return view('load.stories-info-load', compact('stories', 'storiesInfo', 'curentPage'));
+                break;
+            case 'all-streams':
+                $VkAccounts = VkAccount::where('uid', Auth::user()->id)
+                    ->get();
+                $VkGroups = VkGroup::where('uid', Auth::user()->id)
+                    ->get();
+                $allStreams = Stream::join('vk_accounts', 'streams.account_id', '=', 'vk_accounts.id')
+                ->leftJoin('vk_groups', function ($join) {
+                    $join->on('streams.group_id', '=', 'vk_groups.group_id')
+                        ->on('streams.account_id', '=', 'vk_groups.account_id');
+                })
+                ->leftJoin('stream_settings', function ($join) {
+                    $join->on('streams.id', '=', 'stream_settings.stream_id	')
+                    ->where('streams.group_id', '<>', 0);
+                })
+                ->orderBy('id', 'desc')
+                ->whereIn('streams.account_id', $VkAccounts->pluck('id'))
+                ->orWhere(function ($query) use ($VkGroups) {
+                    foreach ($VkGroups as $group) {
+                        $query->orWhere(function ($subquery) use ($group) {
+                            $subquery->where('streams.account_id', $group->account_id)
+                                ->where(function ($q) use ($group) {
+                                    $q->where('streams.group_id', $group->group_id)
+                                        ->orWhere('streams.group_id', 0);
+                                });
+                        });
+                    }
+                })
+                ->select([
+                    'streams.*',
+                    'vk_accounts.name as vk_account_name',
+                    'vk_groups.name as vk_group_name',
+                    'stream_settings.type as type',
+                    'stream_settings.interval as interval',
+                    'stream_settings.date as date',
+                    'stream_settings.daily as daily'
+                ])
+                ->paginate(1, ['*'], 'all-streams-page', $page_num);
+                $curentPage = route('streams');
+                return view('load.all-streams-load', compact('allStreams', 'curentPage'));
+                break;
+            case 'account-streams':
+                $VkAccounts = VkAccount::where('id', $accountId)
+                    ->get();
+                $allStreams = Stream::join('vk_accounts', 'streams.account_id', '=', 'vk_accounts.id')
+                ->leftJoin('stream_settings', 'streams.id', '=', 'stream_settings.post_id')
+                ->orderBy('id', 'desc')
+                    ->where('streams.account_id', '=', $VkAccounts->pluck('id'))
+                    ->where('streams.group_id', '=', 0)
+                    ->select([
+                        'streams.*',
+                        'vk_accounts.name as vk_account_name',
+                        'stream_settings.type as type',
+                        'stream_settings.interval as interval',
+                        'stream_settings.date as date',
+                        'stream_settings.daily as daily'
+                    ])
+                    ->paginate(4, ['*'], 'account-streams-page', $page_num);
+                $curentPage = route('streams');
+                return view('load.all-streams-load', compact('allStreams', 'curentPage'));
+
+                break;
+            case 'group-streams':
+                $VkGroups = VkGroup::where('group_id', $groupId)
+                    ->get();
+                $allStreams = Post::join('vk_groups', 'streams.group_id', '=', 'vk_groups.group_id')
+                    ->leftJoin('stream_settings', 'streams.id', '=', 'stream_settings.post_id')
+                    ->orderBy('id', 'desc')
+                    ->where('streams.account_id', '=', $VkGroups->pluck('account_id'))
+                    ->where('streams.group_id', '=', $VkGroups->pluck('group_id'))
+                    ->select([
+                        'streams.*',
+                        'vk_groups.name as vk_group_name',
+                        'stream_settings.type as type',
+                        'stream_settings.interval as interval',
+                        'stream_settings.date as date',
+                        'stream_settings.daily as daily'
+                    ])
+                    ->paginate(4, ['*'], 'group-streams-page', $page_num);
+                $curentPage = route('streams');
+                return view('load.all-streams-load', compact('allStreams', 'curentPage'));
+
                 break;
             case 'all-posts':
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
