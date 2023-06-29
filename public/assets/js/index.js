@@ -98,7 +98,15 @@ $(document).ready(function () {
     $(".popupItem").fadeOut();
   });
   // код
-
+  $('.confirmInput').on('keydown', function(e) {
+    if ($(this).val() === '' && e.keyCode === 8) {
+      e.preventDefault();
+      if($(this).attr('tabindex') !== 1){
+        const prevIndex = parseInt($(this).attr('tabindex')) - 1;
+        $(`.confirmInput[tabindex=${prevIndex}]`).focus();
+      }
+    }
+  });
   $('.confirmInput').on('input', function(e) {
     e.preventDefault();
     let confirmCount = 0;
@@ -107,10 +115,6 @@ $(document).ready(function () {
     const currIndex = parseInt($(this).attr('tabindex'));
     const nextIndex = currIndex + 1;
     const prevIndex = currIndex - 1;
-    if ((currLength === 0 || $(this).val() === '') && e.keyCode === 8) {
-      $(`.confirmInput[tabindex=${prevIndex}]`).focus();
-      return false;
-    }
     if (currLength === 1) {
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     } else if (currLength === 0 && currIndex > 1) {
