@@ -144,9 +144,33 @@ $(document).ready(function () {
       return false;
     }
   
-    if (confirmCount === $('.confirmInput').length) {
-      // Ваш код для отправки AJAX-запроса
-    }
+    console.log(confirmCount)
+    console.log($('.confirmInput').length)
+    // if (confirmCount === $('.confirmInput').length) {
+    //   $.ajaxSetup({
+    //     headers: {
+    //       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     }
+    //   });
+      
+    //   $.ajax({
+    //     url: '/user-confirm-email',
+    //     method: 'post',
+    //     data: { code: code },
+    //     success: function(result) {
+    //       $('.confirmInput').addClass('_success');
+    //       setTimeout(() => {
+    //         window.location.href = '/cabinet';
+    //       }, 500);
+    //     },
+    //     error: function(result) {
+    //       $('.confirmInput').addClass('_error');
+    //       setTimeout(() => {
+    //         $('.confirmInput').removeClass('_error');
+    //       }, 1000);
+    //     }
+    //   });
+    // }
   });
   // Отправка кода ещё раз
   $('.codeAgain').click(function (e) {
