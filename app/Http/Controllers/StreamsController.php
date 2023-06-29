@@ -109,20 +109,17 @@ class StreamsController extends Controller
         if(count($postFiles) > 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Стримы поддерживают только 1 файл');
         }
-        $durationItems = explode("_;_", $validatedData['duration']);
+        $durationItem = $validatedData['duration']
+        if($durationItem > $maxSeconds){
+            return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
+        }
         foreach ($postFiles as $postFile) {
             $fileSize = $postFile->getSize();
             if ($fileSize > 419430400) {
                 return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 50МБ');
             }
         }
-        foreach ($durationItems as $durationItem) {
-            if($durationItem > $maxSeconds){
-                return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
-            }
-        }
         $linksDB = [];
-
         foreach ($postFiles as $postFile) {
             $fileName = 'stream-' . date("Y-m-d-H-i-s") . ".mp4";
             $userName = Auth::user()->login;
