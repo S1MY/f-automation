@@ -74,7 +74,7 @@ $(document).ready(function () {
         xhr.addEventListener("load", loadOperation, false);
         xhr.addEventListener("error", errorOperation, false);
         xhr.addEventListener("abort", abortOperation, false);
-        xhr.open("POST", "upload_processing.php");
+        xhr.open("POST", location.origin + "//upload-process");
         xhr.send(videoData);
       }
     }

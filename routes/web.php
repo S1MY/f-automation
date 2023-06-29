@@ -106,3 +106,8 @@ Route::post('/offer-result', [AdminController::class, 'offerUpdate'])->name('off
 
 // Помогающие роуты
 Route::post('/paginator', [PaginateController::class, 'paginate'])->name('paginate');
+
+// Пустые роуты
+Route::get('/upload-process', function () {
+    return true;
+});
