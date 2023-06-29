@@ -57,7 +57,7 @@
             </p>
             <p class="cardLine">Автозапуск: <span>{{$post->active === 1 ? 'Активен' : 'Не активен'}}</span></p>
             <p class="cardLine">Закреплять на стене: <span>{{($post->seetings_pin_new === 1) ? 'Да' : 'Нет'}}</span></p>
-            <p class="cardLine">Тип трансляции: <span>{{$postType}}</span></p>
+            <p class="cardLine">Тип постинга: <span>{{$postType}}</span></p>
             <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
         </div>
         <div class="cardControls _stories">
