@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 use App\Models\VkAccount;
 use App\Models\VkGroup;
@@ -91,11 +91,10 @@ class StreamsController extends Controller
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
         if($validatedData['type'] === 'date'){
-            if (Carbon::createFromFormat('d-m-Y H:i', $validatedData['date']) === false) {
+            if (DateTime::createFromFormat('d-m-Y H:i', $validatedData['date']) === false) {
                 return $this->generateJsonResponse('input', 'tabs', 'Неверная дата');
             }
-            
-            if (Carbon::createFromFormat('d-m-Y H:i', $validatedData['date']) <= Carbon::now()->setTimezone('Europe/Moscow')) {
+            if(DateTime::createFromFormat('d-m-Y H:i', $validatedData['date']) <= new DateTime()){
                 return $this->generateJsonResponse('input', 'tabs', 'Дата и время меньше текущих');
             }
         }
