@@ -10,13 +10,11 @@
     $nextStart;
     $streamType = 'Интервал';
     if($stream->type === 'daily'){
-        if ($streamDate->hour >= $stream->daily) {
-            $streamDate->addDay();
-            $streamDate->setTime($stream->daily, 0, 0);
+        if($stream->daily < 10){
+            $nextStart = '0'.$stream->daily;
         }else{
-            $streamDate->setTime($stream->daily, 0, 0);
+            $nextStart = $stream->daily;
         }
-        $nextStart = $streamDate->format('H:i d.m.Y');
         $streamType = 'Ежедневно';
     }elseif ($stream->type === 'interval') {
         $streamDate->hour = $streamDate->hour + ($stream->interval / 60);
