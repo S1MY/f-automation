@@ -52,14 +52,13 @@ $(document).ready(function () {
         createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 50МБ</p>");
         return false
       } else {
-        console.log(file.type)
         if (file.type == 'video/mp4' || file.type == 'video/avi') {
           let url = URL.createObjectURL(file);
           video.src = url;
           video.ondurationchange = function () {
-            console.log(this.duration)
             durations.push(this.duration)
           };
+          console.log(durations)
         }
         $('input[name="duration"]').val(durations.join('_;_'));
         filenames.push(file.name)
