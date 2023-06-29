@@ -244,7 +244,7 @@ class PaginateController extends Controller
                         'stream_settings.date as date',
                         'stream_settings.daily as daily'
                     ])
-                    ->paginate(4, ['*'], 'group-streams-page', $page_num);
+                    ->paginate(1, ['*'], 'group-streams-page', $page_num);
                 $curentPage = route('streams');
                 return view('load.all-streams-load', compact('allStreams', 'curentPage'));
 

@@ -125,6 +125,7 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
+                    console.log(response)
                     const cuurentPath = window.location.pathname;
                     if (cuurentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
