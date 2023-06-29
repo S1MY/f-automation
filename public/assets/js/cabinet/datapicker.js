@@ -19,7 +19,7 @@ $(document).ready(function () {
         let minute = $('input[name=minute]').val().padStart(2, '0');
         
         let message = `${day}.${month}.${year} в ${hour}:${minute}`;
-        let date = `${year}-${month}-${day} ${hour}:${minute}`;
+        let date = `${day}-${month}-${year} ${hour}:${minute}`;
         
         $('.dataPickerText').html(message);
         $('input[name="date"]').val(date);
