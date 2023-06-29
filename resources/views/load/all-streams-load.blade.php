@@ -11,9 +11,9 @@
     $streamType = 'Интервал';
     if($stream->type === 'daily'){
         if($stream->daily < 10){
-            $nextStart = '0'.$stream->daily;
+            $nextStart = '0'.$stream->daily.'00';
         }else{
-            $nextStart = $stream->daily;
+            $nextStart = $stream->daily.'00';
         }
         $streamType = 'Ежедневно';
     }elseif ($stream->type === 'interval') {

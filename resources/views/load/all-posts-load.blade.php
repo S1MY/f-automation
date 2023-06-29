@@ -10,13 +10,11 @@
     $nextStart;
     $postType = 'Интервал';
     if($post->type === 'daily'){
-        if ($postDate->hour >= $post->daily) {
-            $postDate->addDay();
-            $postDate->setTime($post->daily, 0, 0);
+        if($post->daily < 10){
+            $nextStart = '0'.$post->daily.'00';
         }else{
-            $postDate->setTime($post->daily, 0, 0);
+            $nextStart = $post->daily.'00';
         }
-        $nextStart = $postDate->format('H:i d.m.Y');
         $postType = 'Ежедневно';
     }elseif ($post->type === 'interval') {
         $postDate->hour = $postDate->hour + ($post->interval / 60);
