@@ -57,6 +57,7 @@ $(document).ready(function () {
           let url = URL.createObjectURL(file);
           video.src = url;
           video.ondurationchange = function () {
+            console.log(this.duration)
             durations.push(this.duration)
           };
         }
