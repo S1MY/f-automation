@@ -86,7 +86,7 @@ class CabinetPagesController extends Controller
             'stream_settings.date as date',
             'stream_settings.daily as daily'
         ])
-        ->paginate(1, ['*'], 'all-streams-page');
+        ->paginate(4, ['*'], 'all-streams-page');
 
         return view('cabinet.vk.streams', compact('user', 'allStreams', 'curentPage'));
     }
