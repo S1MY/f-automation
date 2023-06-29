@@ -11,14 +11,15 @@
     $postType = 'Интервал';
     if($post->type === 'daily'){
         if($post->daily < 10){
-            $nextStart = '0'.$post->daily.'00';
+            $nextStart = '0'.$post->daily.':00';
         }else{
-            $nextStart = $post->daily.'00';
+            $nextStart = $post->daily.':00';
         }
         $postType = 'Ежедневно';
     }elseif ($post->type === 'interval') {
         $postDate->hour = $postDate->hour + ($post->interval / 60);
         $nextStart = $postDate->format('H:i d.m.Y');
+        $streamType = 'Интервал('.$post->interval.' минут)';
     }elseif ($post->type === 'date') {
         $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->date, 'Europe/Moscow');
         $nextStart = $postDate->format('H:i d.m.Y');
