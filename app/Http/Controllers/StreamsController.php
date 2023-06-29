@@ -109,7 +109,7 @@ class StreamsController extends Controller
         if(count($postFiles) > 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Стримы поддерживают только 1 файл');
         }
-        $durationItem = $validatedData['duration']
+        $durationItem = $validatedData['duration'];
         if($durationItem > $maxSeconds){
             return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
         }
