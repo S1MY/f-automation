@@ -261,7 +261,7 @@ class PostStarter extends Command
                     $postParams = [
                         'v' => '5.131',
                         'access_token' => $vkToken,
-                        'post_id' => $postDid,
+                        'posts' => $postDid,
                     ];
                     $postGet = $postStats->request('GET', '/method/wall.getById', [
                         'query' => $postParams
