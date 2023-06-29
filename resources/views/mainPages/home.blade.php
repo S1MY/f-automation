@@ -2,11 +2,9 @@
 @php
 
 use App\Models\Post;
+$ffmpegVersion = exec('ffmpeg -version');
 
-        $allPosts = Post::where('active', 1)->get();
-        foreach ($allPosts as $post) {
-            echo $post->id;
-        }
+echo $ffmpegVersion;
 @endphp
 @section('content')
     <section id="hero">
