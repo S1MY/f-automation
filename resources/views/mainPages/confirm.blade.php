@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-    {{ session('emailCode') }}
+    {{-- {{ session('emailCode') }} --}}
     <div class="page _index">
         <div class="indexForm">
             <div class="indexTop">

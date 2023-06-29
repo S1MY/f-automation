@@ -99,35 +99,30 @@ $(document).ready(function () {
   });
   // код
 
-  $('.confirmInput').on('keyup', function(e) {
+  $('.confirmInput').on('input', function(e) {
     e.preventDefault();
     let confirmCount = 0;
     let code = '';
-    const currValue = $(this).val();
-    const currLength = currValue.length;
+    const currLength = $(this).val().length;
     const currIndex = parseInt($(this).attr('tabindex'));
     const nextIndex = currIndex + 1;
     const prevIndex = currIndex - 1;
-    
+  
     if (currLength === 1) {
       $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     } else if (currLength === 0 && currIndex > 1) {
       $(`.confirmInput[tabindex=${prevIndex}]`).focus();
     } else if (currLength > 1) {
-      for (let i = currIndex; i <= currLength; i++) {
-        const symbol = currValue.substr(0, 1);
-        currValue = currValue.slice(1);
+      let tempValue = $(this).val();
+      for (let i = currIndex; i <= currIndex + currLength - 1; i++) {
+        const symbol = tempValue.substr(0, 1);
+        tempValue = tempValue.slice(1);
         const next = i + 1;
         $(`.confirmInput[tabindex=${i}]`).val(symbol);
         $(`.confirmInput[tabindex=${next}]`).focus();
       }
-    } else if (currIndex === 1 && currLength === 0 && e.keyCode === 8) {
-      return false;
-    } else {
-      const symbol = currValue.substr(0, 1);
-      $(`.confirmInput[tabindex=${currIndex}]`).val(symbol);
-      $(`.confirmInput[tabindex=${nextIndex}]`).focus();
     }
+    
     $('.confirmInput').each(function() {
       const value = $(this).val();
       if (value !== '') {
@@ -135,35 +130,15 @@ $(document).ready(function () {
         code += $(this).val();
       }
     });
-    if(code.length > $('.confirmInput').length){
-      $('.confirmInput').val('')
+  
+    if (code.length > $('.confirmInput').length) {
+      $('.confirmInput').val('');
       $(`.confirmInput[tabindex=1]`).focus();
       return false;
     }
+  
     if (confirmCount === $('.confirmInput').length) {
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      
-      $.ajax({
-        url: '/user-confirm-email',
-        method: 'post',
-        data: { code: code },
-        success: function(result) {
-          $('.confirmInput').addClass('_success');
-          setTimeout(() => {
-            window.location.href = '/cabinet';
-          }, 500);
-        },
-        error: function(result) {
-          $('.confirmInput').addClass('_error');
-          setTimeout(() => {
-            $('.confirmInput').removeClass('_error');
-          }, 1000);
-        }
-      });
+      // Ваш код для отправки AJAX-запроса
     }
   });
   // Отправка кода ещё раз
