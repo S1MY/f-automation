@@ -8,6 +8,7 @@
     $links = unserialize($post->link);
     $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow');
     $nextStart;
+    $postType = 'Интервал';
     if($post->type === 'daily'){
         if ($postDate->hour >= $post->daily) {
             $postDate->addDay();
@@ -16,12 +17,14 @@
             $postDate->setTime($post->daily, 0, 0);
         }
         $nextStart = $postDate->format('H:i d.m.Y');
+        $postType = 'Ежедневно';
     }elseif ($post->type === 'interval') {
         $postDate->hour = $postDate->hour + ($post->interval / 60);
         $nextStart = $postDate->format('H:i d.m.Y');
     }elseif ($post->type === 'date') {
         $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->date, 'Europe/Moscow');
         $nextStart = $postDate->format('H:i d.m.Y');
+        $postType = 'Дата';
     }
 @endphp
 <div class="cardItem">
@@ -54,7 +57,7 @@
             </p>
             <p class="cardLine">Автозапуск: <span>{{$post->active === 1 ? 'Активен' : 'Не активен'}}</span></p>
             <p class="cardLine">Закреплять на стене: <span>{{($post->seetings_pin_new === 1) ? 'Да' : 'Нет'}}</span></p>
-            <p class="cardLine">Удалять старый пост: <span>{{($post->seetings_remove_old === 1) ? 'Да' : 'Нет'}}</span></p>
+            <p class="cardLine">Тип трансляции: <span>{{$postType}}</span></p>
             <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
         </div>
         <div class="cardControls _stories">
