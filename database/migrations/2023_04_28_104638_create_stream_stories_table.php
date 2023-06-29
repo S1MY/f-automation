@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('stream_stories', function (Blueprint $table) {
             $table->id();
             $table->integer('stream_id')->nullable();
-            $table->dateTime('start_in')->nullable();
             $table->integer('video_did')->default(0);
             $table->integer('post_did')->default(0);
             $table->integer('views')->default(0);

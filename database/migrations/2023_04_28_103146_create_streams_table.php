@@ -20,7 +20,6 @@ return new class extends Migration
             $table->longText('title')->nullable();
             $table->longText('description')->nullable();
             $table->string('link')->nullable();
-            $table->string('duration')->nullable();
             $table->integer('active')->default(0);
             $table->integer('live')->default(0);
             $table->timestamps();
