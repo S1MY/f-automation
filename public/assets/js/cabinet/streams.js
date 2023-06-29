@@ -107,6 +107,9 @@ $(document).ready(function () {
       $.each(serialize, function (i, val) {
         formData.append(val.name, val.value);
       });
+      if (!$('input[name="public"]').is(':checked')) {
+        formData.append('public', 0);
+      }
       if ($('input[name="interval"]').val() === '') {
         formData.append('interval', 0);
       }

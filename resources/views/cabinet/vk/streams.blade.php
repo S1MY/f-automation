@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                         </div>
-                            <div class="tabPageInput" data-name="desc">
+                            <div class="tabPageInput" data-name="description">
                                 <textarea name="description" class="formArea" placeholder="Описание трансляции"></textarea>
                             </div>
                             <div class="tabPageInput" data-name="file">
@@ -164,7 +164,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="tabPageInput">
+                            <div class="tabPageInput" data-name="public">
                                 <div class="customCheck">
                                     <span>Опубликовать на стене:</span>
                                     <input type="checkbox" class="checkInput" name="public" value="1" checked>
