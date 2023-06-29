@@ -52,7 +52,7 @@ $(document).ready(function () {
         createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 50МБ</p>");
         return false
       } else {
-        if (file.type == 'video/mp4') {
+        if (file.type == 'video/mp4' || file.type == 'video/avi') {
           let url = URL.createObjectURL(file);
           video.src = url;
           video.ondurationchange = function () {
@@ -82,8 +82,8 @@ $(document).ready(function () {
     if (totalSize > 1258291200) {
       $("#file").val("");
       createMessage("<p class='fixedMessage _error'>Общий размер загружаемых файлов не должен превышать 150МБ</p>");
-      $('.fileName').html('Файл не обнаружен');
-      $("._status").html('0 mb');
+      $('.fileName').html('Файл не выбран');
+      $("._status").html('Файл не обнаружен');
       $("._status").removeClass('_complete');
       $("._size").html('0 mb');
       $('._filecounts').html('0 / 5')
