@@ -33,7 +33,7 @@
                     <p class="editText">Внимание! Вы редактируете существующий стрим. Если хотите создать новый, то обновите страницу или нажмите <a href="#" class="editStop">сюда</a></p>
                     @if(count(Auth::user()->VkAccount) > 0)
                     <div class="tabPageItem">
-                        <form class="tabPageForm" action="{{ route('streamCreate') }}">
+                        <form class="tabPageForm" action="{{ route('streamCreate') }}" enctype='multipart/form-data'>
                             <input type="hidden" name="accType" value="user">
                             <div class="tabPageInput" data-name="name">
                                 <input type="text" name="name" class="formInput" placeholder="Название трансляции">
