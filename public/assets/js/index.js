@@ -107,7 +107,7 @@ $(document).ready(function () {
     const currIndex = parseInt($(this).attr('tabindex'));
     const nextIndex = currIndex + 1;
     const prevIndex = currIndex - 1;
-    if (currIndex === 1 && currLength === 0 && e.keyCode === 8) {
+    if ((currLength === 0 || $(this).val() === '') && e.keyCode === 8) {
       $(`.confirmInput[tabindex=${prevIndex}]`).focus();
       return false;
     }
