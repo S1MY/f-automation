@@ -52,6 +52,7 @@ $(document).ready(function () {
         createMessage("<p class='fixedMessage _error'>Максимальный размер видео-файла 50МБ</p>");
         return false
       } else {
+        console.log(file.type)
         if (file.type == 'video/mp4' || file.type == 'video/avi') {
           let url = URL.createObjectURL(file);
           video.src = url;
