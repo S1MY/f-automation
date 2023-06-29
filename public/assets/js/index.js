@@ -14,6 +14,11 @@ $(window).on("load", function () {
   }
 });
 $(document).ready(function () {
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
   $(document).mouseup(function (e) {
     let select = $(".userHeader");
     if (!select.is(e.target) &&
@@ -144,12 +149,6 @@ $(document).ready(function () {
       return false;
     }
     if (confirmCount === $('.confirmInput').length) {
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      
       $.ajax({
         url: '/user-confirm-email',
         method: 'post',
