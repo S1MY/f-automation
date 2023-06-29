@@ -53,6 +53,7 @@ class PostStarter extends Command
             $groupId = $post->group_id;
             $vkAccount = VkAccount::where('id', '=', $accountId)->first();
             $ownerId = preg_replace("/[^0-9]/", "", $vkAccount->link);
+            $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
             $userId = $vkAccount->uid;
             $vkToken = $vkAccount->token;
             if($postSettings->type === 'date'){
@@ -63,7 +64,6 @@ class PostStarter extends Command
                 $updatedAt = Carbon::now('Europe/Moscow')->startOfMinute()->setTime($postSettings->daily, 0, 0);
             }
             if (strtotime($updatedAt) === strtotime($nowTime)) {
-                $vkGroup = ($groupId > 0) ? VkGroup::where('group_id', '=', $groupId)->first() : null;
                 $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
                 if($userSubscribe){
                     if($userSubscribe->sub_status === 1){
@@ -250,13 +250,18 @@ class PostStarter extends Command
                     $reposts = $lastPost->reposts;
                     $likes = $lastPost->likes;
                     $viewes = $lastPost->viewes;
+                    if($vkGroup){
+                        $postDid = '-'.$groupId.'_'.$lastPost->post_did;
+                    }else{
+                        $postDid = $ownerId.'_'.$lastPost->post_did;
+                    }
                     $postStats = new Client([
                         'base_uri' => 'https://api.vk.com',
                     ]);
                     $postParams = [
                         'v' => '5.131',
                         'access_token' => $vkToken,
-                        'post_id' => $lastPost->post_did,
+                        'post_id' => $postDid,
                     ];
                     $postGet = $postStats->request('GET', '/method/wall.getById', [
                         'query' => $postParams
