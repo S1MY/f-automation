@@ -170,6 +170,67 @@ class StreamsController extends Controller
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Стрим будет запущен в указанное время');
         }
     }
+    public function streamActivator(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $autoStart = $request->autoStart;
+        if (is_numeric($autoStart)) {
+            $searchStream = Stream::where('id', '=', $autoStart)
+                ->first();
+            $streamSettings = StreamSettings::where('stream_id', '=', $autoStart)
+            ->first();
+            $searchAccount = VkAccount::where('id', '=', $searchStream->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchStream) {
+                        $newActive = ($searchStream->active == 1) ? 0 : 1;
+                        $vkStreamRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['streams'];
+                        if($newActive ==1 && $vkStreamRules['type1'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация стримов недоступна для данного F-Аккаунта');
+                        }
+                        if($searchStream->group_id > 0 && $vkStreamRules['type2'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация стримов в группе недоступна для данного F-Аккаунта');
+                        }
+                        $searchStream->active = $newActive;
+                        $timestampDate = date('Y-m-d H:i:s', strtotime('+1 minute'));
+                        if ($streamSettings->type === 'date') {
+                            $streamSettings->date = $timestampDate;
+                            $streamSettings->save();
+                        }
+                        if($streamSettings->type === 'daily') {
+                            $currentTime = date('H:i:s');
+                            if ($currentTime < $streamSettings->daily.':00:00') {
+                                $searchStream->updated_at = date('Y-m-d', strtotime('-1 day')) . substr($searchStream->updated_at, 10);
+                            } else {
+                                $searchStream->updated_at = date('Y-m-d') . substr($searchStream->updated_at, 10);
+                            }
+                        }
+                        if($streamSettings->type === 'interval'){
+                            $searchStream->updated_at = date('Y-m-d H:i:s', strtotime($timestampDate . ' -' . $streamSettings->interval . ' minutes'));
+                        }
+                        $searchStream->save();
+                        if($newActive == 1){
+                            if($streamSettings->type === 'daily'){
+                                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Стрим будет запущен в указанный час');
+                            }else{
+                                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Стрим будет запущен через минуту');
+                            }
+                        }else{
+                            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск выключен. Стрим не будет выкладываться');
+                        }
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данный стрим не найден');
+                    }
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данный стрим вам не принадлежит');
+                }
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Не найден родительский аккаунт');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
+        }
+    }
     private function generateJsonResponse($type, $title, $message, $errorJson = null)
     {
         return response()->json([

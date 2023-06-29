@@ -54,13 +54,13 @@
     </div>
     <div class="cardControls">
         @if ($stream->active == 1)
-            <a href="#" class="cardButton _autostart" data-autoStart="{{$stream->id}}" data-action="" title="Выключить автозапуск">
+            <a href="#" class="cardButton _autostart" data-autoStart="{{$stream->id}}" data-action="{{route('streamActivator')}}" title="Выключить автозапуск">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.33333 22C4.41667 22 3.63222 21.6738 2.98 21.0217C2.32667 20.3683 2 19.5833 2 18.6667V5.33333C2 4.41667 2.32667 3.63222 2.98 2.98C3.63222 2.32667 4.41667 2 5.33333 2H18.6667C19.5833 2 20.3683 2.32667 21.0217 2.98C21.6738 3.63222 22 4.41667 22 5.33333V18.6667C22 19.5833 21.6738 20.3683 21.0217 21.0217C20.3683 21.6738 19.5833 22 18.6667 22H5.33333Z" fill="white"/>
                 </svg>
             </a>
         @else
-            <a href="#" class="cardButton _autostart" data-autoStart="{{$stream->id}}" data-action="" title="Включить автозапуск">
+            <a href="#" class="cardButton _autostart" data-autoStart="{{$stream->id}}" data-action="{{route('streamActivator')}}" title="Включить автозапуск">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.40988 21.722C5.88313 22.0716 5.34953 22.0915 4.80909 21.7817C4.2697 21.4729 4 20.9959 4 20.3504V3.65002C4 3.00459 4.2697 2.52697 4.80909 2.21717C5.34953 1.90844 5.88313 1.92888 6.40988 2.27849L19.2889 10.6287C19.763 10.9514 20 11.4086 20 12.0002C20 12.5919 19.763 13.049 19.2889 13.3718L6.40988 21.722Z" fill="white"/>
                 </svg>

@@ -99,6 +99,7 @@ Route::post('/vk-post-remove', [PostsController::class, 'postRemove'])->name('po
 Route::post('/vk-post-activator', [PostsController::class, 'postActivator'])->name('postActivator');
 
 Route::post('/vk-stream-create', [StreamsController::class, 'streamCreate'])->name('streamCreate');
+Route::post('/vk-stream-activator', [StreamsController::class, 'streamActivator'])->name('streamActivator');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');
