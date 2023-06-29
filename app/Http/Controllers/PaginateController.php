@@ -178,7 +178,7 @@ class PaginateController extends Controller
                         ->on('streams.account_id', '=', 'vk_groups.account_id');
                 })
                 ->leftJoin('stream_settings', function ($join) {
-                    $join->on('streams.id', '=', 'stream_settings.stream_id	')
+                    $join->on('streams.id', '=', 'stream_settings.stream_id')
                     ->where('streams.group_id', '<>', 0);
                 })
                 ->orderBy('id', 'desc')
