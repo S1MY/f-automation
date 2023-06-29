@@ -231,7 +231,7 @@ class PaginateController extends Controller
             case 'group-streams':
                 $VkGroups = VkGroup::where('group_id', $groupId)
                     ->get();
-                $allStreams = Post::join('vk_groups', 'streams.group_id', '=', 'vk_groups.group_id')
+                $allStreams = Stream::join('vk_groups', 'streams.group_id', '=', 'vk_groups.group_id')
                     ->leftJoin('stream_settings', 'streams.id', '=', 'stream_settings.post_id')
                     ->orderBy('id', 'desc')
                     ->where('streams.account_id', '=', $VkGroups->pluck('account_id'))
