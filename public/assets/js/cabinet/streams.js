@@ -17,8 +17,6 @@ $(document).ready(function () {
   // Загрузка и статус файла
   let detector = false;
   let video = document.createElement("video");
-  let durations = []
-  let filenames = []
   $("#file").change(function (e) {
     e.preventDefault();
     let files = this.files;
@@ -56,13 +54,10 @@ $(document).ready(function () {
           let url = URL.createObjectURL(file);
           video.src = url;
           video.ondurationchange = function () {
-            durations.push(this.duration)
+            $('input[name="duration"]').val(this.duration);
           };
-          console.log(durations)
         }
-        $('input[name="duration"]').val(durations.join('_;_'));
-        filenames.push(file.name)
-        $('.fileName').html(filenames.join('_;_'));
+        $('.fileName').html(file.name);
         let newSize = totalSize / 1048576;
         newSize = newSize.toFixed(2).replace(".00", "");
         $("._size").html(`${newSize} mb`);
