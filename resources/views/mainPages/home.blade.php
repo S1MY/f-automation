@@ -2,9 +2,11 @@
 @php
 
 use App\Models\Post;
-$ffmpegVersion = exec('ffmpeg -version');
-
-echo $ffmpegVersion;
+// $url = $response->response->stream->url;
+// $key = $response->response->stream->key;
+// $fileSend = Storage::path('public/' . $fileLoadUrl);
+// $cmd = "ffmpeg -re -i ".$fileSend." -b:v 2000k -f flv " . $url . $key . "";
+// exec($cmd, $output, $return);
 @endphp
 @section('content')
     <section id="hero">
