@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('stream_settings', function (Blueprint $table) {
             $table->id();
             $table->integer('stream_id')->nullable();
-            $table->integer('type')->nullable();
-            $table->longText('interval')->nullable();
-            $table->longText('date')->nullable();
-            $table->longText('daily')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('interval')->nullable();
+            $table->timestamp('date')->nullable();
+            $table->integer('daily')->nullable();
         });
     }
 
