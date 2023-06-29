@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class StreamStory extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'stream_id',
+        'video_did',
+        'post_did',
+        'views',
+        'likes',
+        'reposts',
+        'comments'
+    ];
 }

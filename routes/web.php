@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VkAuthController;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\StreamsController;
 
 /*
  *
@@ -96,6 +97,8 @@ Route::post('/vk-stories-activator', [StoriesController::class, 'storiesActivato
 Route::post('/vk-post-create', [PostsController::class, 'postCreate'])->name('postCreate');
 Route::post('/vk-post-remove', [PostsController::class, 'postRemove'])->name('postRemove');
 Route::post('/vk-post-activator', [PostsController::class, 'postActivator'])->name('postActivator');
+
+Route::post('/vk-stream-create', [StreamsController::class, 'streamCreate'])->name('streamCreate');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

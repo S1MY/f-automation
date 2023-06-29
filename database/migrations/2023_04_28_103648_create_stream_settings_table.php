@@ -20,7 +20,6 @@ return new class extends Migration
             $table->longText('interval')->nullable();
             $table->longText('date')->nullable();
             $table->longText('daily')->nullable();
-            $table->timestamps();
         });
     }
 

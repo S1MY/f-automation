@@ -98,7 +98,7 @@ class PostsController extends Controller
             $groupId = 0;
         }
         $searchAccount = VkAccount::where('id', '=', $accountId)->first();
-        $accountSendId = preg_replace('/[^0-9]/', '', $searchAccount->link);
+        $ownerId = preg_replace('/[^0-9]/', '', $searchAccount->link);
         if (!$searchAccount) {
             return $this->generateJsonResponse('input', 'account', 'Аккаунт не найден');
         }
@@ -115,12 +115,6 @@ class PostsController extends Controller
                 return $this->generateJsonResponse('input', 'tabs', 'Неверный интервал');
             }
         }
-        if($validatedData['type'] === 'daily'){
-            if($validatedData['daily'] == 0){
-                return $this->generateJsonResponse('input', 'tabs', 'Неверное значение');
-            }
-        }
-        // Сюда
         $maxSeconds = 120;
         $postFiles = $validatedData['file'];
         if(count($postFiles) > 1 && $vkPostsRules['type3'] !== 1){
@@ -253,7 +247,7 @@ class PostsController extends Controller
                 $wallPostParams['owner_id'] = '-'.$groupId;
                 $wallPostParams['from_group'] = 1;
             }else{
-                $wallPostParams['owner_id'] = $accountSendId;
+                $wallPostParams['owner_id'] = $ownerId;
             }
             $wallPostGet = $wallPostSave->request('GET', '/method/wall.post', [
                 'query' => $wallPostParams
@@ -278,7 +272,7 @@ class PostsController extends Controller
                 if ($validatedData['accType'] == 'group') {
                     $postPinParams['owner_id'] = '-'.$groupId;
                 }else{
-                    $postPinParams['owner_id'] = $accountSendId;
+                    $postPinParams['owner_id'] = $ownerId;
                 }
                 $postPinGet = $postPinClient->request('GET', '/method/wall.pin', [
                     'query' => $postPinParams
@@ -484,7 +478,7 @@ class PostsController extends Controller
                         }
                         if($postSettings->type === 'daily') {
                             $currentTime = date('H:i:s');
-                            if ($currentTime < '12:00:00') {
+                            if ($currentTime < $postSettings->daily.':00:00') {
                                 $searchPost->updated_at = date('Y-m-d', strtotime('-1 day')) . substr($searchPost->updated_at, 10);
                             } else {
                                 $searchPost->updated_at = date('Y-m-d') . substr($searchPost->updated_at, 10);

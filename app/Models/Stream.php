@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Stream extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'account_id',
+        'group_id',
+        'title',
+        'description',
+        'link',
+        'active',
+        'live',
+    ];
 }
