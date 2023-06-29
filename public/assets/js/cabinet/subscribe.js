@@ -151,7 +151,6 @@ $(document).ready(function () {
         success: function(response){
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
-          console.log(response)
           if (response.status == "success") {
             if (popupName === 'deposit') {
               
@@ -163,7 +162,6 @@ $(document).ready(function () {
           }
         },
         error: function (response) {
-          console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
