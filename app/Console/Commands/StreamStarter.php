@@ -88,7 +88,7 @@ class StreamStarter extends Command
                                 'description' => $streamDescription,
                             ];
                             if($subscribePackage['type3'] === 1){
-                                $postContent['bitrate'] = '3000k';
+                                $postContent['bitrate'] = '3500k';
                             }else{
                                 $postContent['bitrate'] = '2000k';
                             }
