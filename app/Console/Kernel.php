@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
 
         Commands\StoriesStarter::class,
         Commands\PostStarter::class,
+        Commands\StreamStarter::class,
 
     ];
     /**
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('stories:cron')->everyMinute();
         $schedule->command('post:cron')->everyMinute();
+        $schedule->command('stream:cron')->everyMinute();
     }
 
     /**

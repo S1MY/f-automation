@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\Stream;
+use App\Models\StreamStory;
 
 use App\Models\CronLogs;
 
@@ -70,7 +71,54 @@ class CronController extends Controller
             $postId = $streamStartJSON->response[0]->post_id;
             $fileLoadUrl = unserialize($streamItem->link)[0];
             $fileSend = Storage::path('public/' . $fileLoadUrl);
+            StreamStory::create([
+                'stream_id' => $streamItem->id,
+                'video_did' => $videoId,
+                'post_did' => $postId,
+            ]);
             $commandExec = "ffmpeg -re -i " . $fileSend . " -b:v ". $bitrate ." -f flv " . $streamUrl . $streamKey . "";
+            $streamStopClient = new Client([
+                'base_uri' => 'https://api.vk.com',
+            ]);
+            $streamStopParams = [
+                'v' => '5.131',
+                'access_token' => $token,
+                'video_id' => $videoId
+            ];
+            if($streamItem->group_id > 0){
+                $streamStopParams['group_id'] = $streamItem->group_id;
+                $streamStopParams['owner_id'] = ltrim($ownerId, '-');
+            }else{
+                $streamStopParams['owner_id'] = $ownerId;
+            }
+            exec($commandExec, $commantOutput, $commantReturn);
+            $streamStopGet = $streamStopClient->request('GET', '/method/video.stopStreaming', [
+                'query' => $streamStopParams
+            ]);
+            if ($streamStopGet->getStatusCode() !== 200 || !$streamStopGet->getBody()) {
+                CronLogs::create([
+                    'uid'        => $userId,
+                    'cron_type' => 'streams',
+                    'item_id' => $streamItem->id,
+                    'message'   => 'Метод video.stopStreaming ничего не вернул!'
+                ]);
+                die();
+            }
+            $streamStopContent = $streamStopGet->getBody()->getContents();
+            $streamStopJSON = json_decode($streamStopContent);
+            if (isset($streamStopJSON->error)) {
+                CronLogs::create([
+                    'uid'        => $userId,
+                    'cron_type' => 'streams',
+                    'item_id' => $streamItem->id,
+                    'message'   => 'Метод video.stopStreaming вернул ошибку!'
+                ]);
+                die();
+            }
+            $removeUrl = explode("/",$fileLoadUrl)[4];
+            exec('kill "$(pgrep -f '.$removeUrl.')"');
+            $streamItem->live = 0;
+            $streamItem->save();
         }
     }
 }

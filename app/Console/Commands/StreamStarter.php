@@ -14,7 +14,9 @@ use App\Models\VkAccount;
 use App\Models\VkGroup;
 
 use App\Models\Stream;
+use App\Models\StreamStory;
 use App\Models\StreamSettings;
+use App\Models\StreamComments;
 
 use App\Models\CronLogs;
 
@@ -122,6 +124,208 @@ class StreamStarter extends Command
                         'item_id' => $stream->id,
                         'message'   => 'Пользователь не имеет Подписки в базе данных'
                     ]);
+                }
+            }elseif (strtotime($updatedAt->subMinutes(5)) === strtotime($nowTime)) {
+                $lastStream = StreamStory::where('stream_id', '=', $stream->id)->latest('id')->first();
+                if($lastStream){
+                    // Собираем статистику
+                    $streamStatsClient = new Client([
+                        'base_uri' => 'https://api.vk.com',
+                    ]);
+                    $streamStatsParams = [
+                        'v' => '5.131',
+                        'access_token' => $vkToken,
+                        'owner_id' => $ownerId,
+                        'count' => 10
+                    ];
+                    $streamStatsGet = $streamStatsClient->request('GET', '/method/video.get', [
+                        'query' => $streamStatsParams
+                    ]);
+                    if ($streamStatsGet->getStatusCode() !== 200 || !$streamStatsGet->getBody()) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'streams',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод video.get ничего не вернул!'
+                        ]);
+                        die();
+                    }
+                    $streamStatsContent = $streamStatsGet->getBody()->getContents();
+                    $streamStatsJSON = json_decode($streamStatsContent);
+                    if (isset($streamStatsJSON->error)) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'streams',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод video.get вернул ошибку!'
+                        ]);
+                        die();
+                    }
+                    foreach ($streamStatsJSON->response[0]->items as $statItem) {
+                        if($statItem->id == $lastStream->video_did){
+                            $lastStream->comments = $statItem->comments;
+                            $lastStream->likes = $statItem->likes->count;
+                            $lastStream->views = $statItem->views;
+                            $lastStream->reposts = $statItem->reposts->count;
+                            $lastStream->save();
+                        }
+                    }
+                    // Собираем комментарии
+                    $streamCommentsClient = new Client([
+                        'base_uri' => 'https://api.vk.com',
+                    ]);
+                    $streamCommentsParams = [
+                        'v' => '5.131',
+                        'access_token' => $vkToken,
+                        'owner_id' => $ownerId,
+                        'video_id' => $lastStream->video_did
+                    ];
+                    $streamCommentsGet = $streamCommentsClient->request('GET', '/method/video.getComments', [
+                        'query' => $streamCommentsParams
+                    ]);
+                    if ($streamCommentsGet->getStatusCode() !== 200 || !$streamCommentsGet->getBody()) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'streams',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод video.getComments ничего не вернул'
+                        ]);
+                        die();
+                    }
+                    $streamCommentsContent = $streamCommentsGet->getBody()->getContents();
+                    $streamCommentsJSON = json_decode($streamCommentsContent);
+                    if (isset($streamCommentsJSON->error)) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'streams',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод video.getComments вернул ошибку'
+                        ]);
+                        die();
+                    }
+                    foreach ($streamCommentsJSON->response[0]->items as $commentItem) {
+                        $carbonDate = Carbon::createFromTimestamp($commentItem->date);
+                        $fromUser = $commentItem->from_id;
+                        // Получаем о юзере
+                        $authClient = new Client([
+                            'base_uri' => 'https://api.vk.com',
+                        ]);
+                        $usersParams = [
+                            'v' => '5.131',
+                            'access_token' => $vkToken,
+                            'user_ids' => $fromUser,
+                            'fields' => 'first_name, last_name, photo_200_orig'
+                        ];
+                        $usersGet = $authClient->request('GET', '/method/users.get', [
+                            'query' => $usersParams
+                        ]);
+                        if ($usersGet->getStatusCode() !== 200 || !$usersGet->getBody()) {
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'users',
+                                'item_id' => $stream->id,
+                                'message'   => 'Метод users.get ничего не вернул'
+                            ]);
+                            die();
+                        }
+                        $usersContent = $usersGet->getBody()->getContents();
+                        $usersJSON = json_decode($usersContent);
+                        if (isset($usersJSON->error)) {
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'users',
+                                'item_id' => $stream->id,
+                                'message'   => 'Метод users.get вернул ошибку'
+                            ]);
+                            die();
+                        }
+                        $accountName = $usersJSON->response[0]->first_name . ' ' . $usersJSON->response[0]->last_name;
+                        $accountLink = 'https://vk.com/id' . $usersJSON->response[0]->id;
+                        $accountAvatar = $usersJSON->response[0]->photo_200_orig;
+                        // Сохраняем
+                        StreamComments::create([
+                            'stream_id' => $stream->id,
+                            'stream_story_id' => $lastStream->id,
+                            'comment' => $commentItem->text,
+                            'time' => $carbonDate,
+                            'name' => $accountName,
+                            'avatar' => $accountAvatar,
+                            'link' => $accountLink,
+                        ]);
+                    }
+                    // Удаление стрима
+                    $videoRemoveClient = new Client([
+                        'base_uri' => 'https://api.vk.com',
+                    ]);
+                    $videoRemoveParams = [
+                        'v' => '5.131',
+                        'access_token' => $vkToken,
+                        'owner_id' => $ownerId,
+                        'video_id' => $lastStream->video_did,
+                        'target_id' => $ownerId
+                    ];
+                        
+                    $videoRemoveGet = $videoRemoveClient->request('GET', '/method/video.delete', [
+                        'query' => $videoRemoveParams
+                    ]);
+            
+                    if ($videoRemoveGet->getStatusCode() !== 200 || !$videoRemoveGet->getBody()) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'users',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод video.delete вернул ошибку'
+                        ]);
+                        die();
+                    }
+                    $videoRemoveContent = $videoRemoveGet->getBody()->getContents();
+                    $videoRemoveJSON = json_decode($videoRemoveContent);
+                    if (isset($videoRemoveJSON->error)) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'users',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод video.delete вернул ошибку'
+                        ]);
+                        die();
+                    }
+                    // Удаление поста
+                    $wallPostRemove = new Client([
+                        'base_uri' => 'https://api.vk.com',
+                    ]);
+                    $wallRemoveParams = [
+                        'v' => '5.131',
+                        'access_token' => $vkToken,
+                        'post_id' => $lastStream->post_did
+                    ];
+                    if($vkGroup){
+                        $wallRemoveParams['owner_id'] = '-'.$groupId;
+                    }else{
+                        $wallRemoveParams['owner_id'] = $ownerId;
+                    }
+                    $wallRemoveGet = $wallPostRemove->request('GET', '/method/wall.delete', [
+                        'query' => $wallRemoveParams
+                    ]);
+                    if ($wallRemoveGet->getStatusCode() !== 200 || !$wallRemoveGet->getBody()) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'streams',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод wall.delete ничего не вернул'
+                        ]);
+                        die();
+                    }
+                    $wallRemoveContent = $wallRemoveGet->getBody()->getContents();
+                    $wallRemoveJSON = json_decode($wallRemoveContent);
+                    if (isset($wallRemoveJSON->error)) {
+                        CronLogs::create([
+                            'uid'        => $userId,
+                            'cron_type' => 'streams',
+                            'item_id' => $stream->id,
+                            'message'   => 'Метод wall.delete вернул ошибку'
+                        ]);
+                        die();
+                    }
                 }
             }
         }
