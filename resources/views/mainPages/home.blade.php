@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @php
-$host = request()->getHttpHost();
+$protocol = request()->secure() ? 'https://' : 'http://';
+$host = $protocol . request()->getHttpHost();
 echo $host;
 @endphp
 @section('content')
