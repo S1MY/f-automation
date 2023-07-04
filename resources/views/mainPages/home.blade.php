@@ -1,12 +1,7 @@
 @extends('layouts.master')
 @php
-
-use App\Models\Post;
-// $url = $response->response->stream->url;
-// $key = $response->response->stream->key;
-// $fileSend = Storage::path('public/' . $fileLoadUrl);
-// $cmd = "ffmpeg -re -i ".$fileSend." -b:v 2000k -f flv " . $url . $key . "";
-// exec($cmd, $output, $return);
+$host = request()->getHttpHost();
+echo $host;
 @endphp
 @section('content')
     <section id="hero">
