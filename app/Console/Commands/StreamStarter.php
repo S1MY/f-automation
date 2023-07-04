@@ -96,6 +96,7 @@ class StreamStarter extends Command
                             }
                             $response = $client->post($streamContinue, [
                                 'form_params' => $postContent,
+                                'timeout' => 0,
                             ]);
                             $handles[] = $response;
                         }else{
