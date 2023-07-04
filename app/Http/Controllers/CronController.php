@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use GuzzleHttp\Client;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
+use App\Models\Stream;
+
+use App\Models\CronLogs;
+
+class CronController extends Controller
+{
+    public function streamContinue(Request $request)
+    {
+        $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();
+        $streamId = $request->stream_id;
+        $userId = $request->user_id;
+        $token = $request->token;
+        $description = $request->description;
+        $bitrate = $request->bitrate;
+        $streamItem = Stream::where('id', '=', $streamId)->first();
+        $streamStartClient = new Client([
+            'base_uri' => 'https://api.vk.com',
+        ]);
+        $streamStartParams = [
+            'v' => '5.131',
+            'access_token' => $token,
+            'wallpost' => 1,
+            'name' => $streamItem->title,
+            'description' => $description
+        ];
+        if($streamItem->group_id > 0){
+            $streamStartParams['group_id'] = $streamItem->group_id;
+        }
+        if($streamItem->live < 1){
+            $streamStartGet = $streamStartClient->request('GET', '/method/video.startStreaming', [
+                'query' => $streamStartParams
+            ]);
+            if ($streamStartGet->getStatusCode() !== 200 || !$streamStartGet->getBody()) {
+                CronLogs::create([
+                    'uid'        => $userId,
+                    'cron_type' => 'streams',
+                    'item_id' => $streamItem->id,
+                    'message'   => 'Метод video.startStreaming ничего не вернул!'
+                ]);
+                die();
+            }
+            $streamStartContent = $streamStartGet->getBody()->getContents();
+            $streamStartJSON = json_decode($streamStartContent);
+            if (isset($streamStartJSON->error)) {
+                CronLogs::create([
+                    'uid'        => $userId,
+                    'cron_type' => 'streams',
+                    'item_id' => $streamItem->id,
+                    'message'   => 'Метод video.startStreaming вернул ошибку!'
+                ]);
+                die();
+            }
+            $streamItem->live = 1;
+            $streamItem->updated_at = $nowTime->format('Y-m-d H:i:s');
+            $streamItem->save();
+            $streamUrl = $streamStartJSON->response[0]->stream->url;
+            $streamKey = $streamStartJSON->response[0]->stream->key;
+            $ownerId = $streamStartJSON->response[0]->owner_id;
+            $videoId = $streamStartJSON->response[0]->video_id;
+            $postId = $streamStartJSON->response[0]->post_id;
+            $fileLoadUrl = unserialize($streamItem->link)[0];
+            $fileSend = Storage::path('public/' . $fileLoadUrl);
+            $commandExec = "ffmpeg -re -i " . $fileSend . " -b:v ". $bitrate ." -f flv " . $streamUrl . $streamKey . "";
+        }
+    }
+}
