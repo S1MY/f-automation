@@ -90,9 +90,9 @@ class StreamStarter extends Command
                                 'description' => $streamDescription,
                             ];
                             if($subscribePackage['type3'] === 1){
-                                $postContent['bitrate'] = '3500k';
+                                $postContent['bitrate'] = '4096k';
                             }else{
-                                $postContent['bitrate'] = '2000k';
+                                $postContent['bitrate'] = '2048k';
                             }
                             $response = $client->post($streamContinue, [
                                 'form_params' => $postContent,
@@ -135,9 +135,12 @@ class StreamStarter extends Command
                     $streamStatsParams = [
                         'v' => '5.131',
                         'access_token' => $vkToken,
-                        'owner_id' => $ownerId,
-                        'count' => 10
                     ];
+                    if ($vkGroup) {
+                        $streamStatsParams['videos'] = '-'.$groupId.'_'.$lastStream->video_did;
+                    }else{
+                        $streamStatsParams['videos'] = $ownerId.'_'.$lastStream->video_did;
+                    }
                     $streamStatsGet = $streamStatsClient->request('GET', '/method/video.get', [
                         'query' => $streamStatsParams
                     ]);
@@ -148,7 +151,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод video.get ничего не вернул!'
                         ]);
-                        die();
                     }
                     $streamStatsContent = $streamStatsGet->getBody()->getContents();
                     $streamStatsJSON = json_decode($streamStatsContent);
@@ -159,7 +161,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод video.get вернул ошибку!'
                         ]);
-                        die();
                     }
                     foreach ($streamStatsJSON->response->items as $statItem) {
                         if($statItem->id == $lastStream->video_did){
@@ -177,9 +178,13 @@ class StreamStarter extends Command
                     $streamCommentsParams = [
                         'v' => '5.131',
                         'access_token' => $vkToken,
-                        'owner_id' => $ownerId,
                         'video_id' => $lastStream->video_did
                     ];
+                    if ($vkGroup) {
+                        $streamCommentsParams['owner_id'] = '-'.$groupId;
+                    }else{
+                        $streamCommentsParams['owner_id'] = $ownerId;
+                    }
                     $streamCommentsGet = $streamCommentsClient->request('GET', '/method/video.getComments', [
                         'query' => $streamCommentsParams
                     ]);
@@ -190,7 +195,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод video.getComments ничего не вернул'
                         ]);
-                        die();
                     }
                     $streamCommentsContent = $streamCommentsGet->getBody()->getContents();
                     $streamCommentsJSON = json_decode($streamCommentsContent);
@@ -201,7 +205,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод video.getComments вернул ошибку'
                         ]);
-                        die();
                     }
                     foreach ($streamCommentsJSON->response[0]->items as $commentItem) {
                         $carbonDate = Carbon::createFromTimestamp($commentItem->date);
@@ -226,7 +229,6 @@ class StreamStarter extends Command
                                 'item_id' => $stream->id,
                                 'message'   => 'Метод users.get ничего не вернул'
                             ]);
-                            die();
                         }
                         $usersContent = $usersGet->getBody()->getContents();
                         $usersJSON = json_decode($usersContent);
@@ -237,7 +239,6 @@ class StreamStarter extends Command
                                 'item_id' => $stream->id,
                                 'message'   => 'Метод users.get вернул ошибку'
                             ]);
-                            die();
                         }
                         $accountName = $usersJSON->response[0]->first_name . ' ' . $usersJSON->response[0]->last_name;
                         $accountLink = 'https://vk.com/id' . $usersJSON->response[0]->id;
@@ -260,11 +261,15 @@ class StreamStarter extends Command
                     $videoRemoveParams = [
                         'v' => '5.131',
                         'access_token' => $vkToken,
-                        'owner_id' => $ownerId,
                         'video_id' => $lastStream->video_did,
-                        'target_id' => $ownerId
                     ];
-                        
+                    if ($vkGroup) {
+                        $videoRemoveParams['owner_id'] = '-'.$groupId;
+                        $videoRemoveParams['target_id'] = '-'.$groupId;
+                    }else{
+                        $videoRemoveParams['owner_id'] = $ownerId;
+                        $videoRemoveParams['target_id'] = $ownerId;
+                    }
                     $videoRemoveGet = $videoRemoveClient->request('GET', '/method/video.delete', [
                         'query' => $videoRemoveParams
                     ]);
@@ -276,7 +281,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод video.delete вернул ошибку'
                         ]);
-                        die();
                     }
                     $videoRemoveContent = $videoRemoveGet->getBody()->getContents();
                     $videoRemoveJSON = json_decode($videoRemoveContent);
@@ -287,7 +291,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод video.delete вернул ошибку'
                         ]);
-                        die();
                     }
                     // Удаление поста
                     $wallPostRemove = new Client([
@@ -313,7 +316,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод wall.delete ничего не вернул'
                         ]);
-                        die();
                     }
                     $wallRemoveContent = $wallRemoveGet->getBody()->getContents();
                     $wallRemoveJSON = json_decode($wallRemoveContent);
@@ -324,7 +326,6 @@ class StreamStarter extends Command
                             'item_id' => $stream->id,
                             'message'   => 'Метод wall.delete вернул ошибку'
                         ]);
-                        die();
                     }
                 }
             }
