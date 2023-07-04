@@ -90,7 +90,7 @@ class StreamStarter extends Command
                                 'description' => $streamDescription,
                             ];
                             if($subscribePackage['type3'] === 1){
-                                $postContent['bitrate'] = '4096k';
+                                $postContent['bitrate'] = '5120k';
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
@@ -207,7 +207,7 @@ class StreamStarter extends Command
                             'message'   => 'Метод video.getComments вернул ошибку'
                         ]);
                     }
-                    foreach ($streamCommentsJSON->response[0]->items as $commentItem) {
+                    foreach ($streamCommentsJSON->response->items as $commentItem) {
                         $carbonDate = Carbon::createFromTimestamp($commentItem->date);
                         $fromUser = $commentItem->from_id;
                         // Получаем о юзере
