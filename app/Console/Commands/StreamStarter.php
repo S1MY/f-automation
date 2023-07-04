@@ -161,7 +161,7 @@ class StreamStarter extends Command
                         ]);
                         die();
                     }
-                    foreach ($streamStatsJSON->response[0]->items as $statItem) {
+                    foreach ($streamStatsJSON->response->items as $statItem) {
                         if($statItem->id == $lastStream->video_did){
                             $lastStream->comments = $statItem->comments;
                             $lastStream->likes = $statItem->likes->count;

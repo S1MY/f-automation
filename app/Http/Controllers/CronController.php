@@ -64,11 +64,11 @@ class CronController extends Controller
             $streamItem->live = 1;
             $streamItem->updated_at = $nowTime->format('Y-m-d H:i:s');
             $streamItem->save();
-            $streamUrl = $streamStartJSON->response[0]->stream->url;
-            $streamKey = $streamStartJSON->response[0]->stream->key;
-            $ownerId = $streamStartJSON->response[0]->owner_id;
-            $videoId = $streamStartJSON->response[0]->video_id;
-            $postId = $streamStartJSON->response[0]->post_id;
+            $streamUrl = $streamStartJSON->response->stream->url;
+            $streamKey = $streamStartJSON->response->stream->key;
+            $ownerId = $streamStartJSON->response->owner_id;
+            $videoId = $streamStartJSON->response->video_id;
+            $postId = $streamStartJSON->response->post_id;
             $fileLoadUrl = unserialize($streamItem->link)[0];
             $fileSend = Storage::path('public/' . $fileLoadUrl);
             StreamStory::create([
