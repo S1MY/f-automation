@@ -113,4 +113,4 @@ Route::post('/paginator', [PaginateController::class, 'paginate'])->name('pagina
 Route::get('/upload-process', function () {
     return true;
 });
-Route::get('/stream-continue', [CronController::class, 'streamContinue'])->name('streamContinue');
+Route::post('/stream-continue', [CronController::class, 'streamContinue'])->name('streamContinue');
