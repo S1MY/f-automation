@@ -1,9 +1,4 @@
 @extends('layouts.master')
-@php
-$protocol = request()->secure() ? 'https://' : 'http://';
-$host = $protocol . request()->getHttpHost();
-echo $host;
-@endphp
 @section('content')
     <section id="hero">
         <div class="heroLeft">
