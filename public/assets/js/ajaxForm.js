@@ -115,6 +115,7 @@ $(document).ready(function () {
                 page = page.replace('?myPageId=' + myPageId, '/' + myPageId);
                 formData.append('myPageId', myPageId);
             }
+            console.log(myPageId)
             formData.append('page', page);
             $.ajax({
                 type: "POST",
