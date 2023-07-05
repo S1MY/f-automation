@@ -19,7 +19,7 @@
     }elseif ($post->type === 'interval') {
         $postDate->hour = $postDate->hour + ($post->interval / 60);
         $nextStart = $postDate->format('H:i d.m.Y');
-        $streamType = 'Интервал ('.$post->interval.' минут)';
+        $postType = 'Интервал ('.($post->interval / 60).' ч.)';
     }elseif ($post->type === 'date') {
         $postDate = Carbon::createFromFormat('Y-m-d H:i:s', $post->date, 'Europe/Moscow');
         $nextStart = $postDate->format('H:i d.m.Y');

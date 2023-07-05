@@ -19,7 +19,7 @@
     }elseif ($stream->type === 'interval') {
         $streamDate->hour = $streamDate->hour + ($stream->interval / 60);
         $nextStart = $streamDate->format('H:i d.m.Y');
-    $streamType = 'Интервал ('.$stream->interval.' минут)';
+    $streamType = 'Интервал ('.($stream->interval / 60).' ч.)';
     }elseif ($stream->type === 'date') {
         $streamDate = Carbon::createFromFormat('Y-m-d H:i:s', $stream->date, 'Europe/Moscow');
         $nextStart = $streamDate->format('H:i d.m.Y');
