@@ -14,20 +14,25 @@
             </a>
         @endif
         @foreach ($elements as $element)
-            @if (is_string($element))
-                <span class="paginationItem disabled">{{ $element }}</span>
-            @endif
+    @if (is_string($element))
+        <span class="paginationItem disabled">{{ $element }}</span>
+    @endif
 
-            @if (is_array($element))
-                @foreach ($element as $page => $url)
-                    @if ($page == $paginator->currentPage())
-                        <span class="paginationItem active">{{ $page }}</span>
-                    @else
-                        <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
-                    @endif
-                @endforeach
+    @if (is_array($element))
+        @foreach ($element as $page => $url)
+            @if ($page == $paginator->currentPage())
+                <span class="paginationItem active">{{ $page }}</span>
+            @elseif ($page == $paginator->currentPage() + 1)
+                <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
+            @elseif ($page == $paginator->lastPage() - 1 && $paginator->currentPage() + 2 < $paginator->lastPage())
+                <span class="paginationItem disabled">...</span>
+            @elseif ($page == $paginator->lastPage())
+                <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
             @endif
         @endforeach
+    @endif
+@endforeach
+
 
         @if ( $paginator->onLastPage() )
             <a href="#" class="paginationItem _disabled arrow">
