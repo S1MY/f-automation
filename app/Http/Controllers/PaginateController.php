@@ -360,7 +360,7 @@ class PaginateController extends Controller
                     'post_settings.daily as daily'
                 ])
                 ->paginate(4, ['*'], 'posts-info-page', $page_num);
-                $curentPage = route('posts', ['myPageId' => $myPageId]);
+                $curentPage = route('postsInfo', ['myPageId' => $myPageId]);
                 return view('load.posts-info-load', compact('post', 'postInfo', 'curentPage'));
                 break;
             default:

@@ -152,7 +152,7 @@ class CabinetPagesController extends Controller
     }
     public function postsInfo($myPageId){
         $user = Auth::user();
-        $curentPage = route('posts', ['myPageId' => $myPageId]);
+        $curentPage = route('postsInfo', ['myPageId' => $myPageId]);
         $post = Post::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $post->account_id)->get();
         $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
