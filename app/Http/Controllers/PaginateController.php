@@ -34,7 +34,7 @@ class PaginateController extends Controller
         $groupId = (isset($request->group_id) ? $request->group_id : '');
         $myPageId = (isset($request->myPageId) ? $request->myPageId : '');
 
-        return $myPageId;
+        // return $myPageId;
 
         switch ($page_id) {
             case 'promo':
