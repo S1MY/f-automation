@@ -16,7 +16,7 @@
         @endif
         {{-- Первая страница --}}
 @if (($paginator->currentPage() - 3) >= 0)
-<a href="{{ $paginator->url(1) }}" class="paginationItem @if ($paginator->currentPage() == 1) _active @endif" data-action="{{ route('paginate') }}">1</a>
+<a href="{{ $curentPage .'?'. explode('?',$paginator->url(1))[1] }}" class="paginationItem @if ($paginator->currentPage() == 1) _active @endif" data-action="{{ route('paginate') }}">1</a>
 @endif
 {{-- Левые точки --}}
 @if (($paginator->currentPage() - 3) >= 1)
@@ -34,7 +34,7 @@
 @endif
 {{-- Последняя страница --}}
 @if (($paginator->lastPage() - ($paginator->currentPage() + 2)) >= 0)
-<a href="{{ $paginator->url($paginator->lastPage()) }}" class="paginationItem @if ($paginator->currentPage() == $paginator->lastPage()) _active @endif" data-action="{{ route('paginate') }}">{{ $paginator->lastPage() }}</a>
+<a href="{{ $curentPage .'?'. explode('?',$paginator->url($paginator->lastPage()))[1] }}" class="paginationItem @if ($paginator->currentPage() == $paginator->lastPage()) _active @endif" data-action="{{ route('paginate') }}">{{ $paginator->lastPage() }}</a>
 @endif
 
         {{-- Стрелка вправо --}}
