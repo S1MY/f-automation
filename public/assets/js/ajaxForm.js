@@ -110,14 +110,10 @@ $(document).ready(function () {
                     formData.append('group_id', groupId);
                 }
             }
-            if (page.includes('?myPageId=')) {
-                myPageId = page.split('?')[1].split('&').find(param => param.startsWith('myPageId=')).split('=')[1];
-                page = page.replace('?myPageId=' + myPageId, '/' + myPageId);
+            if (page.match(/item(\d+)/)) {
+                myPageId = match ? match[1] : null;
                 formData.append('myPageId', myPageId);
             }
-            const match = page.match(/item(\d+)/);
-            const itemNumber = match ? match[1] : null;
-            console.log(itemNumber)
             formData.append('page', page);
             $.ajax({
                 type: "POST",
