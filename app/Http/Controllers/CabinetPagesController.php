@@ -50,7 +50,7 @@ class CabinetPagesController extends Controller
     public function streams(){
         $user = Auth::user();
 
-        $curentPage = route('streams');
+        $currentPage = route('streams');
         $VkAccounts = VkAccount::where('uid', $user->id)
             ->get();
         $VkGroups = VkGroup::where('uid', $user->id)
@@ -88,13 +88,30 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(4, ['*'], 'all-streams-page');
 
-        return view('cabinet.vk.streams', compact('user', 'allStreams', 'curentPage'));
+        return view('cabinet.vk.streams', compact('user', 'allStreams', 'currentPage'));
     }
 
     public function streamInfo(){
         $user = Auth::user();
-
-        return view('cabinet.vk.stream-info', compact('user'));
+        $currentPage = route('streamInfo', ['myPageId' => $myPageId]);
+        $stream = Stream::find($myPageId);
+        $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stream->account_id)->get();
+        $streamInfo = StreamStory::join('stream_settings', 'stream_stories.stream_id', '=', 'stream_settings.stream_id')
+        ->orderBy('id', 'desc')
+        ->where('stream_stories.stream_id', $myPageId)
+        ->select([
+            'stream_stories.*',
+            'stream_settings.type as type',
+            'stream_settings.interval as interval',
+            'stream_settings.date as date',
+            'stream_settings.daily as daily'
+        ])
+        ->paginate(4, ['*'], 'stream-info-page');
+        if(count($VkAccount) == 1){
+            return view('cabinet.vk.stream-info', compact('user', 'stream', 'streamInfo', 'currentPage'));
+        }else{
+            return view('cabinet.home', compact('user'));
+        }
     }
 
     public function streamComments(){
@@ -106,7 +123,7 @@ class CabinetPagesController extends Controller
     public function posts(){
         $user = Auth::user();
 
-        $curentPage = route('posts');
+        $currentPage = route('posts');
         $VkAccounts = VkAccount::where('uid', $user->id)
             ->get();
         $VkGroups = VkGroup::where('uid', $user->id)
@@ -148,11 +165,11 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(4, ['*'], 'all-posts-page');
 
-        return view('cabinet.vk.posts', compact('user', 'allPosts', 'curentPage'));
+        return view('cabinet.vk.posts', compact('user', 'allPosts', 'currentPage'));
     }
     public function postsInfo($myPageId){
         $user = Auth::user();
-        $curentPage = route('postsInfo', ['myPageId' => $myPageId]);
+        $currentPage = route('postsInfo', ['myPageId' => $myPageId]);
         $post = Post::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $post->account_id)->get();
         $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
@@ -171,7 +188,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(4, ['*'], 'posts-info-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.post-info', compact('user', 'post', 'postInfo', 'curentPage'));
+            return view('cabinet.vk.post-info', compact('user', 'post', 'postInfo', 'currentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }
@@ -180,7 +197,7 @@ class CabinetPagesController extends Controller
     public function stories(){
         $user = Auth::user();
 
-        $curentPage = route('stories');
+        $currentPage = route('stories');
 
         $VkAccounts = VkAccount::where('uid', $user->id)
             ->get();
@@ -216,12 +233,12 @@ class CabinetPagesController extends Controller
             'stories_settings.link_url as seetings_link_url'
         ])
         ->paginate(4, ['*'], 'all-stories-page');
-        return view('cabinet.vk.stories', compact('user', 'allStories', 'curentPage'));
+        return view('cabinet.vk.stories', compact('user', 'allStories', 'currentPage'));
     }
 
     public function storiesInfo($myPageId){
         $user = Auth::user();
-        $curentPage = route('storiesInfo', ['myPageId' => $myPageId]);
+        $currentPage = route('storiesInfo', ['myPageId' => $myPageId]);
         $stories = Stories::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stories->account_id)->get();
         $storiesInfo = StoriesStory::join('stories_settings', 'stories_stories.stories_id', '=', 'stories_settings.stories_id')
@@ -233,7 +250,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(4, ['*'], 'stories-info-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.stories-info', compact('user', 'stories', 'storiesInfo', 'curentPage'));
+            return view('cabinet.vk.stories-info', compact('user', 'stories', 'storiesInfo', 'currentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }
@@ -253,7 +270,7 @@ class CabinetPagesController extends Controller
 
     public function offers(){
         $user = Auth::user();
-        $curentPage = route('offers');
+        $currentPage = route('offers');
 
         $allOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
                            ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
@@ -274,12 +291,12 @@ class CabinetPagesController extends Controller
                             ->where('uid', '=', Auth::user()->id)
                             ->paginate(6);
 
-        return view('cabinet.offers', compact('user', 'allOffers', 'meOffers', 'likedOffers', 'curentPage'));
+        return view('cabinet.offers', compact('user', 'allOffers', 'meOffers', 'likedOffers', 'currentPage'));
     }
 
     public function admin(Request $request){
         $user = Auth::user();
-        $curentPage = route('admin');
+        $currentPage = route('admin');
 
         // Предложения
         $offers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
@@ -303,7 +320,7 @@ class CabinetPagesController extends Controller
 
         return view('mainPages.admin', compact( 'user', 'promocodes', 'todayUser',
                                                 'countUser', 'countUserNotEmail', 'activeSubs',
-                                                'VKSubs', 'VKGroupsSubs', 'TGSubs', 'curentPage',
+                                                'VKSubs', 'VKGroupsSubs', 'TGSubs', 'currentPage',
                                                 'offers'));
     }
 }

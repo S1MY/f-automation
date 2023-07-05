@@ -109,4 +109,4 @@
 </div>
 @endif
 
-{{ $allStories->links('layouts.paginate', ['curentPage' => $curentPage]) }}
+{{ $allStories->links('layouts.paginate', ['currentPage' => $currentPage]) }}

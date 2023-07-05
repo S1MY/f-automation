@@ -71,4 +71,4 @@
         </p>
     </div>
 @endforeach
-{{ $storiesInfo->links('layouts.paginate', ['curentPage' => $curentPage]) }}
+{{ $storiesInfo->links('layouts.paginate', ['currentPage' => $currentPage]) }}

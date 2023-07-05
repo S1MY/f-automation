@@ -14,4 +14,4 @@
 
 </div>
 
-{{ $allOffers->links('layouts.paginate', ['curentPage' => $curentPage]) }}
+{{ $allOffers->links('layouts.paginate', ['currentPage' => $currentPage]) }}

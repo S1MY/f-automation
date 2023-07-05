@@ -40,9 +40,9 @@ class PaginateController extends Controller
             case 'promo':
 
                 $promocodes = Promocodes::orderBy('id', 'DESC')->paginate(5, ['*'], 'promo-page', $page_num);
-                $curentPage = route('admin');
+                $currentPage = route('admin');
 
-                return view('load.promocodes-load', compact('promocodes', 'curentPage'));
+                return view('load.promocodes-load', compact('promocodes', 'currentPage'));
 
                 break;
 
@@ -55,9 +55,9 @@ class PaginateController extends Controller
                     ->where('votes', 'NOT LIKE', '%i:%;i:' . Auth::user()->id . ';%')
                     ->paginate(4, ['*'], 'all-offers-page', $page_num);
 
-                $curentPage = route('offers');
+                $currentPage = route('offers');
 
-                return view('load.all-offers-load', compact('allOffers', 'curentPage'));
+                return view('load.all-offers-load', compact('allOffers', 'currentPage'));
 
                 break;
 
@@ -70,9 +70,9 @@ class PaginateController extends Controller
                     ->where('votes', 'LIKE', '%i:%;i:' . Auth::user()->id . ';%')
                     ->paginate(6, ['*'], 'liked-offers-page');
 
-                $curentPage = route('offers');
+                $currentPage = route('offers');
 
-                return view('load.all-offers-load', compact('likedOffers', 'curentPage'));
+                return view('load.all-offers-load', compact('likedOffers', 'currentPage'));
 
                 break;
 
@@ -113,8 +113,8 @@ class PaginateController extends Controller
                     ])
                     ->paginate(4, ['*'], 'all-stories-page', $page_num);
 
-                $curentPage = route('stories');
-                return view('load.all-stories-load', compact('allStories', 'curentPage'));
+                $currentPage = route('stories');
+                return view('load.all-stories-load', compact('allStories', 'currentPage'));
 
                 break;
 
@@ -130,8 +130,8 @@ class PaginateController extends Controller
                         'vk_accounts.name as vk_account_name'
                     ])
                     ->paginate(4, ['*'], 'account-stories-page', $page_num);
-                $curentPage = route('stories');
-                return view('load.all-stories-load', compact('allStories', 'curentPage'));
+                $currentPage = route('stories');
+                return view('load.all-stories-load', compact('allStories', 'currentPage'));
 
                 break;
 
@@ -150,8 +150,8 @@ class PaginateController extends Controller
                         'stories_settings.link_url as seetings_link_url'
                     ])
                     ->paginate(4, ['*'], 'group-stories-page', $page_num);
-                $curentPage = route('stories');
-                return view('load.all-stories-load', compact('allStories', 'curentPage'));
+                $currentPage = route('stories');
+                return view('load.all-stories-load', compact('allStories', 'currentPage'));
 
                 break;
             case 'stories-info':
@@ -166,8 +166,8 @@ class PaginateController extends Controller
                     'stories_settings.link_url as link_url'
                 ])
                 ->paginate(4, ['*'], 'stories-info-page', $page_num);
-                $curentPage = route('storiesInfo', ['myPageId' => $myPageId]);
-                return view('load.stories-info-load', compact('stories', 'storiesInfo', 'curentPage'));
+                $currentPage = route('storiesInfo', ['myPageId' => $myPageId]);
+                return view('load.stories-info-load', compact('stories', 'storiesInfo', 'currentPage'));
                 break;
             case 'all-streams':
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
@@ -206,8 +206,8 @@ class PaginateController extends Controller
                     'stream_settings.daily as daily'
                 ])
                 ->paginate(4, ['*'], 'all-streams-page', $page_num);
-                $curentPage = route('streams');
-                return view('load.all-streams-load', compact('allStreams', 'curentPage'));
+                $currentPage = route('streams');
+                return view('load.all-streams-load', compact('allStreams', 'currentPage'));
                 break;
             case 'account-streams':
                 $VkAccounts = VkAccount::where('id', $accountId)
@@ -226,8 +226,8 @@ class PaginateController extends Controller
                         'stream_settings.daily as daily'
                     ])
                     ->paginate(4, ['*'], 'account-streams-page', $page_num);
-                $curentPage = route('streams');
-                return view('load.all-streams-load', compact('allStreams', 'curentPage'));
+                $currentPage = route('streams');
+                return view('load.all-streams-load', compact('allStreams', 'currentPage'));
 
                 break;
             case 'group-streams':
@@ -247,9 +247,25 @@ class PaginateController extends Controller
                         'stream_settings.daily as daily'
                     ])
                     ->paginate(4, ['*'], 'group-streams-page', $page_num);
-                $curentPage = route('streams');
-                return view('load.all-streams-load', compact('allStreams', 'curentPage'));
+                $currentPage = route('streams');
+                return view('load.all-streams-load', compact('allStreams', 'currentPage'));
 
+                break;
+            case 'stream-info':
+                $stream = Stream::find($myPageId);
+                $streamInfo = StreamStory::join('stream_settings', 'stream_stories.stream_id', '=', 'stream_settings.stream_id')
+                ->orderBy('id', 'desc')
+                ->where('stream_stories.stream_id', $myPageId)
+                ->select([
+                    'stream_stories.*',
+                    'stream_settings.type as type',
+                    'stream_settings.interval as interval',
+                    'stream_settings.date as date',
+                    'stream_settings.daily as daily'
+                ])
+                ->paginate(4, ['*'], 'stream-info-page', $page_num);
+                $currentPage = route('streamInfo', ['myPageId' => $myPageId]);
+                return view('load.stream-info-load', compact('post', 'streamInfo', 'currentPage'));
                 break;
             case 'all-posts':
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
@@ -290,8 +306,8 @@ class PaginateController extends Controller
                 ])
                 ->paginate(4, ['*'], 'all-posts-page', $page_num);
 
-                $curentPage = route('posts');
-                return view('load.all-posts-load', compact('allPosts', 'curentPage'));
+                $currentPage = route('posts');
+                return view('load.all-posts-load', compact('allPosts', 'currentPage'));
                 break;
             case 'account-posts':
                 $VkAccounts = VkAccount::where('id', $accountId)
@@ -314,8 +330,8 @@ class PaginateController extends Controller
                         'post_settings.daily as daily'
                     ])
                     ->paginate(4, ['*'], 'account-posts-page', $page_num);
-                $curentPage = route('posts');
-                return view('load.all-posts-load', compact('allPosts', 'curentPage'));
+                $currentPage = route('posts');
+                return view('load.all-posts-load', compact('allPosts', 'currentPage'));
 
                 break;
             case 'group-posts':
@@ -339,8 +355,8 @@ class PaginateController extends Controller
                         'post_settings.daily as daily'
                     ])
                     ->paginate(4, ['*'], 'group-posts-page', $page_num);
-                $curentPage = route('posts');
-                return view('load.all-posts-load', compact('allPosts', 'curentPage'));
+                $currentPage = route('posts');
+                return view('load.all-posts-load', compact('allPosts', 'currentPage'));
 
                 break;
             case 'posts-info':
@@ -360,8 +376,8 @@ class PaginateController extends Controller
                     'post_settings.daily as daily'
                 ])
                 ->paginate(4, ['*'], 'posts-info-page', $page_num);
-                $curentPage = route('postsInfo', ['myPageId' => $myPageId]);
-                return view('load.posts-info-load', compact('post', 'postInfo', 'curentPage'));
+                $currentPage = route('postsInfo', ['myPageId' => $myPageId]);
+                return view('load.posts-info-load', compact('post', 'postInfo', 'currentPage'));
                 break;
             default:
 

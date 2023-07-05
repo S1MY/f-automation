@@ -16,4 +16,4 @@
         @endforeach
     </div>
 </div>
-{{ $promocodes->links('layouts.paginate', ['curentPage' => $curentPage]) }}
+{{ $promocodes->links('layouts.paginate', ['currentPage' => $currentPage]) }}

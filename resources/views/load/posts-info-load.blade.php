@@ -71,4 +71,4 @@
     @endif
 </div>
 @endforeach
-{{ $postInfo->links('layouts.paginate', ['curentPage' => $curentPage]) }}
+{{ $postInfo->links('layouts.paginate', ['currentPage' => $currentPage]) }}

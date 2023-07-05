@@ -101,4 +101,4 @@
     <p class="cardEmptyText">Посты дла данного аккаунта или группы не найдены</p>
 </div>
 @endif
-{{ $allPosts->links('layouts.paginate', ['curentPage' => $curentPage]) }}
+{{ $allPosts->links('layouts.paginate', ['currentPage' => $currentPage]) }}
