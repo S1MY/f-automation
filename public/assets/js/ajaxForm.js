@@ -115,7 +115,6 @@ $(document).ready(function () {
                 myPageId = match ? match[1] : null;
                 formData.append('myPageId', myPageId);
             }
-            console.log(myPageId)
             formData.append('page', page);
             $.ajax({
                 type: "POST",
@@ -131,9 +130,7 @@ $(document).ready(function () {
                     console.log(currentPath)
                     if (currentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
-                    } else if (currentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
-                        $('.storiesAllWrapper').html(response.responseText);
-                    } else if (currentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    }else if (currentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.postsAllWrapper').html(response.responseText);
                     } else if (currentPath == '/cabinet/vk/streams' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.streamsAllWrapper').html(response.responseText);

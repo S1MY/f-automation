@@ -165,7 +165,7 @@
                         @endif
                     </div>
                     <div class="tabItem _active" data-tab="all">
-                        <div class="storiesAllWrapper">
+                        <div class="storyWrapper">
                             @include('load.all-stories-load')
                         </div>
                     </div>
