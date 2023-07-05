@@ -20,16 +20,34 @@
 
     @if (is_array($element))
         @foreach ($element as $page => $url)
-            @if ($paginator->currentPage() == $page)
+
+            @if ($page == $paginator->currentPage())
                 <span class="paginationItem active">{{ $page }}</span>
-                @if ($paginator->hasMorePages())
-                    <a href="{{ $paginator->nextPageUrl() }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $paginator->currentPage() + 1 }}</a>
+
+                {{-- Вывод следующей страницы --}}
+                @if (isset($element[$page + 1]))
+                    <a href="{{ $element[$page + 1] }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page + 1 }}</a>
                 @endif
-            @elseif ($paginator->lastPage() - $page > 1 && $paginator->currentPage() < $page)
-                <span class="paginationItem">...</span>
-                <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
             @else
-                <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
+                {{-- Вывод троеточия перед предпоследней страницей --}}
+                @if ($page == $paginator->lastPage() - 2 && $paginator->currentPage() > 3)
+                    <span class="paginationItem">...</span>
+                @endif
+
+                {{-- Вывод предпоследней страницы --}}
+                @if ($page == $paginator->lastPage() - 1 && $paginator->currentPage() > 2)
+                    <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
+                @endif
+
+                {{-- Вывод последней страницы --}}
+                @if ($page == $paginator->lastPage() && $paginator->currentPage() != $paginator->lastPage())
+                    <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
+                @endif
+
+                {{-- Вывод троеточия после текущей страницы --}}
+                @if ($page == $paginator->currentPage() + 1 && $paginator->currentPage() < $paginator->lastPage() - 2)
+                    <span class="paginationItem">...</span>
+                @endif
             @endif
         @endforeach
     @endif
