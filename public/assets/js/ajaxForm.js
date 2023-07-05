@@ -127,7 +127,7 @@ $(document).ready(function () {
                 complete: function (response) {
                     console.log(response)
                     const currentPath = window.location.pathname;
-                    console.log(response)
+                    console.log(currentPath)
                     if (currentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
                     } else if (currentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
