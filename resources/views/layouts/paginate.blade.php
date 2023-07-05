@@ -20,13 +20,15 @@
 
     @if (is_array($element))
         @foreach ($element as $page => $url)
-            @if ($page == $paginator->currentPage())
+            @if ($paginator->currentPage() == $page)
                 <span class="paginationItem active">{{ $page }}</span>
-            @elseif ($page == $paginator->currentPage() + 1)
+                @if ($paginator->hasMorePages())
+                    <a href="{{ $paginator->nextPageUrl() }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $paginator->currentPage() + 1 }}</a>
+                @endif
+            @elseif ($paginator->lastPage() - $page > 1 && $paginator->currentPage() < $page)
+                <span class="paginationItem">...</span>
                 <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
-            @elseif ($page == $paginator->lastPage() - 1 && $paginator->currentPage() + 2 < $paginator->lastPage())
-                <span class="paginationItem disabled">...</span>
-            @elseif ($page == $paginator->lastPage())
+            @else
                 <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
             @endif
         @endforeach
