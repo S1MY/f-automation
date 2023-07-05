@@ -24,8 +24,8 @@
 @endif
 
 {{-- Вывод страничек --}}
-@for ($i = max(1, $paginator->currentPage() - 1); $i <= min($paginator->currentPage() + 1, $paginator->lastPage()); $i++)
-<a href="{{ $paginator->url($i) }}" class="paginationItem @if ($paginator->currentPage() == $i) _active @endif" data-action="{{ route('paginate') }}">{{ $i }}</a>
+@for ($page = max(1, $paginator->currentPage() - 1); $page <= min($paginator->currentPage() + 1, $paginator->lastPage()); $page++)
+<a href="{{ $curentPage .'?'. explode('?',$paginator->url($page))[1] }}" class="paginationItem @if ($paginator->currentPage() == $page) _active @endif" data-action="{{ route('paginate') }}">{{ $page }}</a>
 @endfor
 
 {{-- Правые точки --}}
@@ -53,5 +53,3 @@
         @endif
     </div>
 @endif
-
-
