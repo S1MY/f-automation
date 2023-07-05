@@ -30,10 +30,6 @@
     @else
         <p class="storyWrapperList"><span>Статус:</span><span class="_loading">В обработке</span></p>
     @endif
-    <p class="cardLine">Только для друзей: <span>{{($stream->friends_only === 1) ? 'Да' : 'Нет'}}</span></p>
-    <p class="cardLine">Скрытые комментарии: <span>{{($stream->close_comments === 1) ? 'Да' : 'Нет'}}</span></p>
-    <p class="cardLine">Закреплять на стене: <span>{{($stream->pin_new === 1) ? 'Да' : 'Нет'}}</span></p>
-    <p class="cardLine">Удалять старый пост: <span>{{($stream->remove_old === 1) ? 'Да' : 'Нет'}}</span></p>
     <p class="storyWrapperList"><span>Просмотров:</span>
         <span class="storyIcon">
             {{$stream->viewes}}
@@ -59,16 +55,14 @@
             </svg>
         </span>
     </p>
-    @if ($stream->close_comments === 0)
-        <p class="storyWrapperList"><span>Комментариев:</span>
-            <span class="storyIcon">
-                {{$stream->comments}}
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.993 1.4C13.993 0.6265 13.3735 0 12.6 0H1.4C0.6265 0 0 0.6265 0 1.4V9.8C0 10.5735 0.6265 11.2 1.4 11.2H11.2L14 14L13.993 1.4Z" fill="#FF5437"/>
-                </svg>
-            </span>
-        </p>
-    @endif
+    <p class="storyWrapperList"><span>Комментариев:</span>
+        <span class="storyIcon">
+            {{$stream->comments}}
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.993 1.4C13.993 0.6265 13.3735 0 12.6 0H1.4C0.6265 0 0 0.6265 0 1.4V9.8C0 10.5735 0.6265 11.2 1.4 11.2H11.2L14 14L13.993 1.4Z" fill="#FF5437"/>
+            </svg>
+        </span>
+    </p>
 </div>
 @endforeach
 {{ $streamInfo->links('layouts.paginate', ['currentPage' => $currentPage]) }}
