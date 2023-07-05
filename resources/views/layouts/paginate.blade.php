@@ -43,11 +43,6 @@
                 @if ($page == $paginator->lastPage() && $paginator->currentPage() != $paginator->lastPage())
                     <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
                 @endif
-
-                {{-- Вывод троеточия после текущей страницы --}}
-                @if ($page == $paginator->currentPage() + 1 && $paginator->currentPage() < $paginator->lastPage() - 2)
-                    <span class="paginationItem">...</span>
-                @endif
             @endif
         @endforeach
     @endif
