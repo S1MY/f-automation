@@ -15,27 +15,28 @@
             </a>
         @endif
         {{-- Первая страница --}}
-        @if (($paginator->currentPage() - 3) >= 0)
-        <a href="{{ $paginator->url(1) }}" class="paginationItem @if ($paginator->currentPage() == 1) _active @endif" data-action="{{ route('paginate') }}">1</a>
-        @endif
-        {{-- Левые точки --}}
-        @if (($paginator->currentPage() - 3) >= 1)
-        <p class="paginationItem _disabled">...</p>
-        @endif
-        {{-- Вывод страничек --}}
-        @for ($i = ($paginator->currentPage() - 1); $i <= ($paginator->currentPage() - 1); $i++)
-            @if ($i >= 1 && $i <= $paginator->lastPage())
-            <a href="{{ $curentPage .'?'. explode('?',$paginator->url($page))[1] }}" class="paginationItem @if ($paginator->currentPage() == $page) _active @endif" data-action="{{ route('paginate') }}">{{ $page }}</a>
-            @endif
-        @endfor
-        {{-- Правые точки --}}
-        @if (($paginator->lastPage() - ($paginator->currentPage() + 2)) >= 1)
-        <p class="paginationItem _disabled">...</p>
-        @endif
-        {{-- Последняя страница --}}
-        @if (($paginator->lastPage() - ($paginator->currentPage() + 2)) >= 0)
-        <a href="{{ $paginator->url($paginator->lastPage()) }}" class="paginationItem @if ($paginator->currentPage() == $paginator->lastPage()) _active @endif" data-action="{{ route('paginate') }}">{{ $paginator->lastPage() }}</a>
-        @endif
+@if (($paginator->currentPage() - 3) >= 0)
+<a href="{{ $paginator->url(1) }}" class="paginationItem @if ($paginator->currentPage() == 1) _active @endif" data-action="{{ route('paginate') }}">1</a>
+@endif
+{{-- Левые точки --}}
+@if (($paginator->currentPage() - 3) >= 1)
+<p class="paginationItem _disabled">...</p>
+@endif
+
+{{-- Вывод страничек --}}
+@for ($i = max(1, $paginator->currentPage() - 1); $i <= min($paginator->currentPage() + 1, $paginator->lastPage()); $i++)
+<a href="{{ $paginator->url($i) }}" class="paginationItem @if ($paginator->currentPage() == $i) _active @endif" data-action="{{ route('paginate') }}">{{ $i }}</a>
+@endfor
+
+{{-- Правые точки --}}
+@if (($paginator->lastPage() - ($paginator->currentPage() + 2)) >= 1)
+<p class="paginationItem _disabled">...</p>
+@endif
+{{-- Последняя страница --}}
+@if (($paginator->lastPage() - ($paginator->currentPage() + 2)) >= 0)
+<a href="{{ $paginator->url($paginator->lastPage()) }}" class="paginationItem @if ($paginator->currentPage() == $paginator->lastPage()) _active @endif" data-action="{{ route('paginate') }}">{{ $paginator->lastPage() }}</a>
+@endif
+
         {{-- Стрелка вправо --}}
         @if ( $paginator->onLastPage() )
             <a href="#" class="paginationItem _disabled arrow">
