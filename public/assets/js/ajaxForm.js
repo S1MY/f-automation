@@ -130,10 +130,8 @@ $(document).ready(function () {
                     console.log(currentPath)
                     if (currentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
-                    }else if (currentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
-                        $('.postsAllWrapper').html(response.responseText);
-                    } else if (currentPath == '/cabinet/vk/streams' && $('.pageTab[data-tab=all]').hasClass('_active')) {
-                        $('.streamsAllWrapper').html(response.responseText);
+                    } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                        $('.storyWrapper').html(response.responseText);
                     } else {
                         if (accountId > 0) {
                             $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);

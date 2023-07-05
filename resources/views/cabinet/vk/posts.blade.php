@@ -240,7 +240,7 @@
                     @endif
                 </div>
                 <div class="tabItem _active" data-tab="all">
-                    <div class="postsAllWrapper">
+                    <div class="storyWrapper">
                         @include('load.all-posts-load')
                     </div>
                 </div>
