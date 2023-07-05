@@ -115,6 +115,7 @@ $(document).ready(function () {
                 myPageId = match ? match[1] : null;
                 formData.append('myPageId', myPageId);
             }
+            console.log(myPageId)
             formData.append('page', page);
             $.ajax({
                 type: "POST",
