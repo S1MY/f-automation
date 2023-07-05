@@ -91,7 +91,7 @@ class CabinetPagesController extends Controller
         return view('cabinet.vk.streams', compact('user', 'allStreams', 'currentPage'));
     }
 
-    public function streamInfo(){
+    public function streamInfo($myPageId){
         $user = Auth::user();
         $currentPage = route('streamInfo', ['myPageId' => $myPageId]);
         $stream = Stream::find($myPageId);
