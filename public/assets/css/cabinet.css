@@ -1593,7 +1593,7 @@ a.tableItem:hover{
     flex-wrap: wrap;
 }
 .cardButton{
-    width: calc((50% - 30px) / 3);
+    width: calc((50% - 18px) / 2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1613,9 +1613,6 @@ a.tableItem:hover{
     color: #101010;
     width: 100%;
     transition: all 0.4s;
-}
-._stories .cardButton{
-    width: calc((50% - 18px) / 2);
 }
 .cardButton:hover, .commentBtn:hover{
     opacity: 0.8;

@@ -59,7 +59,7 @@
             <p class="cardLine">Тип постинга: <span>{{$postType}}</span></p>
             <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
         </div>
-        <div class="cardControls _stories">
+        <div class="cardControls">
             @if ($post->active == 1)
                 <a href="#" class="cardButton _autostart" data-autoStart="{{$post->id}}" data-action="{{route('postActivator')}}" title="Выключить автозапуск">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

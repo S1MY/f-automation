@@ -66,7 +66,7 @@
                 @endif
                 <p class="cardLine _nextStart">Запуск ежедневно: <span>в {{$dateView}} (МСК)</span></p>
             </div>
-            <div class="cardControls _stories">
+            <div class="cardControls">
                 @if ($stories->active == 1)
                     <a href="#" class="cardButton _autostart" data-autoStart="{{$stories->id}}" data-action="{{route('storiesActivator')}}" title="Выключить автозапуск">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
