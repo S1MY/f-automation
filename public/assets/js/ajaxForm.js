@@ -111,6 +111,7 @@ $(document).ready(function () {
                 }
             }
             if (page.match(/item(\d+)/)) {
+                const match = url.match(/item(\d+)/);
                 myPageId = match ? match[1] : null;
                 formData.append('myPageId', myPageId);
             }
