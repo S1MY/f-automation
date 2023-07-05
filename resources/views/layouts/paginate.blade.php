@@ -34,7 +34,7 @@
         @endif
         {{-- Последняя страница --}}
         @if (($paginator->lastPage() - ($paginator->currentPage() + 2)) >= 0)
-        <a href="{{ $curentPage .'?'. explode('?',$paginator->url($page))[1] }}" class="paginationItem @if ($paginator->currentPage() == $paginator->lastPage()) _active @endif" data-action="{{ route('paginate') }}">{{ $page }}</a>
+        <a href="{{ $paginator->url($paginator->lastPage()) }}" class="paginationItem @if ($paginator->currentPage() == $paginator->lastPage()) _active @endif" data-action="{{ route('paginate') }}">{{ $paginator->lastPage() }}</a>
         @endif
         {{-- Стрелка вправо --}}
         @if ( $paginator->onLastPage() )
