@@ -133,10 +133,9 @@ $(document).ready(function () {
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
                     } else {
-                        if (accountId > 0) {
-                            $(`.tabItem[data-tab=${accountId}]`).children('.rowFlex').html(response.responseText);
-                        } else if (groupId > 0) {
-                            $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
+                        if (accountId > 0 || groupId > 0) {
+                            const itemId = (accountId) ? accountId : groupId;
+                            $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
                         } else if (myPageId > 0) {
                             $('.storyWrapper').html(response.responseText);
                         } else {
