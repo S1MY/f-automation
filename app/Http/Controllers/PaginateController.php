@@ -265,7 +265,7 @@ class PaginateController extends Controller
                 ])
                 ->paginate(4, ['*'], 'stream-info-page', $page_num);
                 $currentPage = route('streamInfo', ['myPageId' => $myPageId]);
-                return view('load.stream-info-load', compact('post', 'streamInfo', 'currentPage'));
+                return view('load.stream-info-load', compact('stream', 'streamInfo', 'currentPage'));
                 break;
             case 'all-posts':
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
