@@ -23,18 +23,18 @@
         }
     }
 @endphp
-<div class="streamStoryItem">
-    <p class="streamStoryList"><span>Время:</span><span>{{$dateView}}</span></p>
+<div class="storyWrapperItem">
+    <p class="storyWrapperList"><span>Время:</span><span>{{$dateView}}</span></p>
     @if ($diffCheck >= 1)
-        <p class="streamStoryList"><span>Статус:</span><span class="_complete">Завершена</span></p>
+        <p class="storyWrapperList"><span>Статус:</span><span class="_complete">Завершена</span></p>
     @else
-        <p class="streamStoryList"><span>Статус:</span><span class="_loading">В обработке</span></p>
+        <p class="storyWrapperList"><span>Статус:</span><span class="_loading">В обработке</span></p>
     @endif
     <p class="cardLine">Только для друзей: <span>{{($post->friends_only === 1) ? 'Да' : 'Нет'}}</span></p>
     <p class="cardLine">Скрытые комментарии: <span>{{($post->close_comments === 1) ? 'Да' : 'Нет'}}</span></p>
     <p class="cardLine">Закреплять на стене: <span>{{($post->pin_new === 1) ? 'Да' : 'Нет'}}</span></p>
     <p class="cardLine">Удалять старый пост: <span>{{($post->remove_old === 1) ? 'Да' : 'Нет'}}</span></p>
-    <p class="streamStoryList"><span>Просмотров:</span>
+    <p class="storyWrapperList"><span>Просмотров:</span>
         <span class="storyIcon">
             {{$post->viewes}}
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +43,7 @@
             </svg>
         </span>
     </p>
-    <p class="streamStoryList"><span>Лайков:</span>
+    <p class="storyWrapperList"><span>Лайков:</span>
         <span class="storyIcon">
             {{$post->likes}}
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +51,7 @@
             </svg>
         </span>
     </p>
-    <p class="streamStoryList"><span>Репостов:</span>
+    <p class="storyWrapperList"><span>Репостов:</span>
         <span class="storyIcon">
             {{$post->reposts}}
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +60,7 @@
         </span>
     </p>
     @if ($post->close_comments === 0)
-        <p class="streamStoryList"><span>Комментариев:</span>
+        <p class="storyWrapperList"><span>Комментариев:</span>
             <span class="storyIcon">
                 {{$post->comments}}
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

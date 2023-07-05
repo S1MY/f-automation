@@ -16,11 +16,11 @@
                 <div class="pageItem">
                     <h2 class="pageTitle">История "Название трансляции"</h2>
                     <p class="pageText _mt12">Описание трансляции, типо самый крутой и так далее, а по факту хуйня</p>
-                    <div class="streamStory">
-                        <div class="streamStoryItem">
-                            <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 18:14</span></p>
-                            <p class="streamStoryList"><span>Статус:</span><span class="_loading">В обработке</span></p>
-                            <p class="streamStoryList"><span>Лайков:</span>
+                    <div class="storyWrapper">
+                        <div class="storyWrapperItem">
+                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 18:14</span></p>
+                            <p class="storyWrapperList"><span>Статус:</span><span class="_loading">В обработке</span></p>
+                            <p class="storyWrapperList"><span>Лайков:</span>
                                 <span class="storyIcon">
                                     0
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +28,7 @@
                                     </svg>
                                 </span>
                             </p>
-                            <p class="streamStoryList"><span>Репостов:</span>
+                            <p class="storyWrapperList"><span>Репостов:</span>
                                 <span class="storyIcon">
                                     0
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +36,7 @@
                                     </svg>
                                 </span>
                             </p>
-                            <p class="streamStoryList"><span>Комментариев:</span>
+                            <p class="storyWrapperList"><span>Комментариев:</span>
                                 <span class="storyIcon">
                                     0
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,10 +45,10 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="streamStoryItem">
-                            <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
-                            <p class="streamStoryList"><span>Статус:</span><span class="_complete">Завершена</span></p>
-                            <p class="streamStoryList"><span>Лайков:</span>
+                        <div class="storyWrapperItem">
+                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
+                            <p class="storyWrapperList"><span>Статус:</span><span class="_complete">Завершена</span></p>
+                            <p class="storyWrapperList"><span>Лайков:</span>
                                 <span class="storyIcon">
                                     16
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +56,7 @@
                                     </svg>
                                 </span>
                             </p>
-                            <p class="streamStoryList"><span>Репостов:</span>
+                            <p class="storyWrapperList"><span>Репостов:</span>
                                 <span class="storyIcon">
                                     14
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +64,7 @@
                                     </svg>
                                 </span>
                             </p>
-                            <p class="streamStoryList"><span>Комментариев:</span>
+                            <p class="storyWrapperList"><span>Комментариев:</span>
                                 <span class="storyIcon">
                                     3
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,13 +72,13 @@
                                     </svg>
                                 </span>
                             </p>
-                            <p class="streamStoryList">Последний комментарий</p>
+                            <p class="storyWrapperList">Последний комментарий</p>
                             <div class="lastComment">
                                 <a href="https://vk.com/feed" class="accountInfo" target="_blank">
                                     <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
                                     <p class="accountName">Фамилия Имя</p>
                                 </a>
-                                <p class="streamStoryComment">Спасибо за трансляцию. Очень полезная информация</p>
+                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
                             </div>
                             <a href="{{ route('streamComments') }}" class="commentBtn" data-stream="1">Все комментарии</a>
                         </div>

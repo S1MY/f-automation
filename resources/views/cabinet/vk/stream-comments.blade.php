@@ -16,45 +16,45 @@
                 <div class="pageItem">
                     <h2 class="pageTitle">Комментарии "Название трансляции"</h2>
                     <p class="pageText _mt12">Комментарии, оставленные пользователями во время трансляции</p>
-                    <div class="streamStory">
-                        <div class="streamStoryItem">
-                            <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
+                    <div class="storyWrapper">
+                        <div class="storyWrapperItem">
+                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
                             <div class="lastComment">
                                 <a href="https://vk.com/feed" class="accountInfo" target="_blank">
                                     <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
                                     <p class="accountName">Фамилия Имя</p>
                                 </a>
-                                <p class="streamStoryComment">Спасибо за трансляцию. Очень полезная информация</p>
+                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
                             </div>
                         </div>
-                        <div class="streamStoryItem">
-                            <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
+                        <div class="storyWrapperItem">
+                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
                             <div class="lastComment">
                                 <a href="https://vk.com/feed" class="accountInfo" target="_blank">
                                     <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
                                     <p class="accountName">Фамилия Имя</p>
                                 </a>
-                                <p class="streamStoryComment">Спасибо за трансляцию. Очень полезная информация</p>
+                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
                             </div>
                         </div>
-                        <div class="streamStoryItem">
-                            <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
+                        <div class="storyWrapperItem">
+                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
                             <div class="lastComment">
                                 <a href="https://vk.com/feed" class="accountInfo" target="_blank">
                                     <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
                                     <p class="accountName">Фамилия Имя</p>
                                 </a>
-                                <p class="streamStoryComment">Спасибо за трансляцию. Очень полезная информация</p>
+                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
                             </div>
                         </div>
-                        <div class="streamStoryItem">
-                            <p class="streamStoryList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
+                        <div class="storyWrapperItem">
+                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
                             <div class="lastComment">
                                 <a href="https://vk.com/feed" class="accountInfo" target="_blank">
                                     <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
                                     <p class="accountName">Фамилия Имя</p>
                                 </a>
-                                <p class="streamStoryComment">Спасибо за трансляцию. Очень полезная информация</p>
+                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
                             </div>
                         </div>
                     </div>

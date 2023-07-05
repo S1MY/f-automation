@@ -31,18 +31,18 @@
         $dayDifference = $nowTime->diffInDays($storiesDate);
         $dateView = $storiesDate->format('d.m.Y H:i');
     @endphp
-    <div class="streamStoryItem">
-        <p class="streamStoryList"><span>Время:</span><span>{{$dateView}}</span></p>
+    <div class="storyWrapperItem">
+        <p class="storyWrapperList"><span>Время:</span><span>{{$dateView}}</span></p>
         @if ($dayDifference >= 1)
-            <p class="streamStoryList"><span>Статус:</span><span class="_complete">Завершена</span></p>
+            <p class="storyWrapperList"><span>Статус:</span><span class="_complete">Завершена</span></p>
         @else
-            <p class="streamStoryList"><span>Статус:</span><span class="_loading">В обработке</span></p>
+            <p class="storyWrapperList"><span>Статус:</span><span class="_loading">В обработке</span></p>
         @endif
         @if ($stories->link_url != null)
-        <p class="streamStoryList _link"><span>Ссылка:</span><span>{{$stories->link_url}}</span></p>
-        <p class="streamStoryList"><span>Тест ссылки:</span><span>{{$linkTextArray[$stories->link_text]}}</span></p>
+        <p class="storyWrapperList _link"><span>Ссылка:</span><span>{{$stories->link_url}}</span></p>
+        <p class="storyWrapperList"><span>Тест ссылки:</span><span>{{$linkTextArray[$stories->link_text]}}</span></p>
         @endif
-        <p class="streamStoryList"><span>Просмотров:</span>
+        <p class="storyWrapperList"><span>Просмотров:</span>
             <span class="storyIcon">
                 {{$stories->viewes}}
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
             </span>
         </p>
         @if ($stories->link_url != null)
-            <p class="streamStoryList"><span>Переходов по ссылке:</span>
+            <p class="storyWrapperList"><span>Переходов по ссылке:</span>
                 <span class="storyIcon">
                     {{$stories->open_link}}
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@
                 </span>
             </p>
         @endif
-        <p class="streamStoryList"><span>Поделились:</span>
+        <p class="storyWrapperList"><span>Поделились:</span>
             <span class="storyIcon">
                 {{$stories->shares}}
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

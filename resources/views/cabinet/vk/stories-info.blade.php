@@ -16,7 +16,7 @@
                 <div class="pageItem">
                     <h2 class="pageTitle">{{ $stories->title}}</h2>
                     <p class="pageText _mt12">Вся статистика истории собирается за 5 минут до обновления. Следите за статусом. Если при статусе "В обработке" статистика нулевая, то нужно подождать когда будет запущена следующая история</p>
-                    <div class="streamStory">
+                    <div class="storyWrapper">
                         @include('load.stories-info-load')
                     </div>
                 </div>

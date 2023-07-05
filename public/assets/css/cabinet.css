@@ -1663,38 +1663,38 @@ a.tableItem:hover{
     object-fit: cover;
     object-position: center;
 }
-.streamStory{
+.storyWrapper{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
 }
-.streamStoryList{
+.storyWrapperList{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 12px;
 }
-.streamStoryList:nth-child(1){
+.storyWrapperList:nth-child(1){
     margin-top: 0;
 }
-.streamStoryList span:nth-child(2){
+.storyWrapperList span:nth-child(2){
     color: #FF5437;
     font-weight: 500;
 }
-.streamStoryList ._complete{
+.storyWrapperList ._complete{
     color: #FFFFFF !important;
     background: #27AE60;
     border-radius: 4px;
     padding: 6px 12px;
 }
-.streamStoryList ._loading{
+.storyWrapperList ._loading{
     color: #FFFFFF !important;
     background: #2980B9;
     border-radius: 4px;
     padding: 6px 12px;
 }
-.streamStoryItem{
+.storyWrapperItem{
     background: #101010;
     margin-top: 20px;
     width: calc(50% - 10px);
@@ -1721,7 +1721,7 @@ a.accountInfo{
 a.accountInfo:hover{
     color: #FF5437;
 }
-.streamStoryComment{
+.storyWrapperComment{
     margin-top: 12px;
 }
 .editText{
@@ -2190,12 +2190,12 @@ a.accountInfo:hover{
     }
 }
 @media (max-width: 900px) {
-    .streamStoryList._link{
+    .storyWrapperList._link{
         display: block;
         overflow: hidden;
         white-space: nowrap;
     }
-    .streamStoryList._link span{
+    .storyWrapperList._link span{
         display: block;
     }
     .footer{
@@ -2283,7 +2283,7 @@ a.accountInfo:hover{
     }
 }
 @media (max-width: 640px) {
-    .streamStoryItem{
+    .storyWrapperItem{
         width: 100%;
         margin-top: 16px;
     }
@@ -2458,7 +2458,7 @@ a.accountInfo:hover{
         font-size: 20px;
         line-height: 24px;
     }
-    .subCheckText, .subCheckPrice, .pageText, .popupText, .accountComment, .streamStoryComment, .streamStoryList{
+    .subCheckText, .subCheckPrice, .pageText, .popupText, .accountComment, .storyWrapperComment, .storyWrapperList{
         font-size: 14px;
         line-height: 20px;
     }

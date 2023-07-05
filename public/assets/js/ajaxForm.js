@@ -126,14 +126,15 @@ $(document).ready(function () {
                 dataType: "json",
                 complete: function (response) {
                     console.log(response)
-                    const cuurentPath = window.location.pathname;
-                    if (cuurentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    const currentPath = window.location.pathname;
+                    console.log(response)
+                    if (currentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
-                    } else if (cuurentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    } else if (currentPath == '/cabinet/vk/stories' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storiesAllWrapper').html(response.responseText);
-                    } else if (cuurentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    } else if (currentPath == '/cabinet/vk/posts' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.postsAllWrapper').html(response.responseText);
-                    } else if (cuurentPath == '/cabinet/vk/streams' && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    } else if (currentPath == '/cabinet/vk/streams' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.streamsAllWrapper').html(response.responseText);
                     } else {
                         if (accountId > 0) {
@@ -141,7 +142,7 @@ $(document).ready(function () {
                         } else if (groupId > 0) {
                             $(`.tabItem[data-tab=${groupId}]`).children('.rowFlex').html(response.responseText);
                         } else if (myPageId > 0) {
-                            $('.streamStory').html(response.responseText);
+                            $('.storyWrapper').html(response.responseText);
                         } else {
                             $('.tableWrapper').html(response.responseText);
                         }
