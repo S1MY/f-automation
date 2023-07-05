@@ -1,11 +1,18 @@
 @extends('cabinet.layouts.master')
 
-@php
-    $storytesttitle = 'Название транлсяции';
-@endphp
+@section('title', 'Информация о стриме "'.$stream->title.'"')
 
-@section('title', 'Информация о транлсяции "'.$storytesttitle.'"')
-
+@if($user->Subscribe)
+@if($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)["vk"]["streams"]["type1"] !== 1)
+    <script>
+        window.location.href = "{{ route('cabinet') }}";
+    </script>
+@endif
+@else
+<script>
+    window.location.href = "{{ route('cabinet') }}";
+</script>
+@endif
 @section('cabinet-content')
     <div class="pageFlex">
         <div class="sidebar">
@@ -14,10 +21,11 @@
         <div class="pageWrapper">
             <div class="pageItems">
                 <div class="pageItem">
-                    <h2 class="pageTitle">История "Название трансляции"</h2>
-                    <p class="pageText _mt12">Описание трансляции, типо самый крутой и так далее, а по факту хуйня</p>
+                    <h2 class="pageTitle">{{ $stream->title}}</h2>
+                    <p class="pageText _mt12">Вся статистика трансляции собирается за 5 минут до обновления. Следите за статусом. Если при статусе "В обработке" статистика нулевая, то нужно подождать когда будет запущен следующий стрим</p>
                     <div class="storyWrapper">
-                        <div class="storyWrapperItem">
+                        @include('load.stream-info-load')
+                        {{-- <div class="storyWrapperItem">
                             <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 18:14</span></p>
                             <p class="storyWrapperList"><span>Статус:</span><span class="_loading">В обработке</span></p>
                             <p class="storyWrapperList"><span>Лайков:</span>
@@ -81,7 +89,7 @@
                                 <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
                             </div>
                             <a href="{{ route('streamComments') }}" class="commentBtn" data-stream="1">Все комментарии</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
