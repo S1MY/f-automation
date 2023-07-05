@@ -25,17 +25,17 @@
                 <span class="paginationItem _active">{{ $page }}</span>
 
                 {{-- Вывод следующей страницы --}}
-                @if (isset($element[$page + 1]))
+                @if (isset($element[$page + 1]) && $paginator->lastPage() > 4)
                     <a href="{{ $element[$page + 1] }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page + 1 }}</a>
                 @endif
             @else
                 {{-- Вывод троеточия перед предпоследней страницей --}}
-                {{-- @if ($page == $paginator->lastPage() - 2 && $paginator->currentPage() > 3)
+                @if ($page == $paginator->lastPage() - 1 && $paginator->currentPage() > 2 && $paginator->lastPage() > 4)
                     <span class="paginationItem">...</span>
-                @endif --}}
+                @endif
 
                 {{-- Вывод предпоследней страницы --}}
-                @if ($page == $paginator->lastPage() - 1 && $paginator->currentPage() > 2)
+                @if ($page == $paginator->lastPage() - 1 && $paginator->currentPage() <= 2)
                     <a href="{{ $url }}" class="paginationItem" data-action="{{ route('paginate') }}">{{ $page }}</a>
                 @endif
 
@@ -45,13 +45,14 @@
                 @endif
 
                 {{-- Вывод троеточия после текущей страницы --}}
-                @if ($page == $paginator->currentPage() + 1 && $paginator->currentPage() < $paginator->lastPage() - 2)
+                @if ($page == $paginator->currentPage() + 1 && $paginator->currentPage() < $paginator->lastPage() - 2 && $paginator->lastPage() > 4)
                     <span class="paginationItem">...</span>
                 @endif
             @endif
         @endforeach
     @endif
 @endforeach
+
 
 
         @if ( $paginator->onLastPage() )
