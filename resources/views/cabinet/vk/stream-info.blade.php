@@ -1,6 +1,6 @@
 @extends('cabinet.layouts.master')
 
-@section('title', 'Информация о стриме "'.$stream->title.'"')
+@section('title', 'Информация о стриме "{{$stream->title}}"')
 
 @if($user->Subscribe)
 @if($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)["vk"]["streams"]["type1"] !== 1)
@@ -21,11 +21,7 @@
         <div class="pageWrapper">
             <div class="pageItems">
                 <div class="pageItem">
-                    @php
-                        $storyDate = Carbon::createFromFormat('Y-m-d H:i:s', $streamStory->created_at, 'Europe/Moscow');
-                        $storyTime = $storyDate->format('d.m.Y в H:i');
-                    @endphp
-                    <h2 class="pageTitle">{{ $stream->title}} ({{$storyTime}})</h2>
+                    <h2 class="pageTitle">{{ $stream->title}}</h2>
                     <p class="pageText _mt12">Вся статистика трансляции собирается за 5 минут до обновления. Следите за статусом. Если при статусе "В обработке" статистика нулевая, то нужно подождать когда будет запущен следующий стрим</p>
                     <div class="storyWrapper">
                         @include('load.stream-info-load')

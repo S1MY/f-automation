@@ -1,6 +1,6 @@
 @extends('cabinet.layouts.master')
 
-@section('title', 'Информация об истории "'.$stories->title.'"')
+@section('title', 'Информация об истории {{$stories->title}}"')
 @if($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)["vk"]["stories"]["type1"] !== 1)
     <script>
         window.location.href = "{{ route('cabinet') }}";

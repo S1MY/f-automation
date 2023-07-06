@@ -1,10 +1,10 @@
 @extends('cabinet.layouts.master')
 
 @php
-    $storytesttitle = 'Название транлсяции';
+$storyDate = Carbon::createFromFormat('Y-m-d H:i:s', $streamStory->created_at, 'Europe/Moscow');
+$storyTime = $storyDate->format('d.m.Y в H:i');
 @endphp
-
-@section('title', 'Комментарии к трансляции "'.$storytesttitle.'"')
+@section('title', 'Комментарии к трансляции "{{$stream->title}} ({{$storyTime}})"')
 
 @section('cabinet-content')
     <div class="pageFlex">
@@ -14,7 +14,7 @@
         <div class="pageWrapper">
             <div class="pageItems">
                 <div class="pageItem">
-                    <h2 class="pageTitle">{{ $stream->title}}</h2>
+                    <h2 class="pageTitle">{{ $stream->title}} ({{$storyTime}})</h2>
                     <p class="pageText _mt12">Комментарии, оставленные пользователями во время трансляции</p>
                     <div class="storyWrapper">
                         @include('load.stream-comments-load')
