@@ -271,6 +271,7 @@ class PaginateController extends Controller
                 break;
             case 'stream-comments':
                 $stream = Stream::find($myPageId);
+                $streamStory = streamStory::find($myCommentId);
                 $streamComments = StreamComments::join('stream_stories', 'stream_comments.stream_story_id', '=', 'stream_stories.id')
                 ->orderBy('id', 'desc')
                 ->where('stream_comments.stream_story_id', $myCommentId)
@@ -279,7 +280,7 @@ class PaginateController extends Controller
                 ])
                 ->paginate(4, ['*'], 'stream-comments-page', $page_num);
                 $currentPage = route('streamComments', ['myPageId' => $myPageId, 'myCommentId' => $myCommentId]);
-                return view('load.stream-comments-load', compact('stream', 'streamComments', 'currentPage'));
+                return view('load.stream-comments-load', compact('stream', 'streamStory', 'streamComments', 'currentPage'));
                 break;
             case 'all-posts':
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
