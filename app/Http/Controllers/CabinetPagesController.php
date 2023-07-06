@@ -21,6 +21,7 @@ use App\Models\PostStory;
 
 use App\Models\Stream;
 use App\Models\StreamStory;
+use App\Models\StreamComments;
 class CabinetPagesController extends Controller
 {
     public function settings(){
@@ -114,10 +115,23 @@ class CabinetPagesController extends Controller
         }
     }
 
-    public function streamComments(){
+    public function streamComments($myPageId, $myCommentId){
         $user = Auth::user();
-
-        return view('cabinet.vk.stream-comments', compact('user'));
+        $currentPage = route('streamComments', ['myPageId' => $myPageId, 'myCommentId' => $myCommentId]);
+        $stream = Stream::find($myPageId);
+        $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stream->account_id)->get();
+        $streamComments = StreamComments::join('stream_stories', 'stream_comments.stream_story_id', '=', 'stream_stories.id')
+        ->orderBy('id', 'desc')
+        ->where('stream_comments.stream_story_id', $myCommentId)
+        ->select([
+            'stream_comments.*'
+        ])
+        ->paginate(4, ['*'], 'stream-comments-page');
+        if(count($VkAccount) == 1){
+            return view('cabinet.vk.stream-comments', compact('user', 'stream', 'streamComments', 'currentPage'));
+        }else{
+            return view('cabinet.home', compact('user'));
+        }
     }
 
     public function posts(){

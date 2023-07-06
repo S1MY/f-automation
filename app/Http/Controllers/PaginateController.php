@@ -18,6 +18,7 @@ use App\Models\PostStory;
 
 use App\Models\Stream;
 use App\Models\StreamStory;
+use App\Models\StreamComments;
 
 class PaginateController extends Controller
 {
@@ -33,6 +34,7 @@ class PaginateController extends Controller
         $accountId = (isset($request->account_id) ? $request->account_id : '');
         $groupId = (isset($request->group_id) ? $request->group_id : '');
         $myPageId = (isset($request->myPageId) ? $request->myPageId : '');
+        $myCommentId = (isset($request->myCommentId) ? $request->myCommentId : '');
 
         // return $myPageId;
 
@@ -266,6 +268,18 @@ class PaginateController extends Controller
                 ->paginate(4, ['*'], 'stream-info-page', $page_num);
                 $currentPage = route('streamInfo', ['myPageId' => $myPageId]);
                 return view('load.stream-info-load', compact('stream', 'streamInfo', 'currentPage'));
+                break;
+            case 'stream-comments':
+                $stream = Stream::find($myPageId);
+                $streamComments = StreamComments::join('stream_stories', 'stream_comments.stream_story_id', '=', 'stream_stories.id')
+                ->orderBy('id', 'desc')
+                ->where('stream_comments.stream_story_id', $myCommentId)
+                ->select([
+                    'stream_comments.*'
+                ])
+                ->paginate(4, ['*'], 'stream-comments-page', $page_num);
+                $currentPage = route('streamComments', ['myPageId' => $myPageId, 'myCommentId' => $myCommentId]);
+                return view('load.stream-comments-load', compact('stream', 'streamComments', 'currentPage'));
                 break;
             case 'all-posts':
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)

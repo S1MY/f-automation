@@ -63,6 +63,15 @@
             </svg>
         </span>
     </p>
+    <p class="storyWrapperList">Последний комментарий</p>
+    {{-- <div class="lastComment">
+        <a href="https://vk.com/feed" class="accountInfo" target="_blank">
+            <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
+            <p class="accountName">Фамилия Имя</p>
+        </a>
+        <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
+    </div> --}}
+    <a href="{{ route('streamComments', ['myPageId' => $stream->stream_id, 'myCommentId' => $stream->id]) }}" class="commentBtn">Все комментарии</a>
 </div>
 @endforeach
 {{ $streamInfo->links('layouts.paginate', ['currentPage' => $currentPage]) }}

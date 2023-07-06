@@ -47,16 +47,6 @@
                                 <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
                             </div>
                         </div>
-                        <div class="storyWrapperItem">
-                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
-                            <div class="lastComment">
-                                <a href="https://vk.com/feed" class="accountInfo" target="_blank">
-                                    <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
-                                    <p class="accountName">Фамилия Имя</p>
-                                </a>
-                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
