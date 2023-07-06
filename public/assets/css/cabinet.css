@@ -906,6 +906,7 @@ a.tableItem:hover{
 .paginationItem._disabled{
     user-select: none;
     opacity: 0.6;
+    cursor: default;
 }
 /* Видео плеер */
 .videoWrapper{
