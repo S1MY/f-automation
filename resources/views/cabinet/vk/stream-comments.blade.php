@@ -14,39 +14,10 @@
         <div class="pageWrapper">
             <div class="pageItems">
                 <div class="pageItem">
-                    <h2 class="pageTitle">Комментарии "Название трансляции"</h2>
+                    <h2 class="pageTitle">{{ $stream->title}}</h2>
                     <p class="pageText _mt12">Комментарии, оставленные пользователями во время трансляции</p>
                     <div class="storyWrapper">
-                        <div class="storyWrapperItem">
-                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
-                            <div class="lastComment">
-                                <a href="https://vk.com/feed" class="accountInfo" target="_blank">
-                                    <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
-                                    <p class="accountName">Фамилия Имя</p>
-                                </a>
-                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
-                            </div>
-                        </div>
-                        <div class="storyWrapperItem">
-                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
-                            <div class="lastComment">
-                                <a href="https://vk.com/feed" class="accountInfo" target="_blank">
-                                    <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
-                                    <p class="accountName">Фамилия Имя</p>
-                                </a>
-                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
-                            </div>
-                        </div>
-                        <div class="storyWrapperItem">
-                            <p class="storyWrapperList"><span>Время:</span><span>24.12.22 в 12:14</span></p>
-                            <div class="lastComment">
-                                <a href="https://vk.com/feed" class="accountInfo" target="_blank">
-                                    <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
-                                    <p class="accountName">Фамилия Имя</p>
-                                </a>
-                                <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
-                            </div>
-                        </div>
+                        @include('load.stream-comments-load')
                     </div>
                 </div>
             </div>
