@@ -1,7 +1,7 @@
 @php
     use Carbon\Carbon;
+    echo count($streamComments);
 @endphp
-
 @if (count($streamComments) > 0)
 @foreach ($streamComments as $comment)
 @php
