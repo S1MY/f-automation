@@ -1,6 +1,7 @@
 @extends('cabinet.layouts.master')
 
 @php
+use Carbon\Carbon;
 $storyDate = Carbon::createFromFormat('Y-m-d H:i:s', $streamStory->created_at, 'Europe/Moscow');
 $storyTime = $storyDate->format('d.m.Y в H:i');
 @endphp
