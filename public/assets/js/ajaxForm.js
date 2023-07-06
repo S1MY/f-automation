@@ -100,6 +100,7 @@ $(document).ready(function () {
             let accountId = 0;
             let groupId = 0;
             let myPageId = 0;
+            let myCommentId = 0;
             let formData = new FormData();
             if (parentType) {
                 if (parentType === 'account') {
@@ -115,6 +116,11 @@ $(document).ready(function () {
                 myPageId = match ? match[1] : null;
                 formData.append('myPageId', myPageId);
             }
+            if (page.match(/comments(\d+)/)) {
+                const match = page.match(/comments(\d+)/);
+                myCommentId = match ? match[1] : null;
+                formData.append('myCommentId', myCommentId);
+            }
             formData.append('page', page);
             $.ajax({
                 type: "POST",
@@ -125,9 +131,7 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
-                    console.log(response)
                     const currentPath = window.location.pathname;
-                    console.log(currentPath)
                     if (currentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.offerLoadWrapper').html(response.responseText);
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
