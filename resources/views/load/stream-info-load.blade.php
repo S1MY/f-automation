@@ -1,5 +1,6 @@
 @php
     use Carbon\Carbon;
+    use App\Models\StreamComments;
 @endphp
 
 @foreach ($streamInfo as $stream)
@@ -8,6 +9,7 @@
     $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();
     $dateView = $streamDate->format('H:i d.m.Y');
     $diffCheck = 0;
+    $lastComment = StreamComments::where('stream_story_id', '=', $stream->id)->latest('id')->first();
     if($stream->type === 'daily'){
         if (strtotime($nowTime) >= strtotime($streamDate->addDay())) {
             $diffCheck = 1;
@@ -64,13 +66,15 @@
         </span>
     </p>
     <p class="storyWrapperList">Последний комментарий</p>
-    {{-- <div class="lastComment">
-        <a href="https://vk.com/feed" class="accountInfo" target="_blank">
-            <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
-            <p class="accountName">Фамилия Имя</p>
+    @if ($lastComment)
+    <div class="lastComment">
+        <a href="{{$lastComment->link}}" class="accountInfo" target="_blank">
+            <div class="accountAvatar" style="background: url({{$lastComment->avatar}}), #FFFFFF;"></div>
+            <p class="accountName">{{$lastComment->name}}</p>
         </a>
-        <p class="storyWrapperComment">Спасибо за трансляцию. Очень полезная информация</p>
-    </div> --}}
+        <p class="storyWrapperComment">{{$lastComment->comment}}</p>
+    </div>
+    @endif
     <a href="{{ route('streamComments', ['myPageId' => $stream->stream_id, 'myCommentId' => $stream->id]) }}" class="commentBtn">Все комментарии</a>
 </div>
 @endforeach
