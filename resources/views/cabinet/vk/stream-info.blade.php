@@ -13,8 +13,11 @@
     window.location.href = "{{ route('cabinet') }}";
 </script>
 @endif
+{{-- @if ($stream->title)
+    
+@endif --}}
 @section('cabinet-content')
-    <div class="pageFlex">
+    <div class="pageFlex {{$streamSettings->type}}">
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')
         </div>

@@ -21,6 +21,7 @@ use App\Models\PostStory;
 
 use App\Models\Stream;
 use App\Models\StreamStory;
+use App\Models\StreamSettings;
 use App\Models\StreamComments;
 class CabinetPagesController extends Controller
 {
@@ -97,6 +98,7 @@ class CabinetPagesController extends Controller
         $currentPage = route('streamInfo', ['myPageId' => $myPageId]);
         $stream = Stream::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stream->account_id)->get();
+        $streamSettings = StreamSettings::where('stream_id', $myPageId)->get()->first();
         $streamInfo = StreamStory::join('stream_settings', 'stream_stories.stream_id', '=', 'stream_settings.stream_id')
         ->orderBy('id', 'desc')
         ->where('stream_stories.stream_id', $myPageId)
@@ -109,7 +111,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(4, ['*'], 'stream-info-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.stream-info', compact('user', 'stream', 'streamInfo', 'currentPage'));
+            return view('cabinet.vk.stream-info', compact('user', 'stream', 'streamSettings', 'streamInfo', 'currentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }
