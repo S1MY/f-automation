@@ -28,7 +28,7 @@
                             </svg>
                         </div>
                     </h1>
-                    <p class="pageText _mt12">Созданная история обновляется ежедневно во время своего создания. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
+                    <p class="pageText _mt12">Созданная история обновляется ежедневно во время своего создания. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить истории правильно" data-popup="storiesStart">Инструкции</a></p>
                     @if(count(Auth::user()->VkAccount) > 0)
                     <div class="tabPageItem">
                         <form class="tabPageForm" action="{{ route('storiesCreate') }}" enctype='multipart/form-data'>
