@@ -13,7 +13,11 @@
     window.location.href = "{{ route('cabinet') }}";
 </script>
 @endif
-
+@if ($postSettings->type === 'date')
+<script>
+    window.location.href = "{{ route('posts') }}";
+</script>
+@endif
 @section('cabinet-content')
     <div class="pageFlex">
         <div class="sidebar">

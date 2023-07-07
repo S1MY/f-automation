@@ -27,7 +27,7 @@
                         </svg>
                     </div>
                 </h1>
-                <p class="pageText _mt12">Созданный пост обновляется в соответствии с указанными настройками. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
+                <p class="pageText _mt12">Созданный пост обновляется в соответствии с указанными настройками. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить автопостинг правильно" data-popup="postStart">Инструкции</a></p>
                 @if(count(Auth::user()->VkAccount) > 0)
                 <div class="tabPageItem">
                     <form class="tabPageForm" action="{{ route('postCreate') }}" enctype='multipart/form-data'>
@@ -227,7 +227,7 @@
             </div>
             <div class="pageItem">
                 <h2 class="pageTitle">Ваши посты</h2>
-                <p class="pageText _mt12">Все посты, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления</p>
+                <p class="pageText _mt12">Все посты, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления. История постов по Дате не собирается!</p>
                 <div class="pageTabs" data-name="classic">
                     <p class="pageTab _active" data-tab="all">Все посты</p>
                     @if(count(Auth::user()->VkAccount) > 0)

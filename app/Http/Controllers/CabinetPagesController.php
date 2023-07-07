@@ -18,6 +18,7 @@ use App\Models\StoriesStory;
 
 use App\Models\Post;
 use App\Models\PostStory;
+use App\Models\PostSettings;
 
 use App\Models\Stream;
 use App\Models\StreamStory;
@@ -190,6 +191,7 @@ class CabinetPagesController extends Controller
         $currentPage = route('postsInfo', ['myPageId' => $myPageId]);
         $post = Post::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $post->account_id)->get();
+        $postSettings = PostSettings::where('posd_id', $myPageId)->get()->first();
         $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
         ->orderBy('id', 'desc')
         ->where('post_stories.post_id', $myPageId)
@@ -206,7 +208,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(4, ['*'], 'posts-info-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.post-info', compact('user', 'post', 'postInfo', 'currentPage'));
+            return view('cabinet.vk.post-info', compact('user', 'post', 'postSettings', 'postInfo', 'currentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }
