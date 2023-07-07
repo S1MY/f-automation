@@ -65,8 +65,8 @@
             </svg>
         </span>
     </p>
-    <p class="storyWrapperList">Последний комментарий</p>
     @if ($lastComment)
+    <p class="storyWrapperList">Последний комментарий</p>
     <div class="lastComment">
         <a href="{{$lastComment->link}}" class="accountInfo" target="_blank">
             <div class="accountAvatar" style="background: url({{$lastComment->avatar}}), #FFFFFF;"></div>
