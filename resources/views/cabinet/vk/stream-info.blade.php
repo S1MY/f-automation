@@ -15,7 +15,7 @@
 @endif
 @if ($streamSettings->type === 'date')
 <script>
-    window.location.href = "{{ route('cabinet') }}";
+    window.location.href = "{{ route('streams') }}";
 </script>
 @endif
 @section('cabinet-content')
