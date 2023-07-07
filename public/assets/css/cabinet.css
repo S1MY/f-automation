@@ -1593,6 +1593,9 @@ a.tableItem:hover{
     justify-content: space-between;
     flex-wrap: wrap;
 }
+._stopStats .cardButton{
+    width: calc(50% - 6px);
+}
 .cardButton{
     width: calc((50% - 18px) / 2);
     display: flex;

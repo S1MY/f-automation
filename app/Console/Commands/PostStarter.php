@@ -241,65 +241,67 @@ class PostStarter extends Command
                     ]);
                 }
             }elseif (strtotime($updatedAt->subMinutes(5)) === strtotime($nowTime)) {
-                $lastPost = PostStory::where('post_id', '=', $post->id)->latest('id')->first();
-                if($lastPost->posd_did !== 0){
-                    $comments = $lastPost->comments;
-                    $reposts = $lastPost->reposts;
-                    $likes = $lastPost->likes;
-                    $viewes = $lastPost->viewes;
-                    if($vkGroup){
-                        $postDid = '-'.$groupId.'_'.$lastPost->post_did;
-                    }else{
-                        $postDid = $ownerId.'_'.$lastPost->post_did;
-                    }
-                    $postStats = new Client([
-                        'base_uri' => 'https://api.vk.com',
-                    ]);
-                    $postParams = [
-                        'v' => '5.131',
-                        'access_token' => $vkToken,
-                        'posts' => $postDid,
-                    ];
-                    $postGet = $postStats->request('GET', '/method/wall.getById', [
-                        'query' => $postParams
-                    ]);
-                    if ($postGet->getStatusCode() !== 200 || !$postGet->getBody()) {
-                        CronLogs::create([
-                            'uid'        => $userId,
-                            'cron_type' => 'posts',
-                            'item_id' => $post->id,
-                            'message'   => 'Метод wall.getById ничего не вернул!'
+                if($postSettings->type !== 'date'){
+                    $lastPost = PostStory::where('post_id', '=', $post->id)->latest('id')->first();
+                    if($lastPost->posd_did !== 0){
+                        $comments = $lastPost->comments;
+                        $reposts = $lastPost->reposts;
+                        $likes = $lastPost->likes;
+                        $viewes = $lastPost->viewes;
+                        if($vkGroup){
+                            $postDid = '-'.$groupId.'_'.$lastPost->post_did;
+                        }else{
+                            $postDid = $ownerId.'_'.$lastPost->post_did;
+                        }
+                        $postStats = new Client([
+                            'base_uri' => 'https://api.vk.com',
                         ]);
-                        die();
-                    }
-                    $postContent = $postGet->getBody()->getContents();
-                    $postJSON = json_decode($postContent);
-                    if (isset($postJSON->error)) {
-                        CronLogs::create([
-                            'uid'        => $userId,
-                            'cron_type' => 'posts',
-                            'item_id' => $post->id,
-                            'message'   => 'Метод wall.getById вернул ошибку!'
+                        $postParams = [
+                            'v' => '5.131',
+                            'access_token' => $vkToken,
+                            'posts' => $postDid,
+                        ];
+                        $postGet = $postStats->request('GET', '/method/wall.getById', [
+                            'query' => $postParams
                         ]);
-                        die();
+                        if ($postGet->getStatusCode() !== 200 || !$postGet->getBody()) {
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'posts',
+                                'item_id' => $post->id,
+                                'message'   => 'Метод wall.getById ничего не вернул!'
+                            ]);
+                            die();
+                        }
+                        $postContent = $postGet->getBody()->getContents();
+                        $postJSON = json_decode($postContent);
+                        if (isset($postJSON->error)) {
+                            CronLogs::create([
+                                'uid'        => $userId,
+                                'cron_type' => 'posts',
+                                'item_id' => $post->id,
+                                'message'   => 'Метод wall.getById вернул ошибку!'
+                            ]);
+                            die();
+                        }
+                        if($postJSON->response[0]->comments){
+                            $comments += $postJSON->response[0]->comments->count;
+                        }
+                        if($postJSON->response[0]->likes){
+                            $likes += $postJSON->response[0]->likes->count;
+                        }
+                        if($postJSON->response[0]->reposts){
+                            $reposts += $postJSON->response[0]->reposts->count;
+                        }
+                        if($postJSON->response[0]->views){
+                            $viewes += $postJSON->response[0]->views->count;
+                        }
+                        $lastPost->viewes = $viewes;
+                        $lastPost->comments = $comments;
+                        $lastPost->reposts = $reposts;
+                        $lastPost->likes = $likes;
+                        $lastPost->save();
                     }
-                    if($postJSON->response[0]->comments){
-                        $comments += $postJSON->response[0]->comments->count;
-                    }
-                    if($postJSON->response[0]->likes){
-                        $likes += $postJSON->response[0]->likes->count;
-                    }
-                    if($postJSON->response[0]->reposts){
-                        $reposts += $postJSON->response[0]->reposts->count;
-                    }
-                    if($postJSON->response[0]->views){
-                        $viewes += $postJSON->response[0]->views->count;
-                    }
-                    $lastPost->viewes = $viewes;
-                    $lastPost->comments = $comments;
-                    $lastPost->reposts = $reposts;
-                    $lastPost->likes = $likes;
-                    $lastPost->save();
                 }
             }
         }

@@ -319,10 +319,12 @@ class PostsController extends Controller
             $settingsData['daily'] = $validatedData['daily'];
         }
         PostSettings::create($settingsData);
-        PostStory::create([
-            'post_id' => $postCreate->id,
-            'post_did' => $postDid
-        ]);
+        if ($validatedData['type'] !== 'date') {
+            PostStory::create([
+                'post_id' => $postCreate->id,
+                'post_did' => $postDid
+            ]);
+        }
         if ($validatedData['accType'] == 'group') {
             if($validatedData['type'] === 'interval'){
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был загружен на стену группы');
