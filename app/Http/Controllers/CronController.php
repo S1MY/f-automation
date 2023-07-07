@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\Stream;
 use App\Models\StreamStory;
+use App\Models\StreamSettings;
 
 use App\Models\CronLogs;
 
@@ -24,6 +25,8 @@ class CronController extends Controller
         $description = $request->description;
         $bitrate = $request->bitrate;
         $streamItem = Stream::where('id', '=', $streamId)->first();
+        $streamSettings = StreamSettings::where('stream_id', '=', $streamId)
+        ->first();
         $streamStartClient = new Client([
             'base_uri' => 'https://api.vk.com',
         ]);
@@ -71,11 +74,13 @@ class CronController extends Controller
             $postId = $streamStartJSON->response->post_id;
             $fileLoadUrl = unserialize($streamItem->link)[0];
             $fileSend = Storage::path('public/' . $fileLoadUrl);
-            StreamStory::create([
-                'stream_id' => $streamItem->id,
-                'video_did' => $videoId,
-                'post_did' => $postId,
-            ]);
+            if ($streamSettings->type !== 'date') {
+                StreamStory::create([
+                    'stream_id' => $streamItem->id,
+                    'video_did' => $videoId,
+                    'post_did' => $postId,
+                ]);
+            }
             $commandExec = "ffmpeg -re -i " . $fileSend . " -b:v ". $bitrate ." -f flv " . $streamUrl . $streamKey . "";
             $streamStopClient = new Client([
                 'base_uri' => 'https://api.vk.com',
