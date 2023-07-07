@@ -123,6 +123,7 @@ class CabinetPagesController extends Controller
         $stream = Stream::find($myPageId);
         $streamStory = streamStory::find($myCommentId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $stream->account_id)->get();
+        $streamSettings = StreamSettings::where('stream_id', $myPageId)->get()->first();
         $streamComments = StreamComments::join('stream_stories', 'stream_comments.stream_story_id', '=', 'stream_stories.id')
         ->orderBy('id', 'desc')
         ->where('stream_comments.stream_story_id', $myCommentId)
@@ -131,7 +132,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(4, ['*'], 'stream-comments-page');
         if(count($VkAccount) == 1){
-            return view('cabinet.vk.stream-comments', compact('user', 'stream', 'streamStory', 'streamComments', 'currentPage'));
+            return view('cabinet.vk.stream-comments', compact('user', 'stream', 'streamSettings', 'streamStory', 'streamComments', 'currentPage'));
         }else{
             return view('cabinet.home', compact('user'));
         }
