@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
+
 use App\Http\Requests\OfferRequest;
 use App\Models\Offers;
 use Illuminate\Http\Request;
