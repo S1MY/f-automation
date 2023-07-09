@@ -18,12 +18,6 @@ class CronController extends Controller
 {
     public function streamContinue(Request $request)
     {
-        CronLogs::create([
-            'uid'        => 0,
-            'cron_type' => 'streams',
-            'item_id' => 0,
-            'message'   => implode(',', $request)
-        ]);
         $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();
         $streamId = $request->stream_id;
         $userId = $request->user_id;
