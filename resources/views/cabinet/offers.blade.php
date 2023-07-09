@@ -111,4 +111,5 @@
         </div>
     </div>
 
+    <script src="/assets/js/cabinet/offers.js"></script>
 @endsection
