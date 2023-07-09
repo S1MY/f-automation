@@ -24,7 +24,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="pageItem">
+                {{-- <div class="pageItem">
                     <h2 class="pageTitle">Логин</h2>
                     <p class="pageText _mt12">После изменения логина изменится партнёрская ссылка</p>
                     <div class="tabPageItem">
@@ -35,7 +35,7 @@
                             <button class="formBtn">Изменить логин</button>
                         </form>
                     </div>
-                </div>
+                </div> --}}
                 <div class="pageItem">
                     <h2 class="pageTitle">Рассылка</h2>
                     <p class="pageText _mt12">Будь в курсе новых функций сервиса 24/7</p>
