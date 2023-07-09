@@ -169,7 +169,9 @@ class SubscribeController extends Controller
     {
         $ubalance = Auth::user()->UserInfo->balance;
         $uplaces = Auth::user()->UserInfo->vk_account_places;
-        $uid = Auth::user()->id;
+        if($uplaces >= 5){
+            return $this->generateJsonResponse('places', 'Вы достигли лимита', 'У вас есть 5 мест под аккаунты ВКонтакте. Для дальнейшего расширения свяжитесь с администрацией!');
+        }
         if ($ubalance >= 25) {
             Auth::user()->UserInfo->balance = $ubalance - 25;
             Auth::user()->UserInfo->vk_account_places = $uplaces + 1;
