@@ -99,7 +99,9 @@ class StreamStarter extends Command
                             $options = [
                                 'query' => $postContent
                             ];
-                            $response = $clientContinue->sendAsync($request, $options);
+                            $promise = $clientContinue->sendAsync($request, $options)->then(function ($response) {
+                            });
+                            $promise->wait();
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
