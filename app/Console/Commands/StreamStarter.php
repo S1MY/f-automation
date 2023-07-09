@@ -45,6 +45,10 @@ class StreamStarter extends Command
      */
     public function handle()
     {
+        $start = microtime(true);
+        $promises = [];
+        $mh = curl_multi_init();
+
         $allStreams = Stream::where('active', 1)->where('live', 0)->get();
         foreach ($allStreams as $stream) {
             $currentDomain = 'https://f-automation.v-devo.ru';
@@ -94,12 +98,20 @@ class StreamStarter extends Command
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
-                            $request = new Request('POST', $streamContinue);
-                            $options = [
-                                'query' => $postContent
-                            ];
-                            $clientContinue = new Client();
-                            $clientContinue->send($request, $options);
+                            // $request = new Request('POST', $streamContinue);
+                            // $options = [
+                            //     'query' => $postContent
+                            // ];
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $streamContinue);
+                            curl_setopt($ch, CURLOPT_POST, 1);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, $postContent);
+                            curl_setopt($ch, CURLOPT_HEADER, 0);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_multi_add_handle($mh, $ch);
+                            $promises[] = $ch;
+                            // $clientContinue = new Client();
+                            // $clientContinue->send($request, $options);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
@@ -334,5 +346,16 @@ class StreamStarter extends Command
                 }
             }
         }
+        $isRunning = null;
+        do {
+            curl_multi_exec($mh, $isRunning);
+            sleep(1);
+        } while ($isRunning > 0);
+        $outputs = array();
+        for ($i = 0; $i < count($promises); $i++) {
+            $outputs[$i] = trim(curl_multi_getcontent($promises[$i]));
+            curl_multi_remove_handle($mh, $promises[$i]);
+        }
+        curl_multi_close($mh);
     }
 }
