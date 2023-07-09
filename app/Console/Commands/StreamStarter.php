@@ -94,7 +94,7 @@ class StreamStarter extends Command
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
-                            $client->requestAsync('POST', $streamContinue, [
+                            $client->sendAsync(new Psr\Http\Message\RequestInterface('POST', $streamContinue), [
                                 'query' => $postContent
                             ]);
                         }else{
