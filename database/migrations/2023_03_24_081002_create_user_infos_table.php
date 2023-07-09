@@ -20,7 +20,8 @@ return new class extends Migration
             $table->integer('balance')->default(0);
             $table->integer('newsletter')->default(1);
             $table->integer('partners_clicks')->default(0);
-            $table->integer('places')->default(1);
+            $table->integer('vk_account_places')->default(1);
+            $table->integer('vk_group_places')->default(1);
             $table->timestamps();
         });
     }
