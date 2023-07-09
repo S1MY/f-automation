@@ -64,8 +64,7 @@ class CabinetPagesController extends Controller
                 ->on('streams.account_id', '=', 'vk_groups.account_id');
         })
         ->leftJoin('stream_settings', function ($join) {
-            $join->on('streams.id', '=', 'stream_settings.stream_id')
-            ->where('streams.group_id', '<>', 0);
+            $join->on('streams.id', '=', 'stream_settings.stream_id');
         })
         ->orderBy('id', 'desc')
         ->whereIn('streams.account_id', $VkAccounts->pluck('id'))
