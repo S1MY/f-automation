@@ -108,7 +108,7 @@
                                 @endforeach
                                 @if (count(Auth::user()->VkGroup) >= $user->UserInfo->vk_group_places)
                                 <div class="accountItem centerItem">
-                                    <a href="#" class="manageBtn buyPlace">
+                                    <a href="#" class="manageBtn buyPlace" data-action="{{route('buyGroupPlace')}}">
                                         Купить место (25₽)
                                     </a>
                                 </div>
