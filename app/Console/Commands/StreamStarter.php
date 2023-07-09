@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 
 use Carbon\Carbon;
 
@@ -94,9 +95,12 @@ class StreamStarter extends Command
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
-                            $client->sendAsync(new Psr\Http\Message\RequestInterface('POST', $streamContinue), [
+                            $request = new Request('POST', $streamContinue);
+                            $options = [
                                 'query' => $postContent
-                            ]);
+                            ];
+                            
+                            $client->sendAsync($request, $options);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
