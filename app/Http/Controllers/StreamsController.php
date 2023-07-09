@@ -241,9 +241,9 @@ class StreamsController extends Controller
             if($searchAccount){
                 if($searchAccount->uid == $userId){
                     if ($searchStream) {
-                        // StreamStory::where('stream_id', '=', $removeId)->delete();
-                        // StreamComments::where('stream_id', '=', $removeId)->delete();
-                        // StreamSettings::where('stream_id', '=', $removeId)->delete();
+                        StreamStory::where('stream_id', '=', $removeId)->delete();
+                        StreamComments::where('stream_id', '=', $removeId)->delete();
+                        StreamSettings::where('stream_id', '=', $removeId)->delete();
                         $videoGetClient = new Client([
                             'base_uri' => 'https://api.vk.com',
                         ]);
@@ -267,10 +267,36 @@ class StreamsController extends Controller
                         if (isset($videoGetJSON->error)) {
                             return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось найти старые трансляции F2');
                         }
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.', $videoGetJSON->response->items[0]->title);
-                        // foreach ($searchStream->link as $key => $link) {
-                        //     Storage::delete($link);
-                        // }
+                        foreach ($videoGetJSON->response->items as $key => $item) {
+                            if($item->title == $searchStream->title){
+                                $videoRemoveClient = new Client([
+                                    'base_uri' => 'https://api.vk.com',
+                                ]);
+                                $videoRemoveParams = [
+                                    'v' => '5.131',
+                                    'access_token' => $searchAccount->token,
+                                    'owner_id' => $item->owner_id,
+                                    'video_id' => $item->id,
+                                    'target_id' => $item->owner_id
+                                ];
+                        
+                                $videoRemoveGet = $videoRemoveClient->request('GET', '/method/video.delete', [
+                                    'query' => $videoRemoveParams
+                                ]);
+                        
+                                if ($videoRemoveGet->getStatusCode() !== 200 || !$videoRemoveGet->getBody()) {
+                                    return;
+                                }
+                                $videoRemoveContent = $videoRemoveGet->getBody()->getContents();
+                                $videoRemoveJSON = json_decode($videoRemoveContent);
+                                if (isset($videoRemoveJSON->error)) {
+                                    return;
+                                }
+                            }
+                        }
+                        foreach ($searchStream->link as $key => $link) {
+                            Storage::delete($link);
+                        }
                         Stream::where('id', '=', $removeId)->delete();
                         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
                     }else{
