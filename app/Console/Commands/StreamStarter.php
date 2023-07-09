@@ -94,9 +94,8 @@ class StreamStarter extends Command
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
-                            $client->postAsync($streamContinue, [
-                                'form_params' => $postContent,
-                                'timeout' => 7200,
+                            $client->requestAsync('POST', $streamContinue, [
+                                'query' => $postContent
                             ]);
                         }else{
                             CronLogs::create([
