@@ -267,7 +267,7 @@ class StreamsController extends Controller
                         if (isset($videoGetJSON->error)) {
                             return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось найти старые трансляции F2');
                         }
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.', $videoGetJSON->response->item[0]->title);
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.', $videoGetJSON->response->items[0]->title);
                         // foreach ($searchStream->link as $key => $link) {
                         //     Storage::delete($link);
                         // }
