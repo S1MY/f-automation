@@ -296,7 +296,7 @@ class StreamsController extends Controller
                                 }
                             }
                         }
-                        foreach ($searchStream->link as $key => $link) {
+                        foreach (unserizalize($searchStream->link) as $key => $link) {
                             Storage::delete($link);
                         }
                         Stream::where('id', '=', $removeId)->delete();
