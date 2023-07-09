@@ -314,13 +314,4 @@ class StreamsController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле removeId');
         }
     }
-    private function generateJsonResponse($type, $title, $message, $errorJson = null)
-    {
-        return response()->json([
-            'status' => $type,
-            'title' => $title,
-            'message' => $message,
-            'errorJson' => $errorJson
-        ]);
-    }
 }

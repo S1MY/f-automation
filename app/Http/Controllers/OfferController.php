@@ -11,23 +11,30 @@ class OfferController extends Controller
 {
     public function setOffer(OfferRequest $request){
 
-        if( !isset($request->developer) ){
-            $for_dev = 0;
+        $rules = [
+            'offer' => 'required|string',
+            'developer' => 'integer|in:1,0',
+        ];
+        $messages = [
+            'offer.required' => 'Обязательное поле',
+            'offer.string' => 'Не является строкой',
+            'developer.integer' => 'Не является числом',
+            'developer.in' => 'Должно быть 1 или 0',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->getMessageBag()->toArray();
+            $firstErrorKey = array_key_first($errors);
+            return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
-        $for_dev = $request->developer;
-
+        $validatedData = $validator->validated();
         Offers::create([
             'uid'     => Auth::user()->id,
-            'offer'   => $request->offer,
-            'votes'   => serialize(array()),
-            'for_dev' => $for_dev,
+            'offer'   => $validatedData['offer'],
+            'votes'   => serialize([]),
+            'for_dev' => $validatedData['developer'],
         ]);
-
-        return response()->json([
-            'from'      => 'offers',
-            'title'     => 'Ваше предложение принято.',
-            'message'   => 'Предложение будет опубликовано, если оно соотвествует нашим правилам.'
-        ]);
+        return $this->generateJsonResponse('success', 'Ваше предложение принято', 'Предложение будет опубликовано, если оно соотвествует нашим правилам');
     }
 
     public function getVote(Request $request){

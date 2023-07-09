@@ -197,12 +197,4 @@ class SubscribeController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под аккаунт!');
         }
     }
-    private function generateJsonResponse($type, $title, $message)
-    {
-        return response()->json([
-            'status' => $type,
-            'title' => $title,
-            'message' => $message
-        ]);
-    }
 }

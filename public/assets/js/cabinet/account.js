@@ -27,27 +27,31 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
-        let groupsItems = ``;
-        if (Object.keys(response.message).length > 0) {
-          for (const item of Object.values(response.message)) {
-            const name = item.name
-            groupsItems += `<div class="groupSelect">
-            <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
-            <div class="groupSelectInfo">
-                <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
-                <p class="accountName">${(name.length > 14) ? name.substring(0, 11) + '...' : name}</p>
-            </div>
-        </div>`
+        if (response.status === 'success') {
+          let groupsItems = ``;
+          if (Object.keys(response.message).length > 0) {
+            for (const item of Object.values(response.message)) {
+              const name = item.name
+              groupsItems += `<div class="groupSelect">
+              <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
+              <div class="groupSelectInfo">
+                  <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
+                  <p class="accountName">${(name.length > 14) ? name.substring(0, 11) + '...' : name}</p>
+              </div>
+          </div>`
+            }
+            $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "flex" });
+          } else {
+            groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены группы!</p>`
+            $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "none" });
           }
-          $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "flex" });
-        } else {
-          groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены группы!</p>`
-          $('.popupItem[data-popup="addGroup"]').children('.formBtn').css({ "display": "none" });
+          $('.groupSelectItems').html(groupsItems)
+        }else{
+          errorHandler(response.title, response.message)
         }
-        $('.groupSelectItems').html(groupsItems)
       },
       error: function (response) {
-        errorHandler(response.title, response.message)
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       }
     });
   });
@@ -63,10 +67,14 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
+        if (response.status === 'success') {
         successHandler(response.title, response.message)
+        }else{
+          errorHandler(response.title, response.message)
+        }
       },
       error: function (response) {
-        errorHandler(response.title, response.message)
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       }
     });
   });
@@ -82,10 +90,14 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
+        if (response.status === 'success') {
         successHandler(response.title, response.message)
+        }else{
+          errorHandler(response.title, response.message)
+        }
       },
       error: function (response) {
-        errorHandler(response.title, response.message)
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       }
     });
   });
@@ -100,17 +112,19 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
-        if (response.status === 'places') {
+        if (response.status === 'success') {
+          successHandler(response.title, response.message)
+        }else if(response.status === 'places'){
           const places = $('.popupItem[data-popup="maximumPlaces"]');
           places.children('.popupTitle').html(response.title);
           places.children('.popupText').html(response.message);
           places.fadeIn();
         }else{
-          successHandler(response.title, response.message)
+          errorHandler(response.title, response.message)
         }
       },
       error: function (response) {
-        errorHandler(response.title, response.message)
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       }
     });
   });

@@ -291,13 +291,4 @@ class StoriesController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
         }
     }
-    private function generateJsonResponse($type, $title, $message, $errorJson = null)
-    {
-        return response()->json([
-            'status' => $type,
-            'title' => $title,
-            'message' => $message,
-            'errorJson' => $errorJson
-        ]);
-    }
 }

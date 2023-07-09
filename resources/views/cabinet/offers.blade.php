@@ -15,11 +15,11 @@
                     <p class="pageText _mt12">У вас есть КРУТАЯ идея для нашего сервиса? Мы готовы её рассмотреть, провести опрос среди пользователей и реализовать данную идею. В случае её успеха вы получите промокод  на скидку до 50% к оплате подписки 1 месяца.</p>
                     <p class="pageText _mt12">Вы можете отправить предложение только нам, но в таком случае оно будет реализовано с меньшей вероятностью.</p>
                     <p class="pageText _mt12">Гораздо понятней, когда ты видишь, что нужно пользователю. Поэтому мы рассматриваем каждую идею и определяем кол-во нужных голосов, для релизации идеи. Мы хотим делать только нужный контент, а не мешать всё подряд.</p>
-                    <form class="tabPageForm ajaxFormController" action="{{ route('setOffer') }}">
+                    <form class="tabPageForm" action="{{ route('setOffer') }}">
                         <div class="tabPageInput _full" data-name="offer">
                             <textarea name="offer" class="formArea _h100" placeholder="Ваше предложение"></textarea>
                         </div>
-                        <div class="tabPageInput _full">
+                        <div class="tabPageInput _full" data-name="developer">
                             <div class="customCheck">
                                 <span>Только для разработчиков:</span>
                                 <input type="checkbox" class="checkInput" name="developer" value="1">

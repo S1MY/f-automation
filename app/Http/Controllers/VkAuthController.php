@@ -259,12 +259,4 @@ class VkAuthController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле groupId');
         }
     }
-    private function generateJsonResponse($type, $title, $message)
-    {
-        return response()->json([
-            'status' => $type,
-            'title' => $title,
-            'message' => $message
-        ]);
-    }
 }

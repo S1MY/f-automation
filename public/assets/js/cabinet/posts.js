@@ -179,8 +179,6 @@ $(document).ready(function () {
             setTimeout(() => {
               $('.errorInput').remove();
             }, 3500);
-            $(".popupWrapper").fadeOut();
-            $('.popupItem').fadeOut();
           } else {
             errorHandler(response.title, response.message)
           }
