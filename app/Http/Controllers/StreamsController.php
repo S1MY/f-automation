@@ -267,30 +267,32 @@ class StreamsController extends Controller
                         if (isset($videoGetJSON->error)) {
                             return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось найти старые трансляции F2');
                         }
-                        foreach ($videoGetJSON->response->items as $key => $item) {
-                            if($item->title == $searchStream->title){
-                                $videoRemoveClient = new Client([
-                                    'base_uri' => 'https://api.vk.com',
-                                ]);
-                                $videoRemoveParams = [
-                                    'v' => '5.131',
-                                    'access_token' => $searchAccount->token,
-                                    'owner_id' => $item->owner_id,
-                                    'video_id' => $item->id,
-                                    'target_id' => $item->owner_id
-                                ];
-                        
-                                $videoRemoveGet = $videoRemoveClient->request('GET', '/method/video.delete', [
-                                    'query' => $videoRemoveParams
-                                ]);
-                        
-                                if ($videoRemoveGet->getStatusCode() !== 200 || !$videoRemoveGet->getBody()) {
-                                    return;
-                                }
-                                $videoRemoveContent = $videoRemoveGet->getBody()->getContents();
-                                $videoRemoveJSON = json_decode($videoRemoveContent);
-                                if (isset($videoRemoveJSON->error)) {
-                                    return;
+                        if($videoGetJSON->response->count > 0){
+                            foreach ($videoGetJSON->response->items as $key => $item) {
+                                if($item->title == $searchStream->title){
+                                    $videoRemoveClient = new Client([
+                                        'base_uri' => 'https://api.vk.com',
+                                    ]);
+                                    $videoRemoveParams = [
+                                        'v' => '5.131',
+                                        'access_token' => $searchAccount->token,
+                                        'owner_id' => $item->owner_id,
+                                        'video_id' => $item->id,
+                                        'target_id' => $item->owner_id
+                                    ];
+                            
+                                    $videoRemoveGet = $videoRemoveClient->request('GET', '/method/video.delete', [
+                                        'query' => $videoRemoveParams
+                                    ]);
+                            
+                                    if ($videoRemoveGet->getStatusCode() !== 200 || !$videoRemoveGet->getBody()) {
+                                        return;
+                                    }
+                                    $videoRemoveContent = $videoRemoveGet->getBody()->getContents();
+                                    $videoRemoveJSON = json_decode($videoRemoveContent);
+                                    if (isset($videoRemoveJSON->error)) {
+                                        return;
+                                    }
                                 }
                             }
                         }
