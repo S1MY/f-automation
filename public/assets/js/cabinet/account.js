@@ -112,13 +112,8 @@ $(document).ready(function () {
       }
     });
   });
-  $('.manageBtn').click(function (e) {
+  $('.buyPlace').click(function (e) {
     e.preventDefault();
-    if ($(this).attr('data-popup')) {
-      $(".popupWrapper").fadeIn();
-      $(`.popupItem[data-popup=${$(this).attr('data-popup')}]`).fadeIn();
-    }else{
-    }
     const ajaxUrl = $(this).attr('data-action');
     let formData = {};
     formData.id = 0;

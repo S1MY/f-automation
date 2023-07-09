@@ -181,6 +181,22 @@ class SubscribeController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под аккаунт!');
         }
     }
+    public function buyGroupPlace(Request $request)
+    {
+        $ubalance = Auth::user()->UserInfo->balance;
+        $uplaces = Auth::user()->UserInfo->vk_group_places;
+        if($uplaces >= 5){
+            return $this->generateJsonResponse('places', 'Вы достигли лимита', 'У вас есть 5 мест под группы ВКонтакте. Для дальнейшего расширения свяжитесь с администрацией!');
+        }
+        if ($ubalance >= 25) {
+            Auth::user()->UserInfo->balance = $ubalance - 25;
+            Auth::user()->UserInfo->vk_group_places = $uplaces + 1;
+            Auth::user()->UserInfo->save();
+            return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под аккаунт!');
+        }
+    }
     private function generateJsonResponse($type, $title, $message)
     {
         return response()->json([

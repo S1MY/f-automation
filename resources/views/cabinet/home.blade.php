@@ -68,7 +68,7 @@
                                 @endif
                                 @if (count(Auth::user()->VkAccount) >= $user->UserInfo->vk_account_places)
                                 <div class="accountItem centerItem">
-                                    <a href="#" class="manageBtn" data-action="{{route('buyAccountPlace')}}">
+                                    <a href="#" class="manageBtn buyPlace" data-action="{{route('buyAccountPlace')}}">
                                         Купить место (25₽)
                                     </a>
                                 </div>
