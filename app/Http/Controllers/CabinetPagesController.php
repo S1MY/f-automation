@@ -152,8 +152,7 @@ class CabinetPagesController extends Controller
                 ->on('posts.account_id', '=', 'vk_groups.account_id');
         })
         ->leftJoin('post_settings', function ($join) {
-            $join->on('posts.id', '=', 'post_settings.post_id')
-            ->where('posts.group_id', '<>', 0);
+            $join->on('posts.id', '=', 'post_settings.post_id');
         })
         ->orderBy('id', 'desc')
         ->whereIn('posts.account_id', $VkAccounts->pluck('id'))
@@ -228,8 +227,7 @@ class CabinetPagesController extends Controller
                 ->on('stories.account_id', '=', 'vk_groups.account_id');
         })
         ->leftJoin('stories_settings', function ($join) {
-            $join->on('stories.id', '=', 'stories_settings.stories_id')
-            ->where('stories.group_id', '<>', 0);
+            $join->on('stories.id', '=', 'stories_settings.stories_id');
         })
         ->orderBy('id', 'desc')
         ->whereIn('stories.account_id', $VkAccounts->pluck('id'))

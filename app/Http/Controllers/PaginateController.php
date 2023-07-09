@@ -90,8 +90,7 @@ class PaginateController extends Controller
                             ->on('stories.account_id', '=', 'vk_groups.account_id');
                     })
                     ->leftJoin('stories_settings', function ($join) {
-                        $join->on('stories.id', '=', 'stories_settings.stories_id')
-                        ->where('stories.group_id', '<>', 0);
+                        $join->on('stories.id', '=', 'stories_settings.stories_id');
                     })
                     ->orderBy('id', 'desc')
                     ->whereIn('stories.account_id', $VkAccounts->pluck('id'))
@@ -182,8 +181,7 @@ class PaginateController extends Controller
                         ->on('streams.account_id', '=', 'vk_groups.account_id');
                 })
                 ->leftJoin('stream_settings', function ($join) {
-                    $join->on('streams.id', '=', 'stream_settings.stream_id')
-                    ->where('streams.group_id', '<>', 0);
+                    $join->on('streams.id', '=', 'stream_settings.stream_id');
                 })
                 ->orderBy('id', 'desc')
                 ->whereIn('streams.account_id', $VkAccounts->pluck('id'))
