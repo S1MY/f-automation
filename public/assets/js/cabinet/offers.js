@@ -1,9 +1,9 @@
 $(document).ready(function () {
     $('.tabPageForm').submit(function (e) {
         e.preventDefault();
-        let ajaxUrl = $(this).attr('action');
-        let formData = new FormData();
-        let serialize = $(this).serializeArray();
+        const ajaxUrl = $(this).attr('action');
+        const formData = new FormData();
+        const serialize = $(this).serializeArray();
         $.each(serialize, function (i, val) {
           formData.append(val.name, val.value);
         });
@@ -25,7 +25,7 @@ $(document).ready(function () {
               successHandler(response.title, response.message)
             } else if (response.status == "input") {
               $('.popupWrapper').fadeOut();
-              let inputName = response.title;
+              const inputName = response.title;
               $(`.tabPageInput[data-name='${inputName}']`).addClass('_error');
               $(`.tabPageInput[data-name='${inputName}']`).append(`<span class="errorInput">${response.message}</span>`);
               $('.errorInput').fadeOut(3000);
