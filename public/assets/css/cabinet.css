@@ -472,6 +472,9 @@ body{
     max-height: 96vh;
     overflow-y: auto;
 }
+._places .popupIcon{
+    background: #2980B9;
+}
 .popupIcon{
     width: 60px;
     height: 60px;
