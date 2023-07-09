@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 
 use Carbon\Carbon;
 
@@ -95,8 +94,7 @@ class StreamStarter extends Command
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
-                            $request = new Request('POST', $streamContinue);
-                            $client->sendAsync($request, [
+                            $client->postAsync($streamContinue, [
                                 'form_params' => $postContent,
                                 'timeout' => 7200,
                             ]);
