@@ -334,7 +334,7 @@ class CabinetPagesController extends Controller
         // $VKSubs = Subscribe::where('sub_alt', '=', 'vk')->count();
         // $VKGroupsSubs = Subscribe::where('sub_alt', '=', 'vkgroup')->count();
         // $TGSubs = Subscribe::where('sub_alt', '=', 'tg')->count();
-        $VKSubs =1;
+        $VKSubs = 1;
         $VKGroupsSubs = 2;
         $TGSubs = 3;
 
