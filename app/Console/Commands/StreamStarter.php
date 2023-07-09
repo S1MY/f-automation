@@ -45,7 +45,6 @@ class StreamStarter extends Command
      */
     public function handle()
     {
-        $clientContinue = new Client();
         $allStreams = Stream::where('active', 1)->where('live', 0)->get();
         foreach ($allStreams as $stream) {
             $currentDomain = 'https://f-automation.v-devo.ru';
@@ -99,9 +98,8 @@ class StreamStarter extends Command
                             $options = [
                                 'query' => $postContent
                             ];
-                            $promise = $clientContinue->sendAsync($request, $options)->then(function ($response) {
-                                die();
-                            });
+                            $clientContinue = new Client();
+                            $clientContinue->send($request, $options);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
