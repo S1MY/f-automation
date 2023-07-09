@@ -47,12 +47,7 @@ $(document).ready(function () {
         $('.groupSelectItems').html(groupsItems)
       },
       error: function (response) {
-        $('.popupItem').fadeOut();
-        const error = $('.popupItem[data-popup="error"]');
-        error.show()
-        error.children('.popupTitle').html(response.title);
-        error.children('.popupText').html(response.message);
-        error.fadeIn();
+        errorHandler(response.title, response.message)
       }
     });
   });
@@ -68,19 +63,10 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
-        const success = $('.popupItem[data-popup="success"]');
-        success.children('.popupTitle').html(response.title);
-        success.children('.popupText').html(response.message);
-        success.fadeIn();
-        setTimeout(() => {
-          location.reload();
-        }, 5000);
+        successHandler(response.title, response.message)
       },
       error: function (response) {
-        const error = $('.popupItem[data-popup="error"]');
-        error.children('.popupTitle').html(response.title);
-        error.children('.popupText').html(response.message);
-        error.fadeIn();
+        errorHandler(response.title, response.message)
       }
     });
   });
@@ -96,19 +82,10 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
-        const success = $('.popupItem[data-popup="success"]');
-        success.children('.popupTitle').html(response.title);
-        success.children('.popupText').html(response.message);
-        success.fadeIn();
-        setTimeout(() => {
-          location.reload();
-        }, 5000);
+        successHandler(response.title, response.message)
       },
       error: function (response) {
-        const error = $('.popupItem[data-popup="error"]');
-        error.children('.popupTitle').html(response.title);
-        error.children('.popupText').html(response.message);
-        error.fadeIn();
+        errorHandler(response.title, response.message)
       }
     });
   });
@@ -129,20 +106,11 @@ $(document).ready(function () {
           places.children('.popupText').html(response.message);
           places.fadeIn();
         }else{
-          const success = $('.popupItem[data-popup="success"]');
-          success.children('.popupTitle').html(response.title);
-          success.children('.popupText').html(response.message);
-          success.fadeIn();
-          setTimeout(() => {
-            location.reload();
-          }, 5000);
+          successHandler(response.title, response.message)
         }
       },
       error: function (response) {
-        const error = $('.popupItem[data-popup="error"]');
-        error.children('.popupTitle').html(response.title);
-        error.children('.popupText').html(response.message);
-        error.fadeIn();
+        errorHandler(response.title, response.message)
       }
     });
   });
