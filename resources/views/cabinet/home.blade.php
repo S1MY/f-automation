@@ -3,10 +3,6 @@
 @section('title', 'Главная')
 
 @section('cabinet-content')
-@php
-    $vkAccountPlaces = 2;
-    $vkGroupPlaces = 3;
-@endphp
     <div class="pageFlex">
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')
@@ -70,7 +66,7 @@
                                     </div>
                                     @endforeach
                                 @endif
-                                @if (count(Auth::user()->VkAccount) >= $vkAccountPlaces)
+                                @if (count(Auth::user()->VkAccount) >= $user->UserInfo->vk_account_places)
                                     <div class="accountItem centerItem">
                                         <a href="#" class="manageBtn buyPlace">
                                             Купить место (25₽)
@@ -110,7 +106,7 @@
                                         </div>
                                     @endforeach
                                 @endforeach
-                                @if (count(Auth::user()->VkGroup) >= $vkGroupPlaces)
+                                @if (count(Auth::user()->VkGroup) >= $user->UserInfo->vk_group_places)
                                 <div class="accountItem centerItem">
                                     <a href="#" class="manageBtn buyPlace">
                                         Купить место (25₽)
