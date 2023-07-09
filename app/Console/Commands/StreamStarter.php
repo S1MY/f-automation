@@ -99,8 +99,7 @@ class StreamStarter extends Command
                             $options = [
                                 'query' => $postContent
                             ];
-                            
-$response = $client->send($request, $options);
+                            $response = $client->send($request, $options);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
