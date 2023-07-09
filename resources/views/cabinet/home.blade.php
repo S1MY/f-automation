@@ -67,11 +67,19 @@
                                     @endforeach
                                 @endif
                                 @if (count(Auth::user()->VkAccount) >= $user->UserInfo->vk_account_places)
+                                    @if ($user->UserInfo->vk_account_places >= 5)
                                     <div class="accountItem centerItem">
-                                        <a href="#" class="manageBtn buyPlace">
-                                            Купить место (25₽)
+                                        <a href="#" class="manageBtn" data-popup="maximumAccounts">
+                                            Купить место
                                         </a>
                                     </div>
+                                        @else
+                                        <div class="accountItem centerItem">
+                                            <a href="#" class="manageBtn" data-action="{{route('buyAccountPlace')}}">
+                                                Купить место (25₽)
+                                            </a>
+                                        </div>
+                                    @endif
                                 @else
                                     <div class="accountItem centerItem">
                                         <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends,photos&display=popup&response_type=token&v=5.131" class="manageBtn addAccount">

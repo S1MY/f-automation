@@ -165,6 +165,20 @@ class SubscribeController extends Controller
         ]);
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.');
     }
+    public function buyAccountPlace(Request $request)
+    {
+        $ubalance = Auth::user()->UserInfo->balance;
+        $uplaces = Auth::user()->UserInfo->vk_account_places;
+        $uid = Auth::user()->id;
+        if ($ubalance >= 25) {
+            Auth::user()->UserInfo->balance = $ubalance - 25;
+            Auth::user()->UserInfo->vk_account_places = $uplaces + 1;
+            Auth::user()->UserInfo->save();
+            return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под аккаунт!');
+        }
+    }
     private function generateJsonResponse($type, $title, $message)
     {
         return response()->json([

@@ -1,4 +1,9 @@
 $(document).ready(function () {
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
   // Добавление аккаунта
   $('.addAccount, .updateAccount').click(function (e) {
     const type = ($(this).hasClass('updateAccount')) ? 'update' : 'add';
@@ -17,11 +22,6 @@ $(document).ready(function () {
     const ajaxUrl = $('.addGroupSelect').attr('data-action')
     let formData = {};
     formData.accountId = accountId;
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
     $.ajax({
       url: ajaxUrl,
       method: 'POST',
@@ -62,11 +62,6 @@ $(document).ready(function () {
     const ajaxUrl = $(this).attr('data-action');
     let formData = {};
     formData.accountId = accountId;
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
     $(".popupWrapper").fadeIn();
     $.ajax({
       url: ajaxUrl,
@@ -95,11 +90,6 @@ $(document).ready(function () {
     const ajaxUrl = $(this).attr('data-action');
     let formData = {};
     formData.groupId = groupId;
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
     $(".popupWrapper").fadeIn();
     $.ajax({
       url: ajaxUrl,
@@ -122,42 +112,42 @@ $(document).ready(function () {
       }
     });
   });
-  $('.buyPlace').click(function (e) {
+  $('.manageBtn').click(function (e) {
     e.preventDefault();
-    // Нужно обязательно отправить type
-    // vk - акк вк
-    // vkg - группа
-    // tg
-    $('.popupItem').fadeOut();
-    let type = $(this).parent().parent().parent().attr('data-tab');
-    $(".popupWrapper").fadeIn();
-    // Успешный
-    let title = "Вай вай вай";
-    let message = "Дополнительное место успешно куплено<br> Страница автоматически перегрузится, чтобы изменения применились.";
-    $('.popupItem[data-popup="success"]').children(".popupTitle").html(title);
-    $('.popupItem[data-popup="success"]')
-      .children(".popupText")
-      .html(message);
-    $('.popupItem[data-popup="success"]').fadeIn();
-    setTimeout(() => {
-      location.reload();
-    }, 5000);
-    // Хуёвый
-    // let title = "ОЙ ОЙ ОЙ";
-    // let message = "Не удалось купить место.<br> Скорее всего вы ебаный бомж и у вас нет средств.";
-    // $('.popupItem[data-popup="error"]').children(".popupTitle").html(title);
-    // $('.popupItem[data-popup="error"]').children(".popupText").html(message);
-    // $('.popupItem[data-popup="error"]').fadeIn();
+    if ($(this).attr('data-popup')) {
+      $(".popupWrapper").fadeIn();
+      $(`.popupItem[data-popup=${$(this).attr('data-popup')}]`).fadeIn();
+    }else{
+      const ajaxUrl = $(this).attr('data-action');
+      let formData = {};
+      formData.id = 0;
+      $(".popupWrapper").fadeIn();
+      $.ajax({
+        url: ajaxUrl,
+        method: 'POST',
+        data: formData,
+        success: function (response) {
+          const success = $('.popupItem[data-popup="success"]');
+          success.children('.popupTitle').html(response.title);
+          success.children('.popupText').html(response.message);
+          success.fadeIn();
+          setTimeout(() => {
+            location.reload();
+          }, 5000);
+        },
+        error: function (response) {
+          const error = $('.popupItem[data-popup="error"]');
+          error.children('.popupTitle').html(response.title);
+          error.children('.popupText').html(response.message);
+          error.fadeIn();
+        }
+      });
+    }
   });
   $('.popupItem').submit(function (e) {
     e.preventDefault();
     const ajaxUrl = $(this).attr('action');
     let formData = $(this).serialize();
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
     const popupName = $(this).attr("data-popup");
     $('.popupCenter').show();
     $('.popupWrapper').removeClass('_notClose');

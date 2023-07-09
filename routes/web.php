@@ -82,6 +82,7 @@ Route::post('/user-confirm-email', [RegisterController::class, 'registerConfirm'
 Route::get('/logout', [LogoutController::class, 'perform'])->name('logout');
 
 Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('doSubscribe');
+Route::post('/buy-account-place', [SubscribeController::class, 'buyAccountPlace'])->name('buyAccountPlace');
 
 Route::post('/set-offers', [OfferController::class, 'setOffer'])->name('setOffer');
 Route::post('/get-vote', [OfferController::class, 'getVote'])->name('getVotes');

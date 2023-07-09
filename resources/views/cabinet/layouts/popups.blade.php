@@ -96,6 +96,13 @@
         <input type="hidden" name="type" value="add">
         <button class="formBtn">Привязать аккаунт</button>
     </form>
+    <div class="popupItem" data-class="standard" data-popup="maximumAccounts">
+        <h3 class="popupTitle">Вы достигли лимита.</h3>
+        <p class="popupText _center">У вас есть 5 мест под аккаунты ВКонтакте. Для дальнейшего расширения свяжитесь с администрацией!</p>
+        <div class="popupCenter">
+            <a href="#" class="popupBtn popupClose">Закрыть</a>
+        </div>
+    </div>
     @if(Auth::user()->VkAccount)
     <form class="popupItem" action="{{ route('vkGroupAuth') }}" data-class="standard" data-popup="addGroup">
         <h3 class="popupTitle">Привязка группы ВК</h3>
@@ -143,7 +150,7 @@
             </video>
         </div>
     </div>
-    <div class="popupItem" data-popup="error">
+    {{-- <div class="popupItem" data-popup="error">
         <div class="popupIcon">
             <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -170,7 +177,7 @@
         <div class="popupCenter">
             <a href="#" class="popupBtn popupClose">Закрыть</a>
         </div>
-    </div>
+    </div> --}}
     <div class="popupItem" data-class="guid" data-popup="packageCreate">
         <h3 class="popupTitle"></h3>
         <div class="videoWrapper">
