@@ -13,6 +13,8 @@ use App\Models\VkGroup;
 
 use App\Models\Stream;
 use App\Models\StreamSettings;
+use App\Models\StreamStory;
+use App\Models\StreamComments;
 
 class StreamsController extends Controller
 {
@@ -226,6 +228,62 @@ class StreamsController extends Controller
             }
         }else{
             return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
+        }
+    }
+    public function streamRemove(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $removeId = $request->removeId;
+        if (is_numeric($removeId)) {
+            $searchStream = Stream::where('id', '=', $removeId)
+                ->first();
+            $searchAccount = VkAccount::where('id', '=', $searchStream->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchStream) {
+                        // StreamStory::where('stream_id', '=', $removeId)->delete();
+                        // StreamComments::where('stream_id', '=', $removeId)->delete();
+                        // StreamSettings::where('stream_id', '=', $removeId)->delete();
+                        $videoGetClient = new Client([
+                            'base_uri' => 'https://api.vk.com',
+                        ]);
+                        $videoGetParams = [
+                            'v' => '5.131',
+                            'access_token' => $searchAccount->token
+                        ];
+                        if($searchStream->group_id > 0){
+                            $videoGetParams['owner_id'] = '-'.$searchStream->group_id;
+                        }else{
+                            $videoGetParams['owner_id'] = preg_replace('/[^0-9]/', '', $searchAccount->link);
+                        }
+                        $videoGetGet = $videoGetClient->request('GET', '/method/video.get', [
+                            'query' => $videoGetParams
+                        ]);
+                        if ($videoGetGet->getStatusCode() !== 200 || !$videoGetGet->getBody()) {
+                            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось найти старые трансляции F1');
+                        }
+                        $videoGetContent = $videoGetGet->getBody()->getContents();
+                        $videoGetJSON = json_decode($videoGetContent);
+                        if (isset($videoGetJSON->error)) {
+                            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не удалось найти старые трансляции F2');
+                        }
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.', $videoGetJSON);
+                        // foreach ($searchStream->link as $key => $link) {
+                        //     Storage::delete($link);
+                        // }
+                        Stream::where('id', '=', $removeId)->delete();
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная трансяция не найдена');
+                    }  
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная трансяция вам не принадлежит');
+                } 
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Не найден родительский аккаунт');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле removeId');
         }
     }
     private function generateJsonResponse($type, $title, $message, $errorJson = null)
