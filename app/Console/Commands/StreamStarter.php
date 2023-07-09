@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise;
+
 use Carbon\Carbon;
 
 use App\Models\User;
@@ -43,8 +45,6 @@ class StreamStarter extends Command
      */
     public function handle()
     {
-        $client = new Client();
-        $handles = [];
         $allStreams = Stream::where('active', 1)->where('live', 0)->get();
         foreach ($allStreams as $stream) {
             $currentDomain = 'https://f-automation.v-devo.ru';
@@ -81,6 +81,7 @@ class StreamStarter extends Command
                                 ]);
                                 die();
                             }
+                            $client = new Client();
                             $streamDescription = $stream->description .'<br>Трансляция воспроизводится F-AUTOMATION: '.$currentDomain.'?partner='.$userDB->login;
                             $streamContinue = $currentDomain.'/stream-continue';
                             $postContent = [
@@ -94,11 +95,10 @@ class StreamStarter extends Command
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
-                            $response = $client->post($streamContinue, [
+                            $client->sendAsync($streamContinue, [
                                 'form_params' => $postContent,
                                 'timeout' => 7200,
                             ]);
-                            $handles[] = $response;
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,

@@ -269,12 +269,6 @@ class StoriesStarter extends Command
                     if($storiesJSON->response->open_link->state === "on"){
                         $open_link += $storiesJSON->response->open_link->count;
                     }
-                    CronLogs::create([
-                        'uid'        => $userId,
-                        'cron_type' => 'stories',
-                        'item_id' => $stories->id,
-                        'message'   => 'Метод stories.getStats завершён для файла '.$storiesIndex
-                    ]);
                 }
                 $lastStories->viewes = $viewes;
                 $lastStories->shares = $shares;
