@@ -45,6 +45,7 @@ class StreamStarter extends Command
      */
     public function handle()
     {
+        $clientContinue = new Client();
         $allStreams = Stream::where('active', 1)->where('live', 0)->get();
         foreach ($allStreams as $stream) {
             $currentDomain = 'https://f-automation.v-devo.ru';
@@ -81,7 +82,6 @@ class StreamStarter extends Command
                                 ]);
                                 die();
                             }
-                            $client = new Client();
                             $streamDescription = $stream->description .'<br>Трансляция воспроизводится F-AUTOMATION: '.$currentDomain.'?partner='.$userDB->login;
                             $streamContinue = $currentDomain.'/stream-continue';
                             $postContent = [
@@ -99,7 +99,7 @@ class StreamStarter extends Command
                             $options = [
                                 'query' => $postContent
                             ];
-                            $response = $client->send($request, $options);
+                            $response = $clientContinue->sendAsync($request, $options);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,
