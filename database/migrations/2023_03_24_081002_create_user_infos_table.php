@@ -17,6 +17,10 @@ return new class extends Migration
             $table->id();
             $table->integer('uid')->nullable();
             $table->string('email')->unique();
+            $table->integer('balance')->default(0);
+            $table->integer('newsletter')->default(1);
+            $table->integer('partners_clicks')->default(0);
+            $table->integer('places')->default(1);
             $table->timestamps();
         });
     }
