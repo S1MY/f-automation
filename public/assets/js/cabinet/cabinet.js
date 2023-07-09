@@ -238,11 +238,11 @@ $(document).ready(function () {
           console.log(response);
           $('.popupWrapper').fadeIn();
           $('.popupItem').fadeOut();
-          if (response.status == "success") {
-            successHandler(response.title, response.message)
-          } else {
-            errorHandler(response.title, response.message)
-          }
+          // if (response.status == "success") {
+          //   successHandler(response.title, response.message)
+          // } else {
+          //   errorHandler(response.title, response.message)
+          // }
         },
         error: function (response) {
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
