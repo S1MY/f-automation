@@ -7,7 +7,7 @@
     $attachments = unserialize($stream->attachments);
     $links = unserialize($stream->link);
     $streamDate = Carbon::createFromFormat('Y-m-d H:i:s', $stream->updated_at, 'Europe/Moscow');
-    $nextStart;
+    $nextStart = '';
     $streamType = 'Интервал';
     $className = '';
     if($stream->type === 'daily'){
