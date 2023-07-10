@@ -133,7 +133,7 @@ $(document).ready(function () {
                 complete: function (response) {
                     const currentPath = window.location.pathname;
                     if (currentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
-                        $('.offerLoadWrapper').html(response.responseText);
+                       $('.tabItem[data-tab="all"] .offerFlex').html(response.responseText);
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
                     } else {
