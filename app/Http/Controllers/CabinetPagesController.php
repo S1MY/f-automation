@@ -297,6 +297,7 @@ class CabinetPagesController extends Controller
         ->where('published', '=', 1)
         ->where('for_dev', '!=', 1)
         ->where('votes', 'NOT LIKE', '%i:%;i:'.Auth::user()->id.';%')
+        ->orderBy('id', 'desc')
         ->select([
             'offers.*',
             'u.login as user_login',
@@ -313,6 +314,7 @@ class CabinetPagesController extends Controller
         })
         ->where('published', '=', 2)
         ->where('for_dev', '!=', 1)
+        ->orderBy('id', 'desc')
         ->select([
             'offers.*',
             'u.login as user_login',
@@ -331,6 +333,7 @@ class CabinetPagesController extends Controller
         ->where('published', '=', 1)
         ->where('for_dev', '!=', 1)
         ->where('votes', 'LIKE', '%i:%;i:' . Auth::user()->id . ';%')
+        ->orderBy('id', 'desc')
         ->select([
             'offers.*',
             'u.login as user_login',
@@ -346,6 +349,7 @@ class CabinetPagesController extends Controller
                 ->whereRaw('vk_accounts.id = (SELECT MIN(id) FROM vk_accounts)');
         })
         ->where('offers.uid', '=', Auth::user()->id)
+        ->orderBy('id', 'desc')
         ->select([
             'offers.*',
             'u.login as user_login',
