@@ -31,10 +31,7 @@ $(document).ready(function () {
   $('.newsForm').submit(function (e) { 
     e.preventDefault();
     const ajaxUrl = $(this).attr('action');
-    let formData = $(this).serialize();
-    if (!$('input[name="newsletter"]').is(':checked')) {
-      formData = 'newsletter=0';
-    }
+    const formData = ($('input[name="newsletter"]').is(':checked')) ? 'newsletter=1' : 'newsletter=0';
     $.ajax({
       url: ajaxUrl,
       method: 'POST',
