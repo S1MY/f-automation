@@ -24,18 +24,6 @@
                         </form>
                     </div>
                 </div>
-                {{-- <div class="pageItem">
-                    <h2 class="pageTitle">Логин</h2>
-                    <p class="pageText _mt12">После изменения логина изменится партнёрская ссылка</p>
-                    <div class="tabPageItem">
-                        <form class="tabPageForm" data-action="/user/loginchange">
-                            <div class="tabPageInput" data-name="login">
-                                <input type="text" name="login" class="formInput" value="AFSDSADSG">
-                            </div>
-                            <button class="formBtn">Изменить логин</button>
-                        </form>
-                    </div>
-                </div> --}}
                 <div class="pageItem">
                     <h2 class="pageTitle">Рассылка</h2>
                     <p class="pageText _mt12">Будь в курсе новых функций сервиса 24/7</p>
