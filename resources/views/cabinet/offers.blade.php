@@ -45,7 +45,7 @@
                         @if ( $allOffers->count() == 0 )
                             <p class="empty">Предложений ещё не нет, будьте первым!</p>
                         @endif
-                        <div class="allOfferLoadWrapper">
+                        <div class="offerFlex">
                             @include('load.all-offers-load')
                         </div>
                     </div>
