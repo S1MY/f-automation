@@ -1871,9 +1871,13 @@ a.accountInfo:hover{
 }
 .offerYes{
     background: #FF5437;
+    cursor: default;
+    pointer-events: none;
 }
 .offerComplete{
     background: #2980B9;
+    cursor: default;
+    pointer-events: none;
 }
 /* Настройки */
 .passForm .tabPageInput{
