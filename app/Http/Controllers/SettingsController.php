@@ -58,7 +58,7 @@ class SettingsController extends Controller
             return $this->generateJsonResponse('error', 'Возникла ошибка', $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
-        $newsletter = ($validatedData['newsletter'] === 1) ? 1 : 0;
+        $newsletter = $validatedData['newsletter'];
         $unewsletter = Auth::user()->UserInfo->newsletter;
         Auth::user()->UserInfo->newsletter = $newsletter;
         Auth::user()->UserInfo->save();
