@@ -41,7 +41,7 @@ class AdminController extends Controller
         $votes = $request->votes;
         $status = $request->offer_status;
 
-        if( empty($votes) && $votes !== 0){
+        if( empty($votes)){
             return response()->json([
                 'errors' => [
                     'votes' => 'Не указано количество голосов'
@@ -51,6 +51,9 @@ class AdminController extends Controller
         $offer = Offers::where('id', '=', $offerID)->first();
         $offer->need = $votes;
         $offer->published = $status;
+        if($status === 3){
+            $offer->need = 0;
+        }
         if($offer->for_dev === 1 && $status === 1){
             $offer->need = 0;
             $offer->published = 2;
