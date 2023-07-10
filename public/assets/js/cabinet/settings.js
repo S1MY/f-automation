@@ -28,4 +28,28 @@ $(document).ready(function () {
       }
     });
   });
+  $('.newsForm').submit(function (e) { 
+    e.preventDefault();
+    const ajaxUrl = $(this).attr('action');
+    const formData = $(this).serialize();
+    if (!$('input[name="newsletter"]').is(':checked')) {
+      formData.append('newsletter', 0);
+    }
+    $.ajax({
+      url: ajaxUrl,
+      method: 'POST',
+      data: formData,
+      success: function (response) {
+        if (response.status == "success") {
+          successHandler(response.title, response.message)
+        }else {
+          errorHandler(response.title, response.message)
+        }
+      },
+      error: function (response) {
+        console.log(response)
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+      }
+    });
+  });
 });

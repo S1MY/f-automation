@@ -62,5 +62,9 @@ class SettingsController extends Controller
         $unewsletter = Auth::user()->UserInfo->newsletter;
         Auth::user()->UserInfo->newsletter = $newsletter;
         Auth::user()->UserInfo->save();
+        if($newsletter === 1){
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Вы успешно подписались на рассылку новостей F-AUTOMATION');
+        }
+        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Вы успешно отписались от рассылки новостей F-AUTOMATION');
     }
 }
