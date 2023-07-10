@@ -51,9 +51,6 @@ class AdminController extends Controller
         $offer = Offers::where('id', '=', $offerID)->first();
         $offer->need = $votes;
         $offer->published = $status;
-        if($status === 3){
-            $offer->need = 0;
-        }
         if($offer->for_dev === 1 && $status === 1){
             $offer->need = 0;
             $offer->published = 2;
