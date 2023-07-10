@@ -89,7 +89,7 @@
                                 <div class="offerItem">
                                     <a href="{{$offer->account_link}}" target="_blank" class="accountInfo">
                                         <div class="accountAvatar" style="background: url({{$offer->account_avatar}}), #FFFFFF;"></div>
-                                        <p class="accountName">{{ $offer->login }}</p>
+                                        <p class="accountName">{{ $offer->user_login }}</p>
                                     </a>
                                     <p class="offerText">{{ $offer->offer }}</p>
                                     <p class="subCheckPrice">Набрано<span>{{ is_null($offer->votes) ? 0 : count(unserialize($offer->votes)) }}/{{ $offer->need }}</span>голосов</p>
