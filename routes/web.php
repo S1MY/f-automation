@@ -5,6 +5,7 @@ use App\Http\Controllers\CabinetPagesController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaginateController;
@@ -80,6 +81,8 @@ Route::post('/user-register', [RegisterController::class, 'register'])->name('do
 Route::post('/user-login', [LoginController::class, 'login'])->name('dologin');
 Route::post('/user-confirm-email', [RegisterController::class, 'registerConfirm'])->name('registerConfirm');
 Route::get('/logout', [LogoutController::class, 'perform'])->name('logout');
+
+Route::post('/password-change', [SettingsController::class, 'changePassword'])->name('changePassword');
 
 Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('doSubscribe');
 Route::post('/buy-account-place', [SubscribeController::class, 'buyAccountPlace'])->name('buyAccountPlace');

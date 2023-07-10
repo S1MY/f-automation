@@ -13,12 +13,12 @@
                 <div class="pageItem">
                     <h2 class="pageTitle">Изменение пароля</h2>
                     <div class="tabPageItem">
-                        <form class="tabPageForm passForm" data-action="/user/passchange">
-                            <div class="tabPageInput" data-name="oldPass">
-                                <input type="password" name="oldPass" class="formInput" placeholder="Старый пароль">
+                        <form class="tabPageForm passForm" action="{{route('changePassword')}}">
+                            <div class="tabPageInput" data-name="old_pass">
+                                <input type="password" name="old_pass" class="formInput" placeholder="Старый пароль">
                             </div>
-                            <div class="tabPageInput" data-name="newPass">
-                                <input type="password" name="newPass" class="formInput" placeholder="Новый пароль">
+                            <div class="tabPageInput" data-name="new_pass">
+                                <input type="password" name="new_pass" class="formInput" placeholder="Новый пароль">
                             </div>
                             <button class="formBtn">Сохранить</button>
                         </form>
