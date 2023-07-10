@@ -78,6 +78,19 @@ class PaginateController extends Controller
 
                 break;
 
+
+            case 'me-offers':
+
+                $meOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
+                ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
+                ->where('uid', '=', Auth::user()->id)
+                ->paginate(6, ['*'], 'me-offers-page');
+
+                $currentPage = route('offers');
+
+                return view('load.all-offers-load', compact('meOffers', 'currentPage'));
+
+                break;
             case 'all-stories':
 
                 $VkAccounts = VkAccount::where('uid', Auth::user()->id)
