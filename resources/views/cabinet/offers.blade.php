@@ -53,9 +53,7 @@
                     </div>
                     <div class="tabItem" data-tab="complete">
                         <div class="offerFlex">
-                            <div class="offerItem">
-                                @include('load.complete-offers-load')
-                            </div>
+                            @include('load.complete-offers-load')
                         </div>
                     </div>
                     <div class="tabItem" data-tab="me">
