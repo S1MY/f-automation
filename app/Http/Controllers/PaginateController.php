@@ -69,6 +69,26 @@ class PaginateController extends Controller
                 return view('load.all-offers-load', compact('allOffers', 'currentPage'));
 
                 break;
+            case 'complete-offers':
+                $completeOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
+                ->leftJoin('vk_accounts', function ($join) {
+                    $join->on('offers.uid', '=', 'vk_accounts.uid')
+                        ->whereRaw('vk_accounts.id = (SELECT MIN(id) FROM vk_accounts)');
+                })
+                ->where('published', '=', 2)
+                ->select([
+                    'offers.*',
+                    'u.login as user_login',
+                    'vk_accounts.name as account_name',
+                    'vk_accounts.link as account_link',
+                    'vk_accounts.avatar as account_avatar'
+                ])
+                ->paginate(6, ['*'], 'complete-offers-page', $page_num);
+                $currentPage = route('offers');
+
+                return view('load.complete-offers-load', compact('completeOffers', 'currentPage'));
+
+                break;
 
             case 'liked-offers':
 

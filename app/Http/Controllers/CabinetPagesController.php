@@ -305,6 +305,21 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(6, ['*'], 'all-offers-page');
 
+        $completeOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
+        ->leftJoin('vk_accounts', function ($join) {
+            $join->on('offers.uid', '=', 'vk_accounts.uid')
+                ->whereRaw('vk_accounts.id = (SELECT MIN(id) FROM vk_accounts)');
+        })
+        ->where('published', '=', 2)
+        ->select([
+            'offers.*',
+            'u.login as user_login',
+            'vk_accounts.name as account_name',
+            'vk_accounts.link as account_link',
+            'vk_accounts.avatar as account_avatar'
+        ])
+        ->paginate(6, ['*'], 'complete-offers-page');
+
         $likedOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
         ->leftJoin('vk_accounts', function ($join) {
             $join->on('offers.uid', '=', 'vk_accounts.uid')
@@ -321,7 +336,7 @@ class CabinetPagesController extends Controller
             'vk_accounts.avatar as account_avatar'
         ])
         ->paginate(6, ['*'], 'liked-offers-page');
-        
+
         $meOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
         ->leftJoin('vk_accounts', function ($join) {
             $join->on('offers.uid', '=', 'vk_accounts.uid')
@@ -337,7 +352,7 @@ class CabinetPagesController extends Controller
         ])
         ->paginate(6, ['*'], 'me-offers-page');
 
-        return view('cabinet.offers', compact('user', 'allOffers', 'meOffers', 'likedOffers', 'currentPage'));
+        return view('cabinet.offers', compact('user', 'allOffers', 'meOffers', 'likedOffers', 'completeOffers', 'currentPage'));
     }
 
     public function admin(Request $request){
