@@ -132,8 +132,9 @@ $(document).ready(function () {
                 dataType: "json",
                 complete: function (response) {
                     const currentPath = window.location.pathname;
-                    if (currentPath == '/cabinet/offers' && $('.pageTab[data-tab=all]').hasClass('_active')) {
-                       $('.tabItem[data-tab="all"] .offerFlex').html(response.responseText);
+                    if (currentPath == '/cabinet/offers') {
+                        const offerParent = $('.pageTab._active').attr('data-tab');
+                        $(`.tabItem[data-tab=${offerParent}] .offerFlex`).html(response.responseText);
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
                     } else {
