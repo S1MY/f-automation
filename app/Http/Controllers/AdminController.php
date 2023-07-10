@@ -48,17 +48,16 @@ class AdminController extends Controller
                 ]
             ], 422);
         }
-
-        Offers::where('id', '=', $offerID)->update([
-            'need' => $votes,
-            'published' => $status,
-        ]);
-
-        $message = 'Оффер отклонён';
-
-        if( $status == 1 ){
-            $message = 'Оффер опубликован';
+        $offer = Offers::where('id', '=', $offerID)->first();
+        $offer->need = $votes;
+        $offer->published = $status;
+        if($offer->for_dev === 1 && $status === 1){
+            $offer->need = 0;
+            $offer->published = 2;
         }
+        $offer->save();
+
+        $message = ( $status == 1 ) ? 'Оффер опубликован' :'Оффер отклонён';
 
         return response()->json([
             'from'      => 'offers',
