@@ -80,8 +80,15 @@ class PaginateController extends Controller
             case 'me-offers':
 
                 $meOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
-                ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
+                ->leftJoin('vk_accounts', 'offers.uid', '=', 'vk_accounts.uid')
                 ->where('uid', '=', Auth::user()->id)
+                ->select([
+                    'offers.*',
+                    'u.login as user_login',
+                    'vk_accounts.name as account_name',
+                    'vk_accounts.link as account_link',
+                    'vk_accounts.avatar as account_avatar'
+                ])
                 ->paginate(6, ['*'], 'me-offers-page');
 
                 $currentPage = route('offers');
