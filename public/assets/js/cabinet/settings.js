@@ -31,9 +31,9 @@ $(document).ready(function () {
   $('.newsForm').submit(function (e) { 
     e.preventDefault();
     const ajaxUrl = $(this).attr('action');
-    const formData = $(this).serialize();
+    let formData = $(this).serialize();
     if (!$('input[name="newsletter"]').is(':checked')) {
-      formData.append('newsletter', 0);
+      formData = 'newsletter=0';
     }
     $.ajax({
       url: ajaxUrl,
