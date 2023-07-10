@@ -41,7 +41,7 @@ class AdminController extends Controller
         $votes = $request->votes;
         $status = $request->offer_status;
 
-        if( empty($votes) ){
+        if( empty($votes) && $votes !== 0){
             return response()->json([
                 'errors' => [
                     'votes' => 'Не указано количество голосов'
