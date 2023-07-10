@@ -80,7 +80,10 @@ class PaginateController extends Controller
             case 'me-offers':
 
                 $meOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
-                ->leftJoin('vk_accounts', 'offers.uid', '=', 'vk_accounts.uid')
+                ->leftJoin('vk_accounts', function ($join) {
+                    $join->on('offers.uid', '=', 'vk_accounts.uid')
+                        ->whereRaw('vk_accounts.id = (SELECT MIN(id) FROM vk_accounts)');
+                })
                 ->where('offers.uid', '=', Auth::user()->id)
                 ->select([
                     'offers.*',
