@@ -292,14 +292,12 @@ class CabinetPagesController extends Controller
         $allOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
                            ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
                            ->where('published', '=', 1)
-                           ->where('uid', '!=', Auth::user()->id)
                            ->where('votes', 'NOT LIKE', '%i:%;i:'.Auth::user()->id.';%')
                            ->paginate(6, ['*'], 'all-offers-page');
 
         $likedOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
                            ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
                            ->where('published', '=', 1)
-                           ->where('uid', '!=', Auth::user()->id)
                            ->where('votes', 'LIKE', '%i:%;i:'.Auth::user()->id.';%')
                            ->paginate(6, ['*'], 'liked-offers-page');
 

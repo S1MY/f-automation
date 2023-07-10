@@ -1,4 +1,3 @@
-<div class="offerFlex">
 
     @foreach ($allOffers as $offer)
         <div class="offerItem">
@@ -12,6 +11,5 @@
         </div>
     @endforeach
 
-</div>
 
 {{ $allOffers->links('layouts.paginate', ['currentPage' => $currentPage]) }}
