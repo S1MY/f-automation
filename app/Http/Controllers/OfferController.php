@@ -41,23 +41,33 @@ class OfferController extends Controller
 
     public function getVote(Request $request){
 
-        $offer = Offers::where('id', '=', $request->offerId)->first();
-        $array = unserialize($offer->votes);
+        $rules = [
+            'offerId' => 'required|integer',
+        ];
+        $messages = [
+            'offerId.required' => 'Обязательное поле',
+            'offerId.integer' => 'Не является числом'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->getMessageBag()->toArray();
+            $firstErrorKey = array_key_first($errors);
+            return $this->generateJsonResponse('error', $firstErrorKey, $errors[$firstErrorKey][0]);
+        }
+        $validatedData = $validator->validated();
 
-        if ( empty($array) ){
-            $array = array(Auth::user()->id);
+        $offer = Offers::where('id', '=', $validatedData['offerId'])->first();
+        $userVotes = unserialize($offer->votes);
+
+        if ( empty($userVotes) ){
+            $userVotes = [Auth::user()->id];
         }else{
-            array_push($array, Auth::user()->id);
+            array_push($userVotes, Auth::user()->id);
         }
 
-        $offer->votes = serialize($array);
+        $offer->votes = serialize($userVotes);
         $offer->save();
 
-        return response()->json([
-            'from'      => 'offers',
-            'title'     => 'Вы уже голосовали!',
-            'now'       => count($array),
-            'offer_id'  => $request->offerId
-        ]);
+        return $this->generateJsonResponse('success', count($userVotes), $request->offerId);
     }
 }

@@ -42,29 +42,13 @@
                         <p class="pageTab" data-tab="me">Ваши идеи</p>
                     </div>
                     <div class="tabItem _active" data-tab="all">
-                        @if ( $allOffers->count() == 0 )
-                            <p class="empty">Предложений ещё не нет, будьте первым!</p>
-                        @endif
                         <div class="offerFlex">
                             @include('load.all-offers-load')
                         </div>
                     </div>
                     <div class="tabItem" data-tab="you">
-                        @if ( $likedOffers->count() == 0 )
-                            <p class="empty">Вы ещё не голосовали!</p>
-                        @endif
                         <div class="offerFlex">
-                            @foreach ($likedOffers as $offer)
-                                <div class="offerItem">
-                                    <a href="#" class="accountInfo">
-                                        <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
-                                        <p class="accountName">{{ $offer->login }}</p>
-                                    </a>
-                                    <p class="offerText">{{ $offer->offer }}</p>
-                                    <p class="subCheckPrice">Набрано<span><span class="nowVotes">{{ is_null($offer->votes) ? 0 : count(unserialize($offer->votes)) }}</span>/{{ $offer->need }}</span>голосов</p>
-                                    <p class="offerYes">Вы уже голосовали!</p>
-                                </div>
-                            @endforeach
+                            @include('load.liked-offers-load')
                         </div>
                     </div>
                     <div class="tabItem" data-tab="complete">
@@ -81,9 +65,6 @@
                         </div>
                     </div>
                     <div class="tabItem" data-tab="me">
-                        @if ( $meOffers->count() == 0 )
-                            <p class="empty">Вы ещё ничего не предлагали!</p>
-                        @endif
                         <div class="offerFlex">
                             @include('load.me-offers-load')
                         </div>

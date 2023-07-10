@@ -306,11 +306,22 @@ class CabinetPagesController extends Controller
         ->paginate(6, ['*'], 'all-offers-page');
 
         $likedOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
+        ->leftJoin('vk_accounts', function ($join) {
+            $join->on('offers.uid', '=', 'vk_accounts.uid')
+                ->whereRaw('vk_accounts.id = (SELECT MIN(id) FROM vk_accounts)');
+        })
         ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
         ->where('published', '=', 1)
-        ->where('votes', 'LIKE', '%i:%;i:'.Auth::user()->id.';%')
+        ->where('votes', 'LIKE', '%i:%;i:' . Auth::user()->id . ';%')
+        ->select([
+            'offers.*',
+            'u.login as user_login',
+            'vk_accounts.name as account_name',
+            'vk_accounts.link as account_link',
+            'vk_accounts.avatar as account_avatar'
+        ])
         ->paginate(6, ['*'], 'liked-offers-page');
-
+        
         $meOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
         ->leftJoin('vk_accounts', function ($join) {
             $join->on('offers.uid', '=', 'vk_accounts.uid')

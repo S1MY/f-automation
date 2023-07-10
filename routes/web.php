@@ -86,7 +86,7 @@ Route::post('/buy-account-place', [SubscribeController::class, 'buyAccountPlace'
 Route::post('/buy-group-place', [SubscribeController::class, 'buyGroupPlace'])->name('buyGroupPlace');
 
 Route::post('/set-offers', [OfferController::class, 'setOffer'])->name('setOffer');
-Route::post('/get-vote', [OfferController::class, 'getVote'])->name('getVotes');
+Route::post('/get-vote', [OfferController::class, 'getVote'])->name('getVote');
 
 // Вконтакте
 Route::post('/vk-user-auth', [VkAuthController::class, 'vkUserAuth'])->name('vkUserAuth');

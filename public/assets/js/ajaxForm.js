@@ -44,52 +44,6 @@ $(document).ready(function () {
         });
     });
 
-    // Проголосовать
-    $(document).on('click', '.offerBtn', function (e) {
-        e.preventDefault();
-        if (!$(this).hasClass('offerYes')) {
-            let ajaxUrl = $(this).attr('data-action');
-            let offerId = $(this).attr('data-offer');
-            $.ajax({
-                url: ajaxUrl,
-                method: 'post',
-                data: { offerId: offerId },
-                success: function (result) {
-                    $('.offerBtn[data-offer=' + result.offer_id + ']').prev().children().children().html(result.now);
-                    $('.offerBtn[data-offer=' + result.offer_id + ']').addClass('offerYes');
-                    $('.offerBtn[data-offer=' + result.offer_id + ']').html('Вы уже голосовали!');
-
-                },
-                error: function (result) {
-                    $.each(result.responseJSON.errors, function (key, value) {
-                        if (key == 'not found') {
-                            let error = $('.popupWrapper .popupItem[data-popup="error"]');
-
-                            error.children('.popupTitle').html('');
-                            error.children('.popupText').html('');
-
-                            $('.popupWrapper').show();
-                            error.show();
-
-                            error.children('.popupTitle').append('Возникла ошибка.');
-                            error.children('.popupText').append(value);
-                        }
-
-                        $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-                        $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
-                    });
-
-                    $('.errorInput').fadeOut(3000);
-                    setTimeout(() => {
-                        $('.errorInput').remove();
-                    }, 3500);
-                }
-            });
-        }
-
-
-    });
-
     // Пагинация
     $(document).on('click', '.paginationItem', function (e) {
         e.preventDefault();
