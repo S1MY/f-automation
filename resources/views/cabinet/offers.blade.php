@@ -54,13 +54,7 @@
                     <div class="tabItem" data-tab="complete">
                         <div class="offerFlex">
                             <div class="offerItem">
-                                <a href="#" class="accountInfo">
-                                    <div class="accountAvatar" style="background: url(/files/test/avatest.jpg), #FFFFFF;"></div>
-                                    <p class="accountName">Фамилия Имя</p>
-                                </a>
-                                <p class="offerText">Супер крутая идея, чтобы сделать денег. Суть в том, чтобы поднять денег. Я считаю это круто!</p>
-                                <p class="subCheckPrice">Набрано<span>0/100</span>голосов</p>
-                                <p class="offerComplete">Предложение принято!</p>
+                                @include('load.complete-offers-load')
                             </div>
                         </div>
                     </div>
