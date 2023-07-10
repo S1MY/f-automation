@@ -52,7 +52,7 @@ class OfferController extends Controller
         if ($validator->fails()) {
             $errors = $validator->getMessageBag()->toArray();
             $firstErrorKey = array_key_first($errors);
-            return $this->generateJsonResponse('error', $firstErrorKey, $errors[$firstErrorKey][0]);
+            return $this->generateJsonResponse('error', 'Возникла ошибка', 'Что-то явно пошло не так');
         }
         $validatedData = $validator->validated();
 
@@ -63,6 +63,9 @@ class OfferController extends Controller
             $userVotes = [Auth::user()->id];
         }else{
             array_push($userVotes, Auth::user()->id);
+        }
+        if(count($userVotes) === $offer->need){
+            $offer->published = 2;
         }
 
         $offer->votes = serialize($userVotes);
