@@ -81,7 +81,7 @@ class PaginateController extends Controller
 
                 $meOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
                 ->leftJoin('vk_accounts', 'offers.uid', '=', 'vk_accounts.uid')
-                ->where('uid', '=', Auth::user()->id)
+                ->where('offers.uid', '=', Auth::user()->id)
                 ->select([
                     'offers.*',
                     'u.login as user_login',
