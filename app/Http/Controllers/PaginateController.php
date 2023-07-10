@@ -100,11 +100,11 @@ class PaginateController extends Controller
                     'vk_accounts.link as account_link',
                     'vk_accounts.avatar as account_avatar'
                 ])
-                ->paginate(6, ['*'], 'me-offers-page');
+                ->paginate(6, ['*'], 'me-offers-page', $page_num);
 
                 $currentPage = route('offers');
 
-                return view('load.all-offers-load', compact('meOffers', 'currentPage'));
+                return view('load.me-offers-load', compact('meOffers', 'currentPage'));
 
                 break;
             case 'all-stories':
