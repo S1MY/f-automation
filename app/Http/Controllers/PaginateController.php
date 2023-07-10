@@ -55,6 +55,7 @@ class PaginateController extends Controller
                         ->whereRaw('vk_accounts.id = (SELECT MIN(id) FROM vk_accounts)');
                 })
                 ->where('published', '=', 1)
+                ->where('for_dev', '!=', 1)
                 ->where('votes', 'NOT LIKE', '%i:%;i:'.Auth::user()->id.';%')
                 ->select([
                     'offers.*',
@@ -76,6 +77,7 @@ class PaginateController extends Controller
                         ->whereRaw('vk_accounts.id = (SELECT MIN(id) FROM vk_accounts)');
                 })
                 ->where('published', '=', 2)
+                ->where('for_dev', '!=', 1)
                 ->select([
                     'offers.*',
                     'u.login as user_login',
@@ -99,6 +101,7 @@ class PaginateController extends Controller
                     })
                     ->select('u.login', 'offer', 'offers.id', 'published', 'uid', 'for_dev', 'votes', 'need')
                     ->where('published', '=', 1)
+                    ->where('for_dev', '!=', 1)
                     ->where('votes', 'LIKE', '%i:%;i:' . Auth::user()->id . ';%')
                     ->select([
                         'offers.*',

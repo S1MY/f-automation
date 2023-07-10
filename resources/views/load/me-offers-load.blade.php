@@ -6,7 +6,9 @@
         <p class="accountName">{{ $offer->user_login }}</p>
     </a>
     <p class="offerText">{{ $offer->offer }}</p>
-    <p class="subCheckPrice">Набрано<span>{{ is_null($offer->votes) ? 0 : count(unserialize($offer->votes)) }}/{{ $offer->need }}</span>голосов</p>
+    @if ($offer->for_dev === 0)
+        <p class="subCheckPrice">Набрано<span>{{ is_null($offer->votes) ? 0 : count(unserialize($offer->votes)) }}/{{ $offer->need }}</span>голосов</p>
+    @endif
     @if ($offer->published === 0)
         <p class="offerYes offerProggres">Предложение на рассмотрение</p>
     @elseif ($offer->published === 1)
