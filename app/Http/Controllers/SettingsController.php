@@ -42,4 +42,25 @@ class SettingsController extends Controller
             return $this->generateJsonResponse('error', 'Возникла ошибка', 'Старый пароль не соответствует введённому вами значению');
         }
     }
+    public function changeNewsletter(Request $request)
+    {
+        $rules = [
+            'newsletter' => 'integer|in:1,0',
+        ];
+        $messages = [
+            'newsletter.integer' => 'Должно быть числом',
+            'newsletter.in' => 'Должно быть 1 или 0',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->getMessageBag()->toArray();
+            $firstErrorKey = array_key_first($errors);
+            return $this->generateJsonResponse('error', 'Возникла ошибка', $errors[$firstErrorKey][0]);
+        }
+        $validatedData = $validator->validated();
+        $newsletter = ($validatedData['newsletter'] === 1) ? 1 : 0;
+        $unewsletter = Auth::user()->UserInfo->newsletter;
+        Auth::user()->UserInfo->newsletter = $newsletter;
+        Auth::user()->UserInfo->save();
+    }
 }
