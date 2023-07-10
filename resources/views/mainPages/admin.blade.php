@@ -146,7 +146,7 @@
                                             <span class="offerBtn _yes">Заебись</span>
                                         </label>
                                         <label for="badOffer{{ $offer->id }}">
-                                            <input type="radio" name="offer_status" value="2" id="badOffer{{ $offer->id }}">
+                                            <input type="radio" name="offer_status" value="3" id="badOffer{{ $offer->id }}">
                                             <span class="offerBtn _no">Хуета</span>
                                         </label>
                                     </div>
