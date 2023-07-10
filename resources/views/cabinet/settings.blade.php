@@ -48,5 +48,5 @@
             @include('cabinet.layouts.footer')
         </div>
     </div>
-
+    <script src="/assets/js/cabinet/settings.js"></script>
 @endsection
