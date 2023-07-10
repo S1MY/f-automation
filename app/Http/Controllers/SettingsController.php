@@ -31,8 +31,8 @@ class SettingsController extends Controller
         }
         $validatedData = $validator->validated();
         $user = User::where('id', '=', Auth::user()->id)->first();
-        if(Hash::check($user->password, Hash::make($validatedData['old_pass']))){
-            if(Hash::check($user->password, Hash::make($validatedData['new_pass']))){
+        if(Hash::check($validatedData['old_pass'], $user->password)){
+            if(Hash::check($validatedData['new_pass'], $user->password)){
                 return $this->generateJsonResponse('error', 'Возникла ошибка', 'Новый пароль повторяет старый');
             }
             $user->password = Hash::make($validatedData['new_pass']);
