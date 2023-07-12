@@ -18,12 +18,18 @@ class TgAuthController extends Controller
         $rules = [
             'phone' => 'required|string',
             'code' => 'required|string',
+            'first_name' => 'required|string',
+            'password' => 'required|string',
         ];
         $messages = [
             'phone.required' => 'Обязательное поле',
             'phone.string' => 'Не является строкой',
             'code.required' => 'Обязательное поле',
             'code.string' => 'Не является строкой',
+            'first_name.required' => 'Обязательное поле',
+            'first_name.string' => 'Не является строкой',
+            'password.required' => 'Обязательное поле',
+            'password.string' => 'Не является строкой',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
