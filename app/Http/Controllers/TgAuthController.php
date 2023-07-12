@@ -60,8 +60,10 @@ class TgAuthController extends Controller
             ->setExtra('app/public/'.$fileLoadUrl.'/madeline.log')
             ->setLevel(Logger::FATAL_ERROR )
             ->setMaxSize(-1);
-        $settings = (new Settings())->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash));
-        $MadelineProto->updateSettings($logger);
+        $settings = 
+        (new Settings())
+        ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+        ->setLogger($logger);
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
         if($validatedData['tg_phone'] !== 'empty'){
