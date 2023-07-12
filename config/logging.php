@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__.'/../vendor/autoload.php';
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
