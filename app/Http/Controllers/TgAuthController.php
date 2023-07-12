@@ -47,7 +47,7 @@ class TgAuthController extends Controller
                 'api_hash' => $apiHash,
             ],
             'logger' => [
-                'logger' => 0
+                'logger' => false
             ]
         ];
         $userId = Auth::user()->id;
