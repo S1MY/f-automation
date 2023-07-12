@@ -47,22 +47,21 @@ class TgAuthController extends Controller
         $apiHash = 'c3e50b327a806382305eb0ef048676d6';
         $userId = Auth::user()->id;
         $userName = Auth::user()->login;
+        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
         if (!Storage::exists(storage_path('app/public/files/users/' . $userName))) {
             Storage::makeDirectory(storage_path('app/public/files/users/' . $userName));
         }
-        if (!Storage::exists(storage_path('app/public/files/users/' . $userName . '/tg_session'))) {
-            Storage::makeDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
+        if (!Storage::exists(storage_path('app/public/'.$fileLoadUrl))) {
+            Storage::makeDirectory(storage_path('app/public/'.$fileLoadUrl));
         }
-        Storage::put(storage_path('app/public/files/users/' . $userName . '/tg_session/madeline.log'), '');
+        Storage::put(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'), '');
         $logger = (new LoggerSettings)
             ->setType(Logger::FILE_LOGGER)
-            ->setExtra(storage_path('app/public/files/users/' . $userName . '/tg_session/madeline.log'))
+            ->setExtra('app/public/'.$fileLoadUrl.'/madeline.log')
             ->setLevel(Logger::FATAL_ERROR )
             ->setMaxSize(-1);
-        $settings = (new Settings())
-            ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
-            ->setLogger($logger);
-        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+        $settings = (new Settings())->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash));
+        $MadelineProto->updateSettings($logger);
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
         if($validatedData['tg_phone'] !== 'empty'){
