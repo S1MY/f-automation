@@ -53,11 +53,12 @@ class TgAuthController extends Controller
         if (!Storage::exists(storage_path('app/public/files/users/' . $userName . '/tg_session'))) {
             Storage::makeDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
         }
+        Storage::put(storage_path('app/public/files/users/' . $userName . '/tg_session/madeline.log'), '');
         $logger = (new LoggerSettings)
             ->setType(Logger::FILE_LOGGER)
-            ->setLevel(Logger::FATAL_ERROR )
             ->setExtra(storage_path('app/public/files/users/' . $userName . '/tg_session/madeline.log'))
-            ->setMaxSize(1024);
+            ->setLevel(Logger::FATAL_ERROR )
+            ->setMaxSize(-1);
         $settings = (new Settings())
             ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
             ->setLogger($logger);
