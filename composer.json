@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "8.*",
-        "danog/madelineproto": "*",
+        "danog/madelineproto": "^8",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
@@ -62,6 +62,6 @@
             "phabel/phabel": false
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
