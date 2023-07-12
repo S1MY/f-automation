@@ -104,7 +104,7 @@ class TgAuthController extends Controller
         if (isset($me['photo'])) {
             $photo = $me['photo'];
             $photoInfo = $MadelineProto->getPropicInfo($me);
-            $MadelineProto->downloadToFile($photoInfo, $fileLoadUrl . '/avatar.png');
+            $MadelineProto->downloadToFile($photoInfo, 'app/public/'.$fileLoadUrl . '/avatar.png');
             $avatar = $fileLoadUrl . '/avatar.png';
         } else {
             $avatar = '/files/avatar.jpg';
