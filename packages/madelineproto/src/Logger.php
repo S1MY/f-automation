@@ -246,17 +246,17 @@ final class Logger
 
         $maxSize = $settings->getMaxSize();
 
-        if ($this->mode === self::FILE_LOGGER) {
-            if (!$optional || !\file_exists(\pathinfo($optional, PATHINFO_DIRNAME))) {
-                $optional = Magic::$script_cwd.DIRECTORY_SEPARATOR.'MadelineProto.log';
-            }
-            if (!\str_ends_with($optional, '.log')) {
-                $optional .= '.log';
-            }
-            if ($maxSize !== -1 && \file_exists($optional) && \filesize($optional) > $maxSize) {
-                \file_put_contents($optional, '');
-            }
-        }
+        // if ($this->mode === self::FILE_LOGGER) {
+        //     if (!$optional || !\file_exists(\pathinfo($optional, PATHINFO_DIRNAME))) {
+        //         $optional = Magic::$script_cwd.DIRECTORY_SEPARATOR.'MadelineProto.log';
+        //     }
+        //     if (!\str_ends_with($optional, '.log')) {
+        //         $optional .= '.log';
+        //     }
+        //     if ($maxSize !== -1 && \file_exists($optional) && \filesize($optional) > $maxSize) {
+        //         \file_put_contents($optional, '');
+        //     }
+        // }
         $this->optional = $optional;
         $this->colors[self::ULTRA_VERBOSE] = \implode(';', [self::FOREGROUND['light_gray'], self::SET['dim']]);
         $this->colors[self::VERBOSE] = \implode(';', [self::FOREGROUND['green'], self::SET['bold']]);
@@ -271,22 +271,22 @@ final class Logger
                 $this->newline = '<br>'.$this->newline;
             }
         } elseif ($this->mode === self::FILE_LOGGER) {
-            $this->stdout = new WritableResourceStream(\fopen($this->optional, 'a'));
-            if ($maxSize !== -1) {
-                $optional = $this->optional;
-                $stdout = $this->stdout;
-                $this->rotateId = EventLoop::repeat(
-                    10,
-                    static function () use ($maxSize, $optional, $stdout): void {
-                        \clearstatcache(true, $optional);
-                        if (\file_exists($optional) && \filesize($optional) >= $maxSize) {
-                            \ftruncate($stdout->getResource(), 0);
-                            self::log("Automatically truncated logfile to $maxSize");
-                        }
-                    },
-                );
-                EventLoop::unreference($this->rotateId);
-            }
+            // $this->stdout = new WritableResourceStream(\fopen($this->optional, 'a'));
+            // if ($maxSize !== -1) {
+            //     $optional = $this->optional;
+            //     $stdout = $this->stdout;
+            //     $this->rotateId = EventLoop::repeat(
+            //         10,
+            //         static function () use ($maxSize, $optional, $stdout): void {
+            //             \clearstatcache(true, $optional);
+            //             if (\file_exists($optional) && \filesize($optional) >= $maxSize) {
+            //                 \ftruncate($stdout->getResource(), 0);
+            //                 self::log("Automatically truncated logfile to $maxSize");
+            //             }
+            //         },
+            //     );
+            //     EventLoop::unreference($this->rotateId);
+            // }
         } elseif ($this->mode === self::DEFAULT_LOGGER) {
             $result = @\ini_get('error_log');
             if ($result === 'syslog') {
