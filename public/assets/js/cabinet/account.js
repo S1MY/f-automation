@@ -184,17 +184,17 @@ $(document).ready(function () {
       $.each(serialize, function (i, val) {
         formData.append(val.name, val.value);
       });
-      if ($('input[name="phone"]').val() === '') {
-        formData.append('phone', 'empty');
+      if ($('input[name="tg_phone"]').val() === '') {
+        formData.append('tg_phone', 'empty');
       }
-      if ($('input[name="code"]').val() === '') {
-        formData.append('code', 'empty');
+      if ($('input[name="tg_code"]').val() === '') {
+        formData.append('tg_code', 'empty');
       }
-      if ($('input[name="first_name"]').val() === '') {
-        formData.append('first_name', 'empty');
+      if ($('input[name="tg_first_name"]').val() === '') {
+        formData.append('tg_first_name', 'empty');
       }
-      if ($('input[name="password"]').val() === '') {
-        formData.append('password', 'empty');
+      if ($('input[name="tg_password"]').val() === '') {
+        formData.append('tg_password', 'empty');
       }
       $.ajax({
         url: ajaxUrl,
@@ -207,10 +207,10 @@ $(document).ready(function () {
             $('.popupComment').html(response.message)
             $('.telegramAuth').removeClass('_active')
             $(`.telegramAuth[data-name='${response.title}]`).addClass('_active')
-            $('input[name="phone"]').val('');
-            $('input[name="code"]').val('');
-            $('input[name="first_name"]').val('');
-            $('input[name="password"]').val('');
+            $('input[name="tg_phone"]').val('');
+            $('input[name="tg_code"]').val('');
+            $('input[name="tg_first_name"]').val('');
+            $('input[name="tg_password"]').val('');
             console.log(1)
           }else if (response.status === "input") {
             $('.popupWrapper').fadeOut();

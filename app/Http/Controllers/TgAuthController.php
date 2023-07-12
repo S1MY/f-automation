@@ -16,20 +16,20 @@ class TgAuthController extends Controller
     public function tgUserAuth(Request $request)
     {
         $rules = [
-            'phone' => 'required|string',
-            'code' => 'required|string',
-            'first_name' => 'required|string',
-            'password' => 'required|string',
+            'tg_phone' => 'required|string',
+            'tg_code' => 'required|string',
+            'tg_first_name' => 'required|string',
+            'tg_password' => 'required|string',
         ];
         $messages = [
-            'phone.required' => 'Обязательное поле',
-            'phone.string' => 'Не является строкой',
-            'code.required' => 'Обязательное поле',
-            'code.string' => 'Не является строкой',
-            'first_name.required' => 'Обязательное поле',
-            'first_name.string' => 'Не является строкой',
-            'password.required' => 'Обязательное поле',
-            'password.string' => 'Не является строкой',
+            'tg_phone.required' => 'Обязательное поле',
+            'tg_phone.string' => 'Не является строкой',
+            'tg_code.required' => 'Обязательное поле',
+            'tg_code.string' => 'Не является строкой',
+            'tg_first_name.required' => 'Обязательное поле',
+            'tg_first_name.string' => 'Не является строкой',
+            'tg_password.required' => 'Обязательное поле',
+            'tg_password.string' => 'Не является строкой',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -55,17 +55,17 @@ class TgAuthController extends Controller
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
-        if($validatedData['phone'] !== 'empty'){
-            $searchAccount = TgAccount::where('phone', '=', $validatedData['phone'])->first();
+        if($validatedData['tg_phone'] !== 'empty'){
+            $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
             if($searchAccount){
                 Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
                 return $this->generateJsonResponse('error', 'Ошибка авторизации', 'Данный аккаунт уже имеется в нашей базе данных!');
             }
-            $MadelineProto->phoneLogin($validatedData['phone']);
+            $MadelineProto->phoneLogin($validatedData['tg_phone']);
             return $this->generateJsonResponse('next', 'code', 'Введите код, пришедший в Телеграм');
         }
-        if($validatedData['code'] !== 'empty'){
-            $authorization = $MadelineProto->completePhoneLogin($validatedData['code']);
+        if($validatedData['tg_code'] !== 'empty'){
+            $authorization = $MadelineProto->completePhoneLogin($validatedData['tg_code']);
             if ($authorization['_'] === 'account.noPassword') {
                 Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
                 return $this->generateJsonResponse('error', 'Ошибка авторизации', '2FA включен, но пароль не установлен!');
@@ -77,11 +77,11 @@ class TgAuthController extends Controller
                 return $this->generateJsonResponse('next', 'password', 'Введите свой 2FA пароль');
             }
         }
-        if($validatedData['first_name'] !== 'empty'){
-            $authorization = $MadelineProto->completeSignup($validatedData['first_name'], '');
+        if($validatedData['tg_first_name'] !== 'empty'){
+            $authorization = $MadelineProto->completeSignup($validatedData['tg_first_name'], '');
         }
-        if($validatedData['password'] !== 'empty'){
-            $authorization = $MadelineProto->complete2falogin($validatedData['password']);
+        if($validatedData['tg_password'] !== 'empty'){
+            $authorization = $MadelineProto->complete2falogin($validatedData['tg_password']);
         }
         $me = $MadelineProto->getSelf();
         if (isset($me['first_name'])) {
