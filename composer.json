@@ -5,7 +5,8 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "8.*",
+        "danog/madelineproto": "*",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
@@ -57,7 +58,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "phabel/phabel": false
         }
     },
     "minimum-stability": "stable",

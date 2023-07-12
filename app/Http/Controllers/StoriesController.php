@@ -231,7 +231,10 @@ class StoriesController extends Controller
                     if ($searchStories) {
                         StoriesStory::where('stories_id', '=', $removeId)->delete();
                         StoriesSettings::where('stories_id', '=', $removeId)->delete();
-                        Storage::delete($searchStories->link);
+                        $storiesFiles = unserialize($searchStories->link);
+                        foreach ($storiesFiles as $storiesFile) {
+                            Storage::delete($storiesFile);
+                        }
                         Stories::where('id', '=', $removeId)->delete();
                         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
                     }else{
