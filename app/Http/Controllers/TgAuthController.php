@@ -42,7 +42,11 @@ class TgAuthController extends Controller
             return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
-
+        $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
+        if($searchAccount){
+            Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
+            return $this->generateJsonResponse('error', 'Ошибка авторизации', 'Данный аккаунт уже имеется в нашей базе данных!');
+        }
         $apiId = 20077871;
         $apiHash = 'c3e50b327a806382305eb0ef048676d6';
         $userId = Auth::user()->id;
@@ -64,11 +68,6 @@ class TgAuthController extends Controller
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
         if($validatedData['tg_phone'] !== 'empty'){
-            $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
-            if($searchAccount){
-                Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
-                return $this->generateJsonResponse('error', 'Ошибка авторизации', 'Данный аккаунт уже имеется в нашей базе данных!');
-            }
             $MadelineProto->phoneLogin($validatedData['tg_phone']);
             return $this->generateJsonResponse('next', 'tg_code', 'Введите код, пришедший в Телеграм');
         }
