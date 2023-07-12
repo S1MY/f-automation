@@ -55,7 +55,7 @@ class TgAuthController extends Controller
         }
         $logger = (new LoggerSettings)
             ->setType(Logger::FILE_LOGGER)
-            ->setExtra(env('MP_LOGGER_PATH', storage_path('app/public/files/users/' . $userName . '/tg_session/' . $userName . '.log')))
+            ->setExtra(env('MP_LOGGER_PATH', storage_path('app/public/files/users/' . $userName . '/tg_session/madeline.log')))
             ->setMaxSize(1024);
         $settings = (new Settings())
             ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
