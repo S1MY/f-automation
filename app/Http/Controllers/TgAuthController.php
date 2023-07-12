@@ -12,8 +12,8 @@ use App\Models\TgAccount;
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
 use danog\MadelineProto\Settings\AppInfo;
-use danog\MadelineProto\Logger;
-use danog\MadelineProto\Settings\Logger as LoggerSettings;
+// use danog\MadelineProto\Logger;
+// use danog\MadelineProto\Settings\Logger as LoggerSettings;
 
 class TgAuthController extends Controller
 {
@@ -53,13 +53,12 @@ class TgAuthController extends Controller
         if (!Storage::exists(storage_path('app/public/files/users/' . $userName . '/tg_session'))) {
             Storage::makeDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
         }
-        $logger = (new LoggerSettings)
-            ->setType(Logger::FATAL_ERROR)
-            ->setExtra(storage_path('app/public/files/MadelineProto.log'))
-            ->setMaxSize(50*1024*1024);
+        // $logger = (new LoggerSettings)
+        //     ->setType(Logger::FATAL_ERROR)
+        //     ->setExtra(storage_path('app/public/files/MadelineProto.log'))
+        //     ->setMaxSize(50*1024*1024);
         $settings = (new Settings())
             ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash));
-        $MadelineProto->updateSettings($logger);
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
