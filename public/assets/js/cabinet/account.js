@@ -205,6 +205,7 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         success: function (response) {
+          console.log(response)
           if (response.status === "success") {
             successHandler(response.title, response.message)
           } else if(response.status === "next") {
@@ -215,7 +216,6 @@ $(document).ready(function () {
             $('input[name="tg_code"]').val('');
             $('input[name="tg_first_name"]').val('');
             $('input[name="tg_password"]').val('');
-            console.log(1)
           }else if (response.status === "input") {
             $('.popupWrapper').fadeOut();
             $(`.tabPageInput[data-name='${response.title}']`).addClass('_error');
