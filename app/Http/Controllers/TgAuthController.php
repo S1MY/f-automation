@@ -45,6 +45,8 @@ class TgAuthController extends Controller
 
         $apiId = 20077871;
         $apiHash = 'c3e50b327a806382305eb0ef048676d6';
+        $userId = Auth::user()->id;
+        $userName = Auth::user()->login;
         $logger = (new LoggerSettings)
             ->setType(Logger::FATAL_ERROR)
             ->setExtra(storage_path('app/public/files/users/' . $userName . '/tg_session/MadelineProto.log'))
@@ -52,8 +54,6 @@ class TgAuthController extends Controller
         $settings = (new Settings())
             ->setAppInfo((new AppInfo)->setApiId($apiID)->setApiHash($apiHash))
             ->setLogger($logger);
-        $userId = Auth::user()->id;
-        $userName = Auth::user()->login;
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
