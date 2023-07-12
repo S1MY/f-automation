@@ -1,10 +1,8 @@
 <?php
-require_once __DIR__.'/../vendor/autoload.php';
+
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
-
-use Illuminate\Support\Facades\Auth;
 
 return [
 
@@ -55,7 +53,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', 'madelineproto'],
+            'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
 
@@ -118,12 +116,6 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
-        ],
-
-        'madelineproto' => [
-            'driver' => 'daily',
-            'path' => storage_path('app/public/files/users/'.Auth::user()->login.'/tg_session/madeline.log'),
-            'level' => 'debug',
         ],
     ],
 
