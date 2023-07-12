@@ -12,6 +12,7 @@ use App\Models\TgAccount;
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
 use danog\MadelineProto\Settings\AppInfo;
+use danog\MadelineProto\Logger;
 use danog\MadelineProto\Settings\Logger as LoggerSettings;
 
 class TgAuthController extends Controller
