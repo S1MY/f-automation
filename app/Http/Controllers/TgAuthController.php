@@ -52,7 +52,7 @@ class TgAuthController extends Controller
             ->setExtra(storage_path('app/public/files/users/' . $userName . '/tg_session/MadelineProto.log'))
             ->setMaxSize(0);
         $settings = (new Settings())
-            ->setAppInfo((new AppInfo)->setApiId($apiID)->setApiHash($apiHash))
+            ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
             ->setLogger($logger);
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
