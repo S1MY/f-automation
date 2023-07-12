@@ -57,7 +57,7 @@ class TgAuthController extends Controller
         Storage::put(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'), '');
         $logger = (new LoggerSettings)
             ->setType(Logger::FILE_LOGGER)
-            ->setExtra('app/public/'.$fileLoadUrl.'/madeline.log')
+            ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
             ->setLevel(Logger::FATAL_ERROR )
             ->setMaxSize(-1);
         $settings = 
