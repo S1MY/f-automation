@@ -206,11 +206,12 @@ $(document).ready(function () {
           } else if(response.status === "next") {
             $('.popupComment').html(response.message)
             $('.telegramAuth').removeClass('_active')
-            $(`.telegramAuth[data-name=${response.title}]`).addClass('_active')
+            $(`.telegramAuth[data-name='${response.title}]`).addClass('_active')
             $('input[name="phone"]').val('');
             $('input[name="code"]').val('');
             $('input[name="first_name"]').val('');
             $('input[name="password"]').val('');
+            console.log(1)
           }else if (response.status === "input") {
             $('.popupWrapper').fadeOut();
             $(`.tabPageInput[data-name='${response.title}']`).addClass('_error');
