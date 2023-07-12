@@ -13,6 +13,11 @@ $(document).ready(function () {
     $(".popupWrapper").fadeIn();
     $('.popupItem[data-popup="addAccount"]').fadeIn();
   });
+  $('.addTelegram').click(function (e) {
+    $('.popupItem').fadeOut();
+    $(".popupWrapper").fadeIn();
+    $('.popupItem[data-popup="addTelegram"]').fadeIn();
+  });
   $('.addGroup').click(function (e) {
     e.preventDefault();
     $('.popupItem').fadeOut();
@@ -172,6 +177,6 @@ $(document).ready(function () {
       } else {
         createMessage("<p class='fixedMessage _error'>Выберите группу!</p>")
       }
-    }
+    }else if (popupName == 'addTelegram') {}
   });
 });

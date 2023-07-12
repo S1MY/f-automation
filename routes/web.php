@@ -14,10 +14,13 @@ use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CronController;
+
 use App\Http\Controllers\VkAuthController;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\StreamsController;
+
+use App\Http\Controllers\TgAuthController;
 
 /*
  *
@@ -110,6 +113,9 @@ Route::post('/vk-post-activator', [PostsController::class, 'postActivator'])->na
 Route::post('/vk-stream-create', [StreamsController::class, 'streamCreate'])->name('streamCreate');
 Route::post('/vk-stream-activator', [StreamsController::class, 'streamActivator'])->name('streamActivator');
 Route::post('/vk-stream-remove', [StreamsController::class, 'streamRemove'])->name('streamRemove');
+
+// Телеграм
+Route::post('/tg-user-auth', [TgAuthController::class, 'tgUserAuth'])->name('tgUserAuth');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');
