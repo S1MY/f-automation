@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Support\Facades\Auth;
+use App\Models\TgAccount;
+
+use danog\MadelineProto\API;
+
+class TgAuthController extends Controller
+{
+    public function tgUserAuth(Request $request)
+    {
+        $rules = [
+            'phone' => 'required|string',
+            'code' => 'required|string',
+        ];
+        $messages = [
+            'phone.required' => 'Обязательное поле',
+            'phone.string' => 'Не является строкой',
+            'code.required' => 'Обязательное поле',
+            'code.string' => 'Не является строкой',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->getMessageBag()->toArray();
+            $firstErrorKey = array_key_first($errors);
+            return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
+        }
+        $validatedData = $validator->validated();
+
+        $apiId = 20077871;
+        $apiHash = 'c3e50b327a806382305eb0ef048676d6';
+        $settings = [
+            'app_info' => [
+                'api_id' => $apiId,
+                'api_hash' => $apiHash,
+            ],
+            'logger' => [
+                'logger' => 0
+            ]
+        ];
+        $userId = Auth::user()->id;
+        $userName = Auth::user()->login;
+        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+        $MadelineProto = new API($sessionUrl, $settings);
+        if($validatedData['phone'] !== 'empty'){
+            $searchAccount = TgAccount::where('phone', '=', $validatedData['phone'])->first();
+            if($searchAccount){
+                Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
+                return $this->generateJsonResponse('error', 'Ошибка авторизации', 'Данный аккаунт уже имеется в нашей базе данных!');
+            }
+            $MadelineProto->phoneLogin($validatedData['phone']);
+            return $this->generateJsonResponse('next', 'code', 'Введите код, пришедший в Телеграм');
+        }
+        if($validatedData['code'] !== 'empty'){
+            $authorization = $MadelineProto->completePhoneLogin($validatedData['code']);
+            if ($authorization['_'] === 'account.noPassword') {
+                Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
+                return $this->generateJsonResponse('error', 'Ошибка авторизации', '2FA включен, но пароль не установлен!');
+            }
+            if ($authorization['_'] === 'account.needSignup') {
+                return $this->generateJsonResponse('next', 'first_name', 'Введите никнейм для Telegram');
+            }
+            if ($authorization['_'] === 'account.password') {
+                return $this->generateJsonResponse('next', 'password', 'Введите свой 2FA пароль');
+            }
+        }
+        if($validatedData['first_name'] !== 'empty'){
+            $authorization = $MadelineProto->completeSignup($validatedData['first_name'], '');
+        }
+        if($validatedData['password'] !== 'empty'){
+            $authorization = $MadelineProto->complete2falogin($validatedData['password']);
+        }
+        $me = $MadelineProto->getSelf();
+        if (isset($me['first_name'])) {
+            $name = $me['first_name'];
+        } else {
+            if (isset($me['username'])) {
+                $name = $me['username'];
+            } else {
+                $name = 'Не определено';
+            }
+        }
+        $phone = $me['phone'];
+        if (isset($me['photo'])) {
+            $photo = $me['photo'];
+            $photoInfo = $MadelineProto->getPropicInfo($me);
+            $MadelineProto->downloadToFile($photoInfo, $fileLoadUrl . '/avatar.png');
+            $avatar = $fileLoadUrl . '/avatar.png';
+        } else {
+            $avatar = '/files/avatar.jpg';
+        }
+        TgAccount::create([
+            'uid' => $userId,
+            'name' => $name,
+            'avatar' => $avatar,
+            'phone' => $phone
+        ]);
+        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $name . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+    }
+}
