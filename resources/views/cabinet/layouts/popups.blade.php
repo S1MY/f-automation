@@ -99,16 +99,16 @@
     <form class="popupItem" action="{{ route('tgUserAuth') }}" data-class="standard" data-popup="addTelegram">
         <h3 class="popupTitle">Привязка аккаунта Телеграм</h3>
         <p class="popupComment">Введите номер телефона, привязанный к аккаунту</p>
-        <div class="telegramAuth _active" data-name="phone">
+        <div class="telegramAuth _active" data-name="tg_phone">
             <input type="text" name="tg_phone" class="formInput" placeholder="89123456789">
         </div>
-        <div class="telegramAuth" data-name="code">
+        <div class="telegramAuth" data-name="tg_code">
             <input type="text" name="tg_code" class="formInput" placeholder="12345">
         </div>
-        <div class="telegramAuth" data-name="first_name">
+        <div class="telegramAuth" data-name="tg_first_name">
             <input type="text" name="tg_first_name" class="formInput" placeholder="James">
         </div>
-        <div class="telegramAuth" data-name="password">
+        <div class="telegramAuth" data-name="tg_password">
             <input type="text" name="tg_password" class="formInput" placeholder="krutoiparol">
         </div>
         <button class="formBtn">Далее</button>

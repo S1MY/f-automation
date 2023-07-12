@@ -48,12 +48,6 @@ class TgAuthController extends Controller
         $userId = Auth::user()->id;
         $userName = Auth::user()->login;
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
-        // if (!Storage::disk('public')->exists('files/users/' . $userName)) {
-        //     Storage::disk('public')->makeDirectory('files/users/' . $userName);
-        // }
-        // if (!Storage::disk('public')->exists($fileLoadUrl)) {
-        //     Storage::disk('public')->makeDirectory($fileLoadUrl);
-        // }
         Storage::disk('public')->put($fileLoadUrl.'/madeline.log', '');
         chmod(storage_path('app/public/' . $fileLoadUrl.'/madeline.log'), 0777);
         $logger = (new LoggerSettings)
