@@ -1,5 +1,10 @@
 @extends('layouts.master-no-header')
 @section('content')
+@php
+    
+use Illuminate\Support\Facades\Hash;
+echo Hash::make('A9b8e7q6');
+@endphp
     <div class="page _index">
         <div class="indexForm">
             <div class="indexTop">

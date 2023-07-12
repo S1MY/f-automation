@@ -20,10 +20,7 @@ $(document).ready(function () {
                     successHandler(response.title, response.message, '/cabinet')
                 } else if (from == 'login') {
                     window.location.href = '/cabinet';
-                } else if (from == 'offers') {
-                    successHandler(response.title, response.message)
                 }
-
             },
             error: function (result) {
 
@@ -31,15 +28,15 @@ $(document).ready(function () {
 
                     if (key == 'not found') {
                         errorHandler('Возникла ошибка.', value)
+                    }else{
+                        $(`.tabPageInput[data-name=${key}]`).addClass('_error');
+                        $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
+                        $('.errorInput').fadeOut(3000);
+                        setTimeout(() => {
+                            $('.errorInput').remove();
+                        }, 3500);
                     }
-                    $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-                    $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
                 });
-
-                $('.errorInput').fadeOut(3000);
-                setTimeout(() => {
-                    $('.errorInput').remove();
-                }, 3500);
             }
         });
     });
