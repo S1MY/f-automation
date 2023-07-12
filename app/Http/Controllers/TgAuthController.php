@@ -48,18 +48,20 @@ class TgAuthController extends Controller
         $userId = Auth::user()->id;
         $userName = Auth::user()->login;
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
-        Storage::disk('public')->put($fileLoadUrl.'/madeline.log', '');
-        chmod(storage_path('app/public/' . $fileLoadUrl.'/madeline.log'), 0777);
+        if (!Storage::disk('public')->exists($fileLoadUrl.'/madeline.log')) {
+            Storage::disk('public')->put($fileLoadUrl.'/madeline.log', '');
+            chmod(storage_path('app/public/' . $fileLoadUrl.'/madeline.log'), 0777);
+        }
         $logger = (new LoggerSettings)
             ->setType(Logger::FILE_LOGGER)
             ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
             ->setLevel(Logger::FATAL_ERROR )
-            ->setMaxSize(-1);
+            ->setMaxSize(0);
         $settings = 
         (new Settings())
         ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
         ->setLogger($logger);
-        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/');
+        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
         if($validatedData['tg_phone'] !== 'empty'){
             $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
