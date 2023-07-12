@@ -68,7 +68,7 @@ class TgAuthController extends Controller
                 return $this->generateJsonResponse('error', 'Ошибка авторизации', 'Данный аккаунт уже имеется в нашей базе данных!');
             }
             $MadelineProto->phoneLogin($validatedData['tg_phone']);
-            return $this->generateJsonResponse('next', 'code', 'Введите код, пришедший в Телеграм');
+            return $this->generateJsonResponse('next', 'tg_code', 'Введите код, пришедший в Телеграм');
         }
         if($validatedData['tg_code'] !== 'empty'){
             $authorization = $MadelineProto->completePhoneLogin($validatedData['tg_code']);
@@ -77,10 +77,10 @@ class TgAuthController extends Controller
                 return $this->generateJsonResponse('error', 'Ошибка авторизации', '2FA включен, но пароль не установлен!');
             }
             if ($authorization['_'] === 'account.needSignup') {
-                return $this->generateJsonResponse('next', 'first_name', 'Введите никнейм для Telegram');
+                return $this->generateJsonResponse('next', 'tg_first_name', 'Введите никнейм для Telegram');
             }
             if ($authorization['_'] === 'account.password') {
-                return $this->generateJsonResponse('next', 'password', 'Введите свой 2FA пароль');
+                return $this->generateJsonResponse('next', 'tg_password', 'Введите свой 2FA пароль');
             }
         }
         if($validatedData['tg_first_name'] !== 'empty'){

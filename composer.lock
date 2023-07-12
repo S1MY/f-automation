@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9d47435a040a6484cabd56d067034b8",
+    "content-hash": "10d1c44eae59c0324b0a64fa3cbc7704",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1827,60 +1827,6 @@
             "time": "2023-01-09T22:29:20+00:00"
         },
         {
-            "name": "bacon/bacon-qr-code",
-            "version": "2.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "8674e51bb65af933a5ffaf1c308a660387c35c22"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/8674e51bb65af933a5ffaf1c308a660387c35c22",
-                "reference": "8674e51bb65af933a5ffaf1c308a660387c35c22",
-                "shasum": ""
-            },
-            "require": {
-                "dasprid/enum": "^1.0.3",
-                "ext-iconv": "*",
-                "php": "^7.1 || ^8.0"
-            },
-            "require-dev": {
-                "phly/keep-a-changelog": "^2.1",
-                "phpunit/phpunit": "^7 | ^8 | ^9",
-                "spatie/phpunit-snapshot-assertions": "^4.2.9",
-                "squizlabs/php_codesniffer": "^3.4"
-            },
-            "suggest": {
-                "ext-imagick": "to generate QR code images"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "BaconQrCode\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ben Scholzen 'DASPRiD'",
-                    "email": "mail@dasprids.de",
-                    "homepage": "https://dasprids.de/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "BaconQrCode is a QR code generator for PHP.",
-            "homepage": "https://github.com/Bacon/BaconQrCode",
-            "support": {
-                "issues": "https://github.com/Bacon/BaconQrCode/issues",
-                "source": "https://github.com/Bacon/BaconQrCode/tree/2.0.8"
-            },
-            "time": "2022-12-07T17:46:57+00:00"
-        },
-        {
             "name": "brick/math",
             "version": "0.11.0",
             "source": {
@@ -2216,16 +2162,16 @@
         },
         {
             "name": "danog/madelineproto",
-            "version": "v8.x-dev",
+            "version": "v9.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danog/MadelineProto.git",
-                "reference": "df1019c94153e9bd375a4f0167265f85d25f5b57"
+                "reference": "92ef5d9586f8ac9ecaf604df26de29385b634af8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danog/MadelineProto/zipball/df1019c94153e9bd375a4f0167265f85d25f5b57",
-                "reference": "df1019c94153e9bd375a4f0167265f85d25f5b57",
+                "url": "https://api.github.com/repos/danog/MadelineProto/zipball/92ef5d9586f8ac9ecaf604df26de29385b634af8",
+                "reference": "92ef5d9586f8ac9ecaf604df26de29385b634af8",
                 "shasum": ""
             },
             "require": {
@@ -2233,7 +2179,6 @@
                 "amphp/byte-stream": "^2",
                 "amphp/dns": "^2",
                 "amphp/file": "^3",
-                "amphp/http": "^2",
                 "amphp/http-client": "^5",
                 "amphp/http-client-cookies": "^2",
                 "amphp/log": "^2",
@@ -2242,7 +2187,6 @@
                 "amphp/redis": "^2",
                 "amphp/socket": "^2",
                 "amphp/websocket-client": "^2",
-                "bacon/bacon-qr-code": "^2.0",
                 "danog/dns-over-https": "^1",
                 "danog/ipc": "^1",
                 "danog/loop": "^1",
@@ -2258,7 +2202,6 @@
                 "ext-xml": "*",
                 "ext-zlib": "*",
                 "league/uri": "^6",
-                "nikic/php-parser": "^4.16",
                 "php-64bit": ">=8.1",
                 "phpseclib/phpseclib": "^3",
                 "psr/http-factory": "^1.0",
@@ -2273,24 +2216,22 @@
             "require-dev": {
                 "amphp/http-server": "^3",
                 "amphp/phpunit-util": "^3",
-                "bamarni/composer-bin-plugin": "1.8.2",
+                "bamarni/composer-bin-plugin": "1.5.0",
                 "danog/phpdoc": "^0.1.7",
                 "dg/bypass-finals": "dev-master",
                 "ext-ctype": "*",
-                "phpdocumentor/reflection-docblock": "dev-master",
-                "phpdocumentor/type-resolver": "1.x-dev@dev",
+                "phpdocumentor/reflection-docblock": "^5.2",
                 "phpunit/phpunit": "^9",
                 "roave/security-advisories": "dev-latest",
                 "symfony/yaml": "^6.0"
             },
             "suggest": {
                 "ext-ffi": "Install the primemodule and FFI extensions to speed up MadelineProto (https://prime.madelineproto.xyz)",
-                "ext-gmp": "Install the gmp extension to speed up authorization",
+                "ext-gmp": "Install the gmp extension for faster crypto",
                 "ext-openssl": "Install the openssl extension for faster crypto",
-                "ext-pdo": "Install the pdo extension to store session data on MySQL",
+                "ext-pdo": "Install pdo extension to support database used as cache",
                 "ext-primemodule": "Install the primemodule and FFI extensions to speed up MadelineProto (https://prime.madelineproto.xyz)"
             },
-            "default-branch": true,
             "type": "project",
             "extra": {
                 "phabel": {
@@ -2298,12 +2239,8 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "src/polyfill.php",
-                    "src/loop.php"
-                ],
                 "psr-4": {
-                    "danog\\MadelineProto\\": "src"
+                    "danog\\MadelineProto\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2334,7 +2271,7 @@
             ],
             "support": {
                 "issues": "https://github.com/danog/MadelineProto/issues",
-                "source": "https://github.com/danog/MadelineProto/tree/v8"
+                "source": "https://github.com/danog/MadelineProto/tree/v9"
             },
             "funding": [
                 {
@@ -2342,7 +2279,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-11T18:23:34+00:00"
+            "time": "2023-01-27T00:26:10+00:00"
         },
         {
             "name": "danog/primemodule",
@@ -2457,56 +2394,6 @@
                 }
             ],
             "time": "2022-11-16T16:22:45+00:00"
-        },
-        {
-            "name": "dasprid/enum",
-            "version": "1.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DASPRiD/Enum.git",
-                "reference": "8e6b6ea76eabbf19ea2bf5b67b98e1860474012f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/8e6b6ea76eabbf19ea2bf5b67b98e1860474012f",
-                "reference": "8e6b6ea76eabbf19ea2bf5b67b98e1860474012f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1 <9.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7 | ^8 | ^9",
-                "squizlabs/php_codesniffer": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DASPRiD\\Enum\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ben Scholzen 'DASPRiD'",
-                    "email": "mail@dasprids.de",
-                    "homepage": "https://dasprids.de/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP 7.1 enum implementation",
-            "keywords": [
-                "enum",
-                "map"
-            ],
-            "support": {
-                "issues": "https://github.com/DASPRiD/Enum/issues",
-                "source": "https://github.com/DASPRiD/Enum/tree/1.0.4"
-            },
-            "time": "2023-03-01T18:44:03+00:00"
         },
         {
             "name": "daverandom/libdns",
