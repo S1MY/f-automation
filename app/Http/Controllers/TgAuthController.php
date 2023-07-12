@@ -47,6 +47,12 @@ class TgAuthController extends Controller
         $apiHash = 'c3e50b327a806382305eb0ef048676d6';
         $userId = Auth::user()->id;
         $userName = Auth::user()->login;
+        if (!Storage::exists(storage_path('app/public/files/users/' . $userName))) {
+            Storage::makeDirectory(storage_path('app/public/files/users/' . $userName));
+        }
+        if (!Storage::exists(storage_path('app/public/files/users/' . $userName . '/tg_session'))) {
+            Storage::makeDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
+        }
         $logger = (new LoggerSettings)
             ->setType(Logger::FATAL_ERROR)
             ->setExtra(storage_path('app/public/files/users/' . $userName . '/tg_session/MadelineProto.log'))
