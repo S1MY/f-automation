@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\TgAccount;
 
 use danog\MadelineProto\API;
-use danog\MadelineProto\Settings;
-use danog\MadelineProto\Settings\AppInfo;
+// use danog\MadelineProto\Settings;
+// use danog\MadelineProto\Settings\AppInfo;
 // use danog\MadelineProto\Logger;
 // use danog\MadelineProto\Settings\Logger as LoggerSettings;
 
@@ -57,8 +57,18 @@ class TgAuthController extends Controller
         //     ->setType(Logger::FATAL_ERROR)
         //     ->setExtra(storage_path('app/public/files/MadelineProto.log'))
         //     ->setMaxSize(50*1024*1024);
-        $settings = (new Settings())
-            ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash));
+        // $settings = (new Settings())
+        //     ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+        //     ->setLogger($logger);
+        $settings = [
+            'app_info' => [
+                'api_id' => $apiId,
+                'api_hash' => $apiHash,
+            ],
+            'logger' => [
+                'logger' => 0
+            ]
+        ];
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
         $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
         $MadelineProto = new API($sessionUrl, $settings);
