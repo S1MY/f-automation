@@ -14,6 +14,7 @@ $(document).ready(function () {
     $('.popupItem[data-popup="addAccount"]').fadeIn();
   });
   $('.addTelegram').click(function (e) {
+    e.preventDefault();
     $('.popupItem').fadeOut();
     $(".popupWrapper").fadeIn();
     $('.popupItem[data-popup="addTelegram"]').fadeIn();
@@ -147,7 +148,7 @@ $(document).ready(function () {
         method: 'POST',
         data: formData,
         success: function (response) {
-          if (response.status == "success") {
+          if (response.status === "success") {
             successHandler(response.title, response.message)
           } else {
             errorHandler(response.title, response.message)
@@ -164,7 +165,7 @@ $(document).ready(function () {
           method: 'POST',
           data: formData,
           success: function (response) {
-            if (response.status == "success") {
+            if (response.status === "success") {
               successHandler(response.title, response.message)
             } else {
               errorHandler(response.title, response.message)
@@ -177,6 +178,55 @@ $(document).ready(function () {
       } else {
         createMessage("<p class='fixedMessage _error'>Выберите группу!</p>")
       }
-    }else if (popupName == 'addTelegram') {}
+    }else if (popupName == 'addTelegram') {
+      let formData = new FormData();
+      let serialize = $(this).serializeArray();
+      $.each(serialize, function (i, val) {
+        formData.append(val.name, val.value);
+      });
+      if ($('input[name="phone"]').val() === '') {
+        formData.append('phone', 'empty');
+      }
+      if ($('input[name="code"]').val() === '') {
+        formData.append('code', 'empty');
+      }
+      if ($('input[name="first_name"]').val() === '') {
+        formData.append('first_name', 'empty');
+      }
+      if ($('input[name="password"]').val() === '') {
+        formData.append('password', 'empty');
+      }
+      $.ajax({
+        url: ajaxUrl,
+        method: 'POST',
+        data: formData,
+        success: function (response) {
+          if (response.status === "success") {
+            successHandler(response.title, response.message)
+          } else if(response.status === "next") {
+            $('.popupComment').html(response.message)
+            $('.telegramAuth').removeClass('_active')
+            $(`.telegramAuth[data-name=${response.title}]`).addClass('_active')
+            $('input[name="phone"]').val('');
+            $('input[name="code"]').val('');
+            $('input[name="first_name"]').val('');
+            $('input[name="password"]').val('');
+          }else if (response.status === "input") {
+            $('.popupWrapper').fadeOut();
+            $(`.tabPageInput[data-name='${response.title}']`).addClass('_error');
+            $(`.tabPageInput[data-name='${response.title}']`).append(`<span class="errorInput">${response.message}</span>`);
+            $('.errorInput').fadeOut(3000);
+            setTimeout(() => {
+              $('.errorInput').remove();
+            }, 3500);
+          }else {
+            errorHandler(response.title, response.message)
+          }
+        },
+        error: function (response) {
+          errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+        }
+      });
+    }
   });
 });

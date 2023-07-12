@@ -564,6 +564,16 @@ body{
     pointer-events: none;
     cursor: default;
 }
+.popupComment {
+    margin-top: 16px;
+    text-align: center;
+}
+.telegramAuth{
+    display: none;
+}
+.telegramAuth._active{
+    display: block;
+}
 /* Айтемы */
 .pageItems{
     flex-grow: 1;
