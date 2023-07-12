@@ -22,7 +22,7 @@
     },
     "autoload": {
         "classmap": [
-            "packages/madelineproto"
+            "packages/danog/madelineproto"
         ],
         "psr-4": {
             "App\\": "app/",
