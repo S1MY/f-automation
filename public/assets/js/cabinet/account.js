@@ -211,7 +211,7 @@ $(document).ready(function () {
           } else if(response.status === "next") {
             $('.popupComment').html(response.message)
             $('.telegramAuth').removeClass('_active')
-            $(`.telegramAuth[data-name='${response.title}]`).addClass('_active')
+            $(`.telegramAuth[data-name='${response.title}']`).addClass('_active');
             $('input[name="tg_phone"]').val('');
             $('input[name="tg_code"]').val('');
             $('input[name="tg_first_name"]').val('');

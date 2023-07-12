@@ -56,7 +56,7 @@ class TgAuthController extends Controller
             ->setType(Logger::FILE_LOGGER)
             ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
             ->setLevel(Logger::FATAL_ERROR )
-            ->setMaxSize(0);
+            ->setMaxSize(2048);
         $settings = 
         (new Settings())
         ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
