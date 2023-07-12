@@ -197,9 +197,13 @@ $(document).ready(function () {
         formData.append('tg_password', 'empty');
       }
       $.ajax({
+        type: "POST",
         url: ajaxUrl,
-        method: 'POST',
+        contentType: false,
+        processData: false,
+        cache: false,
         data: formData,
+        dataType: "json",
         success: function (response) {
           if (response.status === "success") {
             successHandler(response.title, response.message)
