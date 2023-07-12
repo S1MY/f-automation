@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\User;
-
 class SettingsController extends Controller
 {
     public function changePassword(Request $request)
@@ -30,13 +28,12 @@ class SettingsController extends Controller
             return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
-        $user = User::where('id', '=', Auth::user()->id)->first();
-        if(Hash::check($validatedData['old_pass'], $user->password)){
-            if(Hash::check($validatedData['new_pass'], $user->password)){
+        if(Hash::check($validatedData['old_pass'], Auth::user()->password)){
+            if(Hash::check($validatedData['new_pass'], Auth::user()->password)){
                 return $this->generateJsonResponse('error', 'Возникла ошибка', 'Новый пароль повторяет старый');
             }
-            $user->password = Hash::make($validatedData['new_pass']);
-            $user->save();
+            Auth::user()->password = Hash::make($validatedData['new_pass']);
+            Auth::user()->save();
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пароль был успешно изменён');
         }else{
             return $this->generateJsonResponse('error', 'Возникла ошибка', 'Старый пароль не соответствует введённому вами значению');
