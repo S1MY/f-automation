@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "8.*",
+        "danog/madelineproto": "8.0.0-beta99",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
@@ -19,6 +20,13 @@
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -51,7 +59,7 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "phabel/phabel": false
+            "phabel/phabel": true
         }
     },
     "minimum-stability": "dev",
