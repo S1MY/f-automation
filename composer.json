@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "8.*",
-        "danog/madelineproto": "8.0.0-beta99",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
