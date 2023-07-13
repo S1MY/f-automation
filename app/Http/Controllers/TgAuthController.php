@@ -92,30 +92,30 @@ class TgAuthController extends Controller
         }
         $me = $MadelineProto->getSelf();
         return $this->generateJsonResponse('success', 'Иди нахуй', $me);
-        if (isset($me['first_name'])) {
-            $name = $me['first_name'];
-        } else {
-            if (isset($me['username'])) {
-                $name = $me['username'];
-            } else {
-                $name = 'Не определено';
-            }
-        }
-        $phone = $me['phone'];
-        if (isset($me['photo'])) {
-            $photo = $me['photo'];
-            $photoInfo = $MadelineProto->getPropicInfo($me);
-            $MadelineProto->downloadToFile($photoInfo, 'app/public/'.$fileLoadUrl . '/avatar.png');
-            $avatar = $fileLoadUrl . '/avatar.png';
-        } else {
-            $avatar = '/files/avatar.jpg';
-        }
-        TgAccount::create([
-            'uid' => $userId,
-            'name' => $name,
-            'avatar' => $avatar,
-            'phone' => $phone
-        ]);
+        // if (isset($me['first_name'])) {
+        //     $name = $me['first_name'];
+        // } else {
+        //     if (isset($me['username'])) {
+        //         $name = $me['username'];
+        //     } else {
+        //         $name = 'Не определено';
+        //     }
+        // }
+        // $phone = $me['phone'];
+        // if (isset($me['photo'])) {
+        //     $photo = $me['photo'];
+        //     $photoInfo = $MadelineProto->getPropicInfo($me);
+        //     $MadelineProto->downloadToFile($photoInfo, 'app/public/'.$fileLoadUrl . '/avatar.png');
+        //     $avatar = $fileLoadUrl . '/avatar.png';
+        // } else {
+        //     $avatar = '/files/avatar.jpg';
+        // }
+        // TgAccount::create([
+        //     'uid' => $userId,
+        //     'name' => $name,
+        //     'avatar' => $avatar,
+        //     'phone' => $phone
+        // ]);
         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $name . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
     }
 }
