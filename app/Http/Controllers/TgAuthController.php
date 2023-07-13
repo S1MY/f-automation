@@ -91,7 +91,7 @@ class TgAuthController extends Controller
             $authorization = $MadelineProto->complete2falogin($validatedData['tg_password']);
         }
         $me = $MadelineProto->getSelf();
-        return $this->generateJsonResponse('success', 'Иди нахуй', $me);
+        return $this->generateJsonResponse('error', 'Иди нахуй', $me);
         // if (isset($me['first_name'])) {
         //     $name = $me['first_name'];
         // } else {
