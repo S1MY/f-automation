@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\TgAccount;
-
+require '.packages/danog/madelineproto/vendor/autoload.php';
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
 use danog\MadelineProto\Settings\AppInfo;
