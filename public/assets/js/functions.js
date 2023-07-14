@@ -104,3 +104,22 @@ const createMessage = (message) => {
     $(".fixedMessage").remove();
   }, 4000);
 }
+
+const ajaxEasyHandler = (ajaxUrl, formData) => {
+  $(".popupWrapper").fadeIn();
+  $.ajax({
+    url: ajaxUrl,
+    method: 'POST',
+    data: formData,
+    success: function (response) {
+      if (response.status === 'success') {
+      successHandler(response.title, response.message)
+      }else{
+        errorHandler(response.title, response.message)
+      }
+    },
+    error: function (response) {
+      errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+    }
+  });
+}

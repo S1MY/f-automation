@@ -113,22 +113,7 @@ $(document).ready(function () {
     const ajaxUrl = $(this).attr('data-action');
     let formData = {};
     formData.accountId = accountId;
-    $(".popupWrapper").fadeIn();
-    $.ajax({
-      url: ajaxUrl,
-      method: 'POST',
-      data: formData,
-      success: function (response) {
-        if (response.status === 'success') {
-        successHandler(response.title, response.message)
-        }else{
-          errorHandler(response.title, response.message)
-        }
-      },
-      error: function (response) {
-        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
-      }
-    });
+    ajaxEasyHandler(ajaxUrl, formData);
   });
   $('.removeGroup').click(function (e) {
     e.preventDefault();
@@ -136,22 +121,15 @@ $(document).ready(function () {
     const ajaxUrl = $(this).attr('data-action');
     let formData = {};
     formData.groupId = groupId;
-    $(".popupWrapper").fadeIn();
-    $.ajax({
-      url: ajaxUrl,
-      method: 'POST',
-      data: formData,
-      success: function (response) {
-        if (response.status === 'success') {
-        successHandler(response.title, response.message)
-        }else{
-          errorHandler(response.title, response.message)
-        }
-      },
-      error: function (response) {
-        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
-      }
-    });
+    ajaxEasyHandler(ajaxUrl, formData);
+  });
+  $('.removeChannel').click(function (e) {
+    e.preventDefault();
+    const channelId = $(this).attr('data-channelId');
+    const ajaxUrl = $(this).attr('data-action');
+    let formData = {};
+    formData.channelId = channelId;
+    ajaxEasyHandler(ajaxUrl, formData);
   });
   $('.phoneButton').click(function (e) { 
     e.preventDefault();

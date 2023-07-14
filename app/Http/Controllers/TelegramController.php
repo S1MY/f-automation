@@ -344,6 +344,7 @@ class TelegramController extends Controller
                     TgStream::where('id', '=', $stream->id)->delete();
                 }
                 $searchChannel->delete();
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Канал был удалён');
             }else{
                 return $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный канал не был найден, либо вы не являетесь его владельцем');
             }
