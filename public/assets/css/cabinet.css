@@ -2044,6 +2044,7 @@ a.accountInfo:hover{
     overflow: hidden;
     background: #FFFFFF;
     color: #151515;
+    border-radius: 6px;
     transition: all 0.4s;
 }
 .phoneButton{
