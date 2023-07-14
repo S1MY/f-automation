@@ -100,6 +100,7 @@ $(document).ready(function () {
         // }
       },
       error: function (response) {
+        console.log(response)
         errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       }
     });
