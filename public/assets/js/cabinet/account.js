@@ -107,6 +107,10 @@ $(document).ready(function () {
       }
     });
   });
+  $('.phoneButton').click(function (e) { 
+    e.preventDefault();
+    $(this).parent().toggleClass('_viewed');
+  });
   $('.buyPlace').click(function (e) {
     e.preventDefault();
     const ajaxUrl = $(this).attr('data-action');

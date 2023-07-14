@@ -2034,6 +2034,33 @@ a.accountInfo:hover{
 .sliderArrow:hover path{
     fill: #FFFFFF;
 }
+.telegramPhone{
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.phoneButton{
+    width: 36px;
+    height: 36px;
+    background: #2980B9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+.phoneButton:hover{
+    opacity: 0.8;
+}
+.telegramPhone._viewed{
+    width: unset;
+}
+._viewed .phoneButton{
+    background: #FF5437;
+}
 /* Адаптив */
 @media (max-width: 1480px) {
     .footer{
