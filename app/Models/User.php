@@ -56,4 +56,7 @@ class User extends Authenticatable
     public function VkGroup(){
         return $this->hasMany(VkGroup::class, 'uid', 'id');
     }
+    public function TgAccount(){
+        return $this->hasMany(TgAccount::class, 'uid', 'id');
+    }
 }
