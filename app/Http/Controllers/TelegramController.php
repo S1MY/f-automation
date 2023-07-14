@@ -258,11 +258,6 @@ class TelegramController extends Controller
         if(count($messages_Chats['chats']) < 1){
             return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
         }else{
-            $directory = 'files/tgChannels';
-            if (!Storage::disk('public')->exists($directory)) {
-                Storage::disk('public')->makeDirectory($directory);
-                chmod(storage_path('app/public/' . $directory), 0777);
-            }
             foreach ($messages_Chats['chats'] as $chat) {
                 $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
                 if(!$searchChannel){
@@ -273,6 +268,66 @@ class TelegramController extends Controller
                 }
             }
             return $this->generateJsonResponse('success', 'Список подгружен', $channels);
+        }
+    }
+    public function tgChannelAuth(Request $request){
+        $userName = Auth::user()->login;
+        $accountId = $request->accountId;
+        $channelName = $request->username;
+        $userId = Auth::user()->id;
+        $userName = Auth::user()->login;
+        $apiId = env('TELEGRAM_APP_ID');
+        $apiHash = env('TELEGRAM_APP_HASH');
+        if (is_numeric($accountId)) {
+            $searchAccount = TgAccount::where('id', '=', $accountId)
+                ->where('uid', '=', $userId)
+                ->first();
+            if ($searchAccount) {
+                $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+                $logger = (new LoggerSettings)
+                    ->setType(Logger::FILE_LOGGER)
+                    ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
+                    ->setLevel(Logger::FATAL_ERROR )
+                    ->setMaxSize(2048);
+                $settings = 
+                (new Settings())
+                ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+                ->setLogger($logger);
+                $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+                $MadelineProto = new API($sessionUrl, $settings);
+                $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
+                $channels = [];
+                $searchChannel = TgChannel::where('name', '=', $channelName)->first();
+                if(count($messages_Chats['chats']) < 1){
+                    return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
+                }else{
+                    if($searchChannel){
+                        return $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный канал уже приязан');
+                    }
+                    foreach ($messages_Chats['chats'] as $chat) {
+                        if($chat['username'] === $channelName){
+                            $channels[] = [
+                                'title' => $chat['title'],
+                                'username' => $chat['username']
+                            ];
+                        }
+                    }
+                    if (count($channels) < 1) {
+                        return $this->generateJsonResponse('error', 'Ошибка запроса', 'Вы не являетесь администратором данного канала');
+                    }
+                    TgChannel::create([
+                        'uid' => $userId,
+                        'account_id' => $searchAccount->id,
+                        'title' => $channels[0]['title'],
+                        'name' => $channels[0]['username'],
+                    ]);
+                    return $this->generateJsonResponse('success', 'Всё успешно', 'Данный канал успешно привязан');
+                }
+            } else {
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
+            }
+        }else {
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId');
         }
     }
 }

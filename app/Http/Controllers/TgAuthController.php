@@ -118,7 +118,7 @@ class TgAuthController extends Controller
             'avatar' => $avatar,
             'phone' => $phone
         ]);
-        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $name . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $name . '</span> - успешно привязан');
     }
     public function tgUserRemove(Request $request)
     {
@@ -131,7 +131,7 @@ class TgAuthController extends Controller
         if ($searchAccount) {
             Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
             $searchAccount->delete();
-            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён');
         } else {
             return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
         }

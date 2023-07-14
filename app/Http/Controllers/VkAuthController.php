@@ -70,7 +70,7 @@ class VkAuthController extends Controller
                         'avatar' => $accountAvatar,
                         'token' => $token
                     ]);
-                    return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $accountName . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                    return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $accountName . '</span> - успешно привязан');
                 } else {
                     $searchAccount->uid = $userId;
                     $searchAccount->name = $accountName;
@@ -112,7 +112,7 @@ class VkAuthController extends Controller
                 $this->removePosts($searchPosts, $searchAccount);
                 VkGroup::where('account_id', '=', $searchAccount->id)->delete();
                 VkAccount::where('id', '=', $accountId)->delete();
-                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён');
             } else {
                 return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
             }
@@ -221,7 +221,7 @@ class VkAuthController extends Controller
                         }
                     }
                     if ($groupNext) {
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа - <span>' . $groupName . '</span> - успешно привязана.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа - <span>' . $groupName . '</span> - успешно привязана');
                     } else {
                         return $this->generateJsonResponse('error', 'Ошибка запроса', 'Вы не являетесь администратором группы!');
                     }
@@ -252,7 +252,7 @@ class VkAuthController extends Controller
                 $searchPosts = Post::where('group_id', '=', $searchGroup->id)->get();
                 $this->removePosts($searchPosts, $searchAccount);
                 VkGroup::where('id', '=', $groupId)->delete();
-                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Группа была удалена');
             } else {
                 return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная группа не была найдена, либо вы не являетесь её владельцем');
             }

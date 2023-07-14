@@ -300,7 +300,7 @@ class StreamsController extends Controller
                             Storage::delete($link);
                         }
                         Stream::where('id', '=', $removeId)->delete();
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена');
                     }else{
                         return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная трансяция не найдена');
                     }  

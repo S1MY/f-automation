@@ -236,7 +236,7 @@ class StoriesController extends Controller
                             Storage::delete($storiesFile);
                         }
                         Stories::where('id', '=', $removeId)->delete();
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История была удалена.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История была удалена');
                     }else{
                         return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная история не найдена');
                     }  

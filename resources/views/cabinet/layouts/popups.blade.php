@@ -166,17 +166,17 @@
     </form>
     @endif
     @if(Auth::user()->TgAccount)
-    <form class="popupItem" action="" data-class="standard" data-popup="addChannel">
+    <form class="popupItem" action="{{route('tgChannelAuth')}}" data-class="standard" data-popup="addChannel">
         <h3 class="popupTitle">Привязка Канала ТГ</h3>
         <div class="formSelect addChannelSelect" data-action="{{ route('tgChannelList') }}">
             @foreach (Auth::user()->TgAccount as $key => $tgAccount)
             <input type="hidden" name="accountId" value="{{$tgAccount->id}}">
             @endforeach
         </div>
-        <div class="groupSelectItems">
+        <div class="channelSelectItems">
             
         </div>
-        <button class="formBtn">Привязать группу</button>
+        <button class="formBtn">Привязать канал</button>
     </form>
     @endif
     <div class="popupItem" data-class="guid" data-popup="vkAuth">

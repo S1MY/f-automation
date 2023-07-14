@@ -85,8 +85,6 @@ $(document).ready(function () {
               const avatar = '/files/avatar.jpg';
               groupsItems += `<div class="groupSelect">
               <input type="radio" name="username" value=${username} class="groupSelectRadio">
-              <input type="hidden" name="title" value=${title}>
-              <input type="hidden" name="avatar" value=${avatar}>
               <div class="groupSelectInfo">
                   <div class="accountAvatar" style="background: url(${avatar}), #FFFFFF;"></div>
                   <p class="accountName">${(title.length > 14) ? title.substring(0, 11) + '...' : title}</p>
@@ -98,7 +96,7 @@ $(document).ready(function () {
             groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены каналы!</p>`
             $('.popupItem[data-popup="addChannel"]').children('.formBtn').css({ "display": "none" });
           }
-          $('.groupSelectItems').html(groupsItems)
+          $('.channelSelectItems').html(groupsItems)
         }else{
           errorHandler(response.title, response.message)
         }
@@ -212,6 +210,26 @@ $(document).ready(function () {
       });
     } else if (popupName == 'addGroup') {
       if (formData.indexOf('groupId') >= 0) {
+        $.ajax({
+          url: ajaxUrl,
+          method: 'POST',
+          data: formData,
+          success: function (response) {
+            if (response.status === "success") {
+              successHandler(response.title, response.message)
+            } else {
+              errorHandler(response.title, response.message)
+            }
+          },
+          error: function (response) {
+            errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+          }
+        });
+      } else {
+        createMessage("<p class='fixedMessage _error'>Выберите группу!</p>")
+      }
+    } else if (popupName == 'addChannel') {
+      if (formData.indexOf('username').length >= 0) {
         $.ajax({
           url: ajaxUrl,
           method: 'POST',

@@ -434,7 +434,7 @@ class PostsController extends Controller
                                 }
                             }
                         }
-                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост удалён');
                     }else{
                         return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный пост не найден');
                     }  

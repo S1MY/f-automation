@@ -1094,7 +1094,7 @@ a.tableItem:hover{
 .addGroupSelect, .addChannelSelect{
     width: 100% !important;
 }
-.groupSelectItems{
+.groupSelectItems, .channelSelectItems{
     display: flex;
     align-items: center;
     justify-content: space-between;

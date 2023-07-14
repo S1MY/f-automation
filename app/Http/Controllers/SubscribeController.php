@@ -163,7 +163,7 @@ class SubscribeController extends Controller
             'sub_status' => 1,
             'end_date'   => $endDate
         ]);
-        return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+        return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку');
     }
     public function buyAccountPlace(Request $request)
     {
@@ -176,7 +176,7 @@ class SubscribeController extends Controller
             Auth::user()->UserInfo->balance = $ubalance - 25;
             Auth::user()->UserInfo->vk_account_places = $uplaces + 1;
             Auth::user()->UserInfo->save();
-            return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+            return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место');
         }else{
             return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под аккаунт!');
         }
@@ -192,7 +192,7 @@ class SubscribeController extends Controller
             Auth::user()->UserInfo->balance = $ubalance - 25;
             Auth::user()->UserInfo->vk_group_places = $uplaces + 1;
             Auth::user()->UserInfo->save();
-            return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+            return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место');
         }else{
             return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под аккаунт!');
         }
