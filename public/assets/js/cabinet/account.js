@@ -229,25 +229,26 @@ $(document).ready(function () {
         createMessage("<p class='fixedMessage _error'>Выберите группу!</p>")
       }
     } else if (popupName == 'addChannel') {
-      if (formData.indexOf('username').length >= 0) {
-        $.ajax({
-          url: ajaxUrl,
-          method: 'POST',
-          data: formData,
-          success: function (response) {
-            if (response.status === "success") {
-              successHandler(response.title, response.message)
-            } else {
-              errorHandler(response.title, response.message)
-            }
-          },
-          error: function (response) {
-            errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
-          }
-        });
-      } else {
-        createMessage("<p class='fixedMessage _error'>Выберите группу!</p>")
-      }
+      console.log(formData.indexOf('username'))
+      // if (formData.indexOf('username').length >= 0) {
+      //   $.ajax({
+      //     url: ajaxUrl,
+      //     method: 'POST',
+      //     data: formData,
+      //     success: function (response) {
+      //       if (response.status === "success") {
+      //         successHandler(response.title, response.message)
+      //       } else {
+      //         errorHandler(response.title, response.message)
+      //       }
+      //     },
+      //     error: function (response) {
+      //       errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+      //     }
+      //   });
+      // } else {
+      //   createMessage("<p class='fixedMessage _error'>Выберите группу!</p>")
+      // }
     }else if (popupName == 'addTelegram') {
       let formData = new FormData();
       let serialize = $(this).serializeArray();
