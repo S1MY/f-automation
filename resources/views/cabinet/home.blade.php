@@ -131,7 +131,7 @@
                                  @foreach (Auth::user()->TgAccount as $tgAccount)
                                     <div class="accountItem">
                                         <div class="accountInfo">
-                                            <div class="accountAvatar" style="background: url({{ $tgAccount->avatar }}), #FFFFFF;"></div>
+                                            <div class="accountAvatar" style="background: url(/storage/{{ $tgAccount->avatar }}), #FFFFFF;"></div>
                                             <p class="accountName">{{ $tgAccount->name }}</p>
                                         </div>
                                         <a href="#" class="manageBtn">Удалить</a>
