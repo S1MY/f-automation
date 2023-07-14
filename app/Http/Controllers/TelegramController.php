@@ -255,16 +255,19 @@ class TelegramController extends Controller
         $MadelineProto = new API($sessionUrl, $settings);
         $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
         $channels = [];
-        return $this->generateJsonResponse('error', 'Ошибка канала', $messages_Chats['chats']);
         if(count($messages_Chats['chats']) < 1){
             return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
         }else{
             foreach ($messages_Chats['chats'] as $chat) {
                 // $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
                 // if(!$searchChannel){
-                    $channels[] = $chat['username'];
+                    $channels[] = [
+                        'title' => $chat['title'],
+                        'username' => $chat['username']
+                    ];
                 // }
             }
         }
+        return $this->generateJsonResponse('error', 'Ошибка канала', $channels);
     }
 }
