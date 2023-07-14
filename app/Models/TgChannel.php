@@ -12,6 +12,6 @@ class TgChannel extends Model
         'uid',
         'account_id',
         'name',
-        'avatar',
+        'title',
     ];
 }
