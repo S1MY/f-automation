@@ -265,21 +265,15 @@ class TelegramController extends Controller
             }
             foreach ($messages_Chats['chats'] as $chat) {
                 $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
-                if($chat['photo']['_'] !== 'chatPhotoEmpty'){
-                    $MadelineProto->downloadToFile($chat['photo'], storage_path('app/public/files/tgChannels/'.$chat['id'].'.png'));
-                    $avatar = '/storage/files/tgChannels/'.$chat['id'].'.png';
-                }else{
-                    $avatar = '/storage/files/avatar.jpg';
-                }
                 if(!$searchChannel){
                     $channels[] = [
                         'title' => $chat['title'],
                         'username' => $chat['username'],
-                        'avatar' => $avatar
+                        'avatar' => '/storage/files/avatar.jpg'
                     ];
                 }
             }
-            return $this->generateJsonResponse('error', 'Ошибка канала', $channels);
+            return $this->generateJsonResponse('success', 'Список подгружен', $channels);
         }
     }
 }

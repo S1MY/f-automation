@@ -80,15 +80,16 @@ $(document).ready(function () {
           let groupsItems = ``;
           if (Object.keys(response.message).length > 0) {
             for (const item of Object.values(response.message)) {
-              const name = item.title;
+              const title = item.title;
               const username = item.username;
               const avatar = item.avatar;
               groupsItems += `<div class="groupSelect">
               <input type="radio" name="username" value=${username} class="groupSelectRadio">
+              <input type="hidden" name="title" value=${title}>
               <input type="hidden" name="avatar" value=${avatar}>
               <div class="groupSelectInfo">
                   <div class="accountAvatar" style="background: url(${avatar}), #FFFFFF;"></div>
-                  <p class="accountName">${(name.length > 14) ? name.substring(0, 11) + '...' : name}</p>
+                  <p class="accountName">${(title.length > 14) ? title.substring(0, 11) + '...' : title}</p>
               </div>
           </div>`
             }
