@@ -260,6 +260,7 @@ class TelegramController extends Controller
         }else{
             foreach ($messages_Chats['chats'] as $chat) {
                 // $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
+                $MadelineProto->downloadToFile($chat['photo'], storage_path('app/public/files/tgChannels/'.$chat['username'].'.png'));
                 // if(!$searchChannel){
                     $channels[] = [
                         'title' => $chat['title'],
