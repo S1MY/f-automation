@@ -2040,6 +2040,7 @@ a.accountInfo:hover{
     display: flex;
     align-items: center;
     gap: 12px;
+    transition: all 0.4s;
 }
 .phoneButton{
     width: 36px;
