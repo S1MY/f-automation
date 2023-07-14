@@ -72,10 +72,6 @@ class TelegramController extends Controller
         $apiHash = env('TELEGRAM_APP_HASH');
         $userName = Auth::user()->login;
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
-        if (!Storage::disk('public')->exists($fileLoadUrl.'/madeline.log')) {
-            Storage::disk('public')->put($fileLoadUrl.'/madeline.log', '');
-            chmod(storage_path('app/public/' . $fileLoadUrl.'/madeline.log'), 0777);
-        }
         $logger = (new LoggerSettings)
             ->setType(Logger::FILE_LOGGER)
             ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
