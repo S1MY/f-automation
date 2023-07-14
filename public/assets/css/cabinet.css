@@ -2042,6 +2042,8 @@ a.accountInfo:hover{
     align-items: center;
     gap: 12px;
     overflow: hidden;
+    background: #FFFFFF;
+    color: #151515;
     transition: all 0.4s;
 }
 .phoneButton{
@@ -2059,7 +2061,7 @@ a.accountInfo:hover{
     opacity: 0.8;
 }
 .telegramPhone._viewed{
-    width: unset;
+    width: 160px;
 }
 ._viewed .phoneButton{
     background: #FF5437;
