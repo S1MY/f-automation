@@ -263,7 +263,8 @@ class TelegramController extends Controller
                 Storage::disk('public')->makeDirectory($directory);
                 chmod(storage_path('app/public/' . $directory), 0777);
             }
-            // foreach ($messages_Chats['chats'] as $chat) {
+            foreach ($messages_Chats['chats'] as $chat) {
+                return $this->generateJsonResponse('error', 'Ошибка канала', $chat['photo']);
             //     // $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
             //     if($chat['photo']['_'] !== 'chatPhotoEmpty'){
             //         $MadelineProto->downloadToFile($chat['photo'], storage_path('app/public/files/tgChannels/'.$chat['username'].'.png'));
@@ -274,8 +275,7 @@ class TelegramController extends Controller
             //             'username' => $chat['username']
             //         ];
             //     // }
-            // }
+            }
         }
-        return $this->generateJsonResponse('error', 'Ошибка канала', $messages_Chats['chats']);
     }
 }
