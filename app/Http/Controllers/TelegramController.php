@@ -258,6 +258,11 @@ class TelegramController extends Controller
         if(count($messages_Chats['chats']) < 1){
             return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
         }else{
+            $directory = 'files/tgChannels';
+            if (!Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory);
+                chmod(storage_path('app/public/' . $directory), 0777);
+            }
             foreach ($messages_Chats['chats'] as $chat) {
                 // $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
                 $MadelineProto->downloadToFile($chat['photo'], storage_path('app/public/files/tgChannels/'.$chat['username'].'.png'));
