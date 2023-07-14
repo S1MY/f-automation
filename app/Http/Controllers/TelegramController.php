@@ -268,8 +268,7 @@ class TelegramController extends Controller
                 if(!$searchChannel){
                     $channels[] = [
                         'title' => $chat['title'],
-                        'username' => $chat['username'],
-                        'avatar' => '/storage/files/avatar.jpg'
+                        'username' => $chat['username']
                     ];
                 }
             }

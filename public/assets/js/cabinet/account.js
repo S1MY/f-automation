@@ -82,7 +82,7 @@ $(document).ready(function () {
             for (const item of Object.values(response.message)) {
               const title = item.title;
               const username = item.username;
-              const avatar = item.avatar;
+              const avatar = '/files/avatar.jpg';
               groupsItems += `<div class="groupSelect">
               <input type="radio" name="username" value=${username} class="groupSelectRadio">
               <input type="hidden" name="title" value=${title}>
