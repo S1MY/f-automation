@@ -235,6 +235,7 @@ class TelegramController extends Controller
     }
     public function tgChannelList(Request $request)
     {
+        $userName = Auth::user()->login;
         $channelsResponse = [];
         $userId = Auth::user()->id;
         $accountId = $request->accountId;
