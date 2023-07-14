@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TgChannel extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'uid',
         'account_id',
