@@ -76,28 +76,31 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         console.log(response)
-        // if (response.status === 'success') {
-        //   let groupsItems = ``;
-        //   if (Object.keys(response.message).length > 0) {
-        //     for (const item of Object.values(response.message)) {
-        //       const name = item.name
-        //       groupsItems += `<div class="groupSelect">
-        //       <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
-        //       <div class="groupSelectInfo">
-        //           <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
-        //           <p class="accountName">${(name.length > 14) ? name.substring(0, 11) + '...' : name}</p>
-        //       </div>
-        //   </div>`
-        //     }
-        //     $('.popupItem[data-popup="addChannel"]').children('.formBtn').css({ "display": "flex" });
-        //   } else {
-        //     groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены каналы!</p>`
-        //     $('.popupItem[data-popup="addChannel"]').children('.formBtn').css({ "display": "none" });
-        //   }
-        //   $('.groupSelectItems').html(groupsItems)
-        // }else{
-        //   errorHandler(response.title, response.message)
-        // }
+        if (response.status === 'success') {
+          let groupsItems = ``;
+          if (Object.keys(response.message).length > 0) {
+            for (const item of Object.values(response.message)) {
+              const name = item.title;
+              const username = item.username;
+              const avatar = item.avatar;
+              groupsItems += `<div class="groupSelect">
+              <input type="radio" name="username" value=${username} class="groupSelectRadio">
+              <input type="hidden" name="avatar" value=${avatar}>
+              <div class="groupSelectInfo">
+                  <div class="accountAvatar" style="background: url(${avatar}), #FFFFFF;"></div>
+                  <p class="accountName">${(name.length > 14) ? name.substring(0, 11) + '...' : name}</p>
+              </div>
+          </div>`
+            }
+            $('.popupItem[data-popup="addChannel"]').children('.formBtn').css({ "display": "flex" });
+          } else {
+            groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены каналы!</p>`
+            $('.popupItem[data-popup="addChannel"]').children('.formBtn').css({ "display": "none" });
+          }
+          $('.groupSelectItems').html(groupsItems)
+        }else{
+          errorHandler(response.title, response.message)
+        }
       },
       error: function (response) {
         console.log(response)
