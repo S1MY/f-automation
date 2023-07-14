@@ -129,6 +129,7 @@
                             <div class="tabFlex">
                                 @if(count(Auth::user()->TgAccount) > 0)
                                  @foreach (Auth::user()->TgAccount as $tgAccount)
+                                 <div class="accountItemFulled">
                                     <div class="accountItem">
                                         <div class="accountInfo">
                                             <div class="accountAvatar" style="background: url(/storage/{{ $tgAccount->avatar }}), #FFFFFF;"></div>
@@ -151,6 +152,7 @@
                                             </svg>
                                         </a>
                                     </div>
+                                 </div>
                                     @endforeach
                                 @else
                                     <div class="accountItem centerItem">
@@ -161,6 +163,17 @@
                                             </svg>
                                         </a>
                                     </div>
+                                @endif
+                                @if (count(Auth::user()->TgChannel) >= 0)
+                                    @foreach (Auth::user()->TgChannel as $tgChannel)
+                                    <div class="accountItem">
+                                        <div class="accountInfo">
+                                            <div class="accountAvatar" style="background: url(/files/avatar.jpg), #FFFFFF;"></div>
+                                            <p class="accountName">{{$tgChannel->title}}</p>
+                                        </div>
+                                        <a href="#" class="manageBtn removeChannel" data-channelId="{{ $tgChannel->id }}" data-action="{{route('tgChannelRemove')}}">Удалить</a>
+                                    </div>
+                                    @endforeach
                                 @endif
                                 @if (count(Auth::user()->TgChannel) >= 1)
                                 <div class="accountItem centerItem">

@@ -330,4 +330,25 @@ class TelegramController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка запроса', 'Неопределённое поле accountId');
         }
     }
+    public function tgChannelRemove(Request $request){
+        $userId = Auth::user()->id;
+        $channelId = $request->channelId;
+        if (is_numeric($channelId)) {
+            $searchChannel = TgChannel::where('id', '=', $channelId)->where('uid', '=', $userId)->first();
+            if($searchChannel){
+                $tgStreams = TgStream::where('channel_id', '=', $channelId)->get();
+                foreach ($tgStreams as $key => $stream) {
+                    foreach (unserialize($stream->link) as $key => $link) {
+                        Storage::delete($link);
+                    }
+                    TgStream::where('id', '=', $stream->id)->delete();
+                }
+                $searchChannel->delete();
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка запроса', 'Данный канал не был найден, либо вы не являетесь его владельцем');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле channelId');
+        }
+    }
 }
