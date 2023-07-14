@@ -264,18 +264,20 @@ class TelegramController extends Controller
                 chmod(storage_path('app/public/' . $directory), 0777);
             }
             foreach ($messages_Chats['chats'] as $chat) {
-                return $this->generateJsonResponse('error', 'Ошибка канала', $chat['photo']['_']);
             //     // $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
-            //     if($chat['photo']['_'] !== 'chatPhotoEmpty'){
-            //         $MadelineProto->downloadToFile($chat['photo'], storage_path('app/public/files/tgChannels/'.$chat['username'].'.png'));
-            //     }
+                if($chat['photo']['_'] !== 'chatPhotoEmpty'){
+                    $MadelineProto->downloadToFile($chat['photo'], storage_path('app/public/files/tgChannels/'.$chat['username'].'.png'));
+                }else{
+
+                }
             //     // if(!$searchChannel){
-            //         $channels[] = [
-            //             'title' => $chat['title'],
-            //             'username' => $chat['username']
-            //         ];
+                    $channels[] = [
+                        'title' => $chat['title'],
+                        'username' => $chat['username']
+                    ];
             //     // }
             }
+            return $this->generateJsonResponse('error', 'Ошибка канала', $channels);
         }
     }
 }
