@@ -264,7 +264,7 @@ class TelegramController extends Controller
                 chmod(storage_path('app/public/' . $directory), 0777);
             }
             foreach ($messages_Chats['chats'] as $chat) {
-                return $this->generateJsonResponse('error', 'Ошибка канала', $chat['photo']);
+                return $this->generateJsonResponse('error', 'Ошибка канала', $chat['photo'][]);
             //     // $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
             //     if($chat['photo']['_'] !== 'chatPhotoEmpty'){
             //         $MadelineProto->downloadToFile($chat['photo'], storage_path('app/public/files/tgChannels/'.$chat['username'].'.png'));
