@@ -116,6 +116,7 @@ Route::post('/vk-stream-remove', [StreamsController::class, 'streamRemove'])->na
 
 // Телеграм
 Route::post('/tg-user-auth', [TgAuthController::class, 'tgUserAuth'])->name('tgUserAuth');
+Route::post('/tg-user-remove', [TgAuthController::class, 'tgUserRemove'])->name('tgUserRemove');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

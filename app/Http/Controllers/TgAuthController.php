@@ -117,4 +117,21 @@ class TgAuthController extends Controller
         ]);
         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $name . '</span> - успешно привязан.<br> Страница автоматически перегрузится, чтобы изменения применились.');
     }
+    public function tgUserRemove(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $accountId = $request->accountId;
+        if (is_numeric($accountId)) {
+        $searchAccount = TgAccount::where('id', '=', $accountId)->where('uid', '=', $userId)->first();
+        if ($searchAccount) {
+            Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
+            $searchAccount->delete();
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён.<br> Страница автоматически перегрузится, чтобы изменения применились.');
+        } else {
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный аккаунт не был найден, либо вы не являетесь его владельцем');
+        }
+        } else {
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле accountId');
+        }
+    }
 }
