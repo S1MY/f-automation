@@ -61,6 +61,49 @@ $(document).ready(function () {
       }
     });
   });
+  $('.addChannel').click(function (e) {
+    e.preventDefault();
+    $('.popupItem').fadeOut();
+    $(".popupWrapper").fadeIn();
+    $('.popupItem[data-popup="addChannel"]').fadeIn();
+    const accountId = $('.addChannelSelect').children('input[name="accountId"]').val()
+    const ajaxUrl = $('.addChannelSelect').attr('data-action')
+    let formData = {};
+    formData.accountId = accountId;
+    $.ajax({
+      url: ajaxUrl,
+      method: 'POST',
+      data: formData,
+      success: function (response) {
+        console.log(response)
+        // if (response.status === 'success') {
+        //   let groupsItems = ``;
+        //   if (Object.keys(response.message).length > 0) {
+        //     for (const item of Object.values(response.message)) {
+        //       const name = item.name
+        //       groupsItems += `<div class="groupSelect">
+        //       <input type="radio" name="groupId" value=${item.id} class="groupSelectRadio">
+        //       <div class="groupSelectInfo">
+        //           <div class="accountAvatar" style="background: url(${item.avatar}), #FFFFFF;"></div>
+        //           <p class="accountName">${(name.length > 14) ? name.substring(0, 11) + '...' : name}</p>
+        //       </div>
+        //   </div>`
+        //     }
+        //     $('.popupItem[data-popup="addChannel"]').children('.formBtn').css({ "display": "flex" });
+        //   } else {
+        //     groupsItems = `<p class="groupEmpty">Для данного аккаунта не найдены каналы!</p>`
+        //     $('.popupItem[data-popup="addChannel"]').children('.formBtn').css({ "display": "none" });
+        //   }
+        //   $('.groupSelectItems').html(groupsItems)
+        // }else{
+        //   errorHandler(response.title, response.message)
+        // }
+      },
+      error: function (response) {
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+      }
+    });
+  });
   $('.removeAccount').click(function (e) {
     e.preventDefault();
     const accountId = $(this).attr('data-accountId');

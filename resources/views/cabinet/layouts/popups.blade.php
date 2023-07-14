@@ -135,9 +135,9 @@
         </div>
     </div>
     @if(Auth::user()->VkAccount)
-    <form class="popupItem" action="{{ route('vkGroupAuth') }}" data-class="standard" data-popup="addGroup">
+    <form class="popupItem" action="{{ route('vkGroupAuth') }}" data-class="standard" data-popup="addChannel">
         <h3 class="popupTitle">Привязка группы ВК</h3>
-        <div class="formSelect addGroupSelect" data-action="{{ route('vkGroupList') }}">
+        <div class="formSelect addChannelSelect" data-action="{{ route('vkGroupList') }}">
             @foreach (Auth::user()->VkAccount as $key => $vkAccount)
             @if ($key === 0)
                 <input type="hidden" name="accountId" value="{{$vkAccount->id}}">
@@ -158,6 +158,20 @@
                 @endif
                 @endforeach
             </div>
+        </div>
+        <div class="groupSelectItems">
+            
+        </div>
+        <button class="formBtn">Привязать группу</button>
+    </form>
+    @endif
+    @if(Auth::user()->TgAccount)
+    <form class="popupItem" action="" data-class="standard" data-popup="addChannel">
+        <h3 class="popupTitle">Привязка Канала ТГ</h3>
+        <div class="formSelect addChannelSelect" data-action="{{ route('tgChannelList') }}">
+            @foreach (Auth::user()->TgAccount as $key => $tgAccount)
+            <input type="hidden" name="accountId" value="{{$tgAccount->id}}">
+            @endforeach
         </div>
         <div class="groupSelectItems">
             

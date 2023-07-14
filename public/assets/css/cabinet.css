@@ -1091,7 +1091,7 @@ a.tableItem:hover{
 .checkInput:checked + ._check{
     background: #FF5437;
 }
-.addGroupSelect{
+.addGroupSelect, .addChannelSelect{
     width: 100% !important;
 }
 .groupSelectItems{
