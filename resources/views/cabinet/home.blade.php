@@ -144,7 +144,7 @@
                                                 {{ $tgAccount->phone }}
                                             </div>
                                         </div>
-                                        <a href="#" class="manageBtn">Удалить</a>
+                                        <a href="#" class="manageBtn removeAccount" data-accountId = "{{ $tgAccount->id }}" data-action="{{ route('tgUserRemove') }}" title="Удалить аккаунт">Удалить</a>
                                     </div>
                                     @endforeach
                                 @else
