@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\TgAccount;
+use App\Models\TgChannel;
+
+use App\Models\TgStream;
 
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
@@ -47,8 +50,8 @@ class TgAuthController extends Controller
             Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
             return $this->generateJsonResponse('error', 'Ошибка авторизации', 'Данный аккаунт уже имеется в нашей базе данных!');
         }
-        $apiId = 20077871;
-        $apiHash = 'c3e50b327a806382305eb0ef048676d6';
+        $apiId = env('TELEGRAM_APP_ID');
+        $apiHash = env('TELEGRAM_APP_HASH');
         $userId = Auth::user()->id;
         $userName = Auth::user()->login;
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
@@ -123,6 +126,8 @@ class TgAuthController extends Controller
         $accountId = $request->accountId;
         if (is_numeric($accountId)) {
         $searchAccount = TgAccount::where('id', '=', $accountId)->where('uid', '=', $userId)->first();
+        TgChannel::where('account_id', '=', $searchAccount->id)->delete();
+        TgStream::where('account_id', '=', $searchAccount->id)->delete();
         if ($searchAccount) {
             Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
             $searchAccount->delete();

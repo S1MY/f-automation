@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('account_id')->nullable();
             $table->text('name')->nullable();
             $table->longText('avatar')->nullable();
-            $table->text('phone')->nullable();
             $table->timestamps();
         });
     }

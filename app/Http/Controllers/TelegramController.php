@@ -14,6 +14,12 @@ use App\Models\TgChannel;
 use App\Models\TgStream;
 use App\Models\TgStreamSettings;
 
+use danog\MadelineProto\API;
+use danog\MadelineProto\Settings;
+use danog\MadelineProto\Settings\AppInfo;
+use danog\MadelineProto\Logger;
+use danog\MadelineProto\Settings\Logger as LoggerSettings;
+
 class TelegramController extends Controller
 {
     public function streamCreate(Request $request)
@@ -60,6 +66,38 @@ class TelegramController extends Controller
         $searchChannel = TgChannel::where('id', '=', $channelId)->first();
         if (!$searchChannel) {
             return $this->generateJsonResponse('input', 'channel', 'Канал не найден');
+        }
+
+        $apiId = env('TELEGRAM_APP_ID');
+        $apiHash = env('TELEGRAM_APP_HASH');
+        $userName = Auth::user()->login;
+        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+        if (!Storage::disk('public')->exists($fileLoadUrl.'/madeline.log')) {
+            Storage::disk('public')->put($fileLoadUrl.'/madeline.log', '');
+            chmod(storage_path('app/public/' . $fileLoadUrl.'/madeline.log'), 0777);
+        }
+        $logger = (new LoggerSettings)
+            ->setType(Logger::FILE_LOGGER)
+            ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
+            ->setLevel(Logger::FATAL_ERROR )
+            ->setMaxSize(2048);
+        $settings = 
+        (new Settings())
+        ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+        ->setLogger($logger);
+        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+        $MadelineProto = new API($sessionUrl, $settings);
+        $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
+        $channels = [];
+        if(count($messages_Chats['chats']) < 1){
+            return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
+        }else{
+            foreach ($messages_Chats['chats'] as $chat) {
+                $channels[] = $chat['username'];
+            }
+        }
+        if(!in_array($searchChannel->name, $channels)){
+            return $this->generateJsonResponse('error', 'Ошибка канала', 'Вы не являетесь администратором');
         }
         if($validatedData['type'] === 'date'){
             if (DateTime::createFromFormat('d-m-Y H:i', $validatedData['date']) === false) {
