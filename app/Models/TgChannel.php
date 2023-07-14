@@ -9,6 +9,7 @@ class TgChannel extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'uid',
         'account_id',
         'name',
         'avatar',

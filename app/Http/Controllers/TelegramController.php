@@ -233,4 +233,37 @@ class TelegramController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
         }
     }
+    public function tgChannelList(Request $request)
+    {
+        $channelsResponse = [];
+        $userId = Auth::user()->id;
+        $accountId = $request->accountId;
+        $apiId = env('TELEGRAM_APP_ID');
+        $apiHash = env('TELEGRAM_APP_HASH');
+        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+        $logger = (new LoggerSettings)
+            ->setType(Logger::FILE_LOGGER)
+            ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
+            ->setLevel(Logger::FATAL_ERROR )
+            ->setMaxSize(2048);
+        $settings = 
+        (new Settings())
+        ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+        ->setLogger($logger);
+        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+        $MadelineProto = new API($sessionUrl, $settings);
+        $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
+        $channels = [];
+        return $this->generateJsonResponse('error', 'Ошибка канала', $messages_Chats['chats']);
+        if(count($messages_Chats['chats']) < 1){
+            return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
+        }else{
+            foreach ($messages_Chats['chats'] as $chat) {
+                // $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
+                // if(!$searchChannel){
+                //     $channels[] = $chat['username'];
+                // }
+            }
+        }
+    }
 }

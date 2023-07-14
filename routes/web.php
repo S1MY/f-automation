@@ -21,6 +21,7 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\StreamsController;
 
 use App\Http\Controllers\TgAuthController;
+use App\Http\Controllers\TelegramController;
 
 /*
  *
@@ -117,6 +118,8 @@ Route::post('/vk-stream-remove', [StreamsController::class, 'streamRemove'])->na
 // Телеграм
 Route::post('/tg-user-auth', [TgAuthController::class, 'tgUserAuth'])->name('tgUserAuth');
 Route::post('/tg-user-remove', [TgAuthController::class, 'tgUserRemove'])->name('tgUserRemove');
+
+Route::post('/tg-channel-list', [TelegramController::class, 'tgChannelList'])->name('tgChannelList');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

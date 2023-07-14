@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('tg_channels', function (Blueprint $table) {
             $table->id();
+            $table->integer('uid')->nullable();
             $table->integer('account_id')->nullable();
             $table->text('name')->nullable();
             $table->longText('avatar')->nullable();
