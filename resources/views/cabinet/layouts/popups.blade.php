@@ -135,9 +135,9 @@
         </div>
     </div>
     @if(Auth::user()->VkAccount)
-    <form class="popupItem" action="{{ route('vkGroupAuth') }}" data-class="standard" data-popup="addChannel">
+    <form class="popupItem" action="{{ route('vkGroupAuth') }}" data-class="standard" data-popup="addGroup">
         <h3 class="popupTitle">Привязка группы ВК</h3>
-        <div class="formSelect addChannelSelect" data-action="{{ route('vkGroupList') }}">
+        <div class="formSelect addGroupSelect" data-action="{{ route('vkGroupList') }}">
             @foreach (Auth::user()->VkAccount as $key => $vkAccount)
             @if ($key === 0)
                 <input type="hidden" name="accountId" value="{{$vkAccount->id}}">
