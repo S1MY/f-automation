@@ -2035,15 +2035,17 @@ a.accountInfo:hover{
     fill: #FFFFFF;
 }
 .telegramPhone{
+    margin-left: 12px;
     width: 36px;
     height: 36px;
     display: flex;
     align-items: center;
     gap: 12px;
+    overflow: hidden;
     transition: all 0.4s;
 }
 .phoneButton{
-    width: 36px;
+    min-width: 36px;
     height: 36px;
     background: #2980B9;
     display: flex;
