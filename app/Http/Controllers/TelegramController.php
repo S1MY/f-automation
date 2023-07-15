@@ -233,6 +233,36 @@ class TelegramController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
         }
     }
+    public function streamRemove(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $removeId = $request->removeId;
+        if (is_numeric($removeId)) {
+            $searchStream = TgStream::where('id', '=', $removeId)
+                ->first();
+            $searchAccount = TgAccount::where('id', '=', $searchStream->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchStream) {
+                        TgStreamSettings::where('stream_id', '=', $removeId)->delete();
+                        foreach (unserialize($searchStream->link) as $key => $link) {
+                            Storage::delete($link);
+                        }
+                        Stream::where('id', '=', $removeId)->delete();
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена');
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная трансяция не найдена');
+                    }  
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная трансяция вам не принадлежит');
+                } 
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Не найден родительский аккаунт');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле removeId');
+        }
+    }
     public function tgChannelList(Request $request)
     {
         $userName = Auth::user()->login;

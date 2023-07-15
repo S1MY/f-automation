@@ -124,6 +124,7 @@ Route::post('/tg-channel-auth', [TelegramController::class, 'tgChannelAuth'])->n
 Route::post('/tg-channel-remove', [TelegramController::class, 'tgChannelRemove'])->name('tgChannelRemove');
 Route::post('/tg-stream-create', [TelegramController::class, 'streamCreate'])->name('tgStreamCreate');
 Route::post('/tg-stream-activator', [TelegramController::class, 'streamActivator'])->name('tgStreamActivator');
+Route::post('/tg-stream-remove', [TelegramController::class, 'streamRemove'])->name('tgStreamRemove');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');
