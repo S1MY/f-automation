@@ -50,6 +50,7 @@ $(document).ready(function () {
             const parentType = ($(this).parents('.tabItem').attr('data-type')) ? $(this).parents('.tabItem').attr('data-type') : null
             let accountId = 0;
             let groupId = 0;
+            let channelId = 0;
             let myPageId = 0;
             let myCommentId = 0;
             let formData = new FormData();
@@ -60,6 +61,9 @@ $(document).ready(function () {
                 } else if (parentType === 'group') {
                     groupId = $(this).parents('.tabItem').attr('data-tab');
                     formData.append('group_id', groupId);
+                }else if (parentType === 'channel') {
+                    channelId = $(this).parents('.tabItem').attr('data-tab');
+                    formData.append('channelid', channelId);
                 }
             }
             if (page.match(/item(\d+)/)) {
@@ -86,7 +90,7 @@ $(document).ready(function () {
                     if (currentPath == '/cabinet/offers') {
                         const offerParent = $('.pageTab._active').attr('data-tab');
                         $(`.tabItem[data-tab=${offerParent}] .offerFlex`).html(response.responseText);
-                    } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
+                    } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams' || currentPath == '/cabinet/tg/tg_streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
                     } else {
                         if (accountId > 0 || groupId > 0) {
