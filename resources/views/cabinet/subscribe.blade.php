@@ -662,9 +662,9 @@
                                             <p class="subCheckNumber">1</p>
                                             <p class="subCheckText">Запуск видео в трансляцию на каналы</p>
                                             <p class="subCheckPrice">Стоимость: <span>200₽</span></p>
-                                            <a href="#" class="subCheckBtn _active" data-price="200" data-parent="0"
+                                            <a href="#" class="subCheckBtn" data-price="200" data-parent="0"
                                                 data-children="2"
-                                                data-name="Трансляции на ТГ аккаунт">Убрать</a>
+                                                data-name="Трансляции на ТГ аккаунт">Выбрать</a>
                                             <input type="checkbox" name="tgStreamType1" class="subInput" value="1">
                                         </div>
                                         <div class="subCheckBox">
