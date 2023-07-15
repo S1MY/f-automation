@@ -1599,7 +1599,7 @@ a.tableItem:hover{
 }
 .cardLine.tgMessage{
     white-space: nowrap;
-    overflow: scroll;
+    overflow-x: scroll;
 }
 .cardLine span{
     font-weight: 500;
