@@ -15,5 +15,7 @@ class TgStream extends Model
         'link',
         'active',
         'live',
+        'start_count',
+        'error_fix'
     ];
 }

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('link')->nullable();
             $table->integer('active')->default(0);
             $table->integer('live')->default(0);
+            $table->integer('start_count')->default(0);
+            $table->longText('error_fix')->nullable();
             $table->timestamps();
         });
     }

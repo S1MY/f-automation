@@ -94,14 +94,10 @@ class StreamStarter extends Command
                                 'description' => $streamDescription,
                             ];
                             if($subscribePackage['type3'] === 1){
-                                $postContent['bitrate'] = '5120k';
+                                $postContent['bitrate'] = '4096k';
                             }else{
                                 $postContent['bitrate'] = '2048k';
                             }
-                            // $request = new Request('POST', $streamContinue);
-                            // $options = [
-                            //     'query' => $postContent
-                            // ];
                             $ch = curl_init();
                             curl_setopt($ch, CURLOPT_URL, $streamContinue);
                             curl_setopt($ch, CURLOPT_POST, 1);
@@ -110,8 +106,6 @@ class StreamStarter extends Command
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             curl_multi_add_handle($mh, $ch);
                             $promises[] = $ch;
-                            // $clientContinue = new Client();
-                            // $clientContinue->send($request, $options);
                         }else{
                             CronLogs::create([
                                 'uid'        => $userId,

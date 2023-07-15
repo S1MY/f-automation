@@ -14,6 +14,7 @@ use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CronController;
+use App\Http\Controllers\TgCronController;
 
 use App\Http\Controllers\VkAuthController;
 use App\Http\Controllers\StoriesController;
@@ -138,3 +139,4 @@ Route::get('/upload-process', function () {
     return true;
 });
 Route::post('/stream-continue', [CronController::class, 'streamContinue'])->name('streamContinue');
+Route::post('/tg-stream-continue', [TgCronController::class, 'tgStreamContinue'])->name('tgStreamContinue');

@@ -24,10 +24,10 @@ class TelegramController extends Controller
 {
     public function streamCreate(Request $request)
     {
-        // $vkStreamsRules = unserialize(Auth::user()->Subscribe->sub_config)['tg']['streams'];
-        // if($vkStreamsRules['type1'] !== 1){
-        //     return $this->generateJsonResponse('error', 'Ошибка пакета', 'Телеграм стримы недоступны для данного F-Аккаунта');
-        // }
+        $tgStreamsRules = unserialize(Auth::user()->Subscribe->sub_config)['tg']['streams'];
+        if($tgStreamsRules['type1'] !== 1){
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Телеграм стримы недоступны для данного F-Аккаунта');
+        }
         $rules = [
             'name' => 'required|string|max:20',
             'channelId' => 'required|integer',
