@@ -93,8 +93,15 @@ $(document).ready(function () {
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams' || currentPath == '/cabinet/tg/tg_streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
                     } else {
-                        if (accountId > 0 || groupId > 0) {
-                            const itemId = (accountId) ? accountId : groupId;
+                        if (accountId > 0 || groupId > 0 || channelId > 0) {
+                            let itemId;
+                            if(accountId > 0){
+                                itemId = accountId;
+                            }else if(groupId > 0){
+                                itemId = groupId;
+                            }else{
+                                itemId = channelId;
+                            }
                             $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
                         } else if (myPageId > 0) {
                             $('.storyWrapper').html(response.responseText);
