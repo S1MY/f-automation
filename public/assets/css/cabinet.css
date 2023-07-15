@@ -1594,6 +1594,9 @@ a.tableItem:hover{
     justify-content: space-between;
     align-items: center;
 }
+.cardLine.tgMessage{
+    word-wrap: break-word;
+}
 .cardLine span{
     font-weight: 500;
     line-height: 20px;

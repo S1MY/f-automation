@@ -40,7 +40,7 @@
         <p class="cardLine">Владелец: 
             <span>{{$post->tg_channels_name}}</span>
         </p>
-        <p class="cardLine">{{base64_decode($post->message)}}</p>
+        <p class="cardLine tgMessage">{{base64_decode($post->message)}}</p>
         <p class="cardLine">Автозапуск: <span>{{$post->active === 1 ? 'Активен' : 'Не активен'}}</span></p>
         <p class="cardLine">Тип постинга: <span>{{$postType}}</span></p>
         <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
