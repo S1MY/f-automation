@@ -292,10 +292,12 @@ class TelegramController extends Controller
             foreach ($messages_Chats['chats'] as $chat) {
                 $searchChannel = TgChannel::where('name', '=', $chat['username'])->first();
                 if(!$searchChannel){
-                    $channels[] = [
-                        'title' => $chat['title'],
-                        'username' => $chat['username']
-                    ];
+                    if(!$chat['left']){
+                        $channels[] = [
+                            'title' => $chat['title'],
+                            'username' => $chat['username']
+                        ];
+                    }
                 }
             }
             return $this->generateJsonResponse('success', 'Список подгружен', $channels);
