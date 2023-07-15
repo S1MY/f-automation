@@ -37,6 +37,14 @@ $(document).ready(function () {
     }
     if (files.length > 1) {
       createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 1</p>");
+      durations = []
+      filenames = []
+      $("#file").val("");
+      $('._filecounts').html('0 / 1')
+      $('.fileName').html('Файл не выбран');
+      $("._status").html('Файл не обнаружен');
+      $("._status").removeClass('_complete');
+      $("._size").html('0 mb');
       return false
     }
     $('._filecounts').html(`${files.length} / 1`);

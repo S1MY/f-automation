@@ -31,7 +31,7 @@ $(document).ready(function () {
       createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 5</p>");
       return false
     }
-    if(!$("#file").prop("multiple") && file.length > 1){
+    if(!$("#file").prop("multiple") && files.length > 1){
       $("#file").val("");
       $('._filecounts').html('0 / 1')
       $('.fileName').html('Файл не выбран');
