@@ -170,7 +170,7 @@
                 </div>
                 <div class="tabItem _active" data-tab="all">
                     <div class="storyWrapper">
-                        @include('load.all-tg_streams-load')
+                        @include('load.tg_streams-load')
                     </div>
                 </div>
                 @if(count(Auth::user()->TgChannel) > 0)
