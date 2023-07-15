@@ -33,8 +33,8 @@
                                 Телеграм
                             </p>
                         </div>
-                        <h1 class="pageTitle">Активные аккаунты</h1>
                         <div class="tabItem _active" data-tab="vk">
+                            <h2 class="pageTitle">Активные аккаунты</h2>
                             <div class="tabFlex">
                                 @if(count(Auth::user()->VkAccount) > 0)
                                     @foreach (Auth::user()->VkAccount as $vkAccount)
@@ -86,6 +86,7 @@
                         </div>
                         @if(count(Auth::user()->VkAccount) > 0)
                         <div class="tabItem" data-tab="vkg">
+                            <h2 class="pageTitle">Активные группы</h2>
                             <div class="tabFlex">
                                 @foreach (Auth::user()->VkAccount as $vkAccount)
                                 <div class="accountItemFulled">
@@ -126,6 +127,7 @@
                         </div>
                         @endif
                         <div class="tabItem" data-tab="tg">
+                            <h2 class="pageTitle">Активные аккаунт/каналы</h2>
                             <div class="tabFlex">
                                 @if(count(Auth::user()->TgAccount) > 0)
                                  @foreach (Auth::user()->TgAccount as $tgAccount)
