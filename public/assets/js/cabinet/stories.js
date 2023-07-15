@@ -9,7 +9,7 @@ $(document).ready(function () {
   let video = document.createElement("video");
   let durations = []
   let filenames = []
-  $("#file").change(function (e) {
+  $(document).on('change', '#file', function (e) {
     e.preventDefault();
     let files = this.files;
     let totalSize = 0;

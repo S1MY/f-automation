@@ -17,7 +17,7 @@ $(document).ready(function () {
   // Загрузка и статус файла
   let detector = false;
   let video = document.createElement("video");
-  $("#file").change(function (e) {
+  $(document).on('change', '#file', function (e) {
     e.preventDefault();
     let files = this.files;
     let totalSize = 0;
