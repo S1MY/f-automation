@@ -41,6 +41,7 @@
             <span>{{$stream->tg_channels_name}}</span>
         </p>
         <p class="cardLine">Автозапуск: <span>{{$stream->active === 1 ? 'Активен' : 'Не активен'}}</span></p>
+        <p class="cardLine">Число запусков: <span>{{$stream->start_count}}</span></p>
         <p class="cardLine">Тип постинга: <span>{{$streamType}}</span></p>
         <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
     </div>
