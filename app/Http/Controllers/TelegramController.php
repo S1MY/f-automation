@@ -480,7 +480,7 @@ class TelegramController extends Controller
         $maxSeconds = 600;
         $postFiles = $validatedData['file'];
         if(count($postFiles) > 1){
-            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Стримы поддерживают только 1 файл');
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Данные посты поддерживают только 1 файл');
         }
         $durationItems = explode("_;_", $validatedData['duration']);
         foreach ($postFiles as $postFile) {
@@ -550,9 +550,9 @@ class TelegramController extends Controller
         }
         TgPostSettings::create($settingsData);
         if($validatedData['type'] === 'interval'){
-            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Стрим будет запущен в следующую минуту');
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет запущен в следующую минуту');
         }else{
-            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Стрим будет запущен в указанное время');
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост будет запущен в указанное время');
         }
     }
     public function postActivator(Request $request)
