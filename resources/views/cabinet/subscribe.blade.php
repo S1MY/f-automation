@@ -58,7 +58,7 @@
                                 foreach ($category as $type => $value) {
                                     if ($value !== '1') {
                                         $isAllTypesOne = false;
-                                        break 2;
+                                        break 3;
                                     }
                                 }
                             }
