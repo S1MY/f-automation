@@ -27,6 +27,7 @@ class TgCronController extends Controller
         $userId = $request->user_id;
         $channelName = $request->channel;
         $bitrate = $request->bitrate;
+        $userName = $request->username;
         $streamItem = TgStream::where('id', '=', $streamId)->first();
         $streamSettings = TgStreamSettings::where('stream_id', '=', $streamId)
         ->first();

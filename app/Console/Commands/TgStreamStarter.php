@@ -70,6 +70,7 @@ class TgStreamStarter extends Command
                             $postContent = [
                                 'stream_id' => $stream->id,
                                 'user_id' => $userId,
+                                'username' => $userDB->login,
                                 'channel' => $tgChannel->name,
                             ];
                             if($subscribePackage['type2'] === 1){
