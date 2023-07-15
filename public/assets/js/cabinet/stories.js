@@ -45,6 +45,8 @@ $(document).ready(function () {
       $('._filecounts').html(`${files.length} / 5`);
     }else{
       $('._filecounts').html(`${files.length} / 1`);
+      durations = []
+      filenames = []
     }
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
