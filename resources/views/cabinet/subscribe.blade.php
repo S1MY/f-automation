@@ -45,14 +45,24 @@
                             ]
                         ];
                         $isAllTypesOne = true;
-                        foreach ($allPackages['vk'] as $category) {
-                            foreach ($category as $type => $value) {
-                                if ($value !== '1') {
-                                    $isAllTypesOne = false;
-                                    break 2;
+                        foreach ($allPackages as $package) {
+                            foreach ($package as $category) {
+                                foreach ($category as $type => $value) {
+                                    if ($value !== '1') {
+                                        $isAllTypesOne = false;
+                                        break 3;
+                                    }
                                 }
                             }
                         }
+                        // foreach ($allPackages['vk'] as $category) {
+                        //     foreach ($category as $type => $value) {
+                        //         if ($value !== '1') {
+                        //             $isAllTypesOne = false;
+                        //             break 2;
+                        //         }
+                        //     }
+                        // }
                     @endphp
                     <form data-form="increase" method="POST" class="pageTarget">
                         <p class="pageText">Ваш пакет активен и включает в себя следующие услуги</p>

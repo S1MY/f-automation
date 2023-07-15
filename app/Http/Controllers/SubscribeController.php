@@ -134,16 +134,6 @@ class SubscribeController extends Controller
                 }
             }
         }
-        // foreach ($subConfig['vk'] as $type => $options) {
-        //     foreach ($options as $subtype => $selected) {
-        //         if ($selected === 1 && $packageParents['vk'][$type][$subtype] !== '0') {
-        //             $requiredType = $packageParents['vk'][$type][$subtype];
-        //             if ($subConfig['vk'][$type][$requiredType] !== 1) {
-        //                 return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций ВК '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
-        //             }
-        //         }
-        //     }
-        // }
         $totalPrice = 0;
         foreach ($subConfig as $key => $config) {
             foreach ($subConfig[$key] as $type => $options) {
@@ -154,13 +144,6 @@ class SubscribeController extends Controller
                 }
             }
         }
-        // foreach ($subConfig['vk'] as $type => $options) {
-        //     foreach ($options as $subtype => $selected) {
-        //         if ($selected === 1) {
-        //             $totalPrice += $packagePrices['vk'][$type][$subtype];
-        //         }
-        //     }
-        // }
         if($totalPrice !== $clientPriceNumber){
             if($validatedData['promoChecker'] < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
