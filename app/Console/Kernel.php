@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
         Commands\PostStarter::class,
         Commands\StreamStarter::class,
         Commands\TgStreamStarter::class,
+        Commands\TgPostStarter::class,
 
     ];
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('post:cron')->everyMinute();
         $schedule->command('stream:cron')->everyMinute();
         $schedule->command('tg_stream:cron')->everyMinute();
+        $schedule->command('tg_post:cron')->everyMinute();
     }
 
     /**
