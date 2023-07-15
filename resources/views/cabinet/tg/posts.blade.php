@@ -126,10 +126,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tabPageInput _full" data-name="message">
+                    <div class="tabPageInput" data-name="message">
                         <textarea name="message" class="formInput" placeholder="Сообщение вашего поста"></textarea>
                     </div>
-                        <div class="tabPageInput _full" data-name="file">
+                        <div class="tabPageInput" data-name="file">
                             <div class="fileInput">
                                 <div class="progressbar"></div>
                                 <div class="myFile">
