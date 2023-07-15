@@ -63,11 +63,12 @@ $(document).ready(function () {
           video.src = url;
           video.ondurationchange = function () {
             durations.push(this.duration)
+            $('input[name="duration"]').val(durations.join('_;_'));
           };
         } else {
           durations.push(14.99)
+          $('input[name="duration"]').val(durations.join('_;_'));
         }
-        $('input[name="duration"]').val(durations.join('_;_'));
         filenames.push(file.name)
         $('.fileName').html(filenames.join('_;_'));
         let newSize = totalSize / 1048576;
