@@ -127,7 +127,7 @@ class TgCronController extends Controller
                 $mediaItemName = explode('/', $mediaItem)[4];
                 $inputFile = $MadelineProto->upload(storage_path('app/public/'.$mediaItem));
                 $sentMessageId = 0;
-                $message = base64_decode($post->message).'<br><br>Данный пост создан с помощью <a href="https://f-automation.ru">F-AUTOMATION</a>';
+                $message = base64_decode($postItem->message).'<br><br>Данный пост создан с помощью <a href="https://f-automation.ru">F-AUTOMATION</a>';
                 if($extension === 'mp4'){
                     $sentMessage = $MadelineProto->messages->sendMedia([
                         'peer' => '@'.$channelName,
