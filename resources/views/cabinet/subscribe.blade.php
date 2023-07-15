@@ -443,7 +443,7 @@
                                                 <p class="subCheckNumber">2</p>
                                                 <p class="subCheckText">Full HD качество любого из ваших стримов</p>
                                                 <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
-                                                <a href="#" class="subCheckBtn" data-price="100" data-parent="1"
+                                                <a href="#" class="subCheckBtn" data-price="100" data-parent="{{$allPackages['tg']['streams']['type1'] === 1 ? 0 : 1}}"
                                                     data-children="0"
                                                     data-name="Full HD качество ТГ стримов">Выбрать</a>
                                                 <input type="checkbox" name="tgStreamType2" class="subInput" value="1">
