@@ -1594,8 +1594,12 @@ a.tableItem:hover{
     justify-content: space-between;
     align-items: center;
 }
+.cardInformationTop{
+    overflow: hidden;
+}
 .cardLine.tgMessage{
-    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: scroll;
 }
 .cardLine span{
     font-weight: 500;
