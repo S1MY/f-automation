@@ -20,8 +20,8 @@ class StreamsController extends Controller
 {
     public function streamCreate(Request $request)
     {
-        $vkStreamsRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['streams'];
-        if($vkStreamsRules['type1'] !== 1){
+        $subscribeRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['streams'];
+        if($subscribeRules['type1'] !== 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание стримов недоступно для данного F-Аккаунта');
         }
         $rules = [
@@ -77,7 +77,7 @@ class StreamsController extends Controller
             }
             $accountId = $searchGroup->account_id;
             $groupId = $searchGroup->group_id;
-            if($vkStreamsRules['type2'] !== 1){
+            if($subscribeRules['type2'] !== 1){
                 return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание стримов в группах недоступно для данного F-Аккаунта');
             }
         } else {

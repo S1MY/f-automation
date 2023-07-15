@@ -14,6 +14,9 @@ use App\Models\TgChannel;
 use App\Models\TgStream;
 use App\Models\TgStreamSettings;
 
+use App\Models\TgPost;
+use App\Models\TgPostSettings;
+
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
 use danog\MadelineProto\Settings\AppInfo;
@@ -24,8 +27,8 @@ class TelegramController extends Controller
 {
     public function streamCreate(Request $request)
     {
-        $tgStreamsRules = unserialize(Auth::user()->Subscribe->sub_config)['tg']['streams'];
-        if($tgStreamsRules['type1'] !== 1){
+        $subscribeRules = unserialize(Auth::user()->Subscribe->sub_config)['tg']['streams'];
+        if($subscribeRules['type1'] !== 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Телеграм стримы недоступны для данного F-Аккаунта');
         }
         $rules = [
@@ -382,6 +385,232 @@ class TelegramController extends Controller
             }
         }else{
             return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле channelId');
+        }
+    }
+    public function postCreate(Request $request)
+    {
+        $tgPostRules = unserialize(Auth::user()->Subscribe->sub_config)['tg']['posts'];
+        if($tgPostRules['type1'] !== 1){
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Телеграм стримы недоступны для данного F-Аккаунта');
+        }
+        $rules = [
+            'name' => 'required|string|max:20',
+            'message' => 'required|string|max:200',
+            'channelId' => 'required|integer',
+            'file.*' => 'required|file|mimetypes:video/avi,video/mp4',
+            'duration' => 'required|string',
+            'type' => 'required|string|in:interval,date,daily',
+            'interval' => 'integer|in:0,60,120,240,360,480',
+            'daily' => 'integer|in:0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
+            'date' => 'string'
+        ];
+        $messages = [
+            'name.required' => 'Обязательное поле',
+            'name.string' => 'Не является строкой',
+            'name.max' => 'Максимум :max символов',
+            'message.required' => 'Обязательное поле',
+            'message.string' => 'Не является строкой',
+            'message.max' => 'Максимум :max символов',
+            'channelId.required' => 'Обязательное поле',
+            'channelId.integer' => 'Не является числом',
+            'file.required' => 'Файл является обязательным',
+            'file.file' => 'Файл не является файлом',
+            'file.mimetypes' => 'Доступны только avi, mp4',
+            'type.required' => 'Должно быть числом',
+            'type.string' => 'Должно быть строкой',
+            'type.in' => 'Неизвестный тип операции',
+            'interval.integer' => 'Интервал должен быть числом',
+            'interval.in' => 'Неизвестный тип интервала',
+            'daily.integer' => 'Ежедневный выбор не число',
+            'daily.in' => 'Должно быть числом от 0 до 23',
+            'date.string' => 'Дата имеет некорректный формат',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->getMessageBag()->toArray();
+            $firstErrorKey = array_key_first($errors);
+            return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
+        }
+        $validatedData = $validator->validated();
+        $searchChannel = TgChannel::where('id', '=', $validatedData['channelId'])->first();
+        if (!$searchChannel) {
+            return $this->generateJsonResponse('input', 'channel', 'Канал не найден');
+        }
+
+        $apiId = env('TELEGRAM_APP_ID');
+        $apiHash = env('TELEGRAM_APP_HASH');
+        $userName = Auth::user()->login;
+        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+        $logger = (new LoggerSettings)
+            ->setType(Logger::FILE_LOGGER)
+            ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
+            ->setLevel(Logger::FATAL_ERROR )
+            ->setMaxSize(2048);
+        $settings = 
+        (new Settings())
+        ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+        ->setLogger($logger);
+        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+        $MadelineProto = new API($sessionUrl, $settings);
+        $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
+        $channels = [];
+        if(count($messages_Chats['chats']) < 1){
+            return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
+        }else{
+            foreach ($messages_Chats['chats'] as $chat) {
+                $channels[] = $chat['username'];
+            }
+        }
+        if(!in_array($searchChannel->name, $channels)){
+            return $this->generateJsonResponse('error', 'Ошибка канала', 'Вы не являетесь администратором');
+        }
+        if($validatedData['type'] === 'date'){
+            if (DateTime::createFromFormat('d-m-Y H:i', $validatedData['date']) === false) {
+                return $this->generateJsonResponse('input', 'tabs', 'Неверная дата');
+            }
+            if(DateTime::createFromFormat('d-m-Y H:i', $validatedData['date']) <= new DateTime()){
+                return $this->generateJsonResponse('input', 'tabs', 'Дата и время меньше текущих');
+            }
+        }
+        if($validatedData['type'] === 'interval'){
+            if($validatedData['interval'] == 0){
+                return $this->generateJsonResponse('input', 'tabs', 'Неверный интервал');
+            }
+        }
+        $maxSeconds = 600;
+        $postFiles = $validatedData['file'];
+        if(count($postFiles) > 1){
+            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Стримы поддерживают только 1 файл');
+        }
+        $durationItems = explode("_;_", $validatedData['duration']);
+        foreach ($postFiles as $postFile) {
+            $fileSize = $postFile->getSize();
+            if ($fileSize > 419430400) {
+                return $this->generateJsonResponse('input', 'file', 'Максимальный размер файла 50МБ');
+            }
+        }
+        foreach ($durationItems as $durationItem) {
+            if($durationItem > $maxSeconds){
+                return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
+            }
+        }
+        $linksDB = [];
+        $attachments = [];
+        foreach ($postFiles as $postFile) {
+            $fileType = $postFile->getMimeType();
+            if ($fileType == 'video/mp4' || $fileType == 'video/avi') {
+                $extension = 'mp4';
+            } elseif ($fileType == 'image/jpeg' || $fileType == 'image/png') {
+                $extension = 'jpg';
+            } else {
+                return $this->generateJsonResponse('input', 'file', 'Неизвестный тип файла');
+            }
+            $fileName = 'post-' . date("Y-m-d-H-i-s") . ".".$extension;
+            $userName = Auth::user()->login;
+            Storage::disk('public')->putFileAs('files/users/' . $userName . '/tg_posts', $postFile, $fileName);
+            $fileLoadUrl = 'files/users/' . $userName . '/tg_posts/';
+            $link = $fileLoadUrl . $fileName;
+            $linksDB[] = $link;
+            $attachments[] = $extension;
+        }
+        $searchAccount = TgAccount::where('uid', '=', Auth::user()->id)->first();
+        $postCreate = TgPost::create([
+            'account_id' => $searchAccount->id,
+            'channel_id' => $validatedData['channelId'],
+            'title' => $validatedData['name'],
+            'message' => base64_encode($validatedData['message']),
+            'link' => serialize($linksDB),
+            'attachments' => serialize($attachments),
+            'active' => 1
+        ]);
+        $settingsData = [
+            'post_id' => $postCreate->id,
+        ];
+        $timestampDate = date('Y-m-d H:i:s', strtotime('+1 minute'));
+        if ($validatedData['type'] === 'date') {
+            $settingsData['type'] = 'date';
+            $timestamp = strtotime($validatedData['date']);
+            $timestampDate = date('Y-m-d H:i:s', $timestamp);
+            $settingsData['date'] = $timestampDate;
+        } elseif ($validatedData['type'] === 'interval') {
+            $settingsData['type'] = 'interval';
+            $settingsData['interval'] = $validatedData['interval'];
+            $postCreate->updated_at = date('Y-m-d H:i:s', strtotime($timestampDate . ' -' . $validatedData['interval'] . ' minutes'));
+            $postCreate->save();
+        }else{
+            $settingsData['type'] = 'daily';
+            $settingsData['daily'] = $validatedData['daily'];
+            $currentTime = date('H:i:s');
+            if ($currentTime < $validatedData['daily'].':00:00') {
+                $postCreate->updated_at = date('Y-m-d', strtotime('-1 day')) . substr($postCreate->updated_at, 10);
+            } else {
+                $postCreate->updated_at = date('Y-m-d') . substr($postCreate->updated_at, 10);
+            }
+            $postCreate->save();
+        }
+        TgPostSettings::create($settingsData);
+        if($validatedData['type'] === 'interval'){
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Стрим будет запущен в следующую минуту');
+        }else{
+            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Стрим будет запущен в указанное время');
+        }
+    }
+    public function postActivator(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $autoStart = $request->autoStart;
+        if (is_numeric($autoStart)) {
+            $searchPost = TgPost::where('id', '=', $autoStart)
+                ->first();
+            $postSettings = TgPostSettings::where('post_id', '=', $autoStart)
+            ->first();
+            $searchAccount = TgAccount::where('id', '=', $searchPost->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchPost) {
+                        $newActive = ($searchPost->active == 1) ? 0 : 1;
+                        $subscribeRules = unserialize(Auth::user()->Subscribe->sub_config)['tg']['posts'];
+                        if($newActive ==1 && $subscribeRules['type1'] !== 1){
+                            return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация поста ТГ недоступна для данного F-Аккаунта');
+                        }
+                        $searchPost->active = $newActive;
+                        $timestampDate = date('Y-m-d H:i:s', strtotime('+1 minute'));
+                        if ($postSettings->type === 'date') {
+                            $postSettings->date = $timestampDate;
+                            $postSettings->save();
+                        }
+                        if($postSettings->type === 'daily') {
+                            $currentTime = date('H:i:s');
+                            if ($currentTime < $postSettings->daily.':00:00') {
+                                $searchPost->updated_at = date('Y-m-d', strtotime('-1 day')) . substr($searchPost->updated_at, 10);
+                            } else {
+                                $searchPost->updated_at = date('Y-m-d') . substr($searchPost->updated_at, 10);
+                            }
+                        }
+                        if($postSettings->type === 'interval'){
+                            $searchPost->updated_at = date('Y-m-d H:i:s', strtotime($timestampDate . ' -' . $postSettings->interval . ' minutes'));
+                        }
+                        $searchPost->save();
+                        if($newActive == 1){
+                            if($postSettings->type === 'daily'){
+                                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Пост будет выложен в указанный час');
+                            }else{
+                                return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск включен. Пост будет выложен через минуту');
+                            }
+                        }else{
+                            return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Автозапуск выключен. Пост не будет выкладываться');
+                        }
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данный пост не найден');
+                    }
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка изменения', 'Данный пост вам не принадлежит');
+                }
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка изменения', 'Не найден родительский аккаунт');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
         }
     }
 }

@@ -20,8 +20,8 @@ class StoriesController extends Controller
 {
     public function storiesCreate(Request $request)
     {
-        $vkStoriesRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['stories'];
-        if($vkStoriesRules['type1'] !== 1){
+        $subscribeRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['stories'];
+        if($subscribeRules['type1'] !== 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание историй недоступно для данного F-Аккаунта');
         }
         $rules = [
@@ -68,7 +68,7 @@ class StoriesController extends Controller
             $groupId = $searchGroup->group_id;
             $linkText = (isset($validatedData['linkText'])) ? $validatedData['linkText'] : 'learn_more';
             $linkUrl = (isset($validatedData['linkUrl'])) ? $validatedData['linkUrl'] : route('main');
-            if($vkStoriesRules['type2'] !== 1){
+            if($subscribeRules['type2'] !== 1){
                 return $this->generateJsonResponse('error', 'Ошибка пакета', 'Создание историй в группах недоступно для данного F-Аккаунта');
             }
         }else{
@@ -83,7 +83,7 @@ class StoriesController extends Controller
         }
         $maxSeconds = 15;
         $storiesFile = $validatedData['file'];
-        if(count($storiesFile) > 1 && $vkStoriesRules['type3'] !== 1){
+        if(count($storiesFile) > 1 && $subscribeRules['type3'] !== 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов историй недоступен данного F-Аккаунта');
         }
         $durationItems = explode("_;_", $validatedData['duration']);
@@ -262,14 +262,14 @@ class StoriesController extends Controller
                 if($searchAccount->uid == $userId){
                     if ($searchStories) {
                         $newActive = ($searchStories->active == 1) ? 0 : 1;
-                        $vkStoriesRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['stories'];
-                        if($newActive ==1 && $vkStoriesRules['type1'] !== 1){
+                        $subscribeRules = unserialize(Auth::user()->Subscribe->sub_config)['vk']['stories'];
+                        if($newActive ==1 && $subscribeRules['type1'] !== 1){
                             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация историй недоступна для данного F-Аккаунта');
                         }
-                        if($searchStories->group_id > 0 && $vkStoriesRules['type2'] !== 1){
+                        if($searchStories->group_id > 0 && $subscribeRules['type2'] !== 1){
                             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Активация историй в группе недоступна для данного F-Аккаунта');
                         }
-                        if(count(unserialize($searchStories->link)) > 0 && $vkStoriesRules['type3'] !== 1){
+                        if(count(unserialize($searchStories->link)) > 0 && $subscribeRules['type3'] !== 1){
                             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов историй недоступен для данного F-Аккаунта');
                         }
                         $searchStories->active = $newActive;

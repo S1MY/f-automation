@@ -31,7 +31,7 @@
                 <p class="pageText _mt12">Создание поста может занять до 25 минут. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
                 @if(count(Auth::user()->TgChannel) > 0)
                 <div class="tabPageItem">
-                    <form class="tabPageForm" action="" enctype='multipart/form-data'>
+                    <form class="tabPageForm" action="{{route('tgPostCreate')}}" enctype='multipart/form-data'>
                     <div class="tabPageInput" data-name="name">
                         <input type="text" name="name" class="formInput" placeholder="Название трансляции">
                     </div>
@@ -125,6 +125,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="tabPageInput _full" data-name="message">
+                        <textarea name="message" class="formInput" placeholder="Сообщение вашего поста"></textarea>
                     </div>
                         <div class="tabPageInput _full" data-name="file">
                             <div class="fileInput">
