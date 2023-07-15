@@ -497,7 +497,7 @@ class PaginateController extends Controller
                         'tg_stream_settings.date as date',
                         'tg_stream_settings.daily as daily'
                     ])
-                    ->paginate(4, ['*'], 'group-streams-page', $page_num);
+                    ->paginate(4, ['*'], 'channel-streams-page', $page_num);
                     $currentPage = route('tg_streams');
                 return view('load.tg_streams-load', compact('allStreams', 'currentPage'));
 
