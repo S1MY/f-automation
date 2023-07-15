@@ -613,4 +613,57 @@ class TelegramController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка изменения', 'Неопределённое поле autoStart');
         }
     }
+    public function postRemove(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $removeId = $request->removeId;
+        if (is_numeric($removeId)) {
+            $searchPost = TgPost::where('id', '=', $removeId)
+                ->first();
+            $searchAccount = TgAccount::where('id', '=', $searchPost->account_id)->first();
+            if($searchAccount){
+                if($searchAccount->uid == $userId){
+                    if ($searchStream) {
+                        $tgPostSettings = TgPostSettings::where('post_id', '=', $removeId)->first();
+                        if($tgPostSettings->remove_id){
+                            $apiId = env('TELEGRAM_APP_ID');
+                            $apiHash = env('TELEGRAM_APP_HASH');
+                            $userName = Auth::user()->login;
+                            $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+                            $logger = (new LoggerSettings)
+                                ->setType(Logger::FILE_LOGGER)
+                                ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
+                                ->setLevel(Logger::FATAL_ERROR )
+                                ->setMaxSize(2048);
+                            $settings = 
+                            (new Settings())
+                            ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+                            ->setLogger($logger);
+                            $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+                            $MadelineProto = new API($sessionUrl, $settings);
+                            $searchChannel = TgChannel::where('id', '=', $searchPost->channel_id)->first();
+                            $deleteMessage = $MadelineProto->channels->deleteMessages([
+                                'channel' => '@'.$searchChannel->name,
+                                'id' => [$tgPostSettings->remove_id]
+                            ]);
+                        }
+                        foreach (unserialize($searchPost->link) as $key => $link) {
+                            Storage::disk('public')->delete($link);
+                        }
+                        TgPostSettings::where('post_id', '=', $removeId)->delete();
+                        TgPost::where('id', '=', $removeId)->delete();
+                        return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост был удалён');
+                    }else{
+                        return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный пост не найден');
+                    }  
+                }else{
+                    return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный пост вам не принадлежит');
+                } 
+            }else{
+                return $this->generateJsonResponse('error', 'Ошибка удаления', 'Не найден родительский аккаунт');
+            }
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка удаления', 'Неопределённое поле removeId');
+        }
+    }
 }
