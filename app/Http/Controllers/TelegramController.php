@@ -285,7 +285,6 @@ class TelegramController extends Controller
         $MadelineProto = new API($sessionUrl, $settings);
         $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
         $channels = [];
-        return $this->generateJsonResponse('error', 'Ошибка канала', $messages_Chats['chats']);
         if(count($messages_Chats['chats']) < 1){
             return $this->generateJsonResponse('error', 'Ошибка канала', 'В вашем владении нет каналов');
         }else{
