@@ -20,6 +20,10 @@ use App\Models\Stream;
 use App\Models\StreamStory;
 use App\Models\StreamComments;
 
+use App\Models\TgAccount;
+use App\Models\TgChannel;
+use App\Models\TgStream;
+
 class PaginateController extends Controller
 {
     public function paginate(Request $request)
@@ -459,6 +463,26 @@ class PaginateController extends Controller
                 $currentPage = route('postsInfo', ['myPageId' => $myPageId]);
                 return view('load.posts-info-load', compact('post', 'postInfo', 'currentPage'));
                 break;
+            case 'all-tg_streams':
+            $tgAccount = TgAccount::where('uid', Auth::user()->id)->get();
+            $allStreams = TgStream::join('tg_channels', 'tg_streams.channel_id', '=', 'tg_channels.id')
+            ->leftJoin('tg_stream_settings', function ($join) {
+                $join->on('tg_streams.id', '=', 'tg_stream_settings.stream_id');
+            })
+            ->orderBy('id', 'desc')
+            ->whereIn('tg_streams.account_id', $tgAccount->pluck('id'))
+            ->select([
+                'tg_streams.*',
+                'tg_channels.title as tg_channels_name',
+                'tg_stream_settings.type as type',
+                'tg_stream_settings.interval as interval',
+                'tg_stream_settings.date as date',
+                'tg_stream_settings.daily as daily'
+            ])
+            ->paginate(4, ['*'], 'all-tg_streams-page', $page_num);
+            $currentPage = route('tg_streams');
+            return view('load.tg_streams-load', compact('allStreams', 'currentPage'));
+            break;
             default:
 
                 return response()->json([

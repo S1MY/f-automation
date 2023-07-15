@@ -63,8 +63,8 @@ Route::group(['prefix' => 'cabinet', 'middleware' => ['auth', 'confirmed']], fun
         });
     });
 
-    Route::group(['prefix' => 'telegram'], function(){
-
+    Route::group(['prefix' => 'tg'], function(){
+        Route::get('/', [CabinetPagesController::class, 'tg_streams'])->name('tg_streams');
     });
 
     Route::get('/partners', [CabinetPagesController::class, 'partners'])->name('partners');
@@ -122,6 +122,8 @@ Route::post('/tg-user-remove', [TgAuthController::class, 'tgUserRemove'])->name(
 Route::post('/tg-channel-list', [TelegramController::class, 'tgChannelList'])->name('tgChannelList');
 Route::post('/tg-channel-auth', [TelegramController::class, 'tgChannelAuth'])->name('tgChannelAuth');
 Route::post('/tg-channel-remove', [TelegramController::class, 'tgChannelRemove'])->name('tgChannelRemove');
+Route::post('/tg-stream-create', [TelegramController::class, 'streamCreate'])->name('tgStreamCreate');
+Route::post('/tg-stream-activator', [TelegramController::class, 'streamActivator'])->name('tgStreamActivator');
 
 // Админские роуты
 Route::post('/set-promo', [AdminController::class, 'setPromocodes'])->name('setPromo')->middleware('is_admin');

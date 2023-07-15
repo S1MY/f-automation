@@ -221,7 +221,7 @@
                 </div>
                 <div class="tabItem" data-tab="tg">
                     <p class="accountComment">После привязки канала <span>Telegram</span> Мы получаем доступ к общей информации о канале и доступ ко всем функциям, связанными с автоматизацией.</p>
-                    <a target="_blank" href="#" class="firstAddAccount addAccount">Привязать аккаунт</a>
+                    <a href="#" class="firstAddAccount addTelegram">Привязать аккаунт</a>
                     <a href="#" class="guidLink" data-name="Как привязать аккаунт Телеграм" data-popup="tgAuth">Посмотреть инструкцию</a>
                 </div>
             </div>
