@@ -148,6 +148,8 @@ $(document).ready(function () {
               inputName = 'account'
             } else if (response.title == 'accountId') {
               inputName = 'account'
+            }else if (response.title == 'channelId') {
+              inputName = 'channel'
             } else if (response.title == 'duration') {
               inputName = 'file'
             } else if (response.title == 'type') {
