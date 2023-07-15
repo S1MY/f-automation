@@ -55,7 +55,7 @@ class TgCronController extends Controller
             if(count($messages_Chats['chats']) > 0){
                 foreach ($messages_Chats['chats'] as $chat) {
                     if(!$chat['left']){
-                        $channels = $chat['username'];
+                        $channels[] = $chat['username'];
                     }
                 }
                 if(in_array($channelName, $channels)){
