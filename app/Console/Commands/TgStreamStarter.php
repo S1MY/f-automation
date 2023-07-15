@@ -4,9 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-
 use Carbon\Carbon;
 
 use App\Models\User;
@@ -69,12 +66,6 @@ class TgStreamStarter extends Command
                     if($userSubscribe->sub_status === 1){
                         $subscribePackage = unserialize($userSubscribe->sub_config)['tg']['streams'];
                         if($subscribePackage['type1'] === 1){
-                            CronLogs::create([
-                                'uid'        => $userId,
-                                'cron_type' => 'tg_streams',
-                                'item_id' => $stream->id,
-                                'message'   => 'Сюда дошёл'
-                            ]);
                             $streamContinue = $currentDomain.'/tg-stream-continue';
                             $postContent = [
                                 'stream_id' => $stream->id,
