@@ -157,6 +157,31 @@
                 </div>
                 @endif
             </div>
+            <div class="pageItem">
+                <h2 class="pageTitle">Ваши трансляции</h2>
+                <p class="pageText _mt12">Все трансляции, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления. История трансляций по Дате не собирается!</p>
+                <div class="pageTabs" data-name="classic">
+                    <p class="pageTab _active" data-tab="all">Все стримы</p>
+                    @if(count(Auth::user()->TgChannel) > 0)
+                        @foreach (Auth::user()->TgChannel as $tgChannel)
+                                <p class="pageTab" data-tab="{{$tgChannel->id}}" data-channelId="{{$tgChannel->id}}" data-action="{{route('paginate')}}" data-type="channel-streams">{{$tgChannel->title}}</p>
+                        @endforeach
+                    @endif
+                </div>
+                <div class="tabItem _active" data-tab="all">
+                    <div class="storyWrapper">
+                        @include('load.all-tg_streams-load')
+                    </div>
+                </div>
+                @if(count(Auth::user()->TgChannel) > 0)
+                    @foreach (Auth::user()->tgChannel as $tgChannel)
+                        <div class="tabItem" data-tab="{{$tgChannel->id}}" data-type="channel">
+                            <div class="rowFlex">
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
         </div>
         @include('cabinet.layouts.footer')
     </div>
