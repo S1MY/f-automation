@@ -297,7 +297,7 @@ class StreamsController extends Controller
                             }
                         }
                         foreach (unserialize($searchStream->link) as $key => $link) {
-                            Storage::delete($link);
+                            Storage::disk('public')->delete($link);
                         }
                         Stream::where('id', '=', $removeId)->delete();
                         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена');

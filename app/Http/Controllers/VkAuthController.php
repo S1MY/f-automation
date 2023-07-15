@@ -319,7 +319,7 @@ class VkAuthController extends Controller
             StreamStory::where('stream_id', '=', $stream->id)->delete();
             StreamSettings::where('stream_id', '=', $stream->id)->delete();
             foreach (unserialize($stream->link) as $key => $link) {
-                Storage::delete($link);
+                Storage::disk('public')->delete($link);
             }
             Stream::where('id', '=', $stream->id)->delete();
         }
@@ -331,7 +331,7 @@ class VkAuthController extends Controller
             StoriesSettings::where('stories_id', '=', $stories->id)->delete();
             $storiesFiles = unserialize($stories->link);
             foreach ($storiesFiles as $storiesFile) {
-                Storage::delete($storiesFile);
+                Storage::disk('public')->delete($storiesFile);
             }
             Stories::where('id', '=', $stories->id)->delete();
         }
@@ -374,7 +374,7 @@ class VkAuthController extends Controller
             foreach ($links as $key => $link) {
                 $itemId = explode("_", $attachments[$key])[1];
                 if((rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')){
-                    Storage::delete($link);
+                    Storage::disk('public')->delete($link);
                     $videoRemoveClient = new Client([
                         'base_uri' => 'https://api.vk.com',
                     ]);

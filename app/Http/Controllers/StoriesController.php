@@ -233,7 +233,7 @@ class StoriesController extends Controller
                         StoriesSettings::where('stories_id', '=', $removeId)->delete();
                         $storiesFiles = unserialize($searchStories->link);
                         foreach ($storiesFiles as $storiesFile) {
-                            Storage::delete($storiesFile);
+                            Storage::disk('public')->delete($storiesFile);
                         }
                         Stories::where('id', '=', $removeId)->delete();
                         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'История была удалена');

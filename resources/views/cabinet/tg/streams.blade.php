@@ -1,8 +1,4 @@
 @extends('cabinet.layouts.master')
-@php
-    use Illuminate\Support\Facades\Storage;
-    Storage::disk('public')->delete('files/users/mymegalogin/tg_streams/stream-2023-07-15-07-10-24.mp4');
-@endphp
 {{-- @if($user->Subscribe)
 @if($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)["vk"]["streams"]["type1"] !== 1)
     <script>

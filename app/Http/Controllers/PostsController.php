@@ -385,7 +385,7 @@ class PostsController extends Controller
                         foreach ($links as $key => $link) {
                             $itemId = explode("_", $attachments[$key])[1];
                             if((rtrim(strstr($attachments[$key], '_', true), "0123456789") == 'video')){
-                                Storage::delete($link);
+                                Storage::disk('public')->delete($link);
                                 $videoRemoveClient = new Client([
                                     'base_uri' => 'https://api.vk.com',
                                 ]);
