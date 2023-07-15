@@ -248,7 +248,7 @@ class TelegramController extends Controller
                         foreach (unserialize($searchStream->link) as $key => $link) {
                             Storage::delete($link);
                         }
-                        Stream::where('id', '=', $removeId)->delete();
+                        TgStream::where('id', '=', $removeId)->delete();
                         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена');
                     }else{
                         return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данная трансяция не найдена');
