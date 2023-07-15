@@ -107,6 +107,9 @@
                         <a href="{{ route('tg_streams') }}" class="sidebarLink{{ request()->is('cabinet/tg/tg_streams') ? ' _active' : null }}{{($tgPackage['streams']['type1'] !== 1) ? ' _disabled' : null}}">
                             <span>Трансляции</span>
                         </a>
+                        <a href="{{ route('tg_posts') }}" class="sidebarLink{{ request()->is('cabinet/tg/tg_posts*') ? ' _active' : null }}{{($tgPackage['posts']['type1'] !== 1) ? ' _disabled' : null}}">
+                            <span>Посты</span>
+                        </a>
                     </div>
                 </div>
             @endif

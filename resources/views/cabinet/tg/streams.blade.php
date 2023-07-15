@@ -1,6 +1,6 @@
 @extends('cabinet.layouts.master')
-{{-- @if($user->Subscribe)
-@if($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)["vk"]["streams"]["type1"] !== 1)
+@if($user->Subscribe)
+@if($user->Subscribe->sub_status === 1 && unserialize($user->Subscribe->sub_config)["tg"]["streams"]["type1"] !== 1)
     <script>
         window.location.href = "{{ route('cabinet') }}";
     </script>
@@ -9,7 +9,7 @@
 <script>
     window.location.href = "{{ route('cabinet') }}";
 </script>
-@endif --}}
+@endif
 @section('title', 'Трансляции Телеграм')
 
 @section('cabinet-content')

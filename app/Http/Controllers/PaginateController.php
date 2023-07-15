@@ -23,6 +23,7 @@ use App\Models\StreamComments;
 use App\Models\TgAccount;
 use App\Models\TgChannel;
 use App\Models\TgStream;
+use App\Models\TgPost;
 
 class PaginateController extends Controller
 {
@@ -501,6 +502,44 @@ class PaginateController extends Controller
                     $currentPage = route('tg_streams');
                 return view('load.tg_streams-load', compact('allStreams', 'currentPage'));
 
+                break;
+            case 'all-tg_posts':
+                $tgAccount = TgAccount::where('uid', Auth::user()->id)->get();
+                $allPosts = Tgpost::join('tg_channels', 'tg_posts.channel_id', '=', 'tg_channels.id')
+                ->leftJoin('tg_post_settings', 'tg_posts.id', '=', 'tg_post_settings.post_id')
+                ->orderBy('id', 'desc')
+                ->whereIn('tg_posts.account_id', $tgAccount->pluck('id'))
+                ->select([
+                    'tg_posts.*',
+                    'tg_channels.title as tg_channels_name',
+                    'tg_post_settings.type as type',
+                    'tg_post_settings.interval as interval',
+                    'tg_post_settings.date as date',
+                    'tg_post_settings.daily as daily'
+                ])
+                ->paginate(4, ['*'], 'all-tg_posts-page', $page_num);
+                $currentPage = route('tg_posts');
+                return view('load.tg_posts-load', compact('allPosts', 'currentPage'));
+                break;
+            case 'channel-posts':
+                $tgChannel = TgChannel::where('id', $channelId)
+                    ->get();
+                $allPosts = TgPost::join('tg_channels', 'tg_posts.channel_id', '=', 'tg_channels.id')
+                ->leftJoin('tg_post_settings', 'tg_posts.id', '=', 'tg_post_settings.post_id')
+                    ->orderBy('id', 'desc')
+                    ->whereIn('tg_posts.channel_id', $tgChannel->pluck('id'))
+                    ->select([
+                        'tg_posts.*',
+                        'tg_channels.title as tg_channels_name',
+                        'tg_post_settings.type as type',
+                        'tg_post_settings.interval as interval',
+                        'tg_post_settings.date as date',
+                        'tg_post_settings.daily as daily'
+                    ])
+                    ->paginate(4, ['*'], 'channel-posts-page', $page_num);
+                    $currentPage = route('tg_posts');
+                return view('load.tg_posts-load', compact('allPosts', 'currentPage'));
+            
                 break;
             default:
 

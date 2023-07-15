@@ -12,6 +12,9 @@ class PostSettings extends Model
     protected $fillable = [
         'post_id',
         'friends_only',
+        'close_comments',
+        'pin_new',
+        'remove_old',
         'type',
         'interval',
         'date',

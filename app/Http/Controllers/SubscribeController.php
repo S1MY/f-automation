@@ -69,6 +69,9 @@ class SubscribeController extends Controller
                 'streams' => [
                     'type1' => (is_numeric($request->tgStreamType1)) ? intval($request->tgStreamType1) : 0,
                     'type2' => (is_numeric($request->tgStreamType2)) ? intval($request->tgStreamType2) : 0,
+                ],
+                'posts' => [
+                    'type1' => (is_numeric($request->tgPostType1)) ? intval($request->tgPostType1) : 0
                 ]
             ]
         ];
@@ -94,6 +97,9 @@ class SubscribeController extends Controller
                 'streams' => [
                     'type1' => 200,
                     'type2' => 100,
+                ],
+                'posts' => [
+                    'type1' => 100
                 ]
             ]
         ];
@@ -119,6 +125,9 @@ class SubscribeController extends Controller
                 'streams' => [
                     'type1' => '0',
                     'type2' => 'type1',
+                ],
+                'posts' => [
+                    'type1' => '0'
                 ]
             ]
         ];
