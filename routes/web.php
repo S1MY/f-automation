@@ -66,6 +66,7 @@ Route::group(['prefix' => 'cabinet', 'middleware' => ['auth', 'confirmed']], fun
 
     Route::group(['prefix' => 'tg'], function(){
         Route::get('/tg_streams', [CabinetPagesController::class, 'tg_streams'])->name('tg_streams');
+        Route::get('/tg_posts', [CabinetPagesController::class, 'tg_posts'])->name('tg_posts');
     });
 
     Route::get('/partners', [CabinetPagesController::class, 'partners'])->name('partners');
