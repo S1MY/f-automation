@@ -31,7 +31,21 @@ $(document).ready(function () {
       createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 5</p>");
       return false
     }
-    $('._filecounts').html(`${files.length} / 5`);
+    if(!$("#file").prop("multiple") && file.length > 1){
+      $("#file").val("");
+      $('._filecounts').html('0 / 1')
+      $('.fileName').html('Файл не выбран');
+      $("._status").html('Файл не обнаружен');
+      $("._status").removeClass('_complete');
+      $("._size").html('0 mb');
+      createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 1</p>");
+      return false
+    }
+    if($("#file").prop("multiple")){
+      $('._filecounts').html(`${files.length} / 5`);
+    }else{
+      $('._filecounts').html(`${files.length} / 1`);
+    }
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
       let size = file.size;
@@ -76,8 +90,11 @@ $(document).ready(function () {
       $("._status").html('Файл не обнаружен');
       $("._status").removeClass('_complete');
       $("._size").html('0 mb');
-      $('._filecounts').html('0 / 5')
-      $("#file").val();
+      if($("#file").prop("multiple")){
+        $('._filecounts').html('0 / 5')
+      }else{
+        $('._filecounts').html('0 / 1')
+      }
       detector = false;
     }
   });
