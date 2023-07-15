@@ -63,7 +63,7 @@ $(document).ready(function () {
                     formData.append('group_id', groupId);
                 }else if (parentType === 'channel') {
                     channelId = $(this).parents('.tabItem').attr('data-tab');
-                    formData.append('channelid', channelId);
+                    formData.append('channel_id', channelId);
                 }
             }
             if (page.match(/item(\d+)/)) {
