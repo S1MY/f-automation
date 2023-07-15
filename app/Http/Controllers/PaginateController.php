@@ -485,7 +485,7 @@ class PaginateController extends Controller
             case 'channel-streams':
                 $tgChannel = TgChannel::where('id', $channelId)
                     ->get();
-                $allStreams = Stream::join('tg_channels', 'tg_streams.channel_id', '=', 'tg_channels.id')
+                $allStreams = TgStream::join('tg_channels', 'tg_streams.channel_id', '=', 'tg_channels.id')
                 ->leftJoin('tg_stream_settings', 'tg_streams.id', '=', 'tg_stream_settings.stream_id')
                     ->orderBy('id', 'desc')
                     ->whereIn('tg_streams.channel_id', $tgChannel->pluck('id'))
