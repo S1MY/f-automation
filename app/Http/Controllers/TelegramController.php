@@ -246,7 +246,7 @@ class TelegramController extends Controller
                     if ($searchStream) {
                         TgStreamSettings::where('stream_id', '=', $removeId)->delete();
                         foreach (unserialize($searchStream->link) as $key => $link) {
-                            Storage::delete($link);
+                            Storage::delete('/'.$link);
                         }
                         TgStream::where('id', '=', $removeId)->delete();
                         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Трансяция была удалена');
