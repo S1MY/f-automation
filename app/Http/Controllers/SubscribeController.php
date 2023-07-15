@@ -64,6 +64,12 @@ class SubscribeController extends Controller
                     'type2' => (is_numeric($request->postType2)) ? intval($request->postType2) : 0,
                     'type3' => (is_numeric($request->postType3)) ? intval($request->postType3) : 0
                 ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => (is_numeric($request->tgStreamType1)) ? intval($request->tgStreamType1) : 0,
+                    'type2' => (is_numeric($request->tgStreamType2)) ? intval($request->tgStreamType2) : 0,
+                ]
             ]
         ];
         $packagePrices = [
@@ -82,6 +88,12 @@ class SubscribeController extends Controller
                     'type1' => 100,
                     'type2' => 100,
                     'type3' => 50
+                ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => 200,
+                    'type2' => 100,
                 ]
             ]
         ];
@@ -102,26 +114,53 @@ class SubscribeController extends Controller
                     'type2' => 'type1',
                     'type3' => 'type1'
                 ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                ]
             ]
         ];
-        foreach ($subConfig['vk'] as $type => $options) {
-            foreach ($options as $subtype => $selected) {
-                if ($selected === 1 && $packageParents['vk'][$type][$subtype] !== '0') {
-                    $requiredType = $packageParents['vk'][$type][$subtype];
-                    if ($subConfig['vk'][$type][$requiredType] !== 1) {
-                        return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций ВК '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
+        foreach ($subConfig as $key => $config) {
+            foreach ($config as $type => $options) {
+                foreach ($options as $subtype => $selected) {
+                    if ($selected === 1 && $packageParents[$key][$type][$subtype] !== '0') {
+                        $requiredType = $packageParents[$key][$type][$subtype];
+                        if ($subConfig[$key][$type][$requiredType] !== 1) {
+                            return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
+                        }
                     }
                 }
             }
         }
+        // foreach ($subConfig['vk'] as $type => $options) {
+        //     foreach ($options as $subtype => $selected) {
+        //         if ($selected === 1 && $packageParents['vk'][$type][$subtype] !== '0') {
+        //             $requiredType = $packageParents['vk'][$type][$subtype];
+        //             if ($subConfig['vk'][$type][$requiredType] !== 1) {
+        //                 return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций ВК '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
+        //             }
+        //         }
+        //     }
+        // }
         $totalPrice = 0;
-        foreach ($subConfig['vk'] as $type => $options) {
-            foreach ($options as $subtype => $selected) {
-                if ($selected === 1) {
-                    $totalPrice += $packagePrices['vk'][$type][$subtype];
+        foreach ($subConfig as $key => $config) {
+            foreach ($subConfig[$key] as $type => $options) {
+                foreach ($options as $subtype => $selected) {
+                    if ($selected === 1) {
+                        $totalPrice += $packagePrices[$key][$type][$subtype];
+                    }
                 }
             }
         }
+        // foreach ($subConfig['vk'] as $type => $options) {
+        //     foreach ($options as $subtype => $selected) {
+        //         if ($selected === 1) {
+        //             $totalPrice += $packagePrices['vk'][$type][$subtype];
+        //         }
+        //     }
+        // }
         if($totalPrice !== $clientPriceNumber){
             if($validatedData['promoChecker'] < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
