@@ -71,16 +71,22 @@ $(document).ready(function () {
     let tab = $(this).attr("data-tab");
     const accountId = ($(this).attr("data-accountId")) ? $(this).attr("data-accountId") : null
     const groupId = ($(this).attr("data-groupId")) ? $(this).attr("data-groupId") : null
-    if (accountId || groupId) {
+    const channelId = ($(this).attr("data-channelId")) ? $(this).attr("data-channelId") : null
+    if (accountId || groupId || channelId) {
       const action = $(this).attr('data-action');
       const type = $(this).attr('data-type');
       let formData = new FormData();
       formData.append('type', type);
-      const itemId = (accountId) ? accountId : groupId;
+      let itemId;
       if (accountId) {
         formData.append('account_id', accountId);
+        itemId = accountId;
       } else if (groupId) {
         formData.append('group_id', groupId);
+        itemId = groupId;
+      }else if (channelId) {
+        formData.append('channel_id', channelId);
+        itemId = channelId;
       }
       $.ajax({
         type: "POST",

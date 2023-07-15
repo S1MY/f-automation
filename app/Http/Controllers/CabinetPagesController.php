@@ -283,9 +283,7 @@ class CabinetPagesController extends Controller
         $currentPage = route('tg_streams');
         $tgAccount = TgAccount::where('uid', $user->id)->get();
         $allStreams = TgStream::join('tg_channels', 'tg_streams.channel_id', '=', 'tg_channels.id')
-        ->leftJoin('tg_stream_settings', function ($join) {
-            $join->on('tg_streams.id', '=', 'tg_stream_settings.stream_id');
-        })
+        ->leftJoin('tg_stream_settings', 'tg_streams.id', '=', 'tg_stream_settings.stream_id')
         ->orderBy('id', 'desc')
         ->whereIn('tg_streams.account_id', $tgAccount->pluck('id'))
         ->select([
