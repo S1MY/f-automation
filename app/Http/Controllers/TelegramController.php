@@ -63,7 +63,7 @@ class TelegramController extends Controller
             return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
-        $searchChannel = TgChannel::where('id', '=', $channelId)->first();
+        $searchChannel = TgChannel::where('id', '=', $validatedData['channelId'])->first();
         if (!$searchChannel) {
             return $this->generateJsonResponse('input', 'channel', 'Канал не найден');
         }
@@ -138,7 +138,7 @@ class TelegramController extends Controller
         $searchAccount = TgAccount::where('uid', '=', Auth::user()->id)->first();
         $streamCreate = TgStream::create([
             'account_id' => $searchAccount->id,
-            'channel_id' => $channelId,
+            'channel_id' => $validatedData['channelId'],
             'title' => $validatedData['name'],
             'link' => serialize($linksDB),
             'active' => 1
