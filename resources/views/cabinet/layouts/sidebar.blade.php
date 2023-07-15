@@ -87,7 +87,7 @@
             @endif
         @endif
     </div>
-    <div class="sidebarParent _disabled">
+    <div class="sidebarParent{{ request()->is('cabinet/tg/*') ? ' _active' : null }}{{($user->Subscribe) ? (($user->Subscribe->sub_status === 1) ? null : ' _disabled') : ' _disabled'}}">
         <div class="sidebarOpener">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.4899 8.37112C18.226 7.62802 18.9567 5.89412 15.8898 7.99957C13.0248 9.99016 10.1404 11.9521 7.23707 13.8851C6.79496 14.087 6.31699 14.1965 5.83189 14.2071C5.34679 14.2178 4.86456 14.1293 4.41417 13.9471C2.57402 13.3897 0.425847 12.6466 0.425847 12.6466C0.425847 12.6466 -1.04094 11.7164 1.46993 10.7256C1.46993 10.7256 12.0855 6.32759 15.7671 4.77812C17.1779 4.15887 21.9636 2.17727 21.9636 2.17727C21.9636 2.17727 24.1731 1.30897 23.9891 3.41577C23.9278 4.28272 23.4371 7.31974 22.9464 10.6018C22.209 15.2475 21.4116 20.328 21.4116 20.328C21.4116 20.328 21.2889 21.7523 20.2461 22C19.1299 21.9809 18.0514 21.5889 17.1792 20.8853C16.9339 20.6996 12.5775 17.9116 10.9814 16.5493C10.819 16.4382 10.6871 16.2875 10.5979 16.1112C10.5087 15.9349 10.4652 15.7386 10.4713 15.5407C10.4774 15.3428 10.533 15.1497 10.6329 14.9794C10.7328 14.809 10.8738 14.6669 11.0427 14.5663C13.2319 12.5442 15.3814 10.4788 17.4899 8.37112Z" fill="#101010"/>
@@ -97,16 +97,20 @@
                 <path d="M18.6118 5.2242L9.99912 13.1941L1.38645 5.2242C1.23257 5.08152 1.026 5.00164 0.810891 5.00164C0.595786 5.00164 0.389214 5.08152 0.235334 5.2242C0.160826 5.2935 0.101633 5.37622 0.0612238 5.46751C0.0208142 5.5588 0 5.65683 0 5.75585C0 5.85488 0.0208142 5.9529 0.0612238 6.04419C0.101633 6.13548 0.160826 6.2182 0.235334 6.28751L9.39771 14.7678C9.55862 14.9167 9.77442 15 9.99912 15C10.2238 15 10.4396 14.9167 10.6005 14.7678L19.7629 6.28914C19.8379 6.21979 19.8976 6.13687 19.9383 6.04527C19.979 5.95368 20 5.85527 20 5.75585C20 5.65644 19.979 5.55802 19.9383 5.46643C19.8976 5.37484 19.8379 5.29192 19.7629 5.22256C19.609 5.07988 19.4025 5 19.1873 5C18.9722 5 18.7657 5.07988 18.6118 5.22256V5.2242Z" fill="black"/>
             </svg>
         </div>
-        <div class="sidebarSubWrapper">
-            <div class="sidebarSub">
-                <a href="/cabinet/streams.html" class="sidebarLink">
-                    <span>Трансляции</span>
-                </a>
-                <a href="/cabinet/posts.html" class="sidebarLink">
-                    <span>Посты</span>
-                </a>
-            </div>
-        </div>
+        @if ($user->Subscribe)
+            @if ($user->Subscribe->sub_status === 1)
+                @php
+                    $tgPackage = unserialize($user->Subscribe->sub_config)['tg'];
+                @endphp
+                <div class="{{ request()->is('cabinet/tg/*') ? null : 'sidebarSubWrapper' }}">
+                    <div class="sidebarSub">
+                        <a href="{{ route('tg_streams') }}" class="sidebarLink{{ request()->is('cabinet/tg/tg_streams') ? ' _active' : null }}{{($tgPackage['streams']['type1'] !== 1) ? ' _disabled' : null}}">
+                            <span>Трансляции</span>
+                        </a>
+                    </div>
+                </div>
+            @endif
+        @endif
     </div>
     <a href="{{ route('partners') }}" class="sidebarLink{{ request()->is('cabinet/partners') ? ' _active' : null }}">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
