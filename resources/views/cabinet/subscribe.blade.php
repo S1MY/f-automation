@@ -458,7 +458,7 @@
                                             <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
                                             <a href="#" class="subCheckBtn" data-price="100" data-parent="1"
                                                 data-children="0"
-                                                data-name="Full HD качество стримов">Выбрать</a>
+                                                data-name="Full HD качество ВК стримов">Выбрать</a>
                                             <input type="checkbox" name="streamType3" class="subInput" value="1">
                                         </div>
                                     </div>
@@ -673,7 +673,7 @@
                                             <p class="subCheckPrice">Стоимость: <span>100₽</span></p>
                                             <a href="#" class="subCheckBtn" data-price="100" data-parent="1"
                                                 data-children="0"
-                                                data-name="Full HD качество стримов">Выбрать</a>
+                                                data-name="Full HD качество ТГ стримов">Выбрать</a>
                                             <input type="checkbox" name="tgStreamType2" class="subInput" value="1">
                                         </div>
                                     </div>
