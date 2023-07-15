@@ -30,12 +30,6 @@ class TgCronController extends Controller
         $streamItem = TgStream::where('id', '=', $streamId)->first();
         $streamSettings = TgStreamSettings::where('stream_id', '=', $streamId)
         ->first();
-        CronLogs::create([
-            'uid'        => $userId,
-            'cron_type' => 'tg_streams',
-            'item_id' => $streamId,
-            'message'   => 'Сюда дошёл1'
-        ]);
         if($streamItem->live < 1){
             $streamItem->live = 1;
             $streamItem->start_count = $streamItem->start_count + 1;
@@ -64,12 +58,6 @@ class TgCronController extends Controller
                     }
                 }
                 if(in_array($channelName, $channels)){
-                    CronLogs::create([
-                        'uid'        => $userId,
-                        'cron_type' => 'tg_streams',
-                        'item_id' => $streamId,
-                        'message'   => 'Сюда дошёл2'
-                    ]);
                     $phone_GroupCallStreamRtmpUrl = $MadelineProto->phone->getGroupCallStreamRtmpUrl(peer: $channelName, revoke: 0);
                     $streamUrl = $phone_GroupCallStreamRtmpUrl['url'];
                     $streamKey = $phone_GroupCallStreamRtmpUrl['key'];
