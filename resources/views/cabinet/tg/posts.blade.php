@@ -28,12 +28,18 @@
                         </svg>
                     </div>
                 </h1>
-                <p class="pageText _mt12">Создание поста может занять до 25 минут. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
+                <p class="pageText _mt12">Созданный пост обновляется в соответствии с указанными настройками. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить посты правильно" data-popup="tgPostStart">Инструкции</a></p>
+                <p class="pageText _mt12">Сообщение в Телеграм можно настривать с помощью HTML тегов. Доступные теги: strong (жирность текста), br(перенос строки), em (наклон), u (подчёркнутый), a (ссылка)</p>
+                <p class="pageText _mt12">Например: <br>
+                Всем привет &lt;br&gt;<br>
+                На связи администрация проекта <strong>&lt;strong&gt;F-AUTOMATION&lt;/strong&gt;</strong>&lt;br&gt;&lt;br&gt;<br><br>
+                <em>&lt;em&gt;Вы можете&lt;/em&gt;</em> ознакомиться с <u>&lt;u&gt;нашим проектом&lt;/u&gt;</u> по <a href="https://f-automation.ru">&lt;a href="https://f-automation.ru"&gt;ссылке&lt;/a&gt;</a>
+                </p>
                 @if(count(Auth::user()->TgChannel) > 0)
                 <div class="tabPageItem">
                     <form class="tabPageForm" action="{{route('tgPostCreate')}}" enctype='multipart/form-data'>
                     <div class="tabPageInput" data-name="name">
-                        <input type="text" name="name" class="formInput" placeholder="Название трансляции">
+                        <input type="text" name="name" class="formInput" placeholder="Название поста">
                     </div>
                     <div class="tabPageInput tabPageSelect" data-name="channel">
                         <div class="formSelect">
