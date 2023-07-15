@@ -37,8 +37,6 @@ $(document).ready(function () {
     }
     if (files.length > 1) {
       createMessage("<p class='fixedMessage _error'>Максимальное количество файлов равно 1</p>");
-      durations = []
-      filenames = []
       $("#file").val("");
       $('._filecounts').html('0 / 1')
       $('.fileName').html('Файл не выбран');
