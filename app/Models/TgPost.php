@@ -15,6 +15,7 @@ class TgPost extends Model
         'message',
         'link',
         'attachments',
+        'start_count',
         'active'
     ];
 }

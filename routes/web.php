@@ -144,3 +144,5 @@ Route::get('/upload-process', function () {
 });
 Route::post('/stream-continue', [CronController::class, 'streamContinue'])->name('streamContinue');
 Route::post('/tg-stream-continue', [TgCronController::class, 'tgStreamContinue'])->name('tgStreamContinue');
+Route::post('/tg-post-continue', [TgCronController::class, 'tgPostContinue'])->name('tgPostContinue');
+Route::post('/tg-post-remover', [TgCronController::class, 'tgPostRemover'])->name('tgPostRemover');

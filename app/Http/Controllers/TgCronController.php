@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\TgStream;
 use App\Models\TgStreamSettings;
 
+use App\Models\TgPost;
+use App\Models\TgPostSettings;
+
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
 use danog\MadelineProto\Settings\AppInfo;
@@ -81,6 +84,131 @@ class TgCronController extends Controller
                         'uid'        => $userId,
                         'cron_type' => 'tg_streams',
                         'item_id' => $streamId,
+                        'message'   => 'Нужный канал не найден'
+                    ]);
+                }
+            }
+        }
+    }
+    public function tgPostContinue(Request $request)
+    {
+        $postId = $request->post_id;
+        $userId = $request->user_id;
+        $channelName = $request->channel;
+        $userName = $request->username;
+        $postItem = TgPost::where('id', '=', $postId)->first();
+        $postSettings = TgPostSettings::where('post_id', '=', $postId)
+        ->first();
+        $apiId = env('TELEGRAM_APP_ID');
+        $apiHash = env('TELEGRAM_APP_HASH');
+        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+        $logger = (new LoggerSettings)
+            ->setType(Logger::FILE_LOGGER)
+            ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
+            ->setLevel(Logger::FATAL_ERROR )
+            ->setMaxSize(2048);
+        $settings = 
+        (new Settings())
+        ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+        ->setLogger($logger);
+        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+        $MadelineProto = new API($sessionUrl, $settings);
+        $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
+        $channels = [];
+        if(count($messages_Chats['chats']) > 0){
+            foreach ($messages_Chats['chats'] as $chat) {
+                if(!$chat['left']){
+                    $channels[] = $chat['username'];
+                }
+            }
+            if(in_array($channelName, $channels)){
+                $mediaItem = unserialize($postItem->link)[0];
+                $extension = unserialize($postItem->attachments)[0];
+                $mediaItemName = explode('/', $mediaItem)[4];
+                $inputFile = $MadelineProto->upload(storage_path('app/public/'.$mediaItem));
+                $sentMessageId = 0;
+                $message = base64_decode($post->message).'<br><br>Данный пост создан с помощью <a href="https://f-automation.ru">F-AUTOMATION</a>';
+                if($extension === 'mp4'){
+                    $sentMessage = $MadelineProto->messages->sendMedia([
+                        'peer' => '@'.$channelName,
+                        'media' => [
+                            '_' => 'inputMediaUploadedDocument',
+                            'file' => $inputFile,
+                            'attributes' => [
+                                ['_' => 'documentAttributeVideo', 'round_message' => false, 'supports_streaming' => true]
+                            ]
+                        ],
+                        'message' => $message,
+                        'parse_mode' => 'html'
+                    ]);
+                    $sentMessageId = $sentMessage['updates'][0]['id'];
+                }else{
+                    $sentMessage = $MadelineProto->messages->sendMedia([
+                        'peer' => '@'.$channelName,
+                        'media' => [
+                            '_' => 'inputMediaUploadedPhoto',
+                            'file' => $inputFile,
+                        ],
+                        'message' => $message,
+                        'parse_mode' => 'html'
+                    ]);
+                    $sentMessageId = $sentMessage['updates'][0]['id'];
+                }
+                $postItem->start_count = $$postItem->start_count + 1;
+                $postItem->save();
+                $postSettings->remove_id = $sentMessageId;
+                $postSettings->save();
+            }else{
+                CronLogs::create([
+                    'uid'        => $userId,
+                    'cron_type' => 'tg_posts',
+                    'item_id' => $postId,
+                    'message'   => 'Нужный канал не найден'
+                ]);
+            }
+        }
+    }
+    public function tgPostRemover(Request $request)
+    {
+        $postId = $request->post_id;
+        $userId = $request->user_id;
+        $channelName = $request->channel;
+        $userName = $request->username;
+        $postItem = TgPost::where('id', '=', $postId)->first();
+        $postSettings = TgPostSettings::where('post_id', '=', $postId)
+        ->first();
+        $apiId = env('TELEGRAM_APP_ID');
+        $apiHash = env('TELEGRAM_APP_HASH');
+        $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
+        $logger = (new LoggerSettings)
+            ->setType(Logger::FILE_LOGGER)
+            ->setExtra(storage_path('app/public/'.$fileLoadUrl.'/madeline.log'))
+            ->setLevel(Logger::FATAL_ERROR )
+            ->setMaxSize(2048);
+        $settings = 
+        (new Settings())
+        ->setAppInfo((new AppInfo)->setApiId($apiId)->setApiHash($apiHash))
+        ->setLogger($logger);
+        $sessionUrl = storage_path('app/public/' . $fileLoadUrl . '/session.madeline');
+        $MadelineProto = new API($sessionUrl, $settings);
+        $messages_Chats = $MadelineProto->channels->getAdminedPublicChannels(by_location: 0, check_limit: 0, );
+        $channels = [];
+        if(count($messages_Chats['chats']) > 0){
+            foreach ($messages_Chats['chats'] as $chat) {
+                if(!$chat['left']){
+                    $channels[] = $chat['username'];
+                }
+                if(in_array($channelName, $channels)){
+                    $removeId = $postSettings->remove_id;
+                    $deleteMessage = $MadelineProto->channels->deleteMessages([
+                        'channel' => '@'.$channelName,
+                        'id' => [$removeId]
+                    ]);
+                }else{
+                    CronLogs::create([
+                        'uid'        => $userId,
+                        'cron_type' => 'tg_posts',
+                        'item_id' => $postId,
                         'message'   => 'Нужный канал не найден'
                     ]);
                 }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->longText('link')->nullable();
             $table->longText('attachments')->nullable();
             $table->integer('active')->default(0);
+            $table->integer('start_count')->default(0);
             $table->timestamps();
         });
     }

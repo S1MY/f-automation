@@ -42,10 +42,10 @@ class TgStreamStarter extends Command
         $start = microtime(true);
         $promises = [];
         $mh = curl_multi_init();
+        $currentDomain = 'https://f-automation.v-devo.ru';
 
         $allStreams = TgStream::where('active', 1)->where('live', 0)->get();
         foreach ($allStreams as $stream) {
-            $currentDomain = 'https://f-automation.v-devo.ru';
             $streamSettings = TgStreamSettings::where('stream_id', $stream->id)->first();
             $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $stream->updated_at, 'Europe/Moscow')->startOfMinute();
             $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();

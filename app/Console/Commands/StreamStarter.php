@@ -48,10 +48,10 @@ class StreamStarter extends Command
         $start = microtime(true);
         $promises = [];
         $mh = curl_multi_init();
+        $currentDomain = 'https://f-automation.v-devo.ru';
 
         $allStreams = Stream::where('active', 1)->where('live', 0)->get();
         foreach ($allStreams as $stream) {
-            $currentDomain = 'https://f-automation.v-devo.ru';
             $streamSettings = StreamSettings::where('stream_id', $stream->id)->first();
             $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $stream->updated_at, 'Europe/Moscow')->startOfMinute();
             $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();

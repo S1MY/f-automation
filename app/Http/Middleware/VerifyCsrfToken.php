@@ -13,6 +13,8 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
        'stream-continue',
-       '/tg-stream-continue'
+       'tg-stream-continue',
+       'tg-post-continue',
+       'tg-post-remover'
     ];
 }
