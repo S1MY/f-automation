@@ -305,7 +305,7 @@ class CabinetPagesController extends Controller
         $currentPage = route('tg_posts');
         $tgAccount = TgAccount::where('uid', $user->id)->get();
         $allPosts = TgPost::join('tg_channels', 'tg_posts.channel_id', '=', 'tg_channels.id')
-        ->leftJoin('tg_post_settings', 'tg_posts.id', '=', 'tg_post_settings.stream_id')
+        ->leftJoin('tg_post_settings', 'tg_posts.id', '=', 'tg_post_settings.post_id')
         ->orderBy('id', 'desc')
         ->whereIn('tg_posts.account_id', $tgAccount->pluck('id'))
         ->select([
