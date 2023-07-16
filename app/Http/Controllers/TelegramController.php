@@ -623,7 +623,7 @@ class TelegramController extends Controller
             $searchAccount = TgAccount::where('id', '=', $searchPost->account_id)->first();
             if($searchAccount){
                 if($searchAccount->uid == $userId){
-                    if ($searchStream) {
+                    if ($searchPost) {
                         $tgPostSettings = TgPostSettings::where('post_id', '=', $removeId)->first();
                         if($tgPostSettings->remove_id){
                             $apiId = env('TELEGRAM_APP_ID');
