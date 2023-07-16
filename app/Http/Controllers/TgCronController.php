@@ -122,7 +122,7 @@ class TgCronController extends Controller
                 }
             }
             if(in_array($channelName, $channels)){
-                $postItem->start_count = $$postItem->start_count + 1;
+                $postItem->start_count = $postItem->start_count + 1;
                 $postItem->updated_at = $nowTime->format('Y-m-d H:i:s');
                 $postItem->save();
                 $mediaItem = unserialize($postItem->link)[0];
