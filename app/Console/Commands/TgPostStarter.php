@@ -59,9 +59,9 @@ class TgPostStarter extends Command
             }else{
                 $updatedAt = Carbon::now('Europe/Moscow')->startOfMinute()->setTime($postSettings->daily, 0, 0);
             }
+            $userDB = User::where('id', '=', $userId)->first();
             if (strtotime($updatedAt) === strtotime($nowTime)) {
                 $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
-                $userDB = User::where('id', '=', $userId)->first();
                 if($userSubscribe){
                     if($userSubscribe->sub_status === 1){
                         $subscribePackage = unserialize($userSubscribe->sub_config)['tg']['posts'];
