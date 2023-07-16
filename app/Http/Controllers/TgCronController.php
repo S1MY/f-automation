@@ -92,6 +92,7 @@ class TgCronController extends Controller
     }
     public function tgPostContinue(Request $request)
     {
+        $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();
         $postId = $request->post_id;
         $userId = $request->user_id;
         $channelName = $request->channel;
