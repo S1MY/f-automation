@@ -122,6 +122,9 @@ class TgCronController extends Controller
                 }
             }
             if(in_array($channelName, $channels)){
+                $postItem->start_count = $$postItem->start_count + 1;
+                $postItem->updated_at = $nowTime->format('Y-m-d H:i:s');
+                $postItem->save();
                 $mediaItem = unserialize($postItem->link)[0];
                 $extension = unserialize($postItem->attachments)[0];
                 $mediaItemName = explode('/', $mediaItem)[4];
@@ -154,8 +157,6 @@ class TgCronController extends Controller
                     ]);
                     $sentMessageId = $sentMessage['updates'][0]['id'];
                 }
-                $postItem->start_count = $$postItem->start_count + 1;
-                $postItem->save();
                 $postSettings->remove_id = $sentMessageId;
                 $postSettings->save();
             }else{
