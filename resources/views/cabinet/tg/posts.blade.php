@@ -28,7 +28,8 @@
                         </svg>
                     </div>
                 </h1>
-                <p class="pageText _mt12">Созданный пост обновляется в соответствии с указанными настройками. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить посты правильно" data-popup="tgPostStart">Инструкции</a></p>
+                <p class="pageText _mt12">Создание поста может занять до 10 минут</p>
+                <p class="pageText _mt12">Созданный пост обновляется в соответствии с указанными настройками. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить посты в ТГ" data-popup="tgPostStart">Инструкции</a></p>
                 <p class="pageText _mt12">Сообщение в Телеграм можно настривать с помощью HTML тегов. Доступные теги: strong (жирность текста), br(перенос строки), em (наклон), u (подчёркнутый), a (ссылка)</p>
                 <p class="pageText _mt12">Например: <br>
                 Всем привет &lt;br&gt;<br>
@@ -167,7 +168,7 @@
             </div>
             <div class="pageItem">
                 <h2 class="pageTitle">Ваши посты</h2>
-                <p class="pageText _mt12">Все посты, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления. История трансляций по Дате не собирается!</p>
+                <p class="pageText _mt12">Все посты, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления</p>
                 <div class="pageTabs" data-name="classic">
                     <p class="pageTab _active" data-tab="all">Все посты</p>
                     @if(count(Auth::user()->TgChannel) > 0)

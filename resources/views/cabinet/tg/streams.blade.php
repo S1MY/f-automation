@@ -28,7 +28,8 @@
                         </svg>
                     </div>
                 </h1>
-                <p class="pageText _mt12">Создание трансляции может занять до 25 минут. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
+                
+                <p class="pageText _mt12">Создание трансляции может занять до 25 минут. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию в ТГ" data-popup="tgStreamStart">Инструкции</a></p>
                 @if(count(Auth::user()->TgChannel) > 0)
                 <div class="tabPageItem">
                     <form class="tabPageForm" action="{{ route('tgStreamCreate') }}" enctype='multipart/form-data'>
@@ -158,7 +159,7 @@
             </div>
             <div class="pageItem">
                 <h2 class="pageTitle">Ваши трансляции</h2>
-                <p class="pageText _mt12">Все трансляции, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления. История трансляций по Дате не собирается!</p>
+                <p class="pageText _mt12">Все трансляции, которые не активны больше 7 дней автоматически удаляются из базы данных без возможности их восстановления</p>
                 <div class="pageTabs" data-name="classic">
                     <p class="pageTab _active" data-tab="all">Все стримы</p>
                     @if(count(Auth::user()->TgChannel) > 0)

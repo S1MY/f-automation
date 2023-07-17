@@ -29,7 +29,7 @@
                             </svg>
                         </div>
                     </h1>
-                    <p class="pageText _mt12">Создание трансляции может занять до 25 минут. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию правильно" data-popup="streamStart">Инструкции</a></p>
+                    <p class="pageText _mt12">Создание трансляции может занять до 25 минут. Подробнее в <a href="#" class="instructorLink" data-name="Как запустить трансляцию в ВК" data-popup="streamStart">Инструкции</a></p>
                     @if(count(Auth::user()->VkAccount) > 0)
                     <div class="tabPageItem">
                         <form class="tabPageForm" action="{{ route('streamCreate') }}" enctype='multipart/form-data'>
