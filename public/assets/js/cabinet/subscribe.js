@@ -209,6 +209,6 @@ $(document).ready(function () {
     }
     $('.subNames').html(subNames.join(', '));
     $('.fullPrice').html(fullPrice);
-    $('#priceInput').val(fullPrice);
+    $('.priceInput').val(fullPrice);
   }
 });

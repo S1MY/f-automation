@@ -483,6 +483,7 @@
                             <p class="pageText">Выбраны услуги: <span class="subNames"></span></p>
                             <div class="subLast">
                                 <p class="subPrice">К оплате: <span><span class="fullPrice"></span>₽</span></p>
+                                <input type="hidden" name="price" class="priceInput">
                                 <button class="formBtn">Оплатить с баланса</button>
                             </div>
                         @endif
@@ -849,7 +850,7 @@
                                 <input type="text" placeholder="Промокод" name="promocode" value="">
                                 <a href="#" class="promoBtn">Применить</a>
                             </label>
-                            <input type="hidden" name="price" id="priceInput">
+                            <input type="hidden" name="price" class="priceInput">
                             <button class="formBtn">Оплатить с баланса</button>
                         </div>
                     </form>
