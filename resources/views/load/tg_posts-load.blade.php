@@ -25,7 +25,7 @@
         $nextStart = $postDate->format('H:i d.m.Y');
         $postType = 'Дата';
     }
-    $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $stories->updated_at, 'Europe/Moscow')->startOfMinute();
+    $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow')->startOfMinute();
     echo $updatedAtTimestamp = strtotime($updatedAt->toDateTimeString());
 @endphp
 <div class="cardItem">
