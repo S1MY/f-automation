@@ -75,84 +75,9 @@ class SubscribeController extends Controller
                 ]
             ]
         ];
-        $packagePrices = [
-            'vk' => [
-                'streams' => [
-                    'type1' => 200,
-                    'type2' => 200,
-                    'type3' => 100
-                ],
-                'stories' => [
-                    'type1' => 100,
-                    'type2' => 100,
-                    'type3' => 50
-                ],
-                'posts' => [
-                    'type1' => 100,
-                    'type2' => 100,
-                    'type3' => 50
-                ]
-            ],
-            'tg' => [
-                'streams' => [
-                    'type1' => 200,
-                    'type2' => 100,
-                ],
-                'posts' => [
-                    'type1' => 100
-                ]
-            ]
-        ];
-        $packageParents = [
-            'vk' => [
-                'streams' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                    'type3' => 'type1'
-                ],
-                'stories' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                    'type3' => 'type1'
-                ],
-                'posts' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                    'type3' => 'type1'
-                ]
-            ],
-            'tg' => [
-                'streams' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                ],
-                'posts' => [
-                    'type1' => '0'
-                ]
-            ]
-        ];
-        foreach ($subConfig as $key => $config) {
-            foreach ($config as $type => $options) {
-                foreach ($options as $subtype => $selected) {
-                    if ($selected === 1 && $packageParents[$key][$type][$subtype] !== '0') {
-                        $requiredType = $packageParents[$key][$type][$subtype];
-                        if ($subConfig[$key][$type][$requiredType] !== 1) {
-                            return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
-                        }
-                    }
-                }
-            }
-        }
+        $this->parentsChecker($subConfig);
         $totalPrice = 0;
-        foreach ($subConfig as $key => $config) {
-            foreach ($subConfig[$key] as $type => $options) {
-                foreach ($options as $subtype => $selected) {
-                    if ($selected === 1) {
-                        $totalPrice += $packagePrices[$key][$type][$subtype];
-                    }
-                }
-            }
-        }
+        $this->priceCounter($subConfig, $totalPrice);
         if($totalPrice !== $clientPriceNumber){
             if($validatedData['promoChecker'] < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
@@ -195,6 +120,186 @@ class SubscribeController extends Controller
             'end_date'   => $endDate
         ]);
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку');
+    }
+    public function subscribeIncrease(Request $request)
+    {
+        $rules = [
+            'price' => 'integer',
+        ];
+        $messages = [
+            'price.integer' => 'Сумма не является числом',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->getMessageBag()->toArray();
+            $firstErrorKey = array_key_first($errors);
+            return $this->generateJsonResponse('error', 'Ошибка заполнения', $errors[$firstErrorKey][0]);
+        }
+        $validatedData = $validator->validated();
+
+        $ubalance = Auth::user()->UserInfo->balance;
+        $uid = Auth::user()->id;
+        $clientPriceNumber = (is_numeric($validatedData['price'])) ? intval($validatedData['price']) : 'error';
+        if($clientPriceNumber === 'error'){
+            return $this->generateJsonResponse('error', 'Ошибка суммы', 'Сумма должна являться целым числом');
+        }
+        if($clientPriceNumber === 0){
+            return $this->generateJsonResponse('error', 'Пустой пакет', 'С пустым пакетом вы далеко не уедете. Пересоберите его пожалуйста!');
+        }
+        if( $clientPriceNumber > $ubalance ){
+            return $this->generateJsonResponse('error', 'Недостаточно средств', 'На балансе недостаточно средств, попробуйте оплатить подписку через FREEKASSA.');
+        }
+        $getSubscribe = Subscribe::where('uid', '=', $uid)->first();
+        $userPackage = unserialize($getSubscribe);
+        $subConfig = [
+            'vk' => [
+                'streams' => [
+                    'type1' => (($userPackage['vk']['streams']['type1'] == 1) || is_numeric($request->streamType1)) ? intval($request->streamType1) : 0,
+                    'type2' => (($userPackage['vk']['streams']['type2'] == 1) || is_numeric($request->streamType2)) ? intval($request->streamType2) : 0,
+                    'type3' => (($userPackage['vk']['streams']['type3'] == 1) || is_numeric($request->streamType3)) ? intval($request->streamType3) : 0
+                ],
+                'stories' => [
+                    'type1' => (($userPackage['vk']['stories']['type1'] == 1) || is_numeric($request->storiesType1)) ? intval($request->storiesType1) : 0,
+                    'type2' => (($userPackage['vk']['stories']['type2'] == 1) || is_numeric($request->storiesType2)) ? intval($request->storiesType2) : 0,
+                    'type3' => (($userPackage['vk']['stories']['type3'] == 1) || is_numeric($request->storiesType3)) ? intval($request->storiesType3) : 0
+                ],
+                'posts' => [
+                    'type1' => (($userPackage['vk']['posts']['type1'] == 1) || is_numeric($request->postType1)) ? intval($request->postType1) : 0,
+                    'type2' => (($userPackage['vk']['posts']['type2'] == 1) || is_numeric($request->postType2)) ? intval($request->postType2) : 0,
+                    'type3' => (($userPackage['vk']['posts']['type3'] == 1) || is_numeric($request->postType3)) ? intval($request->postType3) : 0
+                ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => (($userPackage['tg']['streams']['type1'] == 1) || is_numeric($request->tgStreamType1)) ? intval($request->tgStreamType1) : 0,
+                    'type2' => (($userPackage['tg']['streams']['type2'] == 1) || is_numeric($request->tgStreamType2)) ? intval($request->tgStreamType2) : 0,
+                ],
+                'posts' => [
+                    'type1' => (($userPackage['tg']['posts']['type1'] == 1) || is_numeric($request->tgPostType1)) ? intval($request->tgPostType1) : 0
+                ]
+            ]
+        ];
+        $subConfigForIncrease = [
+            'vk' => [
+                'streams' => [
+                    'type1' => (is_numeric($request->streamType1)) ? intval($request->streamType1) : 0,
+                    'type2' => (is_numeric($request->streamType2)) ? intval($request->streamType2) : 0,
+                    'type3' => (is_numeric($request->streamType3)) ? intval($request->streamType3) : 0
+                ],
+                'stories' => [
+                    'type1' => (is_numeric($request->storiesType1)) ? intval($request->storiesType1) : 0,
+                    'type2' => (is_numeric($request->storiesType2)) ? intval($request->storiesType2) : 0,
+                    'type3' => (is_numeric($request->storiesType3)) ? intval($request->storiesType3) : 0
+                ],
+                'posts' => [
+                    'type1' => (is_numeric($request->postType1)) ? intval($request->postType1) : 0,
+                    'type2' => (is_numeric($request->postType2)) ? intval($request->postType2) : 0,
+                    'type3' => (is_numeric($request->postType3)) ? intval($request->postType3) : 0
+                ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => (is_numeric($request->tgStreamType1)) ? intval($request->tgStreamType1) : 0,
+                    'type2' => (is_numeric($request->tgStreamType2)) ? intval($request->tgStreamType2) : 0,
+                ],
+                'posts' => [
+                    'type1' => (is_numeric($request->tgPostType1)) ? intval($request->tgPostType1) : 0
+                ]
+            ]
+        ];
+        $totalPrice = 0;
+        $this->priceCounter($subConfigForIncrease, $totalPrice);
+        if($totalPrice !== $clientPriceNumber){
+            return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера');
+        }
+        Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
+        Auth::user()->UserInfo->save();
+        Auth::user()->Subscribe->sub_config = serialize($subConfig);
+        Auth::user()->Subscribe->save();
+        return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы улучшили свою подписку!');
+    }
+    private function parentsChecker($subConfig)
+    {
+        $packageParents = [
+            'vk' => [
+                'streams' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ],
+                'stories' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ],
+                'posts' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                ],
+                'posts' => [
+                    'type1' => '0'
+                ]
+            ]
+        ];
+        foreach ($subConfig as $key => $config) {
+            foreach ($config as $type => $options) {
+                foreach ($options as $subtype => $selected) {
+                    if ($selected === 1 && $packageParents[$key][$type][$subtype] !== '0') {
+                        $requiredType = $packageParents[$key][$type][$subtype];
+                        if ($subConfig[$key][$type][$requiredType] !== 1) {
+                            return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private function priceCounter($subConfig, $totalPrice)
+    {
+        $packagePrices = [
+            'vk' => [
+                'streams' => [
+                    'type1' => 200,
+                    'type2' => 200,
+                    'type3' => 100
+                ],
+                'stories' => [
+                    'type1' => 100,
+                    'type2' => 100,
+                    'type3' => 50
+                ],
+                'posts' => [
+                    'type1' => 100,
+                    'type2' => 100,
+                    'type3' => 50
+                ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => 200,
+                    'type2' => 100,
+                ],
+                'posts' => [
+                    'type1' => 100
+                ]
+            ]
+        ];
+        foreach ($subConfig as $key => $config) {
+            foreach ($subConfig[$key] as $type => $options) {
+                foreach ($options as $subtype => $selected) {
+                    if ($selected === 1) {
+                        $totalPrice += $packagePrices[$key][$type][$subtype];
+                    }
+                }
+            }
+        }
     }
     public function buyAccountPlace(Request $request)
     {

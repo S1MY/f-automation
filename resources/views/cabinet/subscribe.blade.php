@@ -64,7 +64,7 @@
                             }
                         }
                     @endphp
-                    <form data-form="increase" method="POST" class="pageTarget">
+                    <form data-form="increase" method="POST" action="{{route('subscribeIncrease')}}" class="pageTarget">
                         <p class="pageText">Ваш пакет активен и включает в себя следующие услуги</p>
                         <div class="packageActiveFlex">
                             @foreach ($allPackages as $key => $package)
@@ -484,7 +484,6 @@
                             <div class="subLast">
                                 <p class="subPrice">К оплате: <span><span class="fullPrice"></span>₽</span></p>
                                 <button class="formBtn">Оплатить с баланса</button>
-                                <a href="#" class="formBtn freekassa">Оплатить FREEKASSA</a>
                             </div>
                         @endif
                     </form>
@@ -852,7 +851,6 @@
                             </label>
                             <input type="hidden" name="price" id="priceInput">
                             <button class="formBtn">Оплатить с баланса</button>
-                            <a href="#" class="formBtn freekassa">Оплатить FREEKASSA</a>
                         </div>
                     </form>
                     @endif

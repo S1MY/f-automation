@@ -92,6 +92,7 @@ Route::post('/password-change', [SettingsController::class, 'changePassword'])->
 Route::post('/newsletter-change', [SettingsController::class, 'changeNewsletter'])->name('changeNewsletter');
 
 Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('doSubscribe');
+Route::post('/subscribe-increase', [SubscribeController::class, 'subscribeIncrease'])->name('subscribeIncrease');
 Route::post('/buy-account-place', [SubscribeController::class, 'buyAccountPlace'])->name('buyAccountPlace');
 Route::post('/buy-group-place', [SubscribeController::class, 'buyGroupPlace'])->name('buyGroupPlace');
 
