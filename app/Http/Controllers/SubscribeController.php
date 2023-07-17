@@ -210,7 +210,7 @@ class SubscribeController extends Controller
         $totalPrice = 0;
         $this->priceCounter($subConfigForIncrease, $totalPrice);
         if($totalPrice !== $clientPriceNumber){
-            return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера', $clientPriceNumber);
+            return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера', $totalPrice);
         }
         Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
         Auth::user()->UserInfo->save();
