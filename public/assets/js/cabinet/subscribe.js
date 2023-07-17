@@ -129,6 +129,7 @@ $(document).ready(function () {
         $('input[name="promocode"]').val('empty');
     }
     const formData = $(this).serialize();
+    console.log(formData)
     if($('input[name="promocode"]').val() == 'empty'){
       $('input[name="promocode"]').val('');
     }
