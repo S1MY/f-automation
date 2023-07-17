@@ -149,6 +149,7 @@ $(document).ready(function () {
         method: 'POST',
         data: formData,
         success: function(response){
+          console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           if (response.status == "success") {
@@ -189,7 +190,7 @@ $(document).ready(function () {
       }, 3000);
     }
   });
-  function construct(){
+  const construct = () =>{
     subNames = [];
     fullPrice = 0;
     $('input[name="promoChecker"]').val(0)
