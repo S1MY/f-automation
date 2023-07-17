@@ -432,7 +432,7 @@
                                     </div>
                                 </div>
                                 @endif
-                                @if ($allPackages['vk']['posts']['type1'] !== 1 || $allPackages['vk']['posts']['type2'] !== 1 || $allPackages['vk']['posts']['type3'] !== 1)
+                                @if ($allPackages['tg']['posts']['type1'] !== 1)
                                 <div class="subItem">
                                     <div class="subItemTop _active">
                                         <p class="subItemName">
