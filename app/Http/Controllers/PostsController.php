@@ -434,6 +434,7 @@ class PostsController extends Controller
                                 }
                             }
                         }
+                        Post::where('id', '=', $removeId)->delete();
                         return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пост удалён');
                     }else{
                         return $this->generateJsonResponse('error', 'Ошибка удаления', 'Данный пост не найден');
