@@ -150,7 +150,7 @@ class SubscribeController extends Controller
             return $this->generateJsonResponse('error', 'Недостаточно средств', 'На балансе недостаточно средств, попробуйте оплатить подписку через FREEKASSA.');
         }
         $getSubscribe = Subscribe::where('uid', '=', $uid)->first();
-        $userPackage = unserialize($getSubscribe);
+        $userPackage = unserialize($getSubscribe->sub_config);
         $subConfig = [
             'vk' => [
                 'streams' => [
