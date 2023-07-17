@@ -670,7 +670,7 @@ body{
     color: #2980B9;
 }
 .instructorLink{
-    color: #FF5437;
+    color: #FF5437 !important;
     transition: all 0.4s;
 }
 .instructorLink:hover{
