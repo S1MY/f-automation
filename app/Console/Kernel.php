@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         Commands\TgStreamStarter::class,
         Commands\TgPostStarter::class,
         Commands\FileRemover::class,
+        Commands\SubscribeChecker::class,
 
     ];
     /**
@@ -28,9 +29,13 @@ class Kernel extends ConsoleKernel
         $schedule->command('stories:cron')->everyMinute();
         $schedule->command('post:cron')->everyMinute();
         $schedule->command('stream:cron')->everyMinute();
+
         $schedule->command('tg_stream:cron')->everyMinute();
         $schedule->command('tg_post:cron')->everyMinute();
+
         $schedule->command('remover:cron')->everyTwoHours();
+        
+        $schedule->command('subscribe:cron')->everyMinute();
     }
 
     /**
