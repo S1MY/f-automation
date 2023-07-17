@@ -283,61 +283,6 @@ class SubscribeController extends Controller
             ]
         ];
         $totalPrice = 0;
-        $this->priceCounter($subConfigForIncrease, $totalPrice);
-        if($totalPrice !== $clientPriceNumber){
-            return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера');
-        }
-        Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
-        Auth::user()->UserInfo->save();
-        Auth::user()->Subscribe->sub_config = serialize($subConfig);
-        Auth::user()->Subscribe->save();
-        return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы улучшили свою подписку!');
-    }
-    private function parentsChecker($subConfig)
-    {
-        $packageParents = [
-            'vk' => [
-                'streams' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                    'type3' => 'type1'
-                ],
-                'stories' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                    'type3' => 'type1'
-                ],
-                'posts' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                    'type3' => 'type1'
-                ]
-            ],
-            'tg' => [
-                'streams' => [
-                    'type1' => '0',
-                    'type2' => 'type1',
-                ],
-                'posts' => [
-                    'type1' => '0'
-                ]
-            ]
-        ];
-        foreach ($subConfig as $key => $config) {
-            foreach ($config as $type => $options) {
-                foreach ($options as $subtype => $selected) {
-                    if ($selected === 1 && $packageParents[$key][$type][$subtype] !== '0') {
-                        $requiredType = $packageParents[$key][$type][$subtype];
-                        if ($subConfig[$key][$type][$requiredType] !== 1) {
-                            return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    private function priceCounter($subConfig, $totalPrice)
-    {
         $packagePrices = [
             'vk' => [
                 'streams' => [
@@ -366,8 +311,8 @@ class SubscribeController extends Controller
                 ]
             ]
         ];
-        foreach ($subConfig as $key => $config) {
-            foreach ($subConfig[$key] as $type => $options) {
+        foreach ($subConfigForIncrease as $key => $config) {
+            foreach ($subConfigForIncrease[$key] as $type => $options) {
                 foreach ($options as $subtype => $selected) {
                     if ($selected === 1) {
                         $totalPrice += $packagePrices[$key][$type][$subtype];
@@ -375,6 +320,14 @@ class SubscribeController extends Controller
                 }
             }
         }
+        if($totalPrice !== $clientPriceNumber){
+            return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера');
+        }
+        Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
+        Auth::user()->UserInfo->save();
+        Auth::user()->Subscribe->sub_config = serialize($subConfig);
+        Auth::user()->Subscribe->save();
+        return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы улучшили свою подписку!');
     }
     public function buyAccountPlace(Request $request)
     {
