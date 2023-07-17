@@ -36,6 +36,7 @@ class SubscribeController extends Controller
 
         $ubalance = Auth::user()->UserInfo->balance;
         $uid = Auth::user()->id;
+        $getSubscribe = Subscribe::where('uid', '=', $uid)->first();
         $clientPriceNumber = (is_numeric($validatedData['price'])) ? intval($validatedData['price']) : 'error';
         if($clientPriceNumber === 'error'){
             return $this->generateJsonResponse('error', 'Ошибка суммы', 'Сумма должна являться целым числом');
@@ -187,13 +188,19 @@ class SubscribeController extends Controller
         }
         Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
         Auth::user()->UserInfo->save();
-
-        Subscribe::create([
-            'uid'        => $uid,
-            'sub_config' => serialize($subConfig),
-            'sub_status' => 1,
-            'end_date'   => $endDate
-        ]);
+        if($getSubscribe){
+            $getSubscribe->sub_config = serialize($subConfig);
+            $getSubscribe->sub_status = 1;
+            $getSubscribe->end_date = $endDate;
+            $getSubscribe->save();
+        }else{
+            Subscribe::create([
+                'uid'        => $uid,
+                'sub_config' => serialize($subConfig),
+                'sub_status' => 1,
+                'end_date'   => $endDate
+            ]);
+        }
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели подписку');
     }
     public function subscribeIncrease(Request $request)
