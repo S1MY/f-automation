@@ -178,7 +178,7 @@ $(document).ready(function () {
       }, 3000);
     }
   });
-  const construct = () =>{
+  function construct() {
     subNames = [];
     fullPrice = 0;
     $('input[name="promoChecker"]').val(0)
