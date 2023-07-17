@@ -207,9 +207,10 @@ class SubscribeController extends Controller
                 ]
             ]
         ];
-        $totalPrice = $this->priceCounter($subConfigForIncrease);
+        $totalPrice = 0;
+        $this->priceCounter($subConfigForIncrease, $totalPrice);
         if($totalPrice !== $clientPriceNumber){
-            return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера', $totalPrice);
+            return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера');
         }
         Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
         Auth::user()->UserInfo->save();
@@ -260,9 +261,8 @@ class SubscribeController extends Controller
             }
         }
     }
-    private function priceCounter($subConfig)
+    private function priceCounter($subConfig, $totalPrice)
     {
-        $totalPrice = 0;
         $packagePrices = [
             'vk' => [
                 'streams' => [
@@ -300,7 +300,6 @@ class SubscribeController extends Controller
                 }
             }
         }
-        return $totalPrice;
     }
     public function buyAccountPlace(Request $request)
     {
