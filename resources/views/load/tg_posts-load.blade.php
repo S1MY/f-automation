@@ -26,7 +26,9 @@
         $postType = 'Дата';
     }
     $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at, 'Europe/Moscow')->startOfMinute()->addDays(7);
-    echo $updatedAtTimestamp = strtotime($updatedAt->toDateTimeString());
+$currentTimestamp = Carbon::now()->timestamp;
+echo $currentTimestamp;
+    // echo $updatedAtTimestamp = strtotime($updatedAt->toDateTimeString());
 @endphp
 <div class="cardItem">
 @foreach ($links as $key => $link)
