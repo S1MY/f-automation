@@ -207,8 +207,7 @@ class SubscribeController extends Controller
                 ]
             ]
         ];
-        $totalPrice = 0;
-        $this->priceCounter($subConfigForIncrease, $totalPrice);
+        $totalPrice = $this->priceCounter($subConfigForIncrease);
         if($totalPrice !== $clientPriceNumber){
             return $this->generateJsonResponse('error', 'Ошибка', 'Сумма отправленная с клиента не соответствует значению сервера', $totalPrice);
         }
@@ -261,8 +260,9 @@ class SubscribeController extends Controller
             }
         }
     }
-    private function priceCounter($subConfig, $totalPrice)
+    private function priceCounter($subConfig)
     {
+        $totalPrice = 0;
         $packagePrices = [
             'vk' => [
                 'streams' => [
@@ -300,6 +300,7 @@ class SubscribeController extends Controller
                 }
             }
         }
+        return $totalPrice;
     }
     public function buyAccountPlace(Request $request)
     {
