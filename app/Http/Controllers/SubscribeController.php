@@ -75,9 +75,84 @@ class SubscribeController extends Controller
                 ]
             ]
         ];
-        $this->parentsChecker($subConfig);
+        $packageParents = [
+            'vk' => [
+                'streams' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ],
+                'stories' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ],
+                'posts' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                    'type3' => 'type1'
+                ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => '0',
+                    'type2' => 'type1',
+                ],
+                'posts' => [
+                    'type1' => '0'
+                ]
+            ]
+        ];
+        foreach ($subConfig as $key => $config) {
+            foreach ($config as $type => $options) {
+                foreach ($options as $subtype => $selected) {
+                    if ($selected === 1 && $packageParents[$key][$type][$subtype] !== '0') {
+                        $requiredType = $packageParents[$key][$type][$subtype];
+                        if ($subConfig[$key][$type][$requiredType] !== 1) {
+                            return $this->generateJsonResponse('error', 'Неверный пакет!', 'Для функций '.$type.' выбора '.$subtype.' обязателен '.$requiredType);
+                        }
+                    }
+                }
+            }
+        }
         $totalPrice = 0;
-        $this->priceCounter($subConfig, $totalPrice);
+        $packagePrices = [
+            'vk' => [
+                'streams' => [
+                    'type1' => 200,
+                    'type2' => 200,
+                    'type3' => 100
+                ],
+                'stories' => [
+                    'type1' => 100,
+                    'type2' => 100,
+                    'type3' => 50
+                ],
+                'posts' => [
+                    'type1' => 100,
+                    'type2' => 100,
+                    'type3' => 50
+                ]
+            ],
+            'tg' => [
+                'streams' => [
+                    'type1' => 200,
+                    'type2' => 100,
+                ],
+                'posts' => [
+                    'type1' => 100
+                ]
+            ]
+        ];
+        foreach ($subConfig as $key => $config) {
+            foreach ($subConfig[$key] as $type => $options) {
+                foreach ($options as $subtype => $selected) {
+                    if ($selected === 1) {
+                        $totalPrice += $packagePrices[$key][$type][$subtype];
+                    }
+                }
+            }
+        }
         if($totalPrice !== $clientPriceNumber){
             if($validatedData['promoChecker'] < 1){
                 return $this->generateJsonResponse('error', 'Ошибка промокода', 'Сумма отправленная с клиента не соответствует значению сервера');
