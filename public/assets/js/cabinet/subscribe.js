@@ -162,6 +162,7 @@ $(document).ready(function () {
           }
         },
         error: function (response) {
+          console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
