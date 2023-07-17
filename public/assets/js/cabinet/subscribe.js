@@ -121,18 +121,6 @@ $(document).ready(function () {
         $(this).parent().next().slideDown();
     }
   });
-  $(".freekassa").click(function (e) {
-    e.preventDefault();
-    let data = $('.pageItem[data-popup="deposit"]').serialize();
-    // То как должен выглядеть ответ после ответ с сервера
-    let title = "Что-то пошло не так...";
-    let message =
-      "При попытке приобретения подписку возникла непредвиденная ошибка.<br> Можете попробовать снова или написать нам в группу";
-    $('.popupItem[data-popup="error"]').children(".popupTitle").html(title);
-    $('.popupItem[data-popup="error"]').children(".popupText").html(message);
-    $(".popupWrapper").fadeIn();
-    $('.popupItem[data-popup="error"]').fadeIn();
-  });
   $(".pageTarget").submit(function (e) {
     e.preventDefault();
     const popupName = $(this).attr("data-form");
