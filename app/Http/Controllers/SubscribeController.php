@@ -229,28 +229,28 @@ class SubscribeController extends Controller
         $subConfig = [
             'vk' => [
                 'streams' => [
-                    'type1' => (($userPackage['vk']['streams']['type1'] == 1) || is_numeric($request->streamType1)) ? intval($request->streamType1) : 0,
-                    'type2' => (($userPackage['vk']['streams']['type2'] == 1) || is_numeric($request->streamType2)) ? intval($request->streamType2) : 0,
-                    'type3' => (($userPackage['vk']['streams']['type3'] == 1) || is_numeric($request->streamType3)) ? intval($request->streamType3) : 0
+                    'type1' => (($userPackage['vk']['streams']['type1'] == 1) || is_numeric($request->streamType1)) ? 1 : 0,
+                    'type2' => (($userPackage['vk']['streams']['type2'] == 1) || is_numeric($request->streamType2)) ? 1 : 0,
+                    'type3' => (($userPackage['vk']['streams']['type3'] == 1) || is_numeric($request->streamType3)) ? 1 : 0
                 ],
                 'stories' => [
-                    'type1' => (($userPackage['vk']['stories']['type1'] == 1) || is_numeric($request->storiesType1)) ? intval($request->storiesType1) : 0,
-                    'type2' => (($userPackage['vk']['stories']['type2'] == 1) || is_numeric($request->storiesType2)) ? intval($request->storiesType2) : 0,
-                    'type3' => (($userPackage['vk']['stories']['type3'] == 1) || is_numeric($request->storiesType3)) ? intval($request->storiesType3) : 0
+                    'type1' => (($userPackage['vk']['stories']['type1'] == 1) || is_numeric($request->storiesType1)) ? 1 : 0,
+                    'type2' => (($userPackage['vk']['stories']['type2'] == 1) || is_numeric($request->storiesType2)) ? 1 : 0,
+                    'type3' => (($userPackage['vk']['stories']['type3'] == 1) || is_numeric($request->storiesType3)) ? 1 : 0
                 ],
                 'posts' => [
-                    'type1' => (($userPackage['vk']['posts']['type1'] == 1) || is_numeric($request->postType1)) ? intval($request->postType1) : 0,
-                    'type2' => (($userPackage['vk']['posts']['type2'] == 1) || is_numeric($request->postType2)) ? intval($request->postType2) : 0,
-                    'type3' => (($userPackage['vk']['posts']['type3'] == 1) || is_numeric($request->postType3)) ? intval($request->postType3) : 0
+                    'type1' => (($userPackage['vk']['posts']['type1'] == 1) || is_numeric($request->postType1)) ? 1 : 0,
+                    'type2' => (($userPackage['vk']['posts']['type2'] == 1) || is_numeric($request->postType2)) ? 1 : 0,
+                    'type3' => (($userPackage['vk']['posts']['type3'] == 1) || is_numeric($request->postType3)) ? 1 : 0
                 ]
             ],
             'tg' => [
                 'streams' => [
-                    'type1' => (($userPackage['tg']['streams']['type1'] == 1) || is_numeric($request->tgStreamType1)) ? intval($request->tgStreamType1) : 0,
-                    'type2' => (($userPackage['tg']['streams']['type2'] == 1) || is_numeric($request->tgStreamType2)) ? intval($request->tgStreamType2) : 0,
+                    'type1' => (($userPackage['tg']['streams']['type1'] == 1) || is_numeric($request->tgStreamType1)) ? 1 : 0,
+                    'type2' => (($userPackage['tg']['streams']['type2'] == 1) || is_numeric($request->tgStreamType2)) ? 1 : 0,
                 ],
                 'posts' => [
-                    'type1' => (($userPackage['tg']['posts']['type1'] == 1) || is_numeric($request->tgPostType1)) ? intval($request->tgPostType1) : 0
+                    'type1' => (($userPackage['tg']['posts']['type1'] == 1) || is_numeric($request->tgPostType1)) ? 1 : 0
                 ]
             ]
         ];
