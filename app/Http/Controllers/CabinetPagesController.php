@@ -340,7 +340,7 @@ class CabinetPagesController extends Controller
             'vk_accounts.link as link',
         ])
         ->limit(1)
-        ->paginate(1,['*'], 'all-partners-page');
+        ->paginate(10,['*'], 'all-partners-page');
         $allOperations = [];
         foreach ($allPartners as $partner) {
             $amount = 0;
