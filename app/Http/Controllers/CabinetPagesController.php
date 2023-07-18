@@ -331,7 +331,6 @@ class CabinetPagesController extends Controller
         ->leftJoin('vk_accounts', function ($join) {
             $join->on('users.id', '=', 'vk_accounts.uid');
         })
-        ->leftJoin('operations', 'users.id', '=', 'operations.uid')
         ->orderBy('id', 'desc')
         ->where('user_infos.partner', $user->login)
         ->select([
