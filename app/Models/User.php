@@ -62,4 +62,7 @@ class User extends Authenticatable
     public function TgChannel(){
         return $this->hasMany(TgChannel::class, 'uid', 'id');
     }
+    public function Partners(){
+        return $this->hasMany(UserInfo::class, 'partner', 'login');
+    }
 }

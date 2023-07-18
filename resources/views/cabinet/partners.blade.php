@@ -33,6 +33,7 @@
                                 </a>
                             </div>
                         </div>
+                        {{$user->Partners}}
                         <div class="partnerItem">
                             <p class="partnerItemName">Переходов по ссылке:</p>
                             <div class="partnerItemChild">
