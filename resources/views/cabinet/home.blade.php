@@ -7,6 +7,7 @@
         <div class="sidebar">
             @include('cabinet.layouts.sidebar')
         </div>
+        {{ session('partner') }}
         <div class="pageWrapper">
             @if (count(Auth::user()->VkAccount) > 0)
                 <div class="pageItems">
