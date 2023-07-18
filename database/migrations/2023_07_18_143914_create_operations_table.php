@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('pid')->nullable();
             $table->integer('amount')->nullable();
             $table->timestamp('date_insert')->nullable();
-            $table->timestamps();
         });
     }
 
