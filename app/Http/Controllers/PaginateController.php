@@ -556,7 +556,7 @@ class PaginateController extends Controller
                     'vk_accounts.link as link',
                 ])
                 ->limit(1)
-                ->paginate(1, ['*'], 'all-partners-page', $page_num);
+                ->paginate(10, ['*'], 'all-partners-page', $page_num);
                 $currentPage = route('partners');
                 return view('load.partners-load', compact('allPartners', 'currentPage'));
             
