@@ -86,6 +86,7 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
+                    console.log(response)
                     const currentPath = window.location.pathname;
                     if (currentPath == '/cabinet/offers') {
                         const offerParent = $('.pageTab._active').attr('data-tab');
