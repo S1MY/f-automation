@@ -547,12 +547,15 @@ class PaginateController extends Controller
                 ->leftJoin('vk_accounts', function ($join) {
                     $join->on('users.id', '=', 'vk_accounts.uid');
                 })
+                ->orderBy('id', 'desc')
+                ->where('user_infos.partner', $user->login)
                 ->select([
                     'user_infos.*',
                     'users.login as login',
                     'users.created_at as created_at',
                     'vk_accounts.link as link',
                 ])
+                ->limit(1)
                 ->paginate(1, ['*'], 'all-partners-page', $page_num);
                 $currentPage = route('partners');
                 return view('load.partners-load', compact('allPartners', 'currentPage'));
