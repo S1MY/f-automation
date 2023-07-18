@@ -329,12 +329,15 @@ class CabinetPagesController extends Controller
         ->leftJoin('vk_accounts', function ($join) {
             $join->on('users.id', '=', 'vk_accounts.uid');
         })
+        ->orderBy('id', 'desc')
+        ->whereIn('user_infos.partner', $user->login)
         ->select([
             'user_infos.*',
             'users.login as login',
             'users.created_at as created_at',
             'vk_accounts.link as link',
         ])
+        ->groupBy('users.id')
         ->paginate(1, ['*'], 'all-partners-page');
         
         return view('cabinet.partners', compact('user', 'allPartners', 'currentPage'));
