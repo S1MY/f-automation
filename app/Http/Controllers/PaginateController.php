@@ -550,7 +550,7 @@ class PaginateController extends Controller
                     $join->on('users.id', '=', 'vk_accounts.uid');
                 })
                 ->orderBy('id', 'desc')
-                ->where('user_infos.partner', $user->login)
+                ->where('user_infos.partner', Auth::user()->login)
                 ->select([
                     'user_infos.*',
                     'users.login as login',
