@@ -6,6 +6,7 @@ use App\Models\Offers;
 use App\Models\Promocodes;
 use App\Models\Subscribe;
 use App\Models\User;
+use App\Models\UserInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -323,8 +324,20 @@ class CabinetPagesController extends Controller
 
     public function partners(){
         $user = Auth::user();
-
-        return view('cabinet.partners', compact('user'));
+        $currentPage = route('partners');
+        $allPartners = UserInfo::join('users', 'user_infos.uid', '=', 'users.id')
+        ->leftJoin('vk_accounts', function ($join) {
+            $join->on('users.id', '=', 'vk_accounts.uid');
+        })
+        ->select([
+            'user_infos.*',
+            'users.login as login',
+            'users.created_at as created_at',
+            'vk_accounts.link as link',
+        ])
+        ->paginate(1, ['*'], 'all-partners-page');
+        
+        return view('cabinet.partners', compact('user', 'allPartners', 'currentPage'));
     }
 
     public function guide(){

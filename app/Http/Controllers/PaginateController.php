@@ -541,6 +541,22 @@ class PaginateController extends Controller
                 return view('load.tg_posts-load', compact('allPosts', 'currentPage'));
             
                 break;
+            case 'all-partners':
+                $allPartners = UserInfo::join('users', 'user_infos.uid', '=', 'users.id')
+                ->leftJoin('vk_accounts', function ($join) {
+                    $join->on('users.id', '=', 'vk_accounts.uid');
+                })
+                ->select([
+                    'user_infos.*',
+                    'users.login as login',
+                    'users.created_at as created_at',
+                    'vk_accounts.link as link',
+                ])
+                ->paginate(1, ['*'], 'all-partners-page', $page_num);
+                $currentPage = route('partners');
+                return view('load.partners-load', compact('allPartners', 'currentPage'));
+            
+                break;
             default:
 
                 return response()->json([
