@@ -343,10 +343,10 @@ class CabinetPagesController extends Controller
         ->limit(1)
         ->paginate(10,['*'], 'all-partners-page');
         $allOperations = [];
-        foreach ($allPartners as $partners) {
+        foreach ($allPartners as $partner) {
             $amount = 0;
             $counter = 0;
-            $operations = Operation::where('uid', $partners->uid)->get();
+            $operations = Operation::where('uid', $partner->uid)->get();
             foreach ($operations as $operation) {
                 $counter++;
                 $multiplier = ($counter % 50 === 0) ? 0.5 : 0.1;
