@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+{{ session('partner') }}
     <section id="hero">
         <div class="heroLeft">
             <h1 class="title">Автоматизация постов, стримов ВК и не только...</h1>
