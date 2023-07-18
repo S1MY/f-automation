@@ -147,3 +147,7 @@ Route::post('/stream-continue', [CronController::class, 'streamContinue'])->name
 Route::post('/tg-stream-continue', [TgCronController::class, 'tgStreamContinue'])->name('tgStreamContinue');
 Route::post('/tg-post-continue', [TgCronController::class, 'tgPostContinue'])->name('tgPostContinue');
 Route::post('/tg-post-remover', [TgCronController::class, 'tgPostRemover'])->name('tgPostRemover');
+Route::get('/invite/{partner}', function ($partner) {
+    session(['partner' => $partner]);
+    return redirect()->route('home');
+});
