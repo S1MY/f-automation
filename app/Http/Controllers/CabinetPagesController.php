@@ -326,19 +326,20 @@ class CabinetPagesController extends Controller
         $user = Auth::user();
         $currentPage = route('partners');
         $allPartners = UserInfo::join('users', 'user_infos.uid', '=', 'users.id')
-        ->leftJoin('vk_accounts', function ($join) {
-            $join->on('users.id', '=', 'vk_accounts.uid');
-        })
-        ->orderBy('id', 'desc')
-        ->where('user_infos.partner', $user->login)
-        ->select([
-            'user_infos.*',
-            'users.login as login',
-            'users.created_at as created_at',
-            'vk_accounts.link as link',
-        ])
-        ->groupBy('user_infos.uid')
-        ->paginate(1, ['*'], 'all-partners-page');
+    ->leftJoin('vk_accounts', function ($join) {
+        $join->on('users.id', '=', 'vk_accounts.uid');
+    })
+    ->orderBy('id', 'desc')
+    ->where('user_infos.partner', $user->login)
+    ->select([
+        'user_infos.*',
+        'users.login as login',
+        'users.created_at as created_at',
+        'vk_accounts.link link',
+    ])
+    ->limit(1)
+    ->paginate(1,['*'], 'all-partners-page');
+
         
         return view('cabinet.partners', compact('user', 'allPartners', 'currentPage'));
     }
