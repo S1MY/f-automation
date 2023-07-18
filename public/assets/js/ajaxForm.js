@@ -86,14 +86,13 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
-                    console.log(response)
                     const currentPath = window.location.pathname;
                     if (currentPath == '/cabinet/offers') {
                         const offerParent = $('.pageTab._active').attr('data-tab');
                         $(`.tabItem[data-tab=${offerParent}] .offerFlex`).html(response.responseText);
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams' || currentPath == '/cabinet/tg/tg_streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
-                    }else if ((currentPath == '/partners')) {
+                    }else if ((currentPath == '/cabinet/partners')) {
                         $('.pageTable').html(response.responseText);
                     } else {
                         if (accountId > 0 || groupId > 0 || channelId > 0) {
