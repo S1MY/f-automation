@@ -15,7 +15,11 @@
     @endphp
     <div class="tableLine">
         <p class="tableItem" aria-label="ID пользователя">#{{$partner->uid}}</p>
+        @if ($partner->link)
         <a href="{{$partner->link}}" target="_blank" class="tableItem" aria-label="Пользователь">{{$partner->login}}</a>
+        @else
+        <p class="tableItem" aria-label="Пользователь">{{$partner->login}}</a>
+        @endif
         <p class="tableItem" aria-label="Дата регистрации">{{$regDate}}</p>
         <p class="tableItem" aria-label="Прибыль">0₽</p>
     </div>
