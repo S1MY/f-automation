@@ -348,7 +348,7 @@ class CabinetPagesController extends Controller
             $operations = Operation::where('uid', $partner->uid)->get();
             foreach ($operations as $operation) {
                 $counter++;
-                $multiplier = ($counter % 50 === 0) ? 0.5 : 0.1;
+                $multiplier = ($counter % 5 === 0) ? 0.5 : 0.1;
                 $amount += $operation->amount * $multiplier;
             }
             if (count($operations) === 0) {
