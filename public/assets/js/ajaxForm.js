@@ -92,6 +92,8 @@ $(document).ready(function () {
                         $(`.tabItem[data-tab=${offerParent}] .offerFlex`).html(response.responseText);
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams' || currentPath == '/cabinet/tg/tg_streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
+                    }else if ((currentPath == '/partners')) {
+                        $('.pageTable').html(response.responseText);
                     } else {
                         if (accountId > 0 || groupId > 0 || channelId > 0) {
                             let itemId;
