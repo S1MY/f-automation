@@ -7,6 +7,8 @@ use App\Models\Promocodes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Operation;
+
 use App\Models\UserInfo;
 use App\Models\VkAccount;
 use App\Models\VkGroup;
@@ -548,7 +550,7 @@ class PaginateController extends Controller
                     $join->on('users.id', '=', 'vk_accounts.uid');
                 })
                 ->orderBy('id', 'desc')
-                ->where('user_infos.partner', Auth::user()->login)
+                ->where('user_infos.partner', $user->login)
                 ->select([
                     'user_infos.*',
                     'users.login as login',
@@ -557,8 +559,24 @@ class PaginateController extends Controller
                 ])
                 ->limit(1)
                 ->paginate(10, ['*'], 'all-partners-page', $page_num);
+                $allOperations = [];
+                foreach ($allPartners as $partner) {
+                    $amount = 0;
+                    $counter = 0;
+                    $operations = Operation::where('uid', $partner->uid)->get();
+                    foreach ($operations as $operation) {
+                        $counter++;
+                        $multiplier = ($counter % 50 === 0) ? 0.5 : 0.1;
+                        $amount += $operation->amount * $multiplier;
+                    }
+                    if (count($operations) === 0) {
+                        $allOperations[$partner->uid] = 0;
+                    } else {
+                        $allOperations[$partner->uid] = $amount;
+                    }
+                }
                 $currentPage = route('partners');
-                return view('load.partners-load', compact('allPartners', 'currentPage'));
+                return view('load.partners-load', compact('allPartners', 'allOperations', 'currentPage'));
             
                 break;
             default:
