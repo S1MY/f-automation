@@ -24,7 +24,6 @@ return new class extends Migration
             $table->integer('vk_account_places')->default(1);
             $table->integer('vk_group_places')->default(1);
             $table->integer('tg_channel_places')->default(1);
-            $table->timestamps();
         });
     }
 
