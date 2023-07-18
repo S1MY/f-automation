@@ -335,7 +335,7 @@ class CabinetPagesController extends Controller
         'user_infos.*',
         'users.login as login',
         'users.created_at as created_at',
-        'vk_accounts.link link',
+        'vk_accounts.link as link',
     ])
     ->limit(1)
     ->paginate(1,['*'], 'all-partners-page');
