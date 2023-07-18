@@ -5,6 +5,7 @@ use App\Http\Controllers\CabinetPagesController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PagesController;
@@ -23,6 +24,9 @@ use App\Http\Controllers\StreamsController;
 
 use App\Http\Controllers\TgAuthController;
 use App\Http\Controllers\TelegramController;
+
+use App\Models\User;
+use App\Models\UserInfo;
 
 /*
  *
@@ -148,6 +152,14 @@ Route::post('/tg-stream-continue', [TgCronController::class, 'tgStreamContinue']
 Route::post('/tg-post-continue', [TgCronController::class, 'tgPostContinue'])->name('tgPostContinue');
 Route::post('/tg-post-remover', [TgCronController::class, 'tgPostRemover'])->name('tgPostRemover');
 Route::get('/invite/{partner}', function ($partner) {
-    session(['partner' => $partner]);
+    if($partner && is_string($partner)){
+        $searchUser = User::where('login', '=', $partner)->first();
+        if($searchUser){
+            session(['partner' => $partner]);
+            $userInfo = UserInfo::where('id', '=', $searchUser->id)->first();
+            $userInfo->partners_clicks = $userInfo->partners_clicks + 1;
+            $userInfo->save();
+        }
+    }
     return redirect()->route('home');
 });
