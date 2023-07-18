@@ -330,7 +330,7 @@ class CabinetPagesController extends Controller
             $join->on('users.id', '=', 'vk_accounts.uid');
         })
         ->orderBy('id', 'desc')
-        ->whereIn('user_infos.partner', $user->login)
+        ->where('user_infos.partner', $user->login)
         ->select([
             'user_infos.*',
             'users.login as login',
