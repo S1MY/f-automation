@@ -19,15 +19,6 @@
         <p class="tableItem" aria-label="Дата регистрации">{{$regDate}}</p>
         <p class="tableItem" aria-label="Прибыль">0₽</p>
     </div>
-        {{-- <div class="offerItem">
-            <a href="{{$offer->account_link}}" target="_blank" class="accountInfo">
-                <div class="accountAvatar" style="background: url({{$offer->account_avatar}}), #FFFFFF;"></div>
-                <p class="accountName">{{ $offer->user_login }}</p>
-            </a>
-            <p class="offerText">{{ $offer->offer }}</p>
-            <p class="subCheckPrice">Набрано<span><span class="nowVotes">{{ is_null($offer->votes) ? 0 : count(unserialize($offer->votes)) }}</span>/{{ $offer->need }}</span>голосов</p>
-            <a href="#" class="offerBtn" data-offer="{{ $offer->id }}" data-action="{{ route('getVote') }}">Проголосовать</a>
-        </div> --}}
     @endforeach
 @else
 <div class="cardEmpty">
@@ -46,4 +37,4 @@
     <p class="cardEmptyText">Партнёров ещё нет, но вы всегда можете это исправить!</p>
 </div>
 @endif
-{{ $allOffers->links('layouts.paginate', ['currentPage' => $currentPage]) }}
+{{ $allPartners->links('layouts.paginate', ['currentPage' => $currentPage]) }}
