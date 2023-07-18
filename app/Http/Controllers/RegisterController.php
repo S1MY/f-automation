@@ -23,12 +23,17 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         $user = User::create($request->validated());
-
+        $partnerLogin = null;
+        if(session('partner') && is_string(session('partner'))){
+            if(User::where('login', session('partner'))->exists()){
+                $partnerLogin = session('partner');
+            }
+        }
         UserInfo::create([
             'uid'   => $user->id,
-            'email' => $request->email
+            'email' => $request->email,
+            'partner' => $partnerLogin
         ]);
-
         auth()->login($user);
 
         // Первичная отправка кода на почту
