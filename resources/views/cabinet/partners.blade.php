@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="pageTable">
-                        
+                        @include('load.partners-load')
                     </div>
                 </div>
             </div>
