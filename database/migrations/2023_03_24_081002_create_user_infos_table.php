@@ -18,10 +18,12 @@ return new class extends Migration
             $table->integer('uid')->nullable();
             $table->string('email')->unique();
             $table->integer('balance')->default(0);
+            $table->string('partner')->nullable();
             $table->integer('newsletter')->default(1);
             $table->integer('partners_clicks')->default(0);
             $table->integer('vk_account_places')->default(1);
             $table->integer('vk_group_places')->default(1);
+            $table->integer('tg_channel_places')->default(1);
             $table->timestamps();
         });
     }

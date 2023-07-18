@@ -12,5 +12,12 @@ class UserInfo extends Model
     protected $fillable = [
         'uid',
         'email',
+        'balance',
+        'partner',
+        'newsletter',
+        'partners_clicks',
+        'vk_account_places',
+        'vk_group_places',
+        'tg_channel_places',
     ];
 }
