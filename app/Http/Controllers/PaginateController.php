@@ -7,6 +7,7 @@ use App\Models\Promocodes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\UserInfo;
 use App\Models\VkAccount;
 use App\Models\VkGroup;
 
