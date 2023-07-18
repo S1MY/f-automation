@@ -337,7 +337,7 @@ class CabinetPagesController extends Controller
             'users.created_at as created_at',
             'vk_accounts.link as link',
         ])
-        ->groupBy('users.id')
+        ->groupBy('user_infos.uid')
         ->paginate(1, ['*'], 'all-partners-page');
         
         return view('cabinet.partners', compact('user', 'allPartners', 'currentPage'));
