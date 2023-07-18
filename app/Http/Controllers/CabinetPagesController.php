@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Operation;
+
 use App\Models\VkAccount;
 use App\Models\VkGroup;
 
@@ -337,13 +339,27 @@ class CabinetPagesController extends Controller
             'users.login as login',
             'users.created_at as created_at',
             'vk_accounts.link as link',
-            DB::raw('(SUM(operations.amount) * 0.1) as operations_sum'),
         ])
         ->limit(1)
         ->paginate(10,['*'], 'all-partners-page');
-
+        $allOperations = [];
+        foreach ($allPartners as $partners) {
+            $amount = 0;
+            $counter = 0;
+            $operations = Operation::where('uid', $partners->uid)->get();
+            foreach ($operations as $operation) {
+                $counter++;
+                $multiplier = ($counter % 50 === 0) ? 0.5 : 0.1;
+                $amount += $operation->amount * $multiplier;
+            }
+            if (count($operations) === 0) {
+                $allOperations[$partner->uid] = 0;
+            } else {
+                $allOperations[$partner->uid] = $amount;
+            }
+        }
         
-        return view('cabinet.partners', compact('user', 'allPartners', 'currentPage'));
+        return view('cabinet.partners', compact('user', 'allPartners', 'allOperations', 'currentPage'));
     }
 
     public function guide(){

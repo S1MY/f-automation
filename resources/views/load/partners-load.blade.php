@@ -21,7 +21,7 @@
         <p class="tableItem" aria-label="Пользователь">{{$partner->login}}</a>
         @endif
         <p class="tableItem" aria-label="Дата регистрации">{{$regDate}}</p>
-        <p class="tableItem" aria-label="Прибыль">{{$partner->operations_sum}}₽</p>
+        <p class="tableItem" aria-label="Прибыль">{{$allOperations[$partner->uid]}}₽</p>
     </div>
     @endforeach
 @else
