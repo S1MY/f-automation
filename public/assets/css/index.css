@@ -1409,6 +1409,9 @@ a.formCenter:hover{
     .documentTab{
         font-size: 14px;
     }
+    .logotype svg {
+        width: 160px;
+    }
 }
 @media (max-width: 360px) {
     .skillBtn svg{
