@@ -1276,8 +1276,8 @@ a.formCenter:hover{
         height: 196px;
     }
     .mainBtn {
+        top: -100vh;
         position: fixed;
-        top: 235px;
         right: 20px;
         width: calc(50% - 30px);
         text-align: center;
@@ -1285,5 +1285,8 @@ a.formCenter:hover{
     .logBtn{
         left: 20px;
         right: unset;
+    }
+    .mainBtn._opened{
+        top: 235px;
     }
 }

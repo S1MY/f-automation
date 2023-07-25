@@ -24,6 +24,7 @@ $(document).ready(function () {
     $(this).toggleClass('_opened');
     $('.header').toggleClass('_opened');
     $('.navigation').toggleClass('_opened');
+    $('.mainBtn').toggleClass('_opened');
   });
   $("body").on('click', '[href*="#"]', function(e){
     const offset = 120;
