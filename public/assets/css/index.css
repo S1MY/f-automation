@@ -1338,4 +1338,24 @@ a.formCenter:hover{
         margin-top: 12px;
         line-height: 160%;
     }
+    .faqNav{
+        font-size: 16px;
+    }
+}
+@media (max-width: 440px) {
+    .navItem{
+        width: 100%;
+    }
+    .mainBtn._opened {
+        top: 384px;
+        width: 100%;
+        top: unset;
+        left: 20px;
+    }
+    .logBtn._opened {
+        top: 320px;
+    }
+    .header::after {
+        height: 296px;
+    }
 }
