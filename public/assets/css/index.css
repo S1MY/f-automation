@@ -1166,6 +1166,7 @@ a.formCenter:hover{
     }
     .header::after{
         position: fixed;
+        content: '';
         width: calc(100% - 40px);
         left: 50%;
         top: -100vh;
