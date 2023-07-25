@@ -1157,9 +1157,11 @@ a.formCenter:hover{
         background: #FFFFFF;
     }
     .burgerButton._opened::after{
-        transform: translate(-50%, -50%) rotate(45deg);
+        transform: translate(-50%, 50%) rotate(45deg);
+        bottom: 50%;
     }
     .burgerButton._opened::before{
         transform: translate(-50%, -50%) rotate(-45deg);
+        top: 50%;
     }
 }
