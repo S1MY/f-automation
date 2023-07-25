@@ -1358,4 +1358,17 @@ a.formCenter:hover{
     .header::after {
         height: 344px;
     }
+    .title {
+        font-size: 28px;
+    }
+    .fBtn{
+        max-width: 100%;
+    }
+    .skillWrapper{
+        padding: 0;
+        background: transparent;
+    }
+    .pageTitle {
+        font-size: 22px;
+    }
 }
