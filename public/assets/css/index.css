@@ -1371,4 +1371,31 @@ a.formCenter:hover{
     .pageTitle {
         font-size: 22px;
     }
+    .footerText{
+        text-align: center;
+    }
+}
+@media (max-width: 414px) {
+    .title {
+        font-size: 24px;
+    }
+    .skillName{
+        font-size: 16px;
+    }
+    .skillDesc{
+        font-size: 14px;
+        line-height: 160%;
+    }
+    .faqMenu, .faqItems{
+        padding: 16px;
+    }
+    .aboutItem {
+        flex-direction: column;
+        text-align: center;
+    }
+    .aboutText{
+        padding-left: 0;
+        width: 100%;
+        padding-top: 12px;
+    }
 }
