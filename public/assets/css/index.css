@@ -1164,7 +1164,7 @@ a.formCenter:hover{
         transform: translate(-50%, -50%) rotate(-45deg);
         top: 50%;
     }
-    .logotype .rightHeader{
+    .logotype, .rightHeader{
         position: relative;
         z-index: 6;
     }
