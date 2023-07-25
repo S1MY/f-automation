@@ -1011,6 +1011,9 @@ a.formCenter:hover{
 }
 /* Адаптив */
 @media (max-width: 1480px) {
+    .header{
+        width: calc(100% - 40px);
+    }
     .page{
         width: 100%;
         padding: 0 20px;
