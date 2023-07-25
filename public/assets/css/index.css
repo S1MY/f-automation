@@ -1166,7 +1166,7 @@ a.formCenter:hover{
     }
     .logotype, .rightHeader{
         position: relative;
-        z-index: 6;
+        z-index: 7;
     }
     .header::after{
         position: fixed;
@@ -1175,7 +1175,7 @@ a.formCenter:hover{
         left: 50%;
         top: -100vh;
         transform: translateX(-50%);
-        height: calc(100vh - 144px);
+        height: 88px;
         background: #202020;
         border-radius: 12px;
         transition: all 0.4s;
@@ -1183,5 +1183,23 @@ a.formCenter:hover{
     }
     .header._opened::after{
         top: 104px;
+    }
+    .navigation {
+        position: fixed;
+        width: calc(100% - 40px);
+        left: 20px;
+        top: -100vh;
+        transition: all 0.4s;
+        z-index: 6;
+    }
+    .navigation._opened{
+        top: 124px;
+    }
+    .navItem {
+        padding: 6px 16px;
+        border-radius: 8px;
+        width: calc(100% / 4);
+        padding: 12px 16px;
+        text-align: center;
     }
 }
