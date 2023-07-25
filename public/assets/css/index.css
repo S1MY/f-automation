@@ -1095,4 +1095,9 @@ a.formCenter:hover{
     .navItem, .mainBtn{
         font-size: 15px;
     }
+    .skillBtn{
+        max-width: 100%;
+        width: 100%;
+        padding: 16px;
+    }
 }
