@@ -218,12 +218,14 @@ body::-webkit-scrollbar-thumb {
     fill: #FF5437;
 }
 .userHeaderIcon{
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: #FF5437;
     border-radius: 6px;
     cursor: pointer;
     display: none;
+    align-items: center;
+    justify-content: center;
 }
 .userHeaderIcon svg{
     width: 24px;
@@ -1302,7 +1304,7 @@ a.formCenter:hover{
         display: none;
     }
     .userHeaderIcon{
-        display: block;
+        display: flex;
     }
 }
 @media (max-width: 560px) {
