@@ -982,12 +982,5 @@ a.formCenter:hover{
     font-weight: 500;
     background: #FFFFFF;
     border-radius: 8px;
-}
-.documentPage{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.documentPage .pageTitle, .documentPage .pageText{
-    margin: 0;
+    margin: 20px;
 }
