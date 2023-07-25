@@ -1308,7 +1308,6 @@ a.formCenter:hover{
     }
     .heroItems{
         flex-wrap: wrap;
-        gap: 20px;
     }
     .description {
         font-size: 16px;
@@ -1329,6 +1328,7 @@ a.formCenter:hover{
     .faqText{
         font-size: 14px;
         padding-bottom: 12px;
+        line-height: 160%;
     }
     .pageTitle{
         font-size: 24px;
@@ -1336,5 +1336,6 @@ a.formCenter:hover{
     .pageText{
         font-size: 14px;
         margin-top: 12px;
+        line-height: 160%;
     }
 }
