@@ -1243,10 +1243,17 @@ a.formCenter:hover{
         flex-direction: column;
         gap: 12px;
     }
-    .leftFooter{
-        justify-content: space-between;
+    .leftFooter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 12px;
     }
     .footerLink{
         margin-right: 0;
+    }
+    .footer, .contactItem{
+        margin-top: 20px;
     }
 }
