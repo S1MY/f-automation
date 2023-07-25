@@ -47,7 +47,7 @@
             </a>
             <div class="rightHeader">
                 <nav class="navigation">
-                    <a href="/#hero" class="navItem _active">Главная</a>
+                    <a href="/" class="navItem _active">Главная</a>
                     <a href="/#skill" class="navItem">Что мы умеем?</a>
                     <a href="/#about" class="navItem">Кто мы?</a>
                     <a href="/#contact" class="navItem">Контакты</a>

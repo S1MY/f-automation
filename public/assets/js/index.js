@@ -19,6 +19,11 @@ $(document).ready(function () {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  $("body").on('click', '[href*="#"]', function(e){
+    const offset = 0;
+    $('html,body').stop().animate({ scrollTop: $(this.hash).offset().top - offset }, 1000);
+    e.preventDefault();
+  });
   $(document).mouseup(function (e) {
     let select = $(".userHeader");
     if (!select.is(e.target) &&
