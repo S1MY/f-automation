@@ -1262,6 +1262,7 @@ a.formCenter:hover{
     }
     .navItem{
         width: 50%;
+        margin: 0 !important;
     }
 }
 @media (max-width: 640px) {
