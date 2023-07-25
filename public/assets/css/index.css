@@ -121,7 +121,7 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: space-between;
     position: fixed;
-    z-index: 5;
+    z-index: 10;
     width: 1440px;
     margin: 0;
     left: 50%;
@@ -1175,7 +1175,7 @@ a.formCenter:hover{
         background: #202020;
         border-radius: 12px;
         transition: all 0.4s;
-        z-index: 4;
+        z-index: 5;
     }
     .header._opened::after{
         top: 104px;
