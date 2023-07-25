@@ -58,6 +58,12 @@ class VkAuthController extends Controller
                 return $this->generateJsonResponse('error', 'Ошибка запроса', 'При получении данных пользователя возникла ошибка');
             } else {
                 $userId = Auth::user()->id;
+
+                $uPlaces = Auth::user()->UserInfo->vk_account_places;
+                if(count(Auth::user()->VkAccount) >= $uPlaces){
+                    return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не хватает места для аккаунта ВК!');
+                }
+
                 $accountName = $usersJSON->response[0]->first_name . ' ' . $usersJSON->response[0]->last_name;
                 $accountLink = 'https://vk.com/id' . $usersJSON->response[0]->id;
                 $accountAvatar = $usersJSON->response[0]->photo_200_orig;
@@ -175,6 +181,10 @@ class VkAuthController extends Controller
     {
         $groupsGet = null;
         $userId = Auth::user()->id;
+        $uPlaces = Auth::user()->UserInfo->vk_account_places;
+        if(count(Auth::user()->VkGroup) >= $uPlaces){
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не хватает места для группы ВК!');
+        }
         $accountId = $request->accountId;
         $groupId = $request->groupId;
         if (is_numeric($accountId) && is_numeric($groupId)) {

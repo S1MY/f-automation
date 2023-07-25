@@ -365,7 +365,23 @@ class SubscribeController extends Controller
             Auth::user()->UserInfo->save();
             return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место');
         }else{
-            return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под аккаунт!');
+            return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под группу!');
+        }
+    }
+    public function buyChannelPlace(Request $request)
+    {
+        $ubalance = Auth::user()->UserInfo->balance;
+        $uplaces = Auth::user()->UserInfo->tg_channel_places;
+        if($uplaces >= 5){
+            return $this->generateJsonResponse('places', 'Вы достигли лимита', 'У вас есть 5 мест под каналы Телеграм. Для дальнейшего расширения свяжитесь с администрацией!');
+        }
+        if ($ubalance >= 25) {
+            Auth::user()->UserInfo->balance = $ubalance - 25;
+            Auth::user()->UserInfo->tg_channel_places = $uplaces + 1;
+            Auth::user()->UserInfo->save();
+            return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы успешно приобрели дополнительное место');
+        }else{
+            return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под канал!');
         }
     }
 }

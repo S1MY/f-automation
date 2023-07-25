@@ -100,6 +100,7 @@ Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('doSu
 Route::post('/subscribe-increase', [SubscribeController::class, 'subscribeIncrease'])->name('subscribeIncrease');
 Route::post('/buy-account-place', [SubscribeController::class, 'buyAccountPlace'])->name('buyAccountPlace');
 Route::post('/buy-group-place', [SubscribeController::class, 'buyGroupPlace'])->name('buyGroupPlace');
+Route::post('/buy-channel-place', [SubscribeController::class, 'buyChannelPlace'])->name('buyChannelPlace');
 
 Route::post('/set-offers', [OfferController::class, 'setOffer'])->name('setOffer');
 Route::post('/get-vote', [OfferController::class, 'getVote'])->name('getVote');

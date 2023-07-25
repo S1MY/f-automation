@@ -306,10 +306,15 @@ class TelegramController extends Controller
         }
     }
     public function tgChannelAuth(Request $request){
-        $userName = Auth::user()->login;
         $accountId = $request->accountId;
         $channelName = $request->username;
         $userId = Auth::user()->id;
+
+        $uPlaces = Auth::user()->UserInfo->tg_channel_places;
+        if(count(Auth::user()->TgChannel) >= $uPlaces){
+            return $this->generateJsonResponse('error', 'Ошибка запроса', 'Не хватает места для канала ТГ!');
+        }
+
         $userName = Auth::user()->login;
         $apiId = env('TELEGRAM_APP_ID');
         $apiHash = env('TELEGRAM_APP_HASH');

@@ -177,12 +177,12 @@
                                     </div>
                                     @endforeach
                                 @endif
-                                @if (count(Auth::user()->TgChannel) >= 3)
-                                {{-- <div class="accountItem centerItem">
-                                    <a href="#" class="manageBtn buyPlace" data-action="{{route('buyGroupPlace')}}">
+                                @if (count(Auth::user()->TgChannel) >= $user->UserInfo->tg_channel_places)
+                                <div class="accountItem centerItem">
+                                    <a href="#" class="manageBtn buyPlace" data-action="{{route('buyChannelPlace')}}">
                                         Купить место (25₽)
                                     </a>
-                                </div> --}}
+                                </div>
                                 @else
                                 <div class="accountItem centerItem">
                                     <a target="_blank" href="#" class="manageBtn addChannel">
