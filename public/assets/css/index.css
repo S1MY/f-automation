@@ -1205,4 +1205,17 @@ a.formCenter:hover{
     .heroLeft{
         max-width: 100%;
     }
+    .title {
+        font-size: 48px;
+        max-width: 740px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    .description{
+        margin: 0 auto;
+    }
+    .fBtn{
+        margin: 0 auto;
+        margin-top: 24px;
+    }
 }
