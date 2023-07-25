@@ -997,7 +997,8 @@ a.formCenter:hover{
     line-height: 20px;
 }
 .documentPage{
-    padding: 90px 0;
+    padding-top: 90px;
+    padding-bottom: 70px;
 }
 .documentTab{
     padding: 12px 24px;
