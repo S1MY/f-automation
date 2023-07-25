@@ -19,6 +19,10 @@ $(document).ready(function () {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  $('.burgerButton').click(function (e) { 
+    e.preventDefault();
+    $(this).toggleClass('_opened');
+  });
   $("body").on('click', '[href*="#"]', function(e){
     const offset = 120;
     $('html,body').stop().animate({ scrollTop: $(this.hash).offset().top - offset }, 1000);
