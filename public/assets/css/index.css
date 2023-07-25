@@ -1264,12 +1264,18 @@ a.formCenter:hover{
         width: 50%;
         margin: 0 !important;
     }
+    .header::after{
+        height: 136px;
+    }
 }
 @media (max-width: 640px) {
     .aboutItem{
         width: 100%;
     }
-    .mainBtn{
+    .mainBtn {
         position: fixed;
+        top: 235px;
+        right: 20px;
+        width: calc(50% - 30px);
     }
 }
