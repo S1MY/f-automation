@@ -1272,10 +1272,18 @@ a.formCenter:hover{
     .aboutItem{
         width: 100%;
     }
+    .header::after{
+        height: 196px;
+    }
     .mainBtn {
         position: fixed;
         top: 235px;
         right: 20px;
         width: calc(50% - 30px);
+        text-align: center;
+    }
+    .logBtn{
+        left: 20px;
+        right: unset;
     }
 }
