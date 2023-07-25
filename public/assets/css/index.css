@@ -898,6 +898,13 @@ a.formCenter:hover{
     background: #FFFFFF;
     border-radius: 4px;
 }
+.pageText a{
+    color: #2980B9;
+    transition: all 0.4s;
+}
+.pageText a:hover{
+    opacity: 0.8;
+}
 .pageText span{
     color: #FF5437;
 }
