@@ -23,6 +23,7 @@ $(document).ready(function () {
     e.preventDefault();
     $(this).toggleClass('_opened');
     $('.header').toggleClass('_opened');
+    $('.navigation').toggleClass('_opened');
   });
   $("body").on('click', '[href*="#"]', function(e){
     const offset = 120;
