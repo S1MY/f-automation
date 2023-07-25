@@ -1212,10 +1212,14 @@ a.formCenter:hover{
         margin: 0 auto;
     }
     .description{
+        text-align: center;
         margin: 0 auto;
     }
-    .fBtn{
+    .fBtn {
         margin: 0 auto;
         margin-top: 24px;
+        display: flex;
+        max-width: 280px;
+        justify-content: center;
     }
 }
