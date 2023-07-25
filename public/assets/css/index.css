@@ -1102,7 +1102,7 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 1024px) {
-    .navigation, .mainBtn{
+    .navigation{
         display: none;
     }
     .burgerButton{
