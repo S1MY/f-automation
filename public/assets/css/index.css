@@ -975,3 +975,19 @@ a.formCenter:hover{
     font-size: 14px;
     line-height: 20px;
 }
+.documentTab{
+    padding: 12px 24px;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 500;
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+.documentPage{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.documentPage .pageTitle, .documentPage .pageText{
+    margin: 0;
+}
