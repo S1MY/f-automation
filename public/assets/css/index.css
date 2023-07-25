@@ -1082,4 +1082,7 @@ a.formCenter:hover{
     .aboutItem{
         width: calc(50% - 8px);
     }
+    .navItem, .mainBtn{
+        font-size: 15px;
+    }
 }
