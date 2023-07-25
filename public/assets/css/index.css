@@ -1105,11 +1105,28 @@ a.formCenter:hover{
     .navigation{
         display: none;
     }
+    .rightHeader{
+        gap: 16px;
+    }
+    .mainBtn{
+        margin-right: 0;
+    }
     .burgerButton{
         position: relative;
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         border-radius: 6px;
         background: #FFFFFF;
+    }
+    .burgerButton::after,
+    .burgerButton::before,
+    .burgerButton span{
+        position: absolute;
+        content: '';
+        background: #101010;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 36px;
+        height: 2px;
     }
 }
