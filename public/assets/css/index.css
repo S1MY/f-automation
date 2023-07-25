@@ -1164,6 +1164,10 @@ a.formCenter:hover{
         transform: translate(-50%, -50%) rotate(-45deg);
         top: 50%;
     }
+    .logotype .rightHeader{
+        position: relative;
+        z-index: 6;
+    }
     .header::after{
         position: fixed;
         content: '';
