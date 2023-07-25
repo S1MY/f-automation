@@ -1289,4 +1289,13 @@ a.formCenter:hover{
     .mainBtn._opened{
         top: 235px;
     }
+    .title{
+        font-size: 40px;
+    }
+    .pageTitle{
+        font-size: 28px;
+    }
+    .description {
+        font-size: 18px;
+    }
 }
