@@ -1417,4 +1417,28 @@ a.formCenter:hover{
     .skillBtn svg{
         display: none;
     }
+    .burgerButton{
+        width: 36px;
+        height: 36px;
+    }
+    .burgerButton::after, .burgerButton::before, .burgerButton span{
+        width: 24px;
+    }
+    .burgerButton::before {
+        top: 9px;
+    }
+    .burgerButton::after {
+        bottom: 9px;
+    }
+    .userHeaderIcon{
+        width: 36px;
+        height: 36px;
+    }
+    .userHeaderIcon svg{
+        width: 24px;
+        height: 24px;
+    }
+    .rightHeader{
+        gap: 12px;
+    }
 }
