@@ -1257,3 +1257,8 @@ a.formCenter:hover{
         margin-top: 20px;
     }
 }
+@media (max-width: 640px) {
+    .aboutItem{
+        width: 100%;
+    }
+}
