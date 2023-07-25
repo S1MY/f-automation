@@ -884,6 +884,20 @@ a.formCenter:hover{
     margin-top: 16px;
     line-height: 28px;
 }
+.pageText._listed{
+    position: relative;
+    padding-left: 30px;
+}
+.pageText._listed::after{
+    position: absolute;
+    content: '';
+    width: 10px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #FFFFFF;
+    border-radius: 4px;
+}
 .pageText span{
     color: #FF5437;
 }
