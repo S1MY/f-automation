@@ -1193,7 +1193,6 @@ a.formCenter:hover{
         top: 124px;
     }
     .navItem {
-        padding: 6px 16px;
         border-radius: 8px;
         width: calc(100% / 4);
         padding: 12px 16px;
@@ -1257,8 +1256,19 @@ a.formCenter:hover{
         margin-top: 20px;
     }
 }
+@media (max-width: 700px) {
+    .navigation{
+        flex-wrap: wrap;
+    }
+    .navItem{
+        width: 50%;
+    }
+}
 @media (max-width: 640px) {
     .aboutItem{
         width: 100%;
+    }
+    .mainBtn{
+        position: fixed;
     }
 }
