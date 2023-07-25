@@ -168,7 +168,7 @@ body::-webkit-scrollbar-thumb {
     text-transform: uppercase;
     font-weight: 500;
     font-size: 18px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     background: #FF5437;
     border-radius: 6px;
     cursor: pointer;
@@ -200,9 +200,6 @@ body::-webkit-scrollbar-thumb {
     margin-bottom: 10px;
     font-size: 15px;
     transition: all 0.4s;
-}
-.userMenuItem._classic{
-    display: none;
 }
 .userMenuItem:nth-last-child(1){
     margin-bottom: 0;
@@ -1300,6 +1297,12 @@ a.formCenter:hover{
     }
     .faqTitle{
         font-size: 20px;
+    }
+    .userName{
+        display: none;
+    }
+    .userHeaderIcon{
+        display: block;
     }
 }
 @media (max-width: 560px) {
