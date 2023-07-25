@@ -1348,8 +1348,8 @@ a.formCenter:hover{
     }
     .mainBtn._opened {
         top: 384px;
-        width: 100%;
-        top: unset;
+        width: calc(100% - 40px);
+        right: unset;
         left: 20px;
     }
     .logBtn._opened {
