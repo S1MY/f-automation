@@ -1412,11 +1412,6 @@ a.formCenter:hover{
     .logotype svg {
         width: 160px;
     }
-}
-@media (max-width: 360px) {
-    .skillBtn svg{
-        display: none;
-    }
     .burgerButton{
         width: 36px;
         height: 36px;
@@ -1440,5 +1435,13 @@ a.formCenter:hover{
     }
     .rightHeader{
         gap: 12px;
+    }
+}
+@media (max-width: 360px) {
+    .skillBtn svg{
+        display: none;
+    }
+    .logotype svg {
+        width: 144px;
     }
 }
