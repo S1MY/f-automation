@@ -1009,3 +1009,10 @@ a.formCenter:hover{
     margin-top: 20px;
     color: #101010;
 }
+/* Адаптив */
+@media (max-width: 1480px) {
+    .page{
+        width: 100%;
+        padding: 0 20px;
+    }
+}
