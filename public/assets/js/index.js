@@ -20,7 +20,7 @@ $(document).ready(function () {
     }
   });
   $("body").on('click', '[href*="#"]', function(e){
-    const offset = 0;
+    const offset = 100;
     $('html,body').stop().animate({ scrollTop: $(this.hash).offset().top - offset }, 1000);
     e.preventDefault();
   });
