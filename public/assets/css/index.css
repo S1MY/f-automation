@@ -1164,4 +1164,19 @@ a.formCenter:hover{
         transform: translate(-50%, -50%) rotate(-45deg);
         top: 50%;
     }
+    .header::after{
+        position: fixed;
+        width: calc(100% - 40px);
+        left: 50%;
+        top: -100vh;
+        transform: translateX(-50%);
+        height: calc(100vh - 144px);
+        background: #202020;
+        border-radius: 12px;
+        transition: all 0.4s;
+        z-index: 5;
+    }
+    .header._opened::after{
+        top: 124px;
+    }
 }

@@ -22,6 +22,7 @@ $(document).ready(function () {
   $('.burgerButton').click(function (e) { 
     e.preventDefault();
     $(this).toggleClass('_opened');
+    $('.header').toggleClass('_opened');
   });
   $("body").on('click', '[href*="#"]', function(e){
     const offset = 120;
