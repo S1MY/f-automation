@@ -1298,4 +1298,43 @@ a.formCenter:hover{
     .description {
         font-size: 18px;
     }
+    .faqTitle{
+        font-size: 20px;
+    }
+}
+@media (max-width: 560px) {
+    .title {
+        font-size: 32px;
+    }
+    .heroItems{
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .description {
+        font-size: 16px;
+    }
+    .heroItem{
+        width: calc(50% - 10px);
+    }
+    #hero{
+        height: unset;
+        padding-top: 170px;
+    }
+    .skillWrapper{
+        padding: 20px;
+    }
+    .faqTitle{
+        font-size: 18px;
+    }
+    .faqText{
+        font-size: 14px;
+        padding-bottom: 12px;
+    }
+    .pageTitle{
+        font-size: 24px;
+    }
+    .pageText{
+        font-size: 14px;
+        margin-top: 12px;
+    }
 }
