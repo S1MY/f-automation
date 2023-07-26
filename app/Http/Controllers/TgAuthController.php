@@ -164,7 +164,7 @@ class TgAuthController extends Controller
             TgPost::where('id', '=', $post->id)->delete();
         }
         if ($searchAccount) {
-            Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
+            Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
             $searchAccount->delete();
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён');
         } else {
