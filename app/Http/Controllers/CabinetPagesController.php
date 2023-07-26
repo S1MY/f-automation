@@ -51,8 +51,8 @@ class CabinetPagesController extends Controller
 
     public function actions(){
         $user = Auth::user();
-        $actions = Actions::get();
-        return view('cabinet.actions', compact('user', 'actions'));
+        $testPeriod = Actions::where('id', 1)->first();
+        return view('cabinet.actions', compact('user', 'testPeriod'));
     }
 
     public function subscribe(){
