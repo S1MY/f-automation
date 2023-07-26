@@ -50,11 +50,13 @@ class TgAuthController extends Controller
             return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
-        if (strpos($validatedData['tg_phone'], '+') === 0) {
-            $validatedData['tg_phone'] = substr($validatedData['tg_phone'], 1);
-        }else{
-            $firstDigit = substr($validatedData['tg_phone'], 0, 1);
-            $validatedData['tg_phone'] = ($firstDigit - 1) . substr($validatedData['tg_phone'], 1);
+        if($validatedData['tg_phone'] !== 'empty'){
+            if (strpos($validatedData['tg_phone'], '+') === 0) {
+                $validatedData['tg_phone'] = substr($validatedData['tg_phone'], 1);
+            }else{
+                $firstDigit = substr($validatedData['tg_phone'], 0, 1);
+                $validatedData['tg_phone'] = ($firstDigit - 1) . substr($validatedData['tg_phone'], 1);
+            }
         }
         $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
         if($searchAccount){
