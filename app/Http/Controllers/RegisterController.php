@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\SendCode;
+use App\Mail\RegisterSuccess;
 
 class RegisterController extends Controller
 {
@@ -50,11 +51,11 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function registerConfirm(ConfirmEmailRequest $request){
-
+    public function registerConfirm(ConfirmEmailRequest $request)
+    {
         $user = User::where('id', '=', Auth::user()->id)->first();
         $user->markEmailAsVerified();
-
+        Mail::to($user->email)->send(new RegisterSuccess($user->login));
         return true;
     }
 }
