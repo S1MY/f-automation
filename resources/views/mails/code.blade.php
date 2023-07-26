@@ -120,7 +120,7 @@
                             <tr>
                                 <td style="padding: 30px 30px 20px 30px; border-top: 8px solid #FF5437;  border-radius: 8px 8px 0 0;">
                                     <a href="/" target="_blank">
-                                        <img src="/files/logo.png" alt="F-AUTOMATION" border="0" width="200">
+                                        <img src="{{ url('/files/logo.png') }}" alt="F-AUTOMATION" border="0" width="200">
                                     </a>
                                 </td>
                             </tr>
