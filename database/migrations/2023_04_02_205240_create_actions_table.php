@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
             $table->text('title')->nullable();
-            $table->longText('description')->nullable();
             $table->longText('users_join')->nullable();
         });
     }

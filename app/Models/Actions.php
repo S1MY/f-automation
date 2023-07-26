@@ -11,7 +11,6 @@ class Actions extends Model
     public $timestamps = false;
     protected $fillable = [
         'title',
-        'description',
         'users_join',
     ];
 }
