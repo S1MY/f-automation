@@ -96,6 +96,7 @@ Route::get('/logout', [LogoutController::class, 'perform'])->name('logout');
 Route::post('/password-change', [SettingsController::class, 'changePassword'])->name('changePassword');
 Route::post('/newsletter-change', [SettingsController::class, 'changeNewsletter'])->name('changeNewsletter');
 
+Route::post('/testSubscribe', [SubscribeController::class, 'testSubscribe'])->name('testSubscribe');
 Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('doSubscribe');
 Route::post('/subscribe-increase', [SubscribeController::class, 'subscribeIncrease'])->name('subscribeIncrease');
 Route::post('/buy-account-place', [SubscribeController::class, 'buyAccountPlace'])->name('buyAccountPlace');

@@ -390,4 +390,6 @@ class SubscribeController extends Controller
             return $this->generateJsonResponse('error', 'Ошибка клиента', 'Недостаточно средств для приоберетения места под канал!');
         }
     }
+    public function testSubscribe(Request $request)
+    {}
 }

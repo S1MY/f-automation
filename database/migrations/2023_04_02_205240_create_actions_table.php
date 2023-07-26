@@ -17,9 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('title')->nullable();
             $table->longText('description')->nullable();
-            $table->binary('users_join')->nullable();
-            $table->dateTime('before')->nullable();
-            $table->timestamps();
+            $table->longText('users_join')->default(serialize([]));
         });
     }
 
