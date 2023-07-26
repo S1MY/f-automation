@@ -264,4 +264,27 @@ $(document).ready(function () {
       $('.selectArrow').removeClass('_active');
     }
   });
+  $(document).on('click', '.actionButton', function (e) {
+    e.preventDefault();
+    const ajaxUrl = $(this).attr('data-action');
+    let data = {};
+    data.item = 1;
+    $.ajax({
+      url: ajaxUrl,
+      method: 'POST',
+      data: data,
+      success: function (response) {
+        $('.popupWrapper').fadeIn();
+        $('.popupItem').fadeOut();
+        if (response.status == "success") {
+          successHandler(response.title, response.message)
+        } else {
+          errorHandler(response.title, response.message)
+        }
+      },
+      error: function (response) {
+        errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
+      }
+    });
+  });
 });
