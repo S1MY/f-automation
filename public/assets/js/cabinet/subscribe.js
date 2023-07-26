@@ -129,7 +129,6 @@ $(document).ready(function () {
         $('input[name="promocode"]').val('empty');
     }
     const formData = $(this).serialize();
-    console.log(formData)
     if($('input[name="promocode"]').val() == 'empty'){
       $('input[name="promocode"]').val('');
     }
@@ -138,7 +137,6 @@ $(document).ready(function () {
         method: 'POST',
         data: formData,
         success: function(response){
-          console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           if (response.status == "success") {
@@ -152,7 +150,6 @@ $(document).ready(function () {
           }
         },
         error: function (response) {
-          console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')

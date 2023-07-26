@@ -75,7 +75,6 @@ $(document).ready(function () {
       method: 'POST',
       data: formData,
       success: function (response) {
-        console.log(response)
         if (response.status === 'success') {
           let groupsItems = ``;
           if (Object.keys(response.message).length > 0) {
@@ -102,7 +101,6 @@ $(document).ready(function () {
         }
       },
       error: function (response) {
-        console.log(response)
         errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
       }
     });
@@ -253,7 +251,6 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         success: function (response) {
-          console.log(response)
           if (response.status === "success") {
             successHandler(response.title, response.message)
           } else if(response.status === "next") {
@@ -277,7 +274,6 @@ $(document).ready(function () {
           }
         },
         error: function (response) {
-          console.log(response)
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
         }
       });
