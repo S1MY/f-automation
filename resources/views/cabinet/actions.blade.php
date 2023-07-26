@@ -24,7 +24,7 @@
                             <p class="actionList">Аккаунт который не участвовал в акции</p>
                             <p class="actionList">Тестовый период действует 1 раз</p>
                             <p class="actionText">Промо-сторис автоматически запустится в работув 00:00 по МСК</p>
-                            <a href="{{route('testSubscribe')}}" data-actionId="1" class="actionButton">Протестировать</a>
+                            <a href="{{route('testPeriod')}}" data-actionId="1" class="actionButton">Протестировать</a>
                         </div>
                     </div>
                 </div>

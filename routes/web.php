@@ -12,6 +12,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaginateController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubscribeController;
+use App\Http\Controllers\ActionsController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CronController;
@@ -96,7 +97,6 @@ Route::get('/logout', [LogoutController::class, 'perform'])->name('logout');
 Route::post('/password-change', [SettingsController::class, 'changePassword'])->name('changePassword');
 Route::post('/newsletter-change', [SettingsController::class, 'changeNewsletter'])->name('changeNewsletter');
 
-Route::post('/testSubscribe', [SubscribeController::class, 'testSubscribe'])->name('testSubscribe');
 Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('doSubscribe');
 Route::post('/subscribe-increase', [SubscribeController::class, 'subscribeIncrease'])->name('subscribeIncrease');
 Route::post('/buy-account-place', [SubscribeController::class, 'buyAccountPlace'])->name('buyAccountPlace');
@@ -145,7 +145,8 @@ Route::post('/offer-result', [AdminController::class, 'offerUpdate'])->name('off
 
 // Помогающие роуты
 Route::post('/paginator', [PaginateController::class, 'paginate'])->name('paginate');
-
+// Акции
+Route::post('/test-period', [ActionsController::class, 'testPeriod'])->name('testPeriod');
 // Крутые роуты
 Route::get('/upload-process', function () {
     return true;
