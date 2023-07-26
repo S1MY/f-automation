@@ -24,9 +24,8 @@
                             <p class="actionList">Аккаунт который не участвовал в акции</p>
                             <p class="actionList">Тестовый период действует 1 раз</p>
                             <p class="actionText">Промо-сторис автоматически запустится в работув 00:00 по МСК</p>
-                            @dd($testPeriod->title)
-                            @if ($user->TestPeriod['users_join'] !== NULL)
-                                @if (!in_array($user->id, unserialize($user->TestPeriod['users_join'])['users']))
+                            @if ($testPeriod->users_join !== NULL)
+                                @if (!in_array($user->id, unserialize($testPeriod->users_join)['users']))
                                     <p data-action="{{route('testPeriod')}}" class="actionButton">Протестировать</p>
                                 @else
                                     <p class="actionComplete">Вы уже тестировали</p>
