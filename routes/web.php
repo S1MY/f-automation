@@ -91,6 +91,7 @@ Route::group(['prefix' => 'cabinet', 'middleware' => ['auth', 'confirmed']], fun
  */
 
 Route::post('/user-register', [RegisterController::class, 'register'])->name('doregistration');
+Route::post('/user-again-code', [RegisterController::class, 'sendAgain'])->name('sendAgain');
 Route::post('/user-login', [LoginController::class, 'login'])->name('dologin');
 Route::post('/user-confirm-email', [RegisterController::class, 'registerConfirm'])->name('registerConfirm');
 Route::get('/logout', [LogoutController::class, 'perform'])->name('logout');

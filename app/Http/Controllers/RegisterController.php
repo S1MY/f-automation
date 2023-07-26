@@ -45,7 +45,17 @@ class RegisterController extends Controller
         $code = rand(11111,99999);
 
         session(['emailCode' => $code]);
+        session(['email' => $request->email]);
         Mail::to($request->email)->send(new SendCode($code));
+        return response()->json([
+            'from'      => 'register'
+        ]);
+    }
+    public function sendAgain(Request $request)
+    {
+        $code = rand(11111,99999);
+        session(['emailCode' => $code]);
+        Mail::to(session('email'))->send(new SendCode($code));
         return response()->json([
             'from'      => 'register'
         ]);

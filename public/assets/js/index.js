@@ -183,5 +183,7 @@ $(document).ready(function () {
   // Отправка кода ещё раз
   $('.codeAgain').click(function (e) {
     e.preventDefault();
+    const ajaxUrl = $(this).attr('href');
+    console.log(ajaxUrl)
   });
 });

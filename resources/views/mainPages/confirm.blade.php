@@ -41,7 +41,7 @@
                 <input class="confirmInput" type="number" tabindex="4" placeholder="|">
                 <input class="confirmInput" type="number" tabindex="5" placeholder="|">
             </div>
-            <p class="formCenter">Не пришёл код? <a href="#" class="codeAgain">Отправить ещё раз</a></p>
+            <p class="formCenter">Не пришёл код? <a href="{{route('sendAgain')}}" class="codeAgain">Отправить ещё раз</a></p>
         </div>
     </div>
 @endsection
