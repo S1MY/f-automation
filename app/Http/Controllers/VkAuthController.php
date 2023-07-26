@@ -23,6 +23,7 @@ use App\Models\Post;
 use App\Models\PostSettings;
 use App\Models\PostStory;
 
+use App\Models\Subscribe;
 
 class VkAuthController extends Controller
 {
@@ -78,6 +79,12 @@ class VkAuthController extends Controller
                     ]);
                     return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт - <span>' . $accountName . '</span> - успешно привязан');
                 } else {
+                    $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
+                    if ($getSubscribe) {
+                        if($getSubscribe->is_test === 1){
+                            return $this->generateJsonResponse('error', 'Неизвестный тип', 'Аккаунт, который вы пытались перепривязать активен для тестового периода!');
+                        }
+                    }
                     $searchAccount->uid = $userId;
                     $searchAccount->name = $accountName;
                     $searchAccount->link = $accountLink;
@@ -106,6 +113,12 @@ class VkAuthController extends Controller
         $userId = Auth::user()->id;
         $accountId = $request->accountId;
         if (is_numeric($accountId)) {
+            $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
+            if ($getSubscribe) {
+                if($getSubscribe->is_test === 1){
+                    return $this->generateJsonResponse('error', 'Неизвестный тип', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
+                }
+            }
             $searchAccount = VkAccount::where('id', '=', $accountId)
                 ->where('uid', '=', $userId)
                 ->first();

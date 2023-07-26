@@ -12,6 +12,8 @@ use App\Models\TgChannel;
 
 use App\Models\TgStream;
 
+use App\Models\Subscribe;
+
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
 use danog\MadelineProto\Settings\AppInfo;
@@ -45,6 +47,12 @@ class TgAuthController extends Controller
             return $this->generateJsonResponse('input', $firstErrorKey, $errors[$firstErrorKey][0]);
         }
         $validatedData = $validator->validated();
+        if (strpos($validatedData['tg_phone'], '+') === 0) {
+            $validatedData['tg_phone'] = substr($validatedData['tg_phone'], 1);
+        }else{
+            $firstDigit = substr($validatedData['tg_phone'], 0, 1);
+            $validatedData['tg_phone'] = ($firstDigit - 1) . substr($validatedData['tg_phone'], 1);
+        }
         $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
         if($searchAccount){
             Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
@@ -123,6 +131,12 @@ class TgAuthController extends Controller
     public function tgUserRemove(Request $request)
     {
         $userId = Auth::user()->id;
+        $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
+        if ($getSubscribe) {
+            if($getSubscribe->is_test === 1){
+                return $this->generateJsonResponse('error', 'Неизвестный тип', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
+            }
+        }
         $accountId = $request->accountId;
         if (is_numeric($accountId)) {
         $searchAccount = TgAccount::where('id', '=', $accountId)->where('uid', '=', $userId)->first();
