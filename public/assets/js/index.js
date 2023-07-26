@@ -189,7 +189,7 @@ $(document).ready(function () {
       method: 'POST',
       data: { type: 1 },
       success: function(response) {
-        createMessage("<p class='fixedMessage _error'>Код отправлен повторно!</p>");
+        createMessage("<p class='fixedMessage'>Код отправлен повторно!</p>");
       },
       error: function(response) {
         createMessage("<p class='fixedMessage _error'>Не удалось отправить код</p>");
