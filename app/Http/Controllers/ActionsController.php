@@ -56,6 +56,8 @@ class ActionsController extends Controller
         } else {
             return $this->generateJsonResponse('error', 'Ошибка', 'Привязанный ТГ Аккаунт уже использовал тестовый период!');
         }
+        $getAction->users_join = serialize($actionUsers);
+        $getAction->save();
         $endDate = date('Y-m-d H:i:s', strtotime('+4 days'));
         $subConfig = [
             'vk' => [
