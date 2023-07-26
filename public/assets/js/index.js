@@ -161,23 +161,24 @@ $(document).ready(function () {
       return false;
     }
     if (confirmCount === $('.confirmInput').length) {
-      $.ajax({
-        url: '/user-confirm-email',
-        method: 'post',
-        data: { code: code },
-        success: function(result) {
-          $('.confirmInput').addClass('_success');
-          setTimeout(() => {
-            window.location.href = '/cabinet';
-          }, 500);
-        },
-        error: function(result) {
-          $('.confirmInput').addClass('_error');
-          setTimeout(() => {
-            $('.confirmInput').removeClass('_error');
-          }, 1000);
-        }
-      });
+      console.log(code)
+      // $.ajax({
+      //   url: '/user-confirm-email',
+      //   method: 'post',
+      //   data: { code: code },
+      //   success: function(result) {
+      //     $('.confirmInput').addClass('_success');
+      //     setTimeout(() => {
+      //       window.location.href = '/cabinet';
+      //     }, 500);
+      //   },
+      //   error: function(result) {
+      //     $('.confirmInput').addClass('_error');
+      //     setTimeout(() => {
+      //       $('.confirmInput').removeClass('_error');
+      //     }, 1000);
+      //   }
+      // });
     }
   });
   // Отправка кода ещё раз
