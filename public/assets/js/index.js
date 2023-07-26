@@ -184,6 +184,16 @@ $(document).ready(function () {
   $('.codeAgain').click(function (e) {
     e.preventDefault();
     const ajaxUrl = $(this).attr('href');
-    console.log(ajaxUrl)
+    $.ajax({
+      url: ajaxUrl,
+      method: 'POST',
+      data: { type: 1 },
+      success: function(response) {
+        createMessage("<p class='fixedMessage _error'>Код отправлен повторно!</p>");
+      },
+      error: function(response) {
+        createMessage("<p class='fixedMessage _error'>Не удалось отправить код</p>");
+      }
+    });
   });
 });

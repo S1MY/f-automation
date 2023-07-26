@@ -56,9 +56,7 @@ class RegisterController extends Controller
         $code = rand(11111,99999);
         session(['emailCode' => $code]);
         Mail::to(session('email'))->send(new SendCode($code));
-        return response()->json([
-            'from'      => 'register'
-        ]);
+        return true;
     }
 
     public function registerConfirm(ConfirmEmailRequest $request)
