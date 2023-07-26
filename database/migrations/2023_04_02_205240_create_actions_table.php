@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('title')->nullable();
             $table->longText('description')->nullable();
-            $table->longText('users_join')->default(serialize([]));
+            $table->longText('users_join')->nullable();
         });
     }
 
