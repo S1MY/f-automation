@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Operation;
 
+use App\Models\Actions;
+
 use App\Models\VkAccount;
 use App\Models\VkGroup;
 
@@ -49,8 +51,8 @@ class CabinetPagesController extends Controller
 
     public function actions(){
         $user = Auth::user();
-
-        return view('cabinet.actions', compact('user'));
+        $actions = Actions::get();
+        return view('cabinet.actions', compact('user', 'actions'));
     }
 
     public function subscribe(){
