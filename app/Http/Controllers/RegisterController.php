@@ -9,6 +9,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\UserInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 use App\Mail\SendCode;
 
@@ -43,7 +44,7 @@ class RegisterController extends Controller
         $code = rand(11111,99999);
 
         session(['emailCode' => $code]);
-        mail($request->email)->send(new SendCode($code));
+        Mail::to($request->email)->send(new SendCode($code));
         return response()->json([
             'from'      => 'register'
         ]);
