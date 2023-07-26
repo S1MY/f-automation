@@ -65,4 +65,7 @@ class User extends Authenticatable
     public function Partners(){
         return $this->hasMany(UserInfo::class, 'partner', 'login');
     }
+    public function TestPeriod(){
+        return $this->hasMany(Actions::class, 'id', 1);
+    }
 }

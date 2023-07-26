@@ -24,7 +24,15 @@
                             <p class="actionList">Аккаунт который не участвовал в акции</p>
                             <p class="actionList">Тестовый период действует 1 раз</p>
                             <p class="actionText">Промо-сторис автоматически запустится в работув 00:00 по МСК</p>
-                            <p data-action="{{route('testPeriod')}}" class="actionButton">Протестировать</p>
+                            @if ($user->TestPeriod !== NULL)
+                                @if (!in_array($user->id, unserialize($user->TestPeriod)['users']))
+                                    <p data-action="{{route('testPeriod')}}" class="actionButton">Протестировать</p>
+                                @else
+                                    <p class="actionComplete">Вы уже тестировали</p>
+                                @endif
+                            @else
+                                <p data-action="{{route('testPeriod')}}" class="actionButton">Протестировать</p>
+                            @endif
                         </div>
                     </div>
                 </div>
