@@ -8,7 +8,7 @@
             @include('cabinet.layouts.sidebar')
         </div>
         <div class="pageWrapper">
-            @if (count(Auth::user()->VkAccount) > 0)
+            @if (count($user->VkAccount) > 0)
                 <div class="pageItems">
                     <div class="pageItem">
                         <div class="pageTabs">
@@ -18,7 +18,7 @@
                                 </svg>
                                 ВКонтакте
                             </p>
-                            @if(count(Auth::user()->VkAccount) > 0)
+                            @if(count($user->VkAccount) > 0)
                             <p class="pageTab" data-tab="vkg">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.7423 18.941H13.1763C13.1763 18.941 13.6098 18.8919 13.8303 18.6481C14.0343 18.4242 14.0268 18.004 14.0268 18.004C14.0268 18.004 13.9983 16.0363 14.8923 15.7464C15.7728 15.4612 16.9038 17.6482 18.1023 18.4901C19.0083 19.1266 19.6968 18.987 19.6968 18.987L22.9023 18.941C22.9023 18.941 24.5793 18.8352 23.7843 17.4871C23.7198 17.3767 23.3208 16.4902 21.4008 14.6683C19.3908 12.7604 19.6608 13.0702 22.0818 9.77132C23.5563 7.76224 24.1458 6.53531 23.9613 6.01081C23.7858 5.51084 22.7013 5.64273 22.7013 5.64273L19.0953 5.6642C19.0953 5.6642 18.8283 5.62739 18.6288 5.74855C18.4353 5.86818 18.3108 6.14423 18.3108 6.14423C18.3108 6.14423 17.7393 7.69936 16.9773 9.02136C15.3708 11.8111 14.7273 11.9583 14.4648 11.785C13.8543 11.3817 14.0073 10.1624 14.0073 9.29742C14.0073 6.59359 14.4078 5.46636 13.2258 5.17497C12.8328 5.07835 12.5448 5.01393 11.5413 5.0032C10.2543 4.98939 9.16383 5.0078 8.54733 5.31606C8.13633 5.52157 7.81983 5.98013 8.01333 6.00621C8.25183 6.03841 8.79183 6.15497 9.07833 6.55372C9.44883 7.06749 9.43534 8.22387 9.43534 8.22387C9.43534 8.22387 9.64833 11.4062 8.93884 11.8019C8.45133 12.0733 7.78383 11.5197 6.35134 8.98762C5.61784 7.69169 5.06283 6.25772 5.06283 6.25772C5.06283 6.25772 4.95633 5.99087 4.76583 5.84824C4.53483 5.67494 4.21083 5.61972 4.21083 5.61972L0.781835 5.6412C0.781835 5.6412 0.267335 5.65653 0.0783349 5.88505C-0.0896651 6.08902 0.0648349 6.50924 0.0648349 6.50924C0.0648349 6.50924 2.74983 12.9306 5.78883 16.1682C8.57733 19.1358 11.7423 18.941 11.7423 18.941Z" fill="white"/>
@@ -36,8 +36,8 @@
                         <div class="tabItem _active" data-tab="vk">
                             <h2 class="pageTitle">Активные аккаунты</h2>
                             <div class="tabFlex">
-                                @if(count(Auth::user()->VkAccount) > 0)
-                                    @foreach (Auth::user()->VkAccount as $vkAccount)
+                                @if(count($user->VkAccount) > 0)
+                                    @foreach ($user->VkAccount as $vkAccount)
                                     <div class="accountItem">
                                         <a class="accountInfo" href="{{ $vkAccount->link }}" target="_blank">
                                             <div class="accountAvatar" style="background: url({{ $vkAccount->avatar }}), #FFFFFF;"></div>
@@ -66,29 +66,42 @@
                                     </div>
                                     @endforeach
                                 @endif
-                                @if (count(Auth::user()->VkAccount) >= $user->UserInfo->vk_account_places)
-                                <div class="accountItem centerItem">
-                                    <a href="#" class="manageBtn buyPlace" data-action="{{route('buyAccountPlace')}}">
-                                        Купить место (25₽)
-                                    </a>
-                                </div>
-                                @else
+                                @if ($user->Subscribe->is_test === 0)
+                                    @if (count($user->VkAccount) >= $user->UserInfo->vk_account_places)
                                     <div class="accountItem centerItem">
-                                        <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends,photos&display=popup&response_type=token&v=5.131" class="manageBtn addAccount">
-                                            Привязать
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
-                                            </svg>
+                                        <a href="#" class="manageBtn buyPlace" data-action="{{route('buyAccountPlace')}}">
+                                            Купить место (25₽)
                                         </a>
                                     </div>
+                                    @else
+                                        <div class="accountItem centerItem">
+                                            <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends,photos&display=popup&response_type=token&v=5.131" class="manageBtn addAccount">
+                                                Привязать
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    @endif
+                                @else
+                                    @if (count($user->VkAccount) < 1)
+                                        <div class="accountItem centerItem">
+                                            <a target="_blank" href="https://oauth.vk.com/authorize?client_id=51668259&redirect_uri=https://api.vk.com/blank.html&scope=wall,video,offline,groups,stories,friends,photos&display=popup&response_type=token&v=5.131" class="manageBtn addAccount">
+                                                Привязать
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>
-                        @if(count(Auth::user()->VkAccount) > 0)
+                        @if(count($user->VkAccount) > 0)
                         <div class="tabItem" data-tab="vkg">
                             <h2 class="pageTitle">Активные группы</h2>
                             <div class="tabFlex">
-                                @foreach (Auth::user()->VkAccount as $vkAccount)
+                                @foreach ($user->VkAccount as $vkAccount)
                                 <div class="accountItemFulled">
                                     <div class="accountItem">
                                         <a class="accountInfo" href="{{ $vkAccount->link }}" target="_blank">
@@ -107,21 +120,34 @@
                                         </div>
                                     @endforeach
                                 @endforeach
-                                @if (count(Auth::user()->VkGroup) >= $user->UserInfo->vk_group_places)
-                                <div class="accountItem centerItem">
-                                    <a href="#" class="manageBtn buyPlace" data-action="{{route('buyGroupPlace')}}">
-                                        Купить место (25₽)
-                                    </a>
-                                </div>
+                                @if ($user->Subscribe->is_test === 0)
+                                    @if (count($user->VkGroup) >= $user->UserInfo->vk_group_places)
+                                    <div class="accountItem centerItem">
+                                        <a href="#" class="manageBtn buyPlace" data-action="{{route('buyGroupPlace')}}">
+                                            Купить место (25₽)
+                                        </a>
+                                    </div>
+                                    @else
+                                    <div class="accountItem centerItem">
+                                        <a target="_blank" href="#" class="manageBtn addGroup">
+                                            Добавить группу
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    @endif
                                 @else
-                                <div class="accountItem centerItem">
-                                    <a target="_blank" href="#" class="manageBtn addGroup">
-                                        Добавить группу
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
-                                        </svg>
-                                    </a>
-                                </div>
+                                    @if (count($user->VkGroup) < 1)
+                                        <div class="accountItem centerItem">
+                                            <a target="_blank" href="#" class="manageBtn addGroup">
+                                                Добавить группу
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -129,8 +155,8 @@
                         <div class="tabItem" data-tab="tg">
                             <h2 class="pageTitle">Активные аккаунт/каналы</h2>
                             <div class="tabFlex">
-                                @if(count(Auth::user()->TgAccount) > 0)
-                                 @foreach (Auth::user()->TgAccount as $tgAccount)
+                                @if(count($user->TgAccount) > 0)
+                                 @foreach ($user->TgAccount as $tgAccount)
                                  <div class="accountItemFulled">
                                     <div class="accountItem">
                                         <div class="accountInfo">
@@ -166,8 +192,8 @@
                                         </a>
                                     </div>
                                 @endif
-                                @if (count(Auth::user()->TgChannel) >= 0)
-                                    @foreach (Auth::user()->TgChannel as $tgChannel)
+                                @if (count($user->TgChannel) >= 0)
+                                    @foreach ($user->TgChannel as $tgChannel)
                                     <div class="accountItem">
                                         <div class="accountInfo">
                                             <div class="accountAvatar" style="background: url(/files/avatar.jpg), #FFFFFF;"></div>
@@ -177,21 +203,34 @@
                                     </div>
                                     @endforeach
                                 @endif
-                                @if (count(Auth::user()->TgChannel) >= $user->UserInfo->tg_channel_places)
-                                <div class="accountItem centerItem">
-                                    <a href="#" class="manageBtn buyPlace" data-action="{{route('buyChannelPlace')}}">
-                                        Купить место (25₽)
-                                    </a>
-                                </div>
+                                @if ($user->Subscribe->is_test === 0)
+                                    @if (count($user->TgChannel) >= $user->UserInfo->tg_channel_places)
+                                    <div class="accountItem centerItem">
+                                        <a href="#" class="manageBtn buyPlace" data-action="{{route('buyChannelPlace')}}">
+                                            Купить место (25₽)
+                                        </a>
+                                    </div>
+                                    @else
+                                    <div class="accountItem centerItem">
+                                        <a target="_blank" href="#" class="manageBtn addChannel">
+                                            Добавить канал
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    @endif
                                 @else
-                                <div class="accountItem centerItem">
-                                    <a target="_blank" href="#" class="manageBtn addChannel">
-                                        Добавить канал
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
-                                        </svg>
-                                    </a>
-                                </div>
+                                    @if (count($user->TgChannel) < 1)
+                                        <div class="accountItem centerItem">
+                                            <a target="_blank" href="#" class="manageBtn addChannel">
+                                                Добавить канал
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M14.8571 9.14286H9.14286V14.8571C9.14286 15.1602 9.02245 15.4509 8.80812 15.6653C8.59379 15.8796 8.30311 16 8 16C7.6969 16 7.40621 15.8796 7.19188 15.6653C6.97755 15.4509 6.85714 15.1602 6.85714 14.8571V9.14286H1.14286C0.839753 9.14286 0.549063 9.02245 0.334735 8.80812C0.120408 8.59379 0 8.30311 0 8C0 7.6969 0.120408 7.40621 0.334735 7.19188C0.549063 6.97755 0.839753 6.85714 1.14286 6.85714H6.85714V1.14286C6.85714 0.839753 6.97755 0.549062 7.19188 0.334735C7.40621 0.120407 7.6969 0 8 0C8.30311 0 8.59379 0.120407 8.80812 0.334735C9.02245 0.549062 9.14286 0.839753 9.14286 1.14286V6.85714H14.8571C15.1602 6.85714 15.4509 6.97755 15.6653 7.19188C15.8796 7.40621 16 7.6969 16 8C16 8.30311 15.8796 8.59379 15.6653 8.80812C15.4509 9.02245 15.1602 9.14286 14.8571 9.14286Z" fill="white"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>

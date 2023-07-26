@@ -14,6 +14,7 @@ class Subscribe extends Model
         'sub_config',
         'sub_old',
         'sub_status',
+        'is_test',
         'end_date',
     ];
 }

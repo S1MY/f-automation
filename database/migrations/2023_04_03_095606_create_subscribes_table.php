@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('uid')->nullable();
             $table->longText('sub_config')->nullable();
             $table->integer('sub_status')->default(0);
+            $table->integer('is_test')->default(0);
             $table->timestamp('end_date')->nullable();
         });
     }

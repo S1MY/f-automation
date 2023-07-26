@@ -192,6 +192,7 @@ class SubscribeController extends Controller
             $getSubscribe->sub_config = serialize($subConfig);
             $getSubscribe->sub_status = 1;
             $getSubscribe->end_date = $endDate;
+            $getSubscribe->is_test = 0;
             $getSubscribe->save();
         }else{
             Subscribe::create([
@@ -333,6 +334,11 @@ class SubscribeController extends Controller
         Auth::user()->UserInfo->balance = $ubalance - $totalPrice;
         Auth::user()->UserInfo->save();
         Auth::user()->Subscribe->sub_config = serialize($subConfig);
+        if (Auth::user()->Subscribe->is_test = 1) {
+            $endDate = date('Y-m-d H:i:s', strtotime('+1 month'));
+            Auth::user()->Subscribe->end_date = $endDate;
+            Auth::user()->Subscribe->is_test = 0;
+        }
         Auth::user()->Subscribe->save();
         return $this->generateJsonResponse('success', 'Поздравляем!', 'Вы улучшили свою подписку!');
     }
