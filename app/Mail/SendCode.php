@@ -45,7 +45,7 @@ class SendCode extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.code',
+            view: 'mails.code',
             with: [
             'code' => $this->code,
             ],
