@@ -34,8 +34,8 @@
             <p class="formText">Если вы не согласны политикой конфиденциальности или с пользовательским соглашением нашего сервиса, просьба пойти нахуй!</p>
             <p class="formSub">Регистрируясь на сайте, вы автоматически соглашаетесь с:</p>
             <div class="subItems">
-                <a href="/privacy.html" class="subItem">Политика конфиденциальности</a>
-                <a href="/rules.html" class="subItem">Пользовательское соглашение</a>
+                <a href="{{route('privacy')}}" target="_blank" class="subItem">Политика конфиденциальности</a>
+                <a href="{{route('agreement')}}" target="_blank" class="subItem">Пользовательское соглашение</a>
             </div>
             <div class="subItems _space">
                 <div class="tabPageInput">
@@ -51,7 +51,7 @@
                 </div>
                 <a href="{{ route('register') }}" class="formBtn">Следующий шаг</a>
             </div>
-            <p class="formCenter">Уже есть аккаунт? <a href="/login.html">Авторизация</a></p>
+            <p class="formCenter">Уже есть аккаунт? <a href="{{ route('login') }}">Авторизация</a></p>
         </div>
     </div>
 @endsection

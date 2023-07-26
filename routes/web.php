@@ -37,6 +37,7 @@ use App\Models\UserInfo;
 
 Route::get('/', [PagesController::class, 'homePage'])->name('home');
 Route::get('/privacy', [PagesController::class, 'privacy'])->name('privacy');
+Route::get('/agreement', [PagesController::class, 'agreement'])->name('agreement');
 Route::get('/login', [PagesController::class, 'loginPage'])->name('login');
 Route::get('/consent', [PagesController::class, 'consentPage'])->name('consent');
 Route::get('/register', [PagesController::class, 'registerPage'])->name('register');

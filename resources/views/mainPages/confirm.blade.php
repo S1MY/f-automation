@@ -33,7 +33,7 @@
             </div>
             <h1 class="formTitle _center">Подтверждение</h1>
             <p class="formSub _center">На вашу почту был отправлен код подтвеждения регистрации</p>
-            <p class="formText _center">Не приходит код? Проверьте папку “СПАМ” или отправьте код ещё раз</p>
+            <p class="formText _center">Не приходит код? Проверьте папку "СПАМ" или отправьте код ещё раз</p>
             <div class="confirmation">
                 <input class="confirmInput" type="number" tabindex="1" placeholder="|">
                 <input class="confirmInput" type="number" tabindex="2" placeholder="|">

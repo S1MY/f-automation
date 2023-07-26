@@ -13,6 +13,10 @@ class PagesController extends Controller
     public function privacy(){
         return view('mainPages.privacy');
     }
+    
+    public function agreement(){
+        return view('mainPages.agreement');
+    }
 
     public function loginPage(){
         return view('mainPages.login');
