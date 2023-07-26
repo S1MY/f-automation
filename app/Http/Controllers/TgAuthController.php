@@ -11,6 +11,9 @@ use App\Models\TgAccount;
 use App\Models\TgChannel;
 
 use App\Models\TgStream;
+use App\Models\TgStreamSettings;
+use App\Models\TgPost;
+use App\Models\TgPostSettings;
 
 use App\Models\Subscribe;
 
@@ -141,7 +144,22 @@ class TgAuthController extends Controller
         if (is_numeric($accountId)) {
         $searchAccount = TgAccount::where('id', '=', $accountId)->where('uid', '=', $userId)->first();
         TgChannel::where('account_id', '=', $searchAccount->id)->delete();
-        TgStream::where('account_id', '=', $searchAccount->id)->delete();
+        $streams = TgStream::where('account_id', '=', $searchAccount->id)->get();
+        foreach ($streams as $stream) {
+            TgStreamSettings::where('stream_id', '=', $stream->id)->delete();
+            foreach (unserialize($stream->link) as $key => $link) {
+                Storage::disk('public')->delete($link);
+            }
+            TgStream::where('id', '=', $stream->id)->delete();
+        }
+        $posts = TgPost::where('account_id', '=', $searchAccount->id)->get();
+        foreach ($posts as $post) {
+            TgPostSettings::where('post_id', '=', $post->id)->delete();
+            foreach (unserialize($post->link) as $key => $link) {
+                Storage::disk('public')->delete($link);
+            }
+            TgPost::where('id', '=', $post->id)->delete();
+        }
         if ($searchAccount) {
             Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
             $searchAccount->delete();

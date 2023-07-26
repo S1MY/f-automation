@@ -383,6 +383,14 @@ class TelegramController extends Controller
                     }
                     TgStream::where('id', '=', $stream->id)->delete();
                 }
+                $tgPosts = TgPost::where('channel_id', '=', $channelId)->get();
+                foreach ($tgPosts as $post) {
+                    TgPostSettings::where('post_id', '=', $post->id)->delete();
+                    foreach (unserialize($post->link) as $key => $link) {
+                        Storage::disk('public')->delete($link);
+                    }
+                    TgPost::where('id', '=', $post->id)->delete();
+                }
                 $searchChannel->delete();
                 return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Канал был удалён');
             }else{
