@@ -58,6 +58,8 @@ class TgAuthController extends Controller
                 $validatedData['tg_phone'] = ($firstDigit - 1) . substr($validatedData['tg_phone'], 1);
             }
         }
+        $userId = Auth::user()->id;
+        $userName = Auth::user()->login;
         $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
         if($searchAccount){
             Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
@@ -65,8 +67,6 @@ class TgAuthController extends Controller
         }
         $apiId = env('TELEGRAM_APP_ID');
         $apiHash = env('TELEGRAM_APP_HASH');
-        $userId = Auth::user()->id;
-        $userName = Auth::user()->login;
         $fileLoadUrl = 'files/users/' . $userName . '/tg_session';
         if (!Storage::disk('public')->exists($fileLoadUrl.'/madeline.log')) {
             Storage::disk('public')->put($fileLoadUrl.'/madeline.log', '');
@@ -136,6 +136,7 @@ class TgAuthController extends Controller
     public function tgUserRemove(Request $request)
     {
         $userId = Auth::user()->id;
+        $userName = Auth::user()->login;
         $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
         if ($getSubscribe) {
             if($getSubscribe->is_test === 1){
