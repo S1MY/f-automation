@@ -112,6 +112,7 @@ const ajaxEasyHandler = (ajaxUrl, formData) => {
     method: 'POST',
     data: formData,
     success: function (response) {
+      console.log(response)
       if (response.status === 'success') {
       successHandler(response.title, response.message)
       }else{
@@ -119,6 +120,7 @@ const ajaxEasyHandler = (ajaxUrl, formData) => {
       }
     },
     error: function (response) {
+      console.log(response)
       errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
     }
   });
