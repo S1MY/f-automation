@@ -33,7 +33,7 @@ class RegisterSuccess extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('support@f-automation.v-devo.ru', 'F-AUTOMATION'),
+            from: new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')),
             subject: 'Спасибо за регистрацию',
         );
     }
