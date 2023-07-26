@@ -82,7 +82,7 @@ class VkAuthController extends Controller
                     $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
                     if ($getSubscribe) {
                         if($getSubscribe->is_test === 1){
-                            return $this->generateJsonResponse('error', 'Неизвестный тип', 'Аккаунт, который вы пытались перепривязать активен для тестового периода!');
+                            return $this->generateJsonResponse('error', 'Ошибка', 'Аккаунт, который вы пытались перепривязать активен для тестового периода!');
                         }
                     }
                     $searchAccount->uid = $userId;
@@ -105,7 +105,7 @@ class VkAuthController extends Controller
                 }
             }
         } else {
-            return $this->generateJsonResponse('error', 'Неизвестный тип', 'Не пытайтесь лезть в код элемента ;)');
+            return $this->generateJsonResponse('error', 'Ошибка', 'Не пытайтесь лезть в код элемента ;)');
         }
     }
     public function vkUserRemove(Request $request)
@@ -116,7 +116,7 @@ class VkAuthController extends Controller
             $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
             if ($getSubscribe) {
                 if($getSubscribe->is_test === 1){
-                    return $this->generateJsonResponse('error', 'Неизвестный тип', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
+                    return $this->generateJsonResponse('error', 'Ошибка', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
                 }
             }
             $searchAccount = VkAccount::where('id', '=', $accountId)

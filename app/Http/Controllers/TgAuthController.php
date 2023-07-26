@@ -139,7 +139,7 @@ class TgAuthController extends Controller
         $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
         if ($getSubscribe) {
             if($getSubscribe->is_test === 1){
-                return $this->generateJsonResponse('error', 'Неизвестный тип', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
+                return $this->generateJsonResponse('error', 'Ошибка', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
             }
         }
         $accountId = $request->accountId;
