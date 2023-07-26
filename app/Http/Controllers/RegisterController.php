@@ -55,7 +55,7 @@ class RegisterController extends Controller
     {
         $user = User::where('id', '=', Auth::user()->id)->first();
         $user->markEmailAsVerified();
-        Mail::to($user->email)->send(new RegisterSuccess($user->login));
+        Mail::to($user->UserInfo->email)->send(new RegisterSuccess($user->login));
         return true;
     }
 }
