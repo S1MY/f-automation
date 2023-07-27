@@ -12,8 +12,8 @@ $(document).ready(function () {
             url: ajaxUrl,
             method: 'post',
             data: formData,
-            success: function (result) {
-                let from = result.from;
+            success: function (response) {
+                let from = response.from;
                 if (from == 'register') {
                     window.location.href = '/confirm';
                 } else if (from == 'confirm') {
@@ -24,9 +24,9 @@ $(document).ready(function () {
                     successHandler(response.title, response.message, '/login')
                 }
             },
-            error: function (result) {
+            error: function (response) {
 
-                $.each(result.responseJSON.errors, function (key, value) {
+                $.each(response.responseJSON.errors, function (key, value) {
 
                     if (key == 'not found') {
                         errorHandler('Возникла ошибка.', value)
