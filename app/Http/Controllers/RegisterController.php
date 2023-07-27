@@ -77,6 +77,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($password);
         $user->save();
         Mail::to($request->email)->send(new RepairPassword($password));
+        Auth::logout();
         return response()->json([
             'from' => 'repair',
             'title' => 'Успех',
