@@ -78,7 +78,7 @@ class RegisterController extends Controller
         $user->save();
         Mail::to($request->email)->send(new RepairPassword($password));
         return response()->json([
-            'from' => 'register',
+            'from' => 'repair',
             'title' => 'Успех',
             'message' => 'Временный пароль был отправлен на почту!',
         ]);
