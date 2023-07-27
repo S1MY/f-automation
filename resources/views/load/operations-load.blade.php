@@ -19,7 +19,11 @@
         $allMoney = Operation::where('uid', $operation->uid)->sum('amount');
     @endphp
         <div class="tableLine">
+            @if ($vkAccount)
             <a href="{{ $vkAccount->link }}" target="_blank" class="tableItem" aria-label="Пользователь">{{ $user->login }}</a>
+            @else
+            <p class="tableItem" aria-label="Пользователь">{{ $user->login }}</p>
+            @endif
             <p class="tableItem" aria-label="Дата операции">{{ $date }}</p>
             <p class="tableItem" aria-label="Сумма операции"><span class="_sum">{{ $operation->amount }}₽</span></p>
             <p class="tableItem" aria-label="Всего пополнено">{{ $allMoney }}₽</p>
