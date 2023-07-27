@@ -30,6 +30,10 @@ class PagesController extends Controller
         return view('mainPages.register');
     }
 
+    public function repairPage(){
+        return view('mainPages.repair');
+    }
+
     public function confirmPage(){
         return view('mainPages.confirm');
     }

@@ -24,7 +24,16 @@ class EmailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'email'    => 'required|email:rfc,dns|exists:user_infos,email',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required'     => 'Вы не указали вашу E-Mail почту.',
+            'email.email'        => 'Данный E-Mail не подходит, укажите другой.',
+            'email.exists'       => 'Эта E-Mail не найден в системе.'
         ];
     }
 }

@@ -20,6 +20,8 @@ $(document).ready(function () {
                     successHandler(response.title, response.message, '/cabinet')
                 } else if (from == 'login') {
                     window.location.href = '/cabinet';
+                } else if (from == 'repair') {
+                    successHandler(response.title, response.message, '/login')
                 }
             },
             error: function (result) {

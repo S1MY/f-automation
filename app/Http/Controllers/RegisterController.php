@@ -6,6 +6,7 @@ use App\Http\Requests\ConfirmEmailRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\EmailRequest;
 use App\Models\UserInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Mail\SendCode;
 use App\Mail\RegisterSuccess;
+use App\Mail\RepairPassword;
 
 class RegisterController extends Controller
 {
@@ -65,5 +67,30 @@ class RegisterController extends Controller
         $user->markEmailAsVerified();
         Mail::to($user->UserInfo->email)->send(new RegisterSuccess($user->login));
         return true;
+    }
+
+    public function repairPassword(EmailRequest $request)
+    {
+        $userInfo = UserInfo::where('email', '=', $request->email)->first();
+        $user = User::where('id', '=', $userInfo->uid)->first();
+        $password = $this->generatePassword();
+        $user->password = Hash::make($password);
+        $user->save();
+        Mail::to($request->email)->send(new RepairPassword($password));
+        return true;
+    }
+
+    private function generatePassword()
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $password = '';
+        $characterCount = strlen($characters);
+    
+        for ($i = 0; $i < 12; $i++) {
+            $index = rand(0, $characterCount - 1);
+            $password .= $characters[$index];
+        }
+    
+        return $password;
     }
 }
