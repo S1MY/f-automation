@@ -13,6 +13,7 @@ $(document).ready(function () {
             method: 'post',
             data: formData,
             success: function (response) {
+                console.log(response)
                 let from = response.from;
                 if (from == 'register') {
                     window.location.href = '/confirm';
@@ -25,7 +26,7 @@ $(document).ready(function () {
                 }
             },
             error: function (response) {
-
+                console.log(response)
                 $.each(response.responseJSON.errors, function (key, value) {
 
                     if (key == 'not found') {
