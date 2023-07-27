@@ -73,7 +73,9 @@
                         </div>
                         <div class="tableWrapper" data-name="finance">
                             @if ($operations->count() > 0)
+                            <div class="pageTable" id="operationsLoad">
                                 @include('load.operations-load')
+                            </div>
                             @else
                                 <div class="pageTable">
                                     <div class="tableLine" style="justify-content:center">
@@ -126,7 +128,9 @@
                         </form>
                         <div class="tableWrapper" data-name="promocodes">
                             @if ($promocodes->count() > 0)
+                            <div class="pageTable" id="promocodesLoad">
                                 @include('load.promocodes-load')
+                            </div>
                             @else
                                 <div class="pageTable">
                                     <div class="tableLine" style="justify-content:center">
