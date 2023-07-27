@@ -59,6 +59,9 @@
     color: #FF5437;
     font-weight: 600;
 }
+.tableLine:not(:nth-child(1)) p:nth-child(1){
+    color: #FF5437;
+}
 .tableLine a{
     color: #2980B9;
 }
