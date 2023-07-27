@@ -87,6 +87,9 @@
                     </div>
                     <div class="tabItem" data-tab="offers">
                         <div class="adminFlex">
+                            @if (count($offers) < 1)
+                            <p>Предложений нет</p>
+                            @endif
                             @foreach ($offers as $offer)
                                 <form class="offerItem" action="{{ route('offerUpdate') }}" id="offer-id-{{ $offer->id }}">
                                     <input type="hidden" name="offer_id" value="{{ $offer->id }}">
