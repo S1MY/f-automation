@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $('.promoForm ').submit(function (e) {
         e.preventDefault();
         let action = $(this).attr('data-action');
@@ -8,11 +13,6 @@ $(document).ready(function () {
           formData.append(val.name, val.value);
         });
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
 
         $.ajax({
           type: "POST",
@@ -72,12 +72,6 @@ $(document).ready(function () {
 
         let ajaxUrl = $(this).attr('action');
         let formData = $(this).serialize();
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
 
         $.ajax({
             url: ajaxUrl,
