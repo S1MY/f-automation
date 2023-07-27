@@ -63,7 +63,7 @@
                             <div class="financeColumn">
                                 <p class="adminFinance">
                                     Прошлый месяц:
-                                    <span>62200₽</span>
+                                    <span>{{ $prevMonthMoney }}₽</span>
                                 </p>
                                 <p class="adminFinance _last">
                                     Доход за всё время:

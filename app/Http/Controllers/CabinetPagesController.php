@@ -495,6 +495,9 @@ class CabinetPagesController extends Controller
 
         $currentMonthDate = Carbon::now()->startOfMonth();
         $currentMonthMoney = Operation::whereBetween('date_insert', [$currentMonthDate, $currentMonthDate->copy()->endOfMonth()])->sum('amount');
+        
+        $prevMonthDate = Carbon::now()->subMonth()->startOfMonth();
+        $prevMonthMoney = Operation::whereBetween('date_insert', [$prevMonthDate, $prevMonthDate->copy()->endOfMonth()])->sum('amount');
 
         $allTimeMoney = Operation::sum('amount');
         return view('mainPages.admin', compact( 'user', 'promocodes', 'todayUser',
@@ -505,7 +508,7 @@ class CabinetPagesController extends Controller
                                                 'vkStories', 'vkStoriesActive',
                                                 'vkPost', 'vkPostActive',
                                                 'tgPost', 'tgPostActive',
-                                                'todayMoney', 'currentMonthMoney', 'allTimeMoney',
+                                                'todayMoney', 'currentMonthMoney', 'prevMonthMoney', 'allTimeMoney',
                                                 'currentPage',
                                                 'offers'));
     }
