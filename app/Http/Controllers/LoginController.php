@@ -14,13 +14,13 @@ class LoginController extends Controller
     {
         $credentials = $request->getCredentials();
 
-        if(!Auth::validate($credentials)):
-            return response()->json([
-                'errors' => [
-                    'not found' => trans('auth.failed')
-                ]
-            ], 422);
-        endif;
+        // if(!Auth::validate($credentials)):
+        //     return response()->json([
+        //         'errors' => [
+        //             'not found' => trans('auth.failed')
+        //         ]
+        //     ], 422);
+        // endif;
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
