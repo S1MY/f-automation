@@ -32,7 +32,7 @@ class SettingsController extends Controller
             if(Hash::check($validatedData['new_pass'], Auth::user()->password)){
                 return $this->generateJsonResponse('error', 'Возникла ошибка', 'Новый пароль повторяет старый');
             }
-            Auth::user()->password = Hash::make($validatedData['new_pass']);
+            Auth::user()->password = $validatedData['new_pass'];
             Auth::user()->save();
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Пароль был успешно изменён');
         }else{

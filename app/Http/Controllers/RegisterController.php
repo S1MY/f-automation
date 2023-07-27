@@ -9,7 +9,6 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\EmailRequest;
 use App\Models\UserInfo;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\SendCode;
