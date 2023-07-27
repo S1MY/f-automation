@@ -52,7 +52,6 @@ $(document).ready(function () {
             let admin = null;
             if(currentPath == '/cabinet/admin'){
                 admin = $(this).parent().parent().parent().attr('data-name');
-                console.log(admin)
             }
             let action = $(this).attr('data-action');
             let page = $(this).attr('href');
