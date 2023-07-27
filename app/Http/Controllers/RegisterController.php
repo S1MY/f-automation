@@ -74,7 +74,7 @@ class RegisterController extends Controller
         $userInfo = UserInfo::where('email', '=', $request->email)->first();
         $user = User::where('id', '=', $userInfo->uid)->first();
         $password = $this->generatePassword();
-        $user->password = Hash::make($password);
+        $user->password = $password;
         $user->save();
         Mail::to($request->email)->send(new RepairPassword($password));
         return response()->json([
