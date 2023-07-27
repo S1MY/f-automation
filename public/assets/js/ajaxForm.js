@@ -48,6 +48,11 @@ $(document).ready(function () {
     $(document).on('click', '.paginationItem', function (e) {
         e.preventDefault();
         if (!$(this).hasClass('_disabled')) {
+            const currentPath = window.location.pathname;
+            let admin = null;
+            if(currentPath == '/cabinet/admin'){
+                admin = $(this).parent().parent().attr('data-name');
+            }
             let action = $(this).attr('data-action');
             let page = $(this).attr('href');
             const parentType = ($(this).parents('.tabItem').attr('data-type')) ? $(this).parents('.tabItem').attr('data-type') : null
@@ -89,7 +94,6 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 complete: function (response) {
-                    const currentPath = window.location.pathname;
                     if (currentPath == '/cabinet/offers') {
                         const offerParent = $('.pageTab._active').attr('data-tab');
                         $(`.tabItem[data-tab=${offerParent}] .offerFlex`).html(response.responseText);
@@ -97,6 +101,12 @@ $(document).ready(function () {
                         $('.storyWrapper').html(response.responseText);
                     }else if ((currentPath == '/cabinet/partners')) {
                         $('.pageTable').html(response.responseText);
+                    }else if ((currentPath == '/cabinet/admin') && admin) {
+                        if (admin === 'finance') {
+                            $("#operationsLoad").html(response.responseText);
+                        }else{
+                            $("#promocodesLoad").html(response.responseText);
+                        }
                     } else {
                         if (accountId > 0 || groupId > 0 || channelId > 0) {
                             let itemId;

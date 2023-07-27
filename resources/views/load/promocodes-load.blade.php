@@ -7,7 +7,7 @@
     </div>
     <div id="promocodesLoad">
         @foreach ($promocodes as $promocode)
-            <div class="tableLine _type0">
+            <div class="tableLine">
                 <a href="#" class="tableItem" aria-label="Промокод">{{ $promocode->code }}</a>
                 <p class="tableItem" aria-label="Использований">{{ is_null($promocode->users_active) ? 0 : count($promocode->users_active) }}/{{ $promocode->uses }}</p>
                 <p class="tableItem" aria-label="Сумма скидки">{{$promocode->amount}}₽</p>
