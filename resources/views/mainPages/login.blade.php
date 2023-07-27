@@ -57,7 +57,7 @@
             <h3 class="popupTitle"></h3>
             <p class="popupText _center"></p>
             <div class="popupCenter">
-                <a href="#" class="popupBtn popupClose">Закрыть</a>
+                <a href="" class="popupBtn popupClose">Закрыть</a>
             </div>
         </div>
         <div class="popupItem" data-class="standard" data-popup="success">
@@ -69,7 +69,7 @@
             <h3 class="popupTitle"></h3>
             <p class="popupText _center"></p>
             <div class="popupCenter">
-                <a href="#" class="popupBtn popupClose">Закрыть</a>
+                <a href="" class="popupBtn popupClose">Закрыть</a>
             </div>
         </div>
     </div>
