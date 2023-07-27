@@ -77,7 +77,11 @@ class RegisterController extends Controller
         $user->password = Hash::make($password);
         $user->save();
         Mail::to($request->email)->send(new RepairPassword($password));
-        return true;
+        return response()->json([
+            'from' => 'register',
+            'title' => 'Успех',
+            'message' => 'Временный пароль был отправлен на почту!',
+        ]);
     }
 
     private function generatePassword()
