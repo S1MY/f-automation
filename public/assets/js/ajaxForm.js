@@ -51,7 +51,7 @@ $(document).ready(function () {
             const currentPath = window.location.pathname;
             let admin = null;
             if(currentPath == '/cabinet/admin'){
-                admin = $(this).parent().parent().attr('data-name');
+                admin = $(this).parent().parent().parent().attr('data-name');
                 console.log(admin)
             }
             let action = $(this).attr('data-action');
