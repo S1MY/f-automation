@@ -13,7 +13,7 @@
     @foreach ($operations as $operation)
     @php
         $date = Carbon::createFromFormat('Y-m-d H:i:s', $operation->created_at, 'Europe/Moscow');
-        $date = $date->format('d.m.Y в h:i:s');
+        $date = $date->format('d.m.Y в H:i:s');
         $user = User::where('id', $operation->uid)->first();
         $vkAccount = VkAccount::where('uid', $operation->uid)->first();
         $allMoney = Operation::where('uid', $operation->uid)->sum('amount');
