@@ -25,25 +25,26 @@
                                 <p class="adminStat">Регистраций за 24 часа: <span>{{ $todayUser }}</span></p>
                                 <p class="adminStat">Число пользователей (Без почты): <span>{{ $countUser }} ({{ $countUserNotEmail }})</span></p>
                                 <p class="adminStat">Активных подписок: <span>{{ $activeSubs }}</span></p>
-                                <p class="adminStat">Аккаунтов ВКонтакте: <span>{{ $VKSubs }}</span></p>
-                                <p class="adminStat">Групп ВКонтакте: <span>{{ $VKGroupsSubs }}</span></p>
-                                <p class="adminStat">Аккаунтов Телеграм: <span>{{ $TGSubs }}</span></p>
+                                <p class="adminStat">Аккаунтов ВКонтакте: <span>{{ $vkAccounts }}</span></p>
+                                <p class="adminStat">Групп ВКонтакте: <span>{{ $vkGroups }}</span></p>
+                                <p class="adminStat">Аккаунтов Телеграм: <span>{{ $tgAccounts }}</span></p>
+                                <p class="adminStat">Каналов Телеграм: <span>{{ $tgChannels }}</span></p>
                             </div>
                             <div class="adminItem">
-                                <p class="adminStat">Трансляций ВКонтакте: <span>195</span></p>
-                                <p class="adminStat">Активных трансляций: <span>111</span></p>
-                                <p class="adminStat">Трансляций в эфире: <span>53</span></p>
-                                <p class="adminStat">Трансляций Телеграм: <span>35</span></p>
-                                <p class="adminStat">Активных трансляций: <span>24</span></p>
-                                <p class="adminStat">Трансляций в эфире: <span>9</span></p>
+                                <p class="adminStat">Трансляций ВКонтакте: <span>{{ $vkStreams }}</span></p>
+                                <p class="adminStat">Активных трансляций: <span>{{ $vkStreamsActive }}</span></p>
+                                <p class="adminStat">Трансляций в эфире: <span>{{ $vkStreamsLive }}</span></p>
+                                <p class="adminStat">Трансляций Телеграм: <span>{{ $tgStreams }}</span></p>
+                                <p class="adminStat">Активных трансляций: <span>{{ $tgStreamsActive }}</span></p>
+                                <p class="adminStat">Трансляций в эфире: <span>{{ $tgStreamsLive }}</span></p>
                             </div>
                             <div class="adminItem">
-                                <p class="adminStat">Историй ВКонтакте: <span>89</span></p>
-                                <p class="adminStat">Активных историй: <span>87</span></p>
-                                <p class="adminStat">Постов ВКонтакте: <span>89</span></p>
-                                <p class="adminStat">Активных постов: <span>87</span></p>
-                                <p class="adminStat">Постов Телеграм: <span>89</span></p>
-                                <p class="adminStat">Активных постов: <span>87</span></p>
+                                <p class="adminStat">Историй ВКонтакте: <span>{{ $vkStories }}</span></p>
+                                <p class="adminStat">Активных историй: <span>{{ $vkStoriesActive }}</span></p>
+                                <p class="adminStat">Постов ВКонтакте: <span>{{ $vkPost }}</span></p>
+                                <p class="adminStat">Активных постов: <span>{{ $vkPostActive }}</span></p>
+                                <p class="adminStat">Постов Телеграм: <span>{{ $tgPost }}</span></p>
+                                <p class="adminStat">Активных постов: <span>{{ $tgPostActive }}</span></p>
                             </div>
                         </div>
                     </div>
@@ -56,7 +57,7 @@
                                 </p>
                                 <p class="adminFinance">
                                     За 24 часа:
-                                    <span>1100₽</span>
+                                    <span>{{ $todayMoney }}₽</span>
                                 </p>
                             </div>
                             <div class="financeColumn">
