@@ -12,23 +12,16 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        // $credentials = $request->getCredentials();
-        if(!Auth::attempt(['login' => $request->login, 'password' => $request->password])){
+        $credentials = $request->getCredentials();
+        if(!Auth::attempt($credentials)):
             return response()->json([
                 'errors' => [
                     'not found' => trans('auth.failed')
                 ]
             ], 422);
-        }
-        // if(!Auth::attempt($credentials)):
-        //     return response()->json([
-        //         'errors' => [
-        //             'not found' => trans('auth.failed')
-        //         ]
-        //     ], 422);
-        // endif;
+        endif;
 
-        // $user = Auth::getProvider()->retrieveByCredentials($credentials);
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
         Auth::login($user);
 
