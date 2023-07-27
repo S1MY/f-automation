@@ -42,7 +42,7 @@
             </form>
             <div class="formLast">
                 <p class="formCenter">Нет аккаунта? <a href="{{ route('register') }}">Регистрация</a></p>
-                <a href="/repair.html" class="formCenter">Восстановление пароля</a>
+                <a href="{{ route('repair') }}" class="formCenter">Восстановление пароля</a>
             </div>
         </div>
     </div>
