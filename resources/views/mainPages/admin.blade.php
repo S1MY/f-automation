@@ -72,7 +72,15 @@
                             </div>
                         </div>
                         <div class="tableWrapper" data-name="finance">
-                            
+                            @if ($operations->count() > 0)
+                                @include('load.operations-load')
+                            @else
+                                <div class="pageTable">
+                                    <div class="tableLine" style="justify-content:center">
+                                        <p>Пополнений не обнаружено</p>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="tabItem" data-tab="offers">
