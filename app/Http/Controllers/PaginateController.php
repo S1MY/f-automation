@@ -58,7 +58,7 @@ class PaginateController extends Controller
                 break;
             case 'operations':
 
-                $operations = Operation::orderBy('id', 'DESC')->paginate(5, ['*'], 'operations-page', $page_num);
+                $operations = Operation::orderBy('date_insert', 'DESC')->paginate(5, ['*'], 'operations-page', $page_num);
                 $currentPage = route('admin');
 
                 return view('load.operations-load', compact('operations', 'currentPage'));

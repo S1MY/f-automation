@@ -501,7 +501,7 @@ class CabinetPagesController extends Controller
         $prevMonthMoney = Operation::whereBetween('date_insert', [$prevMonthDate, $prevMonthDate->copy()->endOfMonth()])->sum('amount');
 
         $allTimeMoney = Operation::sum('amount');
-        $operations = Operation::orderBy('id', 'DESC')->paginate(5, ['*'], 'operations-page');
+        $operations = Operation::orderBy('date_insert', 'DESC')->paginate(5, ['*'], 'operations-page');
         return view('mainPages.admin', compact( 'user', 'promocodes', 'operations', 'todayUser',
                                                 'countUser', 'countUserNotEmail', 'activeSubs',
                                                 'vkAccounts', 'vkGroups', 'tgAccounts', 'tgChannels',
