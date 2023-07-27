@@ -56,7 +56,14 @@ class PaginateController extends Controller
                 return view('load.promocodes-load', compact('promocodes', 'currentPage'));
 
                 break;
+            case 'operations':
 
+                $operations = Operation::orderBy('id', 'DESC')->paginate(5, ['*'], 'promo-page', $page_num);
+                $currentPage = route('admin');
+
+                return view('load.operations-load', compact('operations', 'currentPage'));
+
+                break;
             case 'all-offers':
                 $allOffers = Offers::join('users as u', 'offers.uid', '=', 'u.id')
                 ->leftJoin('vk_accounts', function ($join) {

@@ -52,18 +52,14 @@
 .adminFinance._last{
     background: #FF5437;
 }
-._type0 ._sum,
-._type1 ._sum{
+.tableLine ._sum{
     padding: 4px 8px;
     background: #FFFFFF;
     border-radius: 4px;
     color: #FF5437;
     font-weight: 600;
 }
-._type1 ._sum{
-    color: #2980B9;
-}
-._type1 a{
+.tableLine a{
     color: #2980B9;
 }
 .offerItem{
