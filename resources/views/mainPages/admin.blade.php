@@ -53,7 +53,7 @@
                             <div class="financeColumn">
                                 <p class="adminFinance">
                                     Текущий месяц:
-                                    <span>1300₽</span>
+                                    <span>{{ $currentMonthMoney }}₽</span>
                                 </p>
                                 <p class="adminFinance">
                                     За 24 часа:
@@ -67,7 +67,7 @@
                                 </p>
                                 <p class="adminFinance _last">
                                     Доход за всё время:
-                                    <span>10000₽</span>
+                                    <span>{{ $allTimeMoney }}₽</span>
                                 </p>
                             </div>
                         </div>

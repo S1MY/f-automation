@@ -489,8 +489,14 @@ class CabinetPagesController extends Controller
 
         $tgPost = TgPost::count();
         $tgPostActive = TgPost::where('active', 1)->count();
+
         $currentDate = Carbon::today();
         $todayMoney = Operation::whereDate('date_insert', $currentDate)->sum('amount');
+
+        $currentMonthDate = Carbon::now()->startOfMonth();
+        $currentMonthMoney = Operation::whereBetween('date_insert', [$currentMonthDate, $currentMonthDate->copy()->endOfMonth()])->sum('amount');
+
+        $allTimeMoney = Operation::sum('amount');
         return view('mainPages.admin', compact( 'user', 'promocodes', 'todayUser',
                                                 'countUser', 'countUserNotEmail', 'activeSubs',
                                                 'vkAccounts', 'vkGroups', 'tgAccounts', 'tgChannels',
@@ -499,7 +505,7 @@ class CabinetPagesController extends Controller
                                                 'vkStories', 'vkStoriesActive',
                                                 'vkPost', 'vkPostActive',
                                                 'tgPost', 'tgPostActive',
-                                                'todayMoney',
+                                                'todayMoney', 'currentMonthMoney', 'allTimeMoney',
                                                 'currentPage',
                                                 'offers'));
     }
