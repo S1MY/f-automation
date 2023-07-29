@@ -42,7 +42,7 @@ class TgPostStarter extends Command
         $start = microtime(true);
         $promises = [];
         $mh = curl_multi_init();
-        $currentDomain = 'https://f-automation.v-devo.ru';
+        $currentDomain = env('APP_SITE_LINK');
 
         $allPosts = TgPost::where('active', 1)->get();
         foreach ($allPosts as $post) {
