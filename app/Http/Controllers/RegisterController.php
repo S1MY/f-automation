@@ -47,17 +47,10 @@ class RegisterController extends Controller
 
         session(['emailCode' => $code]);
         session(['email' => $request->email]);
-        if(Mail::to($request->email)->send(new SendCode($code))){
-            return response()->json([
-                'from'      => 'register'
-            ]);
-        }else{
-            return response()->json([
-                'errors' => [
-                    'not found' => 'Письмо не было отправлено'
-                ]
-            ], 422);
-        }
+        Mail::to($request->email)->send(new SendCode($code));
+        return response()->json([
+            'from'      => 'register'
+        ]);
     }
     public function sendAgain(Request $request)
     {
