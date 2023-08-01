@@ -45,8 +45,8 @@ Route::get('/consent', [PagesController::class, 'consentPage'])->name('consent')
 Route::get('/register', [PagesController::class, 'registerPage'])->name('register');
 Route::get('/repair', [PagesController::class, 'repairPage'])->name('repair');
 Route::get('/confirm', [PagesController::class, 'confirmPage'])->name('confirm')->middleware('auth');
-Route::get('/payment-error', [PagesController::class, 'paymentError'])->name('paymentError');
-Route::get('/payment-success', [PagesController::class, 'paymentSuccess'])->name('paymentSuccess');
+Route::any('/payment-error', [PagesController::class, 'paymentError'])->name('paymentError');
+Route::any('/payment-success', [PagesController::class, 'paymentSuccess'])->name('paymentSuccess');
 /*
  *
  * Страницы кабинета
