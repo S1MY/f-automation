@@ -1033,6 +1033,9 @@ a.formCenter:hover{
     justify-content: center;
     margin: 0 auto;
 }
+.paymentIcon._good{
+    background: #27AE60;
+}
 .indexForm._payment{
     width: 480px;
 }
@@ -1041,6 +1044,9 @@ a.formCenter:hover{
     font-weight: 600;
     color: #FF5437;
     margin-top: 16px;
+}
+.formTitle._good{
+    color: #27AE60;
 }
 .paymentText{
     text-align: center;

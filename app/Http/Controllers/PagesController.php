@@ -40,4 +40,7 @@ class PagesController extends Controller
     public function paymentError(){
         return view('mainPages.payment-error');
     }
+    public function paymentSuccess(){
+        return view('mainPages.payment-success');
+    }
 }
