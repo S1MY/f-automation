@@ -1462,6 +1462,9 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 414px) {
+    .formCenter{
+        margin-top: 12px;
+    }
     .indexForm{
         padding: 20px;
     }
