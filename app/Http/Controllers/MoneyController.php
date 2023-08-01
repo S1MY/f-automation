@@ -39,6 +39,7 @@ class MoneyController extends Controller
                 'query' => $getParams,
             ]);
             $jsonResponse = json_decode($response->getBody(), true);
+            return $this->generateJsonResponse('success', 'Ссылка получена', $jsonResponse);
             return $this->generateJsonResponse('success', 'Ссылка получена', $jsonResponse['location']);
         }
     }
