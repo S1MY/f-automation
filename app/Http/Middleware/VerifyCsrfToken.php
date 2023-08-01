@@ -15,6 +15,9 @@ class VerifyCsrfToken extends Middleware
        'stream-continue',
        'tg-stream-continue',
        'tg-post-continue',
-       'tg-post-remover'
+       'tg-post-remover',
+       'payment-notification',
+       'payment-success',
+       'payment-error'
     ];
 }
