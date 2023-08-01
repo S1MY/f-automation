@@ -1,3 +1,8 @@
+<script>
+setTimeout(function() {
+    window.location.href = "{{ route('cabinet') }}";
+}, 4000);
+</script>
 @extends('layouts.master-no-header')
 @section('content')
     <div class="page _index">

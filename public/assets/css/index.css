@@ -1427,6 +1427,16 @@ a.formCenter:hover{
         font-size: 24px;
         margin-top: 24px;
     }
+    .formSub{
+        font-size: 16px;
+        line-height: 160%;
+        margin-top: 12px;
+    }
+    .formText{
+        margin-top: 12px;
+        padding: 12px;
+        font-size: 14px;
+    }
 }
 @media (max-width: 440px) {
     .navItem{
@@ -1459,6 +1469,13 @@ a.formCenter:hover{
     }
     .footerText{
         text-align: center;
+    }
+    .confirmInput {
+        width: 36px;
+        height: 36px;
+    }    
+    .paymentText{
+        font-size: 16px;
     }
 }
 @media (max-width: 414px) {
