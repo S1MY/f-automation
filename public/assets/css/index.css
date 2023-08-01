@@ -1307,6 +1307,9 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 700px) {
+    .tabPageInput{
+        width: 100%;
+    }
     .navigation{
         flex-wrap: wrap;
     }
