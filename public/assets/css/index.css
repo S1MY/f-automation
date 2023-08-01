@@ -1456,6 +1456,12 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 414px) {
+    .indexForm{
+        padding: 20px;
+    }
+    .formCenter{
+        font-size: 16px;
+    }
     .backBtn{
         width: 36px;
         height: 36px;
