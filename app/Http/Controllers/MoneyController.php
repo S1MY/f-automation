@@ -23,24 +23,20 @@ class MoneyController extends Controller
                 'amount' => $amount,
                 'date_insert' => date('Y-m-d H:i:s')
             ]);
-            $postParams = [
-                'nonce' => time(),
-                'shopId' => env('PAYMENT_SHOP_ID'),
-                'i' => 0,
-                'ip' => $request->ip(),
-                'amount' => $amount,
+            $getParams = [
+                'm' => env('PAYMENT_SHOP_ID'),
+                'oa' => $amount,
                 'currency' => 'RUB',
-                'paymentId' => $newOperation->id,
-                'email' => Auth::user()->UserInfo->email,
+                'o' => $newOperation->id,
+                'em' => Auth::user()->UserInfo->email,
                 'us_uid' => Auth::user()->id
             ];
-            ksort($postParams);
-            $sign = hash_hmac('sha256', implode('|', $postParams), env('PAYMENT_SHOP_KEY'));
-            $postParams['signature'] = $sign;
-            
+            ksort($getParams);
+            $sign = md5(env('PAYMENT_SHOP_ID').'|'.$amount.'|'.env('PAYMENT_SHOP_SECRET').'|'.$getParams['currency'].'|'.$newOperation->id);
+            $getParams['s'] = $sign;
             $client = new Client();
-            $response = $client->post('https://api.freekassa.ru/v1/orders/create', [
-                'json' => $postParams,
+            $response = $client->get('https://pay.freekassa.ru/', [
+                'query' => $getParams,
             ]);
             $jsonResponse = json_decode($response->getBody(), true);
             return $this->generateJsonResponse('success', 'Ссылка получена', $jsonResponse['location']);
