@@ -31,8 +31,7 @@ class MoneyController extends Controller
                 'em' => Auth::user()->UserInfo->email,
                 'us_uid' => Auth::user()->id
             ];
-            ksort($getParams);
-            $sign = md5(env('PAYMENT_SHOP_ID').'|'.$amount.'|'.env('PAYMENT_SHOP_SECRET').'|'.$getParams['currency'].'|'.$newOperation->id);
+            $sign = md5(env('PAYMENT_SHOP_ID').':'.$amount.':'.env('PAYMENT_SHOP_SECRET').':'.$getParams['currency'].':'.$newOperation->id);
             $getParams['s'] = $sign;
             $queryString = http_build_query($getParams);
             
@@ -45,7 +44,7 @@ class MoneyController extends Controller
         if(!in_array($request->ip(), ['168.119.157.136', '168.119.60.227', '138.201.88.124', '178.154.197.79'])){
             die("hacking attempt!");
         }
-        $sign = md5(env('PAYMENT_SHOP_ID').'|'.$request->input('AMOUNT').'|'.env('PAYMENT_SHOP_CORE').'|'.$request->input('MERCHANT_ORDER_ID'));
+        $sign = md5(env('PAYMENT_SHOP_ID').':'.$request->input('AMOUNT').':'.env('PAYMENT_SHOP_CORE').':'.$request->input('MERCHANT_ORDER_ID'));
         if ($sign != $request->input('SIGN')) {
             die('wrong sign');
         }
