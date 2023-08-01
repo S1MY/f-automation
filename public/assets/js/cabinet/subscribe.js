@@ -137,6 +137,7 @@ $(document).ready(function () {
         method: 'POST',
         data: formData,
         success: function(response){
+          console.log(response)
           $(".popupWrapper").fadeIn();
           $('.popupItem').fadeOut();
           if (response.status == "success") {
