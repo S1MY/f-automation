@@ -1360,6 +1360,9 @@ a.formCenter:hover{
     .userHeaderIcon{
         display: flex;
     }
+    .formLast{
+        flex-direction: column;
+    }
 }
 @media (max-width: 560px) {
     .title {
