@@ -1024,10 +1024,10 @@ a.formCenter:hover{
     background: #FF5437;
 }
 .paymentIcon{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 16px;
-    background: #FF5437;
+    background: #101010;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1041,11 +1041,11 @@ a.formCenter:hover{
     text-align: center;
     font-weight: 600;
     color: #FF5437;
-    margin-top: 32px;
+    margin-top: 16px;
 }
 .paymentText{
     text-align: center;
-    margin-top: 16px;
+    margin-top: 12px;
 }
 /* Адаптив */
 @media (max-width: 1480px) {
