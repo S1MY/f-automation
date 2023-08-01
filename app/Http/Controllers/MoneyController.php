@@ -61,11 +61,10 @@ class MoneyController extends Controller
             ]);
             die('wrong sign');
         }
-        $userId = $request->us_uid;
-        $userInfo = UserInfo::where('uid', $userId)->first();
+        $userInfo = UserInfo::where('uid', $request->us_uid)->first();
         $userInfo->balance = $userInfo->balance + $request->AMOUNT;
         $userInfo->save();
-        $thisOperation = Operation::where('uid', $userId)->latest();
+        $thisOperation = Operation::where('id', $request->MERCHANT_ORDER_ID)->first();
         $thisOperation->pid = $request->intid;
         $thisOperation->status = 1;
         $thisOperation->save();
