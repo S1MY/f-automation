@@ -1023,6 +1023,17 @@ a.formCenter:hover{
 .fixedMessage._error{
     background: #FF5437;
 }
+.paymentIcon{
+    width: 128px;
+    height: 128px;
+    border-radius: 24px;
+    background: #101010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 32px;
+}
 /* Адаптив */
 @media (max-width: 1480px) {
     .header{
