@@ -1462,6 +1462,9 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 414px) {
+    .formTitle{
+        font-size: 20px;
+    }
     .formCenter{
         margin-top: 12px;
     }
