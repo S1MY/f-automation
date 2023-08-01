@@ -39,7 +39,7 @@ class RegisterController extends Controller
             'email' => $request->email,
             'partner' => $partnerLogin
         ]);
-        auth()->login($user);
+        Auth::login($user);
 
         // Первичная отправка кода на почту
 

@@ -42,7 +42,7 @@ class TgStreamStarter extends Command
         $start = microtime(true);
         $promises = [];
         $mh = curl_multi_init();
-        $currentDomain = 'https://f-automation.v-devo.ru';
+        $currentDomain = env('APP_SITE_LINK');
 
         $allStreams = TgStream::where('active', 1)->where('live', 0)->get();
         foreach ($allStreams as $stream) {
