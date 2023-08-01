@@ -13,6 +13,7 @@ class Operation extends Model
         'uid',
         'pid',
         'amount',
+        'status',
         'date_insert'
     ];
 }

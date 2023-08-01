@@ -26,6 +26,8 @@ use App\Http\Controllers\StreamsController;
 use App\Http\Controllers\TgAuthController;
 use App\Http\Controllers\TelegramController;
 
+use App\Http\Controllers\MoneyController;
+
 use App\Models\User;
 use App\Models\UserInfo;
 
@@ -109,6 +111,10 @@ Route::post('/buy-channel-place', [SubscribeController::class, 'buyChannelPlace'
 
 Route::post('/set-offers', [OfferController::class, 'setOffer'])->name('setOffer');
 Route::post('/get-vote', [OfferController::class, 'getVote'])->name('getVote');
+
+// Пополнение
+Route::post('/get-payment-link', [MoneyController::class, 'getLink'])->name('getPaymentLink');
+Route::post('/payment-notification', [MoneyController::class, 'moneyCore'])->name('moneyCore');
 
 // Вконтакте
 Route::post('/vk-user-auth', [VkAuthController::class, 'vkUserAuth'])->name('vkUserAuth');
