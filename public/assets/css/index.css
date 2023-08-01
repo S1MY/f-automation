@@ -1414,6 +1414,9 @@ a.formCenter:hover{
         padding: 0;
         overflow: hidden;
     }
+    .backBtn svg{
+        min-width: 20px;
+    }
 }
 @media (max-width: 440px) {
     .navItem{
