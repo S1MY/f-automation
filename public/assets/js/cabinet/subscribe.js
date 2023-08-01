@@ -141,7 +141,7 @@ $(document).ready(function () {
           $('.popupItem').fadeOut();
           if (response.status == "success") {
             if (popupName === 'deposit') {
-              
+              window.location.href = response.message;
             }else{
               successHandler(response.title, response.message)
             }
