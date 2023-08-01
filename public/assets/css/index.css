@@ -1034,7 +1034,7 @@ a.formCenter:hover{
     margin: 0 auto;
 }
 .indexForm._payment{
-    width: 414px;
+    width: 440px;
 }
 .formTitle._payment{
     text-align: center;
@@ -1045,6 +1045,8 @@ a.formCenter:hover{
 .paymentText{
     text-align: center;
     margin-top: 12px;
+    font-size: 18px;
+    font-weight: 500;
 }
 /* Адаптив */
 @media (max-width: 1480px) {
