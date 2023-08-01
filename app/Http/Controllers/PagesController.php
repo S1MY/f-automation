@@ -37,4 +37,7 @@ class PagesController extends Controller
     public function confirmPage(){
         return view('mainPages.confirm');
     }
+    public function paymentError(){
+        return view('mainPages.payment-error');
+    }
 }
