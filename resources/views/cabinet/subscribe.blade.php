@@ -15,7 +15,7 @@
                         <p class="pageText">После пополнения средства моментально поступят на ваш счёт и вы сможете
                             собрать собственный вариант подписки</p>
                         <div class="formFlex">
-                            <input type="number" class="formInput" placeholder="Сумма пополнения" required>
+                            <input type="number" name="amount" class="formInput" placeholder="Сумма пополнения" required>
                             <button class="formBtn">Пополнить баланс</button>
                         </div>
                     </form>
