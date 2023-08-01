@@ -347,7 +347,7 @@ class CabinetPagesController extends Controller
         foreach ($allPartners as $partner) {
             $amount = 0;
             $counter = 0;
-            $operations = Operation::where('uid', $partner->uid)->get();
+            $operations = Operation::where('status', 1)->where('uid', $partner->uid)->get();
             foreach ($operations as $operation) {
                 $counter++;
                 $multiplier = ($counter % 50 === 0) ? 0.5 : 0.1;
@@ -492,16 +492,16 @@ class CabinetPagesController extends Controller
 
         // Операции
         $currentDate = Carbon::today();
-        $todayMoney = Operation::whereDate('date_insert', $currentDate)->sum('amount');
+        $todayMoney = Operation::where('status', 1)->whereDate('date_insert', $currentDate)->sum('amount');
 
         $currentMonthDate = Carbon::now()->startOfMonth();
-        $currentMonthMoney = Operation::whereBetween('date_insert', [$currentMonthDate, $currentMonthDate->copy()->endOfMonth()])->sum('amount');
+        $currentMonthMoney = Operation::where('status', 1)->whereBetween('date_insert', [$currentMonthDate, $currentMonthDate->copy()->endOfMonth()])->sum('amount');
         
         $prevMonthDate = Carbon::now()->subMonth()->startOfMonth();
-        $prevMonthMoney = Operation::whereBetween('date_insert', [$prevMonthDate, $prevMonthDate->copy()->endOfMonth()])->sum('amount');
+        $prevMonthMoney = Operation::where('status', 1)->whereBetween('date_insert', [$prevMonthDate, $prevMonthDate->copy()->endOfMonth()])->sum('amount');
 
         $allTimeMoney = Operation::sum('amount');
-        $operations = Operation::orderBy('date_insert', 'DESC')->paginate(5, ['*'], 'operations-page');
+        $operations = Operation::where('status', 1)->orderBy('date_insert', 'DESC')->paginate(5, ['*'], 'operations-page');
         return view('mainPages.admin', compact( 'user', 'promocodes', 'operations', 'todayUser',
                                                 'countUser', 'countUserNotEmail', 'activeSubs',
                                                 'vkAccounts', 'vkGroups', 'tgAccounts', 'tgChannels',
