@@ -1037,6 +1037,16 @@ a.formCenter:hover{
 .indexForm._payment{
     width: 414px;
 }
+.formTitle._payment{
+    text-align: center;
+    font-weight: 600;
+    color: #FF5437;
+    margin-top: 32px;
+}
+.paymentText{
+    text-align: center;
+    margin-top: 16px;
+}
 /* Адаптив */
 @media (max-width: 1480px) {
     .header{
