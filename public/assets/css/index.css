@@ -1409,6 +1409,9 @@ a.formCenter:hover{
         padding: 0;
         justify-content: center;
     }
+    .backBtn svg{
+        margin: 0;
+    }
     .backBtn span{
         display: none;
     }
