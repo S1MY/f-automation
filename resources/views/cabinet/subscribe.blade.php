@@ -10,7 +10,7 @@
         <div class="pageWrapper">
             <div class="pageItems">
                 <div class="pageItem">
-                    <form class="pageTarget" data-form="deposit">
+                    <form class="pageTarget" action="{{route('getPaymentLink')}}" data-form="deposit">
                         <h1 class="pageTitle">Пополнение баланса</h1>
                         <p class="pageText">После пополнения средства моментально поступят на ваш счёт и вы сможете
                             собрать собственный вариант подписки</p>
