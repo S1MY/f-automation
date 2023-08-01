@@ -1,7 +1,7 @@
 @extends('layouts.master-no-header')
 @section('content')
     <div class="page _index">
-        <div class="indexForm">
+        <div class="indexForm _payment">
             <div class="indexTop">
                 <a href="/" class="logotype">
                     <svg width="177" height="36" viewBox="0 0 177 36" fill="none" xmlns="http://www.w3.org/2000/svg">

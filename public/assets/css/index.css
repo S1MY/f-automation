@@ -1024,15 +1024,18 @@ a.formCenter:hover{
     background: #FF5437;
 }
 .paymentIcon{
-    width: 128px;
-    height: 128px;
-    border-radius: 24px;
-    background: #101010;
+    width: 100px;
+    height: 100px;
+    border-radius: 16px;
+    background: #FF5437;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
     margin-top: 32px;
+}
+.indexForm._payment{
+    width: 414px;
 }
 /* Адаптив */
 @media (max-width: 1480px) {
