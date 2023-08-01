@@ -1270,6 +1270,10 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 960px) {
+    .indexForm{
+        width: 100%;
+        max-width: 100%;
+    }
     .contactFlex{
         flex-wrap: wrap;
     }
