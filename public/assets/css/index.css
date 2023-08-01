@@ -1407,6 +1407,7 @@ a.formCenter:hover{
         width: 44px;
         height: 44px;
         padding: 0;
+        justify-content: center;
     }
     .backBtn span{
         display: none;
