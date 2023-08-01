@@ -34,13 +34,10 @@ class MoneyController extends Controller
             ksort($getParams);
             $sign = md5(env('PAYMENT_SHOP_ID').'|'.$amount.'|'.env('PAYMENT_SHOP_SECRET').'|'.$getParams['currency'].'|'.$newOperation->id);
             $getParams['s'] = $sign;
-            $client = new Client();
-            $response = $client->get('https://pay.freekassa.ru/', [
-                'query' => $getParams,
-            ]);
-            $jsonResponse = json_decode($response->getBody(), true);
-            return $this->generateJsonResponse('success', 'Ссылка получена', $jsonResponse);
-            return $this->generateJsonResponse('success', 'Ссылка получена', $jsonResponse['location']);
+            $queryString = http_build_query($params);
+            
+            $location = 'https://pay.freekassa.ru/?' . $queryString;
+            return $this->generateJsonResponse('success', 'Ссылка получена', $location);
         }
     }
     public function moneyCore(Request $request)
