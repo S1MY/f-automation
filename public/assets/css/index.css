@@ -1404,6 +1404,15 @@ a.formCenter:hover{
         font-size: 16px;
     }
 }
+@media (max-width: 480px) {
+    .formTitle{
+        font-size: 24px;
+    }
+    .backBtn{
+        width: 44px;
+        overflow: hidden;
+    }
+}
 @media (max-width: 440px) {
     .navItem{
         width: 100%;
