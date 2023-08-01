@@ -1307,7 +1307,7 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 700px) {
-    .tabPageInput{
+    .tabPageInput, .formBtn{
         width: 100%;
     }
     .navigation{
