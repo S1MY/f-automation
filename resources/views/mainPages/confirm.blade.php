@@ -28,7 +28,7 @@
                         </clipPath>
                         </defs>
                         </svg>
-                    на главную
+                    <span>на главную</span>
                 </a>
             </div>
             <h1 class="formTitle _center">Подтверждение</h1>

@@ -27,7 +27,7 @@
                         </clipPath>
                         </defs>
                         </svg>
-                    авторизация
+                    <span>авторизация</span>
                 </a>
             </div>
             <h1 class="formTitle">Восстановление</h1>

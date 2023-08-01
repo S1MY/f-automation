@@ -27,7 +27,7 @@
                         </clipPath>
                         </defs>
                         </svg>
-                    правила
+                    <span>правила</span>
                 </a>
             </div>
             <h1 class="formTitle">Регистрация</h1>

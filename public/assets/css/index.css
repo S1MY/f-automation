@@ -1403,20 +1403,18 @@ a.formCenter:hover{
     .documentTab{
         font-size: 16px;
     }
-}
-@media (max-width: 480px) {
-    .formTitle{
-        font-size: 24px;
-    }
     .backBtn{
         width: 44px;
         height: 44px;
         padding: 0;
-        overflow: hidden;
-        padding-left: 6px;
     }
-    .backBtn svg{
-        min-width: 20px;
+    .backBtn span{
+        display: none;
+    }
+}
+@media (max-width: 480px) {
+    .formTitle{
+        font-size: 24px;
     }
 }
 @media (max-width: 440px) {
