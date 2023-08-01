@@ -15,7 +15,7 @@ class MoneyController extends Controller
     {
         $amount = $request->amount;
         if (is_numeric($amount)) {
-            if($amount <= 100){
+            if($amount < 100){
                 return $this->generateJsonResponse('error', 'Ошибка пополнения', 'Минимальная сумма для пополнения 100 рублей');
             }
             $newOperation = Operation::create([
