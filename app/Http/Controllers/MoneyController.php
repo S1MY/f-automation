@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 
 use App\Models\Operation;
 use App\Models\UserInfo;
+use App\Models\CronLogs;
 
 class MoneyController extends Controller
 {
@@ -42,14 +43,26 @@ class MoneyController extends Controller
     public function moneyCore(Request $request)
     {
         if(!in_array($request->ip(), ['168.119.157.136', '168.119.60.227', '138.201.88.124', '178.154.197.79'])){
+            CronLogs::create([
+                'uid'        => 0,
+                'cron_type' => 'money',
+                'item_id' => 0,
+                'message'   => 'Хакин'
+            ]);
             die("hacking attempt!");
         }
-        $sign = md5(env('PAYMENT_SHOP_ID').':'.$request->input('AMOUNT').':'.env('PAYMENT_SHOP_CORE').':'.$request->input('MERCHANT_ORDER_ID'));
-        if ($sign != $request->input('SIGN')) {
+        $sign = md5(env('PAYMENT_SHOP_ID').':'.$request->AMOUNT.':'.env('PAYMENT_SHOP_CORE').':'.$request->MERCHANT_ORDER_ID);
+        if ($sign != $request->SIGN) {
+            CronLogs::create([
+                'uid'        => 0,
+                'cron_type' => 'money',
+                'item_id' => 0,
+                'message'   => 'врот'
+            ]);
             die('wrong sign');
         }
-        $payId = $request->input('intid');
-        $userId = $request->input('us_uid');
+        $payId = $request->intid;
+        $userId = $request->us_uid;
         $userInfo = UserInfo::where('uid', $userId)->first();
         $userInfo->balance = $userInfo->balance + $amount;
         $userInfo->save();
