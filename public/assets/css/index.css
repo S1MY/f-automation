@@ -1027,14 +1027,14 @@ a.formCenter:hover{
     width: 80px;
     height: 80px;
     border-radius: 16px;
-    background: #101010;
+    background: #FF5437;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
 }
 .indexForm._payment{
-    width: 440px;
+    width: 480px;
 }
 .formTitle._payment{
     text-align: center;
@@ -1047,6 +1047,7 @@ a.formCenter:hover{
     margin-top: 12px;
     font-size: 18px;
     font-weight: 500;
+    line-height: 160%;
 }
 /* Адаптив */
 @media (max-width: 1480px) {
