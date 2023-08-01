@@ -26,7 +26,7 @@ class MoneyController extends Controller
             $postParams = [
                 'nonce' => time(),
                 'shopId' => env('PAYMENT_SHOP_ID'),
-                'i' => 6,
+                'i' => 0,
                 'ip' => $request->ip(),
                 'amount' => $amount,
                 'currency' => 'RUB',
@@ -37,7 +37,6 @@ class MoneyController extends Controller
             ksort($postParams);
             $sign = hash_hmac('sha256', implode('|', $postParams), env('PAYMENT_SHOP_KEY'));
             $postParams['signature'] = $sign;
-            return $this->generateJsonResponse('error', 'Ошибка пополнения', $postParams);
             
             $client = new Client();
             $response = $client->post('https://api.freekassa.ru/v1/orders/create', [
