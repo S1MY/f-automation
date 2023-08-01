@@ -34,7 +34,7 @@ class MoneyController extends Controller
             ksort($getParams);
             $sign = md5(env('PAYMENT_SHOP_ID').'|'.$amount.'|'.env('PAYMENT_SHOP_SECRET').'|'.$getParams['currency'].'|'.$newOperation->id);
             $getParams['s'] = $sign;
-            $queryString = http_build_query($params);
+            $queryString = http_build_query($getParams);
             
             $location = 'https://pay.freekassa.ru/?' . $queryString;
             return $this->generateJsonResponse('success', 'Ссылка получена', $location);
