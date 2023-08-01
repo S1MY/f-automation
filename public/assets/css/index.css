@@ -1419,6 +1419,7 @@ a.formCenter:hover{
 @media (max-width: 480px) {
     .formTitle{
         font-size: 24px;
+        margin-top: 24px;
     }
 }
 @media (max-width: 440px) {
