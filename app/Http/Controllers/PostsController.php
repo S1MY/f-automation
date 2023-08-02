@@ -235,12 +235,13 @@ class PostsController extends Controller
             $wallPostSave = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
+            $message = $validatedData['message'].' Пост генерируется F-AUTOMATION: '.env('APP_SITE_LINK').'/invite/'.Auth::user()->login;
             $wallPostParams = [
                 'v' => '5.131',
                 'access_token' => $searchAccount->token,
                 'friends_only' => $validatedData['onlyFriends'],
                 'close_comments' => $validatedData['closeComments'],
-                'message' => $validatedData['message'],
+                'message' => $message,
                 'attachments' => implode(',',$filesDB),
             ];
             if ($validatedData['accType'] == 'group') {

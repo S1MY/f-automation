@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
 
+use App\Models\User;
 use App\Models\Subscribe;
 
 use App\Models\VkAccount;
@@ -62,6 +63,7 @@ class PostStarter extends Command
             }
             if (strtotime($updatedAt) === strtotime($nowTime)) {
                 $userSubscribe = Subscribe::where('uid', '=', $userId)->first();
+                $userDB = User::where('id', '=', $userId)->first();
                 if($userSubscribe){
                     if($userSubscribe->sub_status === 1){
                         $subscribePackage = unserialize($userSubscribe->sub_config)['vk']['posts'];
@@ -92,7 +94,7 @@ class PostStarter extends Command
                                 'access_token' => $vkToken,
                                 'friends_only' => $postSettings->friends_only,
                                 'close_comments' => $postSettings->close_comments,
-                                'message' => $post->message,
+                                'message' => $post->message.' Пост генерируется F-AUTOMATION: '.env('APP_SITE_LINK').'/invite/'.$userDB->login,
                                 'attachments' => implode(',',unserialize($post->attachments)),
                             ];
                             if($vkGroup){
