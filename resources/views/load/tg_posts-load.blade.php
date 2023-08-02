@@ -28,11 +28,17 @@
 @endphp
 <div class="cardItem">
 @foreach ($links as $key => $link)
+    @if ($attachments[$key] === 'jpg')
+    <div class="imageWrapper">
+        <img src="/storage/{{$link}}" alt="image">
+    </div>
+    @else
     <div class="videoWrapper">
         <video class="videoGuid" playsinline controls preload="metadata">
             <source src="/storage/{{$link}}" type="video/mp4"/>
         </video>
     </div>
+    @endif
 @endforeach
 <div class="cardInformation">
     <div class="cardInformationTop">
