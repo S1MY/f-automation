@@ -366,7 +366,7 @@ class PostsController extends Controller
                                 'v' => '5.131',
                                 'access_token' => $searchAccount->token,
                                 'owner_id' => $ownerId,
-                                'post_id' => $searchPostStory->post_did
+                                'post_id' => $post->post_did
                             ];
                     
                             $postRemoveGet = $postRemoveClient->request('GET', '/method/wall.delete', [
