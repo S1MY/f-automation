@@ -251,6 +251,7 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         success: function (response) {
+          console.log(response)
           if (response.status === "success") {
             successHandler(response.title, response.message)
           } else if(response.status === "next") {
@@ -270,6 +271,7 @@ $(document).ready(function () {
               $('.errorInput').remove();
             }, 3500);
           }else {
+            console.log(response)
             errorHandler(response.title, response.message)
           }
         },
