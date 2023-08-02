@@ -428,7 +428,7 @@ class TelegramController extends Controller
             'channelId.integer' => 'Не является числом',
             'file.required' => 'Файл является обязательным',
             'file.file' => 'Файл не является файлом',
-            'file.mimetypes' => 'Доступны только avi, mp4',
+            'file.mimetypes' => 'Доступны только avi, mp4, jpeg, png',
             'type.required' => 'Должно быть числом',
             'type.string' => 'Должно быть строкой',
             'type.in' => 'Неизвестный тип операции',
