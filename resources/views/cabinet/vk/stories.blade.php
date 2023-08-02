@@ -34,7 +34,7 @@
                         </div>
                     </h1>
                     <p class="pageText _mt12">Создание истории может занять до 10 минут</p>
-                    <p class="pageText _mt12">Созданная история обновляется ежедневно во время своего создания. Подробнее на <a href="{{route('guide')}" class="instructorLink">Странице инструкций</a></p>
+                    <p class="pageText _mt12">Созданная история обновляется ежедневно во время своего создания. Подробнее на <a href="{{route('guide')}}" class="instructorLink">Странице инструкций</a></p>
                     @if(count(Auth::user()->VkAccount) > 0)
                     <div class="tabPageItem">
                         <form class="tabPageForm" action="{{ route('storiesCreate') }}" enctype='multipart/form-data'>

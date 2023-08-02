@@ -34,7 +34,7 @@
                             </svg>
                         </div>
                     </h1>
-                    <p class="pageText _mt12">Создание трансляции может занять до 25 минут. Подробнее на <a href="{{route('guide')}" class="instructorLink">Странице инструкций</a></p>
+                    <p class="pageText _mt12">Создание трансляции может занять до 25 минут. Подробнее на <a href="{{route('guide')}}" class="instructorLink">Странице инструкций</a></p>
                     @if(count(Auth::user()->VkAccount) > 0)
                     <div class="tabPageItem">
                         <form class="tabPageForm" action="{{ route('streamCreate') }}" enctype='multipart/form-data'>
