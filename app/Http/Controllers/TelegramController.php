@@ -410,7 +410,7 @@ class TelegramController extends Controller
             'name' => 'required|string|max:20',
             'message' => 'required|string|max:200',
             'channelId' => 'required|integer',
-            'file.*' => 'required|file|mimetypes:video/avi,video/mp4',
+            'file.*' => 'required|file|mimetypes:video/avi,video/mp4,image/jpeg,image/png',
             'duration' => 'required|string',
             'type' => 'required|string|in:interval,date,daily',
             'interval' => 'integer|in:0,60,120,240,360,480',
