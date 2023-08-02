@@ -62,7 +62,7 @@ class TgAuthController extends Controller
         $userName = Auth::user()->login;
         $searchAccount = TgAccount::where('phone', '=', $validatedData['tg_phone'])->first();
         if($searchAccount){
-            Storage::disk('public')->deleteDirectory('app/public/files/users/' . $userName . '/tg_session');
+            Storage::disk('public')->deleteDirectory('files/users/' . $userName . '/tg_session');
             return $this->generateJsonResponse('error', 'Ошибка авторизации', 'Данный аккаунт уже имеется в нашей базе данных!');
         }
         $apiId = env('TELEGRAM_APP_ID');
@@ -90,7 +90,7 @@ class TgAuthController extends Controller
         if($validatedData['tg_code'] !== 'empty'){
             $authorization = $MadelineProto->completePhoneLogin($validatedData['tg_code']);
             if ($authorization['_'] === 'account.noPassword') {
-                Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
+                Storage::disk('public')->deleteDirectory('files/users/' . $userName . '/tg_session');
                 return $this->generateJsonResponse('error', 'Ошибка авторизации', '2FA включен, но пароль не установлен!');
             }
             if ($authorization['_'] === 'account.needSignup') {
@@ -164,7 +164,7 @@ class TgAuthController extends Controller
             TgPost::where('id', '=', $post->id)->delete();
         }
         if ($searchAccount) {
-            Storage::deleteDirectory(storage_path('app/public/files/users/' . $userName . '/tg_session'));
+            Storage::disk('public')->deleteDirectory('files/users/' . $userName . '/tg_session');
             $searchAccount->delete();
             return $this->generateJsonResponse('success', 'Всё прошло успешно', 'Аккаунт был удалён');
         } else {
