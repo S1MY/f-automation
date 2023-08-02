@@ -112,16 +112,6 @@ $(document).ready(function () {
     $(".tabItem").removeClass("_active");
     $(`.tabItem[data-tab=${tab}]`).addClass("_active");
   });
-  // Попап инструкция
-  $('.instructorLink').click(function (e) {
-    e.preventDefault();
-    let name = $(this).attr("data-name");
-    let popup = $(this).attr("data-popup");
-    $(".popupWrapper").fadeIn();
-    $(`.popupItem[data-popup=${popup}]`).children(".popupTitle").html(name);
-    $(`.popupItem[data-popup=${popup}]`).fadeIn();
-    playerSearch()
-  });
   // Закрытие попапов
   $(".popupBg, .popupClose").click(function (e) {
     e.preventDefault();

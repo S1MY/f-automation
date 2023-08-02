@@ -96,9 +96,7 @@
                         <p class="pageText">Вы выбрали все доступные в пакете функции!</p>
                         @else
                         <p class="pageText">Вы в любое время можете расширить пакет, но скидок на добавленные
-                            функции не будет. Подробнее в <a href="#"
-                                class="instructorLink" data-name="Как собрать свой пакет"
-                                data-popup="packageCreate">Инструкции</a></p>
+                            функции не будет. Подробнее на <a href="{{route('guide')}" class="instructorLink">Странице инструкций</a></p>
                             <div class="pageTabs">
                                 <p class="pageTab _active" data-tab="vk">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -490,9 +488,7 @@
                     </form>
                     @else
                     <form data-form="subscribe" method="POST" action="{{ route('doSubscribe') }}" class="pageTarget">
-                        <p class="pageText">Соберите свой пакет на основании нужных вам функций. Подробнее в <a
-                                href="#" class="instructorLink" data-name="Как собрать свой пакет"
-                                data-popup="packageCreate">Инструкции</a></p>
+                        <p class="pageText">Соберите свой пакет на основании нужных вам функций. Подробнее на <a href="{{route('guide')}" class="instructorLink">Странице инструкций</a></p>
                         <div class="pageTabs">
                             <p class="pageTab _active" data-tab="vk">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
