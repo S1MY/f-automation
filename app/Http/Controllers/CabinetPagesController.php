@@ -200,7 +200,7 @@ class CabinetPagesController extends Controller
         $currentPage = route('postsInfo', ['myPageId' => $myPageId]);
         $post = Post::find($myPageId);
         $VkAccount = VkAccount::where('uid', $user->id)->where('id', $post->account_id)->get();
-        $postSettings = PostSettings::where('posd_id', $myPageId)->get()->first();
+        $postSettings = PostSettings::where('post_id', $myPageId)->get()->first();
         $postInfo = PostStory::join('post_settings', 'post_stories.post_id', '=', 'post_settings.post_id')
         ->orderBy('id', 'desc')
         ->where('post_stories.post_id', $myPageId)
