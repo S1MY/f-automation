@@ -241,6 +241,7 @@ $(document).ready(function () {
         data: formData,
         dataType: "json",
         success: function (response) {
+          console.log(response)
           $('.popupWrapper').fadeIn();
           $('.popupItem').fadeOut();
           if (response.status == "success") {
@@ -250,6 +251,7 @@ $(document).ready(function () {
           }
         },
         error: function (response) {
+          console.log(response)
           errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
         }
       });
