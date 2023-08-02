@@ -700,7 +700,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="subItem">
+                            {{-- <div class="subItem">
                                 <div class="subItemTop">
                                     <p class="subItemName">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -735,7 +735,7 @@
                                         <p>Здесь пока ничего нет</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="tabItem" data-tab="tg">
                             <div class="subItem">
