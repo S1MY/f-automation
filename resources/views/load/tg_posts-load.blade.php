@@ -89,7 +89,7 @@
         </clipPath>
         </defs>
         </svg>
-    <p class="cardEmptyText">Посты дла данного канала не найдены</p>
+    <p class="cardEmptyText">Посты для данного канала не найдены</p>
 </div>
 @endif
 {{ $allPosts->links('layouts.paginate', ['currentPage' => $currentPage]) }}

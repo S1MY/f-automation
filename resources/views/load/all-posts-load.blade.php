@@ -102,7 +102,7 @@
         </clipPath>
         </defs>
         </svg>
-    <p class="cardEmptyText">Посты дла данного аккаунта или группы не найдены</p>
+    <p class="cardEmptyText">Посты для данного аккаунта или группы не найдены</p>
 </div>
 @endif
 {{ $allPosts->links('layouts.paginate', ['currentPage' => $currentPage]) }}

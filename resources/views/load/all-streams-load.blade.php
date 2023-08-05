@@ -94,7 +94,7 @@
         </clipPath>
         </defs>
         </svg>
-    <p class="cardEmptyText">Трансляции дла данного аккаунта или группы не найдены</p>
+    <p class="cardEmptyText">Трансляции для данного аккаунта или группы не найдены</p>
 </div>
 @endif
 {{ $allStreams->links('layouts.paginate', ['currentPage' => $currentPage]) }}

@@ -105,7 +105,7 @@
         </clipPath>
         </defs>
         </svg>
-    <p class="cardEmptyText">Истории дла данного аккаунта или группы не найдены</p>
+    <p class="cardEmptyText">Истории для данного аккаунта или группы не найдены</p>
 </div>
 @endif
 
