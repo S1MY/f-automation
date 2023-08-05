@@ -211,6 +211,7 @@ $(document).ready(function () {
           method: 'POST',
           data: formData,
           success: function (response) {
+            console.log(response)
             if (response.status === "success") {
               successHandler(response.title, response.message)
             } else {
@@ -218,6 +219,7 @@ $(document).ready(function () {
             }
           },
           error: function (response) {
+            console.log(response)
             errorHandler('Возникла ошибка', 'Возможно требуется обратиться к администратору')
           }
         });
