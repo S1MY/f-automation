@@ -16,8 +16,8 @@
                     <div class="pageTabs" data-name="classic">
                         <p class="pageTab _active" data-tab="main">Основные</p>
                         <p class="pageTab" data-tab="streams">Трансляции</p>
-                        <p class="pageTab" data-tab="stories">Истории</p>
                         <p class="pageTab" data-tab="posts">Посты</p>
+                        <p class="pageTab" data-tab="stories">Истории</p>
                     </div>
                     <div class="tabItem _active" data-tab="main">
                         <div class="tabFlex">
