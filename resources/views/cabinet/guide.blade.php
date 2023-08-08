@@ -18,7 +18,6 @@
                         <p class="pageTab" data-tab="streams">Трансляции</p>
                         <p class="pageTab" data-tab="stories">Истории</p>
                         <p class="pageTab" data-tab="posts">Посты</p>
-                        <p class="pageTab" data-tab="friends">Друзья</p>
                     </div>
                     <div class="tabItem _active" data-tab="main">
                         <div class="tabFlex">
@@ -29,17 +28,17 @@
                             </div>
                             <div class="videoWrapper">
                                 <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/vkgroupauth.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                    <source src="/files/guids/vkgroupauth.mp4" type="video/mp4" />
                                 </video>
                             </div>
                             <div class="videoWrapper">
                                 <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/tgauth.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                    <source src="/files/guids/tgauth.mp4" type="video/mp4" />
                                 </video>
                             </div>
                             <div class="videoWrapper">
                                 <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/subscribeconstruct.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                    <source src="/files/guids/subscribeconstruct.mp4" type="video/mp4" />
                                 </video>
                             </div>
                         </div>
@@ -48,36 +47,12 @@
                         <div class="tabFlex">
                             <div class="videoWrapper">
                                 <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/streamcreate.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
-                                </video>
-                            </div>
-                            <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/vkerrors.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                    <source src="/files/guids/streamcreate.mp4" type="video/mp4" />
                                 </video>
                             </div>
                             <div class="videoWrapper">
                                 <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/streamtelegram.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
-                                </video>
-                            </div>
-                            <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/tgerrors.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tabItem" data-tab="stories">
-                        <div class="tabFlex">
-                            <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/storiescreate.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
-                                </video>
-                            </div>
-                            <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/vkerrors.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                    <source src="/files/guids/streamtelegram.mp4" type="video/mp4" />
                                 </video>
                             </div>
                         </div>
@@ -86,36 +61,21 @@
                         <div class="tabFlex">
                             <div class="videoWrapper">
                                 <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/autoposting.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
-                                </video>
-                            </div>
-                            <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/vkerrors.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                    <source src="/files/guids/autoposting.mp4" type="video/mp4" />
                                 </video>
                             </div>
                             <div class="videoWrapper">
                                 <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/postingtelegram.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
-                                </video>
-                            </div>
-                            <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/tgerrors.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                    <source src="/files/guids/postingtelegram.mp4" type="video/mp4" />
                                 </video>
                             </div>
                         </div>
                     </div>
-                    <div class="tabItem" data-tab="friends">
+                    <div class="tabItem" data-tab="stories">
                         <div class="tabFlex">
                             <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/friends.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
-                                </video>
-                            </div>
-                            <div class="videoWrapper">
-                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/vkerrors.png">
-                                    <source src="/files/guids/vkauth.mp4" type="video/mp4" />
+                                <video class="videoGuid" playsinline controls preload="metadata" poster="/files/guids/posters/storiescreate.png">
+                                    <source src="/files/guids/storiescreate.mp4" type="video/mp4" />
                                 </video>
                             </div>
                         </div>

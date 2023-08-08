@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
 
 use App\Models\Operation;
+use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\CronLogs;
 
@@ -64,6 +64,23 @@ class MoneyController extends Controller
         $userInfo = UserInfo::where('uid', $request->us_uid)->first();
         $userInfo->balance = $userInfo->balance + $request->AMOUNT;
         $userInfo->save();
+        if($userInfo->partner){
+            $user = User::where('login', $userInfo->partner)->first();
+            $allPartners = UserInfo::where('partner', $user->login)->get();
+            $price = 0;
+            $counter = 0;
+            foreach ($allPartners as $partner) {
+                $operations = Operation::where('status', 1)->where('uid', $partner->uid)->get();
+                foreach ($operations as $operation) {
+                    $counter++;
+                    $multiplier = ($counter % 50 === 0) ? 0.5 : 0.1;
+                    $price = $operation->amount * $multiplier;
+                }
+            }
+            $parent = UserInfo::where('uid', $user->id)->first();
+            $parent->balance = $parent->balance + $price;
+            $parent->save();
+        }
         $thisOperation = Operation::where('id', $request->MERCHANT_ORDER_ID)->first();
         $thisOperation->pid = $request->intid;
         $thisOperation->status = 1;
