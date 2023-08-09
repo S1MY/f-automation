@@ -38,11 +38,11 @@ $(document).ready(function () {
       $('.userMenu').removeClass('_active');
     }
   });
-  // Меню юзера в шапке
   $(".userName, .userHeaderIcon").click(function (e) {
     e.preventDefault();
     $(".userMenu").toggleClass("_active");
   });
+  // Меню юзера в шапке
   $('input[name="privacy"]').change(function (e) {
     e.preventDefault();
     if ($(this).prop('checked')) {
