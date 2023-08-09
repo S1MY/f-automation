@@ -1,4 +1,4 @@
-@extends('layouts.master')
+
 @section('content')
     <div class="page _index">
         <div class="indexForm">
