@@ -1,4 +1,4 @@
-
+@extends('layouts.master-no-header')
 @section('content')
     <div class="page _index">
         <div class="indexForm">
