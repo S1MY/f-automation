@@ -399,27 +399,6 @@ body::-webkit-scrollbar-thumb {
     line-height: 160%;
     flex-grow: 1;
 }
-.skillBtn{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 16px;
-    background: #FF5437;
-    max-width: 270px;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 20px;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    transition: all 0.4s;
-}
-.skillBtn:hover{
-    background: #101010;
-}
-.skillBtn svg{
-    margin-left: 10px;
-}
 /* faq */
 .faqWrapper{
     display: flex;
@@ -1141,11 +1120,6 @@ a.formCenter:hover{
     .navItem, .mainBtn{
         font-size: 15px;
     }
-    .skillBtn{
-        max-width: 100%;
-        width: 100%;
-        padding: 16px;
-    }
 }
 @media (max-width: 1024px) {
     .rightHeader{
@@ -1319,6 +1293,10 @@ a.formCenter:hover{
     }
     .header::after{
         height: 136px;
+    }
+    .subItem{
+        width: 100%;
+        text-align: center;
     }
 }
 @media (max-width: 640px) {
@@ -1550,9 +1528,6 @@ a.formCenter:hover{
     }
 }
 @media (max-width: 360px) {
-    .skillBtn svg{
-        display: none;
-    }
     .logotype svg {
         width: 144px;
     }
