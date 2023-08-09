@@ -27,7 +27,7 @@
                         </clipPath>
                         </defs>
                         </svg>
-                    на главную
+                    <span>на главную</span>
                 </a>
             </div>
             <h1 class="formTitle">Правила сайта</h1>
