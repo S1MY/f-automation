@@ -502,7 +502,7 @@ body::-webkit-scrollbar-thumb {
 .page._index{
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 20px 0;
 }
 .indexForm{
     background: #202020;
