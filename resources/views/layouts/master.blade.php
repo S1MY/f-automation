@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/assets/css/preloader.css">
     <link rel="stylesheet" href="/assets/css/index.css">
     <meta name="yandex-verification" content="010b849f5cd2a669" />
+    <meta name="google-site-verification" content="rddABj0uVUR9XxruY9BLF9hZraq4T1vs5aLj61g5yso" />
 </head>
 <body>
     <div class="preloader">
