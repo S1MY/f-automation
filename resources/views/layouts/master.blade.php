@@ -10,9 +10,9 @@
     <link rel="apple-touch-icon" href="/files/favicons/apple.png">
     <link rel="manifest" href="/manifest.webmanifest">
     <title>F-AUTOMATION – Автоматизация функций социальных сетей</title>
-    <meta name="description" content="Трансялции, постинг, истории в социальных сетяъ есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени">
+    <meta name="description" content="Трансляции, постинг, истории в социальных сетях есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени">
     <meta property="og:title" content="F-AUTOMATION – Автоматизация функций социальных сетей"/>
-    <meta property="og:description" content="Трансялции, постинг, истории в социальных сетяъ есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени"/>
+    <meta property="og:description" content="Трансляции, постинг, истории в социальных сетях есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени"/>
     <meta property="og:image" content="https://f-automation.ru/files/background.jpg"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://f-automation.ru/"/>
