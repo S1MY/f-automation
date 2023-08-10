@@ -32,7 +32,7 @@ class SendCode extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
+            from: new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')),
             subject: 'Код подтверждения аккаунта',
         );
     }
