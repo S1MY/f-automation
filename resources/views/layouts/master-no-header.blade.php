@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8" xmlns:ns="http://ogp.me/ns#">
+    <meta charset="UTF-8" prefix="og: https://ogp.me/ns#">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,8 +14,6 @@
     <meta property="og:title" content="F-AUTOMATION – Автоматизация функций социальных сетей"/>
     <meta property="og:description" content="Трансялции, постинг, истории в социальных сетяъ есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени"/>
     <meta property="og:image" content="https://f-automation.ru/files/background.jpg"/>
-    <meta property="og:url" content= "https://f-automation.ru/" />
-    <meta property="og:locale" content="ru_RU" />
     <link rel="stylesheet" href="/assets/css/preloader.css">
     <link rel="stylesheet" href="/assets/css/index.css">
 </head>
