@@ -37,6 +37,11 @@
 
     @yield('content')
 
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?169"></script>
+    <div id="vk_community_messages"></div>
+    <script type="text/javascript">
+    VK.Widgets.CommunityMessages("vk_community_messages", 39464957, {tooltipButtonText: "Есть вопрос?"});
+    </script>
     <script src="/assets/js/jquery-3.6.1.min.js"></script>
     <script src="/assets/js/functions.js"></script>
     <script src="/assets/js/index.js"></script>
