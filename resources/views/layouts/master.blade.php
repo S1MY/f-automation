@@ -13,6 +13,7 @@
     <meta name="description" content="Трансялции, постинг, истории в социальных сетяъ есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени.">
     <link rel="stylesheet" href="/assets/css/preloader.css">
     <link rel="stylesheet" href="/assets/css/index.css">
+    <meta name="yandex-verification" content="010b849f5cd2a669" />
 </head>
 <body>
     <div class="preloader">
