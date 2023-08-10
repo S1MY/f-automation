@@ -27,19 +27,23 @@ $(document).ready(function () {
             },
             error: function (response) {
                 console.log(response)
-                $.each(response.responseJSON.errors, function (key, value) {
-
-                    if (key == 'not found') {
-                        errorHandler('Возникла ошибка.', value)
-                    }else{
-                        $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-                        $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
-                        $('.errorInput').fadeOut(3000);
-                        setTimeout(() => {
-                            $('.errorInput').remove();
-                        }, 3500);
-                    }
-                });
+                if(response.responseJSON.errors){
+                    $.each(response.responseJSON.errors, function (key, value) {
+    
+                        if (key == 'not found') {
+                            errorHandler('Возникла ошибка.', value)
+                        }else{
+                            $(`.tabPageInput[data-name=${key}]`).addClass('_error');
+                            $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
+                            $('.errorInput').fadeOut(3000);
+                            setTimeout(() => {
+                                $('.errorInput').remove();
+                            }, 3500);
+                        }
+                    });
+                }else{
+                    errorHandler('Возникла ошибка', 'Свяжитесь с администрацией для выявления проблемы!')
+                }
             }
         });
     });
