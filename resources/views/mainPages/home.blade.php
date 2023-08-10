@@ -526,7 +526,7 @@
                 <p>https://t.me/f_automation</p>
             </div>
             <div class="contactItem">
-                <a href="mailto:help@f-automation.ru" target="_blank" class="contactLink">
+                <a href="mailto:helper@f-automation.ru" target="_blank" class="contactLink">
                     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_135_40)">
                         <path class="_colored" d="M50 0H10C4.47715 0 0 4.47715 0 10V50C0 55.5228 4.47715 60 10 60H50C55.5228 60 60 55.5228 60 50V10C60 4.47715 55.5228 0 50 0Z" fill="#FF5437"/>
@@ -541,7 +541,7 @@
                 </a>
                 <p class="contactName">Почта</p>
                 <p class="contactComment">Врядли мы ответим</p>
-                <p>help@f-automation.ru</p>
+                <p>helper@f-automation.ru</p>
             </div>
         </div>
     </section>

