@@ -50,7 +50,7 @@
                     друзья
                 </div>
             </div>
-            <p class="description">Настройка всех функций ВКонтакте и Телеграм (скоро), которые поддаются автоматизации! Недорого...</p>
+            <p class="description">Настройка всех функций ВКонтакте и Телеграм, которые поддаются автоматизации! Недорого...</p>
             <a href="{{ route('consent') }}" class="fBtn">Стать партнёром <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="32" height="32" rx="4" fill="white"/>
                 <path d="M12.44 22V9.22H20.954V11.002H14.456V14.818H19.892V16.492H14.456V22H12.44Z" fill="#FF5437"/>
@@ -312,7 +312,7 @@
                     <div class="skillPoster" style="background: url(/files/index/posters/funkcii_s_druzyami.png);"></div>
                     <div class="skillInfo">
                         <h3 class="skillName">Функции с друзьями</h3>
-                        <p class="skillDesc">Автоприём друзей, автоотписка, автоочистка от удалённых аккаунтов ВК и т.д.</p>
+                        <p class="skillDesc">Автоприём друзей, автоотписка, автоочистка от удалённых аккаунтов ВК, но это всё только в планах</p>
                     </div>
                 </div>
             </div>
