@@ -27,21 +27,25 @@ $(document).ready(function () {
             },
             error: function (response) {
                 console.log(response)
-                if(response.responseJSON.errors){
-                    $.each(response.responseJSON.errors, function (key, value) {
-    
-                        if (key == 'not found') {
-                            errorHandler('Возникла ошибка.', value)
-                        }else{
-                            $(`.tabPageInput[data-name=${key}]`).addClass('_error');
-                            $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
-                            $('.errorInput').fadeOut(3000);
-                            setTimeout(() => {
-                                $('.errorInput').remove();
-                            }, 3500);
-                        }
-                    });
-                }else{
+                if (response.responseJSON) {
+                    if (response.responseJSON.errors) {
+                        $.each(response.responseJSON.errors, function (key, value) {
+
+                            if (key == 'not found') {
+                                errorHandler('Возникла ошибка.', value)
+                            } else {
+                                $(`.tabPageInput[data-name=${key}]`).addClass('_error');
+                                $(`.tabPageInput[data-name=${key}]`).append('<span class="errorInput">' + value + '</span>');
+                                $('.errorInput').fadeOut(3000);
+                                setTimeout(() => {
+                                    $('.errorInput').remove();
+                                }, 3500);
+                            }
+                        });
+                    } else {
+                        errorHandler('Возникла ошибка', 'Свяжитесь с администрацией для выявления проблемы!')
+                    }
+                } else {
                     errorHandler('Возникла ошибка', 'Свяжитесь с администрацией для выявления проблемы!')
                 }
             }
@@ -54,7 +58,7 @@ $(document).ready(function () {
         if (!$(this).hasClass('_disabled')) {
             const currentPath = window.location.pathname;
             let admin = null;
-            if(currentPath == '/cabinet/admin'){
+            if (currentPath == '/cabinet/admin') {
                 admin = $(this).parent().parent().parent().attr('data-name');
             }
             let action = $(this).attr('data-action');
@@ -73,7 +77,7 @@ $(document).ready(function () {
                 } else if (parentType === 'group') {
                     groupId = $(this).parents('.tabItem').attr('data-tab');
                     formData.append('group_id', groupId);
-                }else if (parentType === 'channel') {
+                } else if (parentType === 'channel') {
                     channelId = $(this).parents('.tabItem').attr('data-tab');
                     formData.append('channel_id', channelId);
                 }
@@ -103,22 +107,22 @@ $(document).ready(function () {
                         $(`.tabItem[data-tab=${offerParent}] .offerFlex`).html(response.responseText);
                     } else if ((currentPath == '/cabinet/vk/stories' || currentPath == '/cabinet/vk/posts' || currentPath == '/cabinet/vk/streams' || currentPath == '/cabinet/tg/tg_streams') && $('.pageTab[data-tab=all]').hasClass('_active')) {
                         $('.storyWrapper').html(response.responseText);
-                    }else if ((currentPath == '/cabinet/partners')) {
+                    } else if ((currentPath == '/cabinet/partners')) {
                         $('.pageTable').html(response.responseText);
-                    }else if ((currentPath == '/cabinet/admin') && admin) {
+                    } else if ((currentPath == '/cabinet/admin') && admin) {
                         if (admin === 'finance') {
                             $("#operationsLoad").html(response.responseText);
-                        }else{
+                        } else {
                             $("#promocodesLoad").html(response.responseText);
                         }
                     } else {
                         if (accountId > 0 || groupId > 0 || channelId > 0) {
                             let itemId;
-                            if(accountId > 0){
+                            if (accountId > 0) {
                                 itemId = accountId;
-                            }else if(groupId > 0){
+                            } else if (groupId > 0) {
                                 itemId = groupId;
-                            }else{
+                            } else {
                                 itemId = channelId;
                             }
                             $(`.tabItem[data-tab=${itemId}]`).children('.rowFlex').html(response.responseText);
