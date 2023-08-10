@@ -9,7 +9,7 @@
     <link rel="icon" href="/files/favicons/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/files/favicons/apple.png">
     <link rel="manifest" href="/manifest.webmanifest">
-    <title>F-AUTOMATION – Автоматизация функций социадбных сетей</title>
+    <title>F-AUTOMATION – Автоматизация функций социальных сетей</title>
     <meta name="description" content="Трансялции, постинг, истории в социальных сетяъ есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени.">
     <link rel="stylesheet" href="/assets/css/preloader.css">
     <link rel="stylesheet" href="/assets/css/index.css">
