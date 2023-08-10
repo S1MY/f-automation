@@ -14,6 +14,8 @@
     <meta property="og:title" content="F-AUTOMATION – Автоматизация функций социальных сетей"/>
     <meta property="og:description" content="Трансялции, постинг, истории в социальных сетяъ есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени"/>
     <meta property="og:image" content="https://f-automation.ru/files/background.jpg"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://f-automation.ru/"/>
     <link rel="stylesheet" href="/assets/css/preloader.css">
     <link rel="stylesheet" href="/assets/css/index.css">
     <meta name="yandex-verification" content="010b849f5cd2a669" />
