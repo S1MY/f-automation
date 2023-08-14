@@ -115,7 +115,7 @@ class PostsController extends Controller
                 return $this->generateJsonResponse('input', 'tabs', 'Неверный интервал');
             }
         }
-        $maxSeconds = 120;
+        $maxSeconds = 600;
         $postFiles = $validatedData['file'];
         if(count($postFiles) > 1 && $subscribeRules['type3'] !== 1){
             return $this->generateJsonResponse('error', 'Ошибка пакета', 'Массив файлов для поста недоступен данного F-Аккаунта');
@@ -129,7 +129,7 @@ class PostsController extends Controller
         }
         foreach ($durationItems as $durationItem) {
             if($durationItem > $maxSeconds){
-                return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео'.$maxSeconds.' секунд');
+                return $this->generateJsonResponse('input', 'file', 'Максимальная длительность видео '.$maxSeconds.' секунд');
             }
         }
         $linksDB = [];
