@@ -67,6 +67,12 @@ class CronController extends Controller
             $streamItem->live = 1;
             $streamItem->updated_at = $nowTime->format('Y-m-d H:i:s');
             $streamItem->save();
+            CronLogs::create([
+                'uid'        => $userId,
+                'cron_type' => 'streams',
+                'item_id' => $streamItem->id,
+                'message'   => serialize($streamStartJSON)
+            ]);
             $streamUrl = $streamStartJSON->response->stream->url;
             $streamKey = $streamStartJSON->response->stream->key;
             $ownerId = $streamStartJSON->response->owner_id;
