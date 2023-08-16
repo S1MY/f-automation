@@ -81,7 +81,7 @@ class CronController extends Controller
                     'post_did' => $postId,
                 ]);
             }
-            $commandExec = "ffmpeg -re -i " . $fileSend . " -b:v ". $bitrate ." -f flv " . $streamUrl . $streamKey . "";
+            $commandExec = "ffmpeg -re -i " . $fileSend . " -c:v libx264 -c:a aac -ar 44100 -b:v ". $bitrate ." -f flv " . $streamUrl . $streamKey . "";
             $streamStopClient = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
