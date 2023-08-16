@@ -134,7 +134,7 @@ class StreamStarter extends Command
                     ]);
                 }
             }elseif (strtotime($updatedAt->subMinutes(5)) === strtotime($nowTime)) {
-                if($postSettings->type !== 'date'){
+                if($streamSettings->type !== 'date'){
                     $lastStream = StreamStory::where('stream_id', '=', $stream->id)->latest('id')->first();
                     if($lastStream){
                         // Собираем статистику
