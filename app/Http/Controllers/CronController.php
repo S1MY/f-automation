@@ -67,12 +67,6 @@ class CronController extends Controller
             $streamItem->live = 1;
             $streamItem->updated_at = $nowTime->format('Y-m-d H:i:s');
             $streamItem->save();
-            CronLogs::create([
-                'uid'        => $userId,
-                'cron_type' => 'streams',
-                'item_id' => $streamItem->id,
-                'message'   => serialize($streamStartJSON)
-            ]);
             $streamUrl = $streamStartJSON->response->stream->url;
             $streamKey = $streamStartJSON->response->stream->key;
             $ownerId = $streamStartJSON->response->owner_id;
@@ -88,6 +82,12 @@ class CronController extends Controller
                 ]);
             }
             $commandExec = "ffmpeg -re -i " . $fileSend . " -b:v ". $bitrate ." -f flv " . $streamUrl . $streamKey . "";
+            CronLogs::create([
+                'uid'        => $userId,
+                'cron_type' => 'streams',
+                'item_id' => $streamItem->id,
+                'message'   => $commandExec
+            ]);
             $streamStopClient = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
@@ -103,6 +103,18 @@ class CronController extends Controller
                 $streamStopParams['owner_id'] = $ownerId;
             }
             exec($commandExec, $commantOutput, $commantReturn);
+            CronLogs::create([
+                'uid'        => $userId,
+                'cron_type' => 'streams',
+                'item_id' => $streamItem->id,
+                'message'   => $commantOutput
+            ]);
+            CronLogs::create([
+                'uid'        => $userId,
+                'cron_type' => 'streams',
+                'item_id' => $streamItem->id,
+                'message'   => $commantReturn
+            ]);
             $streamStopGet = $streamStopClient->request('GET', '/method/video.stopStreaming', [
                 'query' => $streamStopParams
             ]);
