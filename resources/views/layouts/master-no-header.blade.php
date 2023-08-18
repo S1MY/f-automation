@@ -42,6 +42,20 @@
     <script type="text/javascript">
     VK.Widgets.CommunityMessages("vk_community_messages", 39464957, {tooltipButtonText: "Есть вопрос?"});
     </script>
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(94644275, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
     <script src="/assets/js/jquery-3.6.1.min.js"></script>
     <script src="/assets/js/functions.js"></script>
     <script src="/assets/js/index.js"></script>
