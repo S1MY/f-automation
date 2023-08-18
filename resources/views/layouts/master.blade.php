@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="/files/favicons/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/files/favicons/apple.png">
+    <link rel="icon" href="/files/favicons/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="/manifest.webmanifest">
     <title>F-AUTOMATION – Автоматизация функций социальных сетей</title>
     <meta name="description" content="Трансляции, постинг, истории в социальных сетях есть и остаются лучшими средствами продвижения услуг и товаров. F-AUTOMATION – экономия вашего времени">

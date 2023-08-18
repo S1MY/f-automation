@@ -5,6 +5,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="/files/favicons/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/files/favicons/apple.png">
+    <link rel="icon" href="/files/favicons/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="/manifest.webmanifest">
     <title>F-Кабинет: @yield('title')</title>
     <link rel="stylesheet" href="/assets/css/videoplayer.css">
