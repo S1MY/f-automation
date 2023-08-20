@@ -39,7 +39,6 @@
 <div class="cardInformation">
     <div class="cardInformationTop">
         <h3 class="cardName">{{$stream->title}}</h3>
-        <p class="streamDesc">{{$stream->description}}</p>
         <p class="cardLine">Владелец: 
             <span>
                 @if ($stream->group_id > 0)
@@ -49,6 +48,7 @@
                 @endif
             </span>
         </p>
+        <p class="cardLine tgMessage">{{$stream->description}}</p>
         <p class="cardLine">Автозапуск: <span>{{$stream->active === 1 ? 'Активен' : 'Не активен'}}</span></p>
         <p class="cardLine">Тип постинга: <span>{{$streamType}}</span></p>
         <p class="cardLine _nextStart">Следущий запуск: <span>в {{$nextStart}} (МСК)</span></p>
