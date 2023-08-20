@@ -84,6 +84,7 @@ class SubscribeChecker extends Command
                     }
                 }
                 $subscribe->sub_status = 0;
+                $subscribe->is_test = 0;
                 $subscribe->save();
             }
         }
