@@ -85,7 +85,8 @@ class StreamStarter extends Command
                                 ]);
                                 die();
                             }
-                            $streamDescription = $stream->description ."\n\n Трансляция воспроизводится F-AUTOMATION: ".$currentDomain.'/invite/'.$userDB->login;
+                            $changedMessage = str_replace('<br>', '\n', $stream->description);
+                            $streamDescription = $changedMessage."\n\n Трансляция воспроизводится F-AUTOMATION: ".$currentDomain.'/invite/'.$userDB->login;
                             $streamContinue = $currentDomain.'/stream-continue';
                             $postContent = [
                                 'stream_id' => $stream->id,

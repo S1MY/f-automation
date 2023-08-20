@@ -89,12 +89,13 @@ class PostStarter extends Command
                             $wallPostSave = new Client([
                                 'base_uri' => 'https://api.vk.com',
                             ]);
+                            $changedMessage = str_replace('<br>', '\n', $post->message);
                             $wallPostParams = [
                                 'v' => '5.131',
                                 'access_token' => $vkToken,
                                 'friends_only' => $postSettings->friends_only,
                                 'close_comments' => $postSettings->close_comments,
-                                'message' => $post->message."\n\n Пост генерируется F-AUTOMATION: ".env('APP_SITE_LINK').'/invite/'.$userDB->login,
+                                'message' => $changedMessage."\n\n Пост генерируется F-AUTOMATION: ".env('APP_SITE_LINK').'/invite/'.$userDB->login,
                                 'attachments' => implode(',',unserialize($post->attachments)),
                             ];
                             if($vkGroup){

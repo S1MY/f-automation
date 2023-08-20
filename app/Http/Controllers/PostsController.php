@@ -235,7 +235,8 @@ class PostsController extends Controller
             $wallPostSave = new Client([
                 'base_uri' => 'https://api.vk.com',
             ]);
-            $message = $validatedData['message']."\n\n Пост генерируется F-AUTOMATION: ".env('APP_SITE_LINK').'/invite/'.Auth::user()->login;
+            $changedMessage = str_replace('<br>', '\n', $validatedData['message']);
+            $message = $changedMessage."\n\n Пост генерируется F-AUTOMATION: ".env('APP_SITE_LINK').'/invite/'.Auth::user()->login;
             $wallPostParams = [
                 'v' => '5.131',
                 'access_token' => $searchAccount->token,
