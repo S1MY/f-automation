@@ -94,7 +94,7 @@ class PostStarter extends Command
                                 'access_token' => $vkToken,
                                 'friends_only' => $postSettings->friends_only,
                                 'close_comments' => $postSettings->close_comments,
-                                'message' => $post->message.' Пост генерируется F-AUTOMATION: '.env('APP_SITE_LINK').'/invite/'.$userDB->login,
+                                'message' => $post->message.'%0a Пост генерируется F-AUTOMATION: '.env('APP_SITE_LINK').'/invite/'.$userDB->login,
                                 'attachments' => implode(',',unserialize($post->attachments)),
                             ];
                             if($vkGroup){
