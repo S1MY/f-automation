@@ -34,6 +34,12 @@
                 </h1>
                 <p class="pageText _mt12">Создание поста может занять до 10 минут</p>
                 <p class="pageText _mt12">Созданный пост обновляется в соответствии с указанными настройками. Подробнее на <a href="{{route('guide')}}" class="instructorLink">Странице инструкций</a></p>
+                <p class="pageText _mt12">Переносы в посте можно сделать с помощью HTML тега br</p>
+                <p class="pageText _mt12">Например: <br>
+                    Всем привет &lt;br&gt;<br>
+                    На связи администрация проекта F-AUTOMATION
+                
+                </p>
                 @if(count(Auth::user()->VkAccount) > 0)
                 <div class="tabPageItem">
                     <form class="tabPageForm" action="{{ route('postCreate') }}" enctype='multipart/form-data'>
