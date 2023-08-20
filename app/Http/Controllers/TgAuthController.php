@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\TgAccount;
 use App\Models\TgChannel;
@@ -139,8 +141,12 @@ class TgAuthController extends Controller
         $userName = Auth::user()->login;
         $getSubscribe = Subscribe::where('uid', '=', $userId)->first();
         if ($getSubscribe) {
+            $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $getSubscribe->end_date, 'Europe/Moscow')->startOfMinute();
+            $nowTime = Carbon::now('Europe/Moscow')->startOfMinute();
             if($getSubscribe->is_test === 1){
-                return $this->generateJsonResponse('error', 'Ошибка', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
+                if (strtotime($endDate) >= strtotime($nowTime)) {
+                    return $this->generateJsonResponse('error', 'Ошибка', 'Аккаунт, который в активном тестовом периоде нельзя отвязать!');
+                }
             }
         }
         $accountId = $request->accountId;
