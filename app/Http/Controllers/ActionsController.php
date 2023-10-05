@@ -12,7 +12,6 @@ use App\Models\Subscribe;
 use App\Models\Actions;
 
 use App\Models\VkAccount;
-use App\Models\TgAccount;
 
 class ActionsController extends Controller
 {
@@ -23,8 +22,7 @@ class ActionsController extends Controller
         if($getAction->users_join === NULL){
             $empty = [
                 'users' => [],
-                'vk' => [],
-                'tg' => []
+                'vk' => []
             ];
             $getAction->users_join = serialize($empty);
             $getAction->save();
@@ -34,9 +32,6 @@ class ActionsController extends Controller
         }
         if(count(Auth::user()->VkAccount) < 1){
             return $this->generateJsonResponse('error', 'Ошибка', 'Требуется 1 привязанный ВК Аккаунт');
-        }
-        if(count(Auth::user()->TgAccount) < 1){
-            return $this->generateJsonResponse('error', 'Ошибка', 'Требуется 1 привязанный ТГ Аккаунт');
         }
         $actionUsers = unserialize($getAction->users_join);
         if (!in_array($uid, $actionUsers['users'])) {
@@ -49,12 +44,6 @@ class ActionsController extends Controller
             array_push($actionUsers['vk'], $vkAccount->link);
         } else {
             return $this->generateJsonResponse('error', 'Ошибка', 'Привязанный ВК Аккаунт уже использовал тестовый период!');
-        }
-        $tgAccount = TgAccount::where('uid', '=', $uid)->first();
-        if (!in_array($tgAccount->phone, $actionUsers['tg'])) {
-            array_push($actionUsers['tg'], $tgAccount->phone);
-        } else {
-            return $this->generateJsonResponse('error', 'Ошибка', 'Привязанный ТГ Аккаунт уже использовал тестовый период!');
         }
         $getAction->users_join = serialize($actionUsers);
         $getAction->save();
@@ -79,11 +68,11 @@ class ActionsController extends Controller
             ],
             'tg' => [
                 'streams' => [
-                    'type1' => 1,
-                    'type2' => 1,
+                    'type1' => 0,
+                    'type2' => 0,
                 ],
                 'posts' => [
-                    'type1' => 1
+                    'type1' => 0
                 ]
             ]
         ];
